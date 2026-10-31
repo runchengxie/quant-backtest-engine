@@ -7,7 +7,7 @@ This experiment measures CLI batch execution, including process startup, fixture
 reading, engine work and JSON output. It does not establish production capacity,
 compile speed, or a performance comparison with another implementation.
 
-Run from a source checkout with a trusted, prebuilt binary:
+Run from a source checkout with a trusted, prebuilt binary.
 
 ```bash
 python project_tools/benchmark.py \
@@ -37,7 +37,7 @@ not estimate that quantity. Missing measurement support is recorded explicitly.
 The pinned executable came from source
 `3ee74bfa21d743e595ce61d0ac06b97dd588ebd6`, debug profile, 38,252,752 bytes,
 SHA-256 `9ed68e44f6eb9f8861b3c57ede6300e23db5d6fd5d8f80f7afbb2ecdae6c18c7`.
-Host: Linux x86-64, Intel Core i5-4690K at 3.50 GHz, four logical CPUs,
+The host ran Linux x86-64, Intel Core i5-4690K at 3.50 GHz, four logical CPUs,
 Python 3.14.8. GNU `/usr/bin/time` was absent, so RSS was not measured.
 Both committed fixtures were tested with 12 and 24 jobs per batch and concurrency
 1, 2 and 4. All jobs succeeded and matched their fixture's warmup digest.

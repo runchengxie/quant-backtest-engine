@@ -37,10 +37,11 @@ Inspect `engine_result.json` for actual fills, order statuses, denial reasons an
 
 ## Choose the next entry point
 
-- **Local research:** call this CLI directly or the Rust library.
-- **Python analytics:** the explicit platform `EngineClient` invokes the same CLI,
-  verifies its byte hash and maps the daily result into `CanonicalBacktestResult`.
-- **Durable batches:** submit this saved `engine_request.json` as an immutable
+- For local research, call this CLI directly or use the Rust library.
+- Python programs can use the [independent SDK](python-client.md) to receive
+  dictionaries. Use the platform adapter when analytics need `CanonicalBacktestResult`
+  tables. Both paths verify the executable digest.
+- For durable batches, submit this saved `engine_request.json` as an immutable
   artifact to runtime v6 (`nautilus.session_replay`). Runtime controls process
   limits, job states and result publication. See [integration](runtime.md).
 

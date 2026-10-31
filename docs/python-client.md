@@ -1,12 +1,12 @@
 # Python wire client
 
-The `quant-backtest-engine-client` distribution provides a standard-library-only Python 3.11+ client. It does not require quant-platform, pandas, NumPy, or the runtime service. Install from an engine source checkout:
+The `quant-backtest-engine-client` distribution provides a standard-library-only Python 3.11+ client. It does not require quant-platform, pandas, NumPy, or the runtime service. Install from an engine source checkout.
 
 ```sh
 python -m pip install ./python
 ```
 
-Select an absolute executable path and a SHA256 digest verified against the release manifest:
+Select an absolute executable path and a SHA256 digest verified against the release manifest.
 
 ```python
 import json
@@ -26,7 +26,14 @@ print(result['final_nav'])
 
 `size(request)` accepts `sizing_request.v1` and returns `sizing_result.v1`; `run_sessions(request)` accepts `engine_request.v2` and returns `engine_result.v2`. Both return plain dictionaries with monetary decimal strings and integer UTC nanosecond timestamps preserved. The optional source revision is caller metadata, not a substitute for the executable digest.
 
-The client hashes the executable bytes, executes a private verified snapshot, checks process success and strict JSON, and rejects inconsistent result fields, statuses, order coverage, fill clocks, valuation marks, daily cash, shares, fees, NAV, and declared T+1 eligibility. Failures raise `EngineProtocolError` (a `ValueError`). Invalid constructor arguments raise `ValueError`. Request semantics are enforced by the engine; the client reconciles the returned evidence against the request. Sizing remains an estimate, not proof of executable fills.
+The client checks the executable digest and runs a private copy of the verified program.
+After the process succeeds, it strictly parses JSON and checks that every requested
+order has a result, fills occur at eligible times and valuation marks match the request.
+It also checks result fields and statuses, daily cash, shares, fees, NAV and configured
+T+1 sell eligibility. Process failures or inconsistent results raise `EngineProtocolError`
+(a `ValueError`). Invalid constructor arguments raise `ValueError`. The engine enforces
+the trading rules in the request. Quantity planning estimates orders at reference
+prices; later quotes and available cash determine actual fills.
 
 The SDK owns transport and wire validation. Consumers own conversion to their tables, strategy interfaces, and persistence; the SDK contains no matching or portfolio simulation. The existing Rust engine and its upstream accounting remain authoritative. The Python code is distributed under this repository's LGPL-3.0-only license; its boundary checks were extracted from the same owner's quant-platform client.
 

@@ -13,7 +13,7 @@ not evidence that every market mechanism or production dataset is correct.
 | Insufficient displayed liquidity | Actual partial fill; IOC remainder canceled | `tests/sessions.rs::quote_liquidity_is_shared_and_ioc_does_not_invent_capacity` |
 | Missing/stale marks or adjusted prices | Explicit failure | `tests/sessions.rs::rejects_missing_or_stale_session_valuation_and_adjusted_prices` |
 | Same inputs, repeated calls/processes | Identical normalized JSON | Engine tests and [batch digest checks](benchmarks.md) |
-| Quantity adjustment used as stock split | Does not rebase cost correctly | [Corporate-action conformance](migration/corporate-action-conformance.md): retain Python |
+| Quantity adjustment used as stock split | Does not rebase cost correctly | [Corporate-action conformance](migration/corporate-action-conformance.md). Continue using Python |
 
 Run `cargo test --locked` and the walkthrough before changing the pinned upstream.
 Consumers additionally reconcile fills/cash/holdings and bind valuation marks to
@@ -22,7 +22,7 @@ fail; arithmetic consistency alone cannot establish price correctness.
 
 ## A narrow Python comparison
 
-With the existing `quant-platform` installed in a separate Python environment:
+Run this command in a separate Python environment with `quant-platform` installed.
 
 ```sh
 /path/to/platform-python project_tools/compare_python.py \

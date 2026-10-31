@@ -1,4 +1,4 @@
-# Corporate-action conformance: explicit remaining boundary
+# Corporate-action support and migration limits
 
 NautilusTrader 0.66.0 exposes useful public primitives, but the current adapter does
 not claim complete corporate-action support. Continue using the existing
@@ -6,7 +6,7 @@ quant-platform raw-share corporate-action backend for these scenarios.
 
 ## Reproduction and result
 
-Run the committed characterization test:
+Run the committed characterization test.
 
 ```sh
 cargo test --locked quantity_adjustment_propagates_to_cache_but_does_not_rebase_a_stock_split
@@ -16,8 +16,9 @@ It buys 10 shares at USD 10 using the real upstream engine, applies the public
 quantity-adjustment API to the cached position, then values 20 shares at USD 5.
 The cache updates to quantity 20, while upstream open basis stays 10 and unrealized
 PnL is -100. A true 2-for-1 split without a market move requires open basis 5 and
-unrealized PnL 0. This is a characterization of the available **commission adjustment**
-primitive, not an allegation that upstream claims it represents stock splits.
+unrealized PnL 0. This test characterizes the commission adjustment API. Stock splits also require
+rebasing the per-share cost. The current adapter lacks that operation, so these
+workflows continue to use the Python backend.
 
 The pinned `PositionAdjustmentType` enum exposes Commission and Funding. Public
 `Cache::update_position_from_adjustment` propagates the quantity change to cache;

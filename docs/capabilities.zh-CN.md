@@ -8,7 +8,7 @@
 | 独立 Rust 库和 CLI | 支持 | 不依赖 platform 或 runtime |
 | 美元快照与报价市价单 | 支持 | `engine_request.v1` / runtime v5 |
 | 人民币及美元逐日账本 | 支持 | `engine_request.v2` / runtime v6 |
-| 目标权重转数量 | 支持，独立估算 | `size`；预计卖出收入不保证实际成交 |
+| 目标权重转数量 | 支持，独立估算 | `size`。预计卖出收入不保证实际成交 |
 | 只做多现金账户和统一费率 | 支持 | 现金检查包含费用，费率显式配置 |
 | 配置的 T+1 和买入手数 | v2 支持 | 调用方提供交易日、开关和每手数量 |
 | 停牌和涨跌停权限 | 显式输入 | 不从价格或交易所规则推断 |
@@ -38,10 +38,11 @@ platform 的历史源码目录已退役。公开入口为 `quant_platform.portfo
 更早的 v6 与适配器基线保留在
 [runtime PR #39](https://github.com/runchengxie/quant-backtest-runtime/pull/39) 和
 [platform PR #170](https://github.com/runchengxie/quant-platform/pull/170)。
-二进制 SHA-256 只标识文件字节，不是源码版本或签名，部署时同时保留源码、构建记录和文件摘要。
+SHA-256 用于检查二进制文件的字节是否一致。部署时还要记录源码提交和构建过程，
+并按发布方提供的签名方式核实来源（如有签名）。
 
 ## 升级原则
 
-同一协议版本保持输入输出兼容；不支持的语义明确失败，不静默降级。
+同一协议版本保持输入输出兼容。不支持的语义明确失败，不静默降级。
 升级时固定引擎提交，执行[正确性案例](correctness.zh-CN.md)和调用方集成测试。
 实验阶段不承诺 Rust API 稳定。只有具体调用方所需的语义和输出验证通过后，才考虑移除对应 Python 兼容路径。

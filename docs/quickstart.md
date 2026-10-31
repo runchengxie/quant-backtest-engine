@@ -2,7 +2,7 @@
 
 ## Run
 
-Requires Rust **1.99.0+**. Upstream crates are pinned to **0.66.0** and Cargo.lock
+Requires Rust 1.99.0+. Upstream crates are pinned to 0.66.0 and Cargo.lock
 pins transitive dependencies. Linux is the first validated target.
 
 ```sh
@@ -18,8 +18,8 @@ databases or result directories. A runtime can capture stdout and publish it und
 its own durability and integrity rules. One request is executed per process.
 
 The synthetic fixture starts with USD 10,000, buys 10 shares at 10, sells at 12,
-and charges 10 bps on each fill. Expected final cash/equity: **10019.78**;
-commission: **0.22**. These values are asserted against real upstream execution.
+and charges 10 bps on each fill. The expected final cash and equity are 10019.78,
+with total commission of 0.22. These values are asserted against real upstream execution.
 
 ## Library
 
@@ -38,7 +38,6 @@ println!("{}", result.equity);
 The synchronous `run` function uses a fresh thread for upstream thread-local state
 and disposes the engine after execution, including errors. Repeated calls are tested.
 For timeout, memory limits and cancellation use isolated CLI processes supervised
-by a runtime. An in-process thread is not a resource or security sandbox.
-
+by a runtime. The thread shares its process memory and permissions.
 
 [Continue with the target-weight walkthrough](tutorial.md).

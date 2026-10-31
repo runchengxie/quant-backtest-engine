@@ -18,7 +18,6 @@ Tests cover strict validation, no lookahead, fees, rejected orders, open/multipl
 positions, repeatability and the real CLI protocol. CI runs the same checks.
 No performance advantage or production parity is claimed without measurement.
 
-
 ## Build the documentation
 
 Python 3.13 and uv are used only for documentation tooling, not engine execution.
