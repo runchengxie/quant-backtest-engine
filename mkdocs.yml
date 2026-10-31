@@ -61,6 +61,7 @@ nav:
       - Target-weight planning: sizing.md
       - Session ledger and rules: sessions.md
       - Migration limits: migration/corporate-action-conformance.md
+      - Python client: python-client.md
       - Runtime integration: runtime.md
       - Development: development.md
       - Third-party notices: third-party-notices.md
@@ -77,6 +78,7 @@ nav:
       - 目标权重计划: sizing.zh-CN.md
       - 逐日账本与规则: sessions.zh-CN.md
       - 迁移边界: migration/corporate-action-conformance.zh-CN.md
+      - Python 客户端: python-client.zh-CN.md
       - Runtime 接入: runtime.zh-CN.md
       - 开发与验证: development.zh-CN.md
       - 第三方声明: third-party-notices.zh-CN.md

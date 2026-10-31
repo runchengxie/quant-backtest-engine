@@ -26,6 +26,15 @@ class PackageTests(TestCase):
             supplement.assert_called_once()
             self.assertEqual(inventory[0]["supplemental_notices"], [{"sha256": "test"}])
 
+    def test_vendor_layout_does_not_expose_our_python_manifest_to_upstream(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / 'python').mkdir()
+            (root / 'python/pyproject.toml').write_text('[project]\nversion="0.2.0"\n')
+            crate = package_release.vendor_directory(root) / 'nautilus-core'
+            upstream_probe = crate.parent.parent / 'python/pyproject.toml'
+            self.assertFalse(upstream_probe.exists())
+
     def test_unknown_crate_without_notices_fails_closed(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

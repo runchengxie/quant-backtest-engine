@@ -1,0 +1,1 @@
+{"currency":"CNY","marked_equity":"1000","orders":[{"id":"size-1735689600000000000-0000-buy","information_ts_ns":1735689600000000000,"quantity":"99","side":"buy","symbol":"AAA"}],"projected_cash":"9.01","schema_version":"sizing_result.v1","targets":[{"desired_quantity":"100","planned_quantity":"99","symbol":"AAA"}]}
