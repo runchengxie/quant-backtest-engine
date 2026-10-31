@@ -22,19 +22,28 @@ are exercised, not that all exchange rules or real-world data have been validate
 
 ## Tested provider and consumer revisions
 
-The compatibility unit is a **source revision plus consumer revision**, not a
-worktree directory or a mutable executable path. Both consumers build the provider
-at `3ee74bfa21d743e595ce61d0ac06b97dd588ebd6` in dedicated real-binary CI.
+The compatibility unit is a source revision plus a consumer revision, not a
+worktree directory or a mutable executable path. Current merged adoption records:
 
-| Consumer | Delivery | Integration |
+| Component | Merged revision / delivery | Tested provider and boundary |
 | --- | --- | --- |
-| quant-backtest-runtime | [v6 PR](https://github.com/runchengxie/quant-backtest-runtime/pull/39) | v5 snapshot retained; v6 session replay is opt-in |
-| quant-platform | [adapter PR](https://github.com/runchengxie/quant-platform/pull/170) | Explicit `EngineClient`; Python default retained |
+| Independent Python SDK | `f0ba2ef193c721c7bd497c4d80a7bc8a01c18a31`, [PR #7](https://github.com/runchengxie/quant-backtest-engine/pull/7) | Dependency-free installed wheel; raw JSON size/session results |
+| quant-backtest-runtime | `bb1f20eeab1105b9001663ec6e39ab523b57d8ea`, [PR #41](https://github.com/runchengxie/quant-backtest-runtime/pull/41) | Real CLI provider `341de0177bc3e6b95ff8b4abb8c80c83eaedf207`; core install has no platform dependency, old jobs use `legacy` extra |
+| quant-platform | `3ac555bbfc8dba69d1a910320d5eefe947122df3`, [PR #171](https://github.com/runchengxie/quant-platform/pull/171) | SDK and CLI pinned to `f0ba2ef193c721c7bd497c4d80a7bc8a01c18a31`; `engine` extra and canonical table mapping only |
 
-Runtime merge: `0c0e4315241240a09c84866287bbb24280adc4a3` (tested head `d38780e6d9f9a0209885d12ce932ed7efd701fce`).
-Platform tested head: `e9e3eb14bddcfdedc4b1ce4a362f4a435652dd31`; use its PR merge and CI records for the delivery revision.
-An executable SHA-256 identifies bytes; it does not identify a source revision by
-itself. Deployments must retain both plus toolchain/build information.
+The platform's historical source directory is retired. New public owners are
+`quant_platform.portfolio`, `quant_platform.analytics` and `quant_platform.backtest`.
+The old `portfolio_backtester` namespace remains compatibility aliases; retained
+Python execution is explicit under `quant_platform.backtest.legacy`. See the
+[ownership and removal gates](https://runchengxie.github.io/quant-platform/migration/portfolio-boundaries/).
+Moving imports does not prove Rust parity for corporate actions, capacity or full
+execution-aware evidence. No production task or dataset is switched by this migration.
+
+Earlier v6/adapter baselines remain recorded in
+[runtime PR #39](https://github.com/runchengxie/quant-backtest-runtime/pull/39) and
+[platform PR #170](https://github.com/runchengxie/quant-platform/pull/170).
+Executable SHA-256 identifies bytes, not a source revision or signature; retain
+both source/build records and byte hashes when deploying.
 
 ## Upgrade policy
 
@@ -44,4 +53,3 @@ and consumer integration tests before upgrading it. Experimental package version
 may change Rust APIs; there is no stable Rust API guarantee yet. Keep Python
 fallbacks until the specific caller's required semantics and outputs are verified.
 
-Platform merge: `db1ce93d0d311cf28fa087072ad1cedc70df05a1`。

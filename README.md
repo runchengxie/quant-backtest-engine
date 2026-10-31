@@ -49,7 +49,7 @@ exit with status 2 and empty stdout; I/O/internal failures use status 1.
 
 The library depends on neither quant-platform nor quant-backtest-runtime. Portfolio
 construction belongs to callers; runtime owns queueing, job state, process limits,
-cancellation and durable publication. Runtime's opt-in v5 integration preserves
+cancellation and durable publication. Runtime's opt-in v5/v6 integrations preserve
 legacy protocols and tests this engine through a pinned real subprocess.
 
 ## License

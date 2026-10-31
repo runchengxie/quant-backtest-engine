@@ -34,7 +34,7 @@ cargo run --locked -- run fixtures/roundtrip.json
 - [开发与验证](https://runchengxie.github.io/quant-backtest-engine/development.zh-CN/)
 
 组合构造属于调用方。runtime 负责排队、任务状态、资源控制、取消和结果发布，
-独立引擎不依赖它们。runtime 已有可选 v5 接入，保留旧任务协议与指纹。
+独立引擎不依赖它们。runtime 已有可选 v5/v6 接入，保留旧任务协议与指纹。
 
 许可证为 LGPL-3.0-only，原文保留在根目录的 LICENSE 与 COPYING。
 第三方说明见 [docs/third-party-notices.md](docs/third-party-notices.md)。
