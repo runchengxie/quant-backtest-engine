@@ -52,4 +52,3 @@ than silently degrade. Pin the provider, run [correctness cases](correctness.md)
 and consumer integration tests before upgrading it. Experimental package versions
 may change Rust APIs; there is no stable Rust API guarantee yet. Keep Python
 fallbacks until the specific caller's required semantics and outputs are verified.
-
