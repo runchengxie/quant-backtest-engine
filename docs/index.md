@@ -5,8 +5,10 @@ request and receive reconciled order, fill, position and cash results. No schedu
 or research platform is required to call the library.
 
 Experimental release: synthetic USD cash equities, L1 quote ticks and market-order
-intents. A-share rules, target-weight sizing and a complete daily ledger remain
-migration work; existing Python backends are preserved as references.
+intents. A sizing utility and v2 CNY/USD session ledger add configured T+1, buy lots and quote
+permissions. Corporate actions retain the existing Python backend. See
+[target sizing](sizing.md), [session replay](sessions.md) and
+[migration limits](migration/corporate-action-conformance.md).
 
 ## Start here
 

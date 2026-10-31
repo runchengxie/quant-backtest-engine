@@ -204,3 +204,90 @@ pub(crate) fn snapshot(
         positions,
     })
 }
+
+#[cfg(test)]
+mod corporate_action_conformance {
+    use super::*;
+    use nautilus_core::UUID4;
+    use nautilus_model::{enums::PositionAdjustmentType, events::PositionAdjusted};
+
+    #[test]
+    fn quantity_adjustment_propagates_to_cache_but_does_not_rebase_a_stock_split() {
+        // Characterizes the concrete upstream primitive before exposing any split capability.
+        let mut request: Request =
+            serde_json::from_str(include_str!("../fixtures/roundtrip.json")).unwrap();
+        request.orders.truncate(1);
+        request.fee_bps = "0".into();
+        let mut engine = create_engine(&request, Currency::USD(), false).unwrap();
+        engine
+            .0
+            .add_strategy(IntentStrategy::new(&request).unwrap())
+            .unwrap();
+        let id = InstrumentId::from("AAA.SIM");
+        engine
+            .0
+            .add_data(
+                vec![Data::Quote(QuoteTick::new(
+                    id,
+                    Price::from("10.00"),
+                    Price::from("10.00"),
+                    Quantity::from(100),
+                    Quantity::from(100),
+                    1735689600000000000_u64.into(),
+                    1735689600000000000_u64.into(),
+                ))],
+                None,
+                true,
+                true,
+            )
+            .unwrap();
+        engine.0.run(None, None, None, false).unwrap();
+        let position = engine
+            .0
+            .kernel()
+            .cache
+            .borrow()
+            .positions_open(None, None, None, None, None)[0]
+            .cloned();
+        assert_eq!(position.quantity.as_decimal(), Decimal::from(10));
+        let adjustment = PositionAdjusted::new(
+            position.trader_id,
+            position.strategy_id,
+            position.instrument_id,
+            position.id,
+            position.account_id,
+            PositionAdjustmentType::Commission,
+            Some(Decimal::from(10)),
+            None,
+            None,
+            UUID4::new(),
+            1735689601000000000_u64.into(),
+            1735689601000000000_u64.into(),
+        );
+        engine
+            .0
+            .kernel()
+            .cache
+            .borrow_mut()
+            .update_position_from_adjustment(position.id, adjustment)
+            .unwrap();
+        let actual = engine
+            .0
+            .kernel()
+            .cache
+            .borrow()
+            .positions_open(None, None, None, None, None)[0]
+            .cloned();
+        assert_eq!(actual.quantity.as_decimal(), Decimal::from(20));
+        assert_eq!(actual.avg_px_open, 10.0);
+        assert_eq!(
+            actual
+                .try_unrealized_pnl(Price::from("5.00"))
+                .unwrap()
+                .as_decimal(),
+            Decimal::from(-100)
+        );
+        // A true 2:1 split with no market move needs basis 5 and unrealized PnL 0.
+        // The commission/funding adjustment is not a substitute for that lifecycle.
+    }
+}

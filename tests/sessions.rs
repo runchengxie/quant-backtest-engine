@@ -145,3 +145,72 @@ fn session_execution_is_reproducible() {
     let r = req(fixture());
     assert_eq!(run_sessions(&r).unwrap(), run_sessions(&r).unwrap());
 }
+
+#[test]
+fn unsupported_corporate_actions_are_never_ignored() {
+    let mut v = fixture();
+    v["corporate_actions"] = json!([]);
+    assert!(serde_json::from_value::<SessionRequest>(v).is_err());
+    let mut v = fixture();
+    v["required_capabilities"] = json!(["corporate_actions"]);
+    assert!(run_sessions(&req(v)).is_err());
+}
+
+#[test]
+fn blocked_orders_explain_their_actual_upstream_denial_event() {
+    let a = run_sessions(&req(fixture())).unwrap();
+    assert!(a.rejections.iter().any(|r| r.order_id == "same-day-sell"
+        && r.reason == "SELLABLE_QUANTITY"
+        && r.event_type == "denied"));
+    assert_eq!(a.initial_cash, "10000");
+}
+
+#[test]
+fn partial_sell_cancellation_releases_t1_reservation_for_a_retry() {
+    let mut v = fixture();
+    v["sessions"][1]["quotes"][0]["bid_size"] = json!("50");
+    let mut retry = v["sessions"][1]["orders"][0].clone();
+    retry["id"] = json!("retry-sell");
+    retry["quantity"] = json!("50");
+    retry["information_ts_ns"] = v["sessions"][1]["open_ts_ns"].clone();
+    v["sessions"][1]["orders"]
+        .as_array_mut()
+        .unwrap()
+        .push(retry);
+    let a = run_sessions(&req(v)).unwrap();
+    assert_eq!(a.orders[2].status, "CANCELED");
+    assert_eq!(a.orders[2].filled_quantity, "50");
+    assert_eq!(a.orders[3].status, "FILLED");
+    assert_eq!(a.final_cash, "10197.8");
+    assert_eq!(a.total_commission, "2.2");
+}
+#[test]
+fn displayed_liquidity_retains_consumption_until_size_changes() {
+    for (next_size, expected) in [("100", 100_u64), ("200", 200_u64)] {
+        let mut v = fixture();
+        v["sessions"].as_array_mut().unwrap().truncate(1);
+        v["sessions"][0]["orders"]
+            .as_array_mut()
+            .unwrap()
+            .truncate(1);
+        v["sessions"][0]["quotes"][0]["ask_size"] = json!("100");
+        v["sessions"][0]["quotes"][1]["ask_size"] = json!(next_size);
+        v["sessions"][0]["quotes"][1]["bid"] = json!("10");
+        v["sessions"][0]["quotes"][1]["ask"] = json!("10");
+        let mut next = v["sessions"][0]["orders"][0].clone();
+        next["id"] = json!("second");
+        next["information_ts_ns"] = v["sessions"][0]["open_ts_ns"].clone();
+        v["sessions"][0]["orders"]
+            .as_array_mut()
+            .unwrap()
+            .push(next);
+        let a = run_sessions(&req(v)).unwrap();
+        assert_eq!(
+            a.fills
+                .iter()
+                .map(|f| f.quantity.parse::<u64>().unwrap())
+                .sum::<u64>(),
+            expected
+        );
+    }
+}

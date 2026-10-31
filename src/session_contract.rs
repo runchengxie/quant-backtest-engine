@@ -47,6 +47,8 @@ pub struct SessionQuote {
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct SessionResult {
+    pub initial_cash: String,
+    pub rejections: Vec<Rejection>,
     pub enforce_t1: bool,
     pub price_basis: String,
     pub valuation_timezone: String,
@@ -209,4 +211,12 @@ pub(crate) fn session_date(ts: u64, currency: &str) -> anyhow::Result<String> {
         .to_zoned(zone)
         .date()
         .to_string())
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct Rejection {
+    pub order_id: String,
+    pub reason: String,
+    pub event_type: String,
 }

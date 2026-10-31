@@ -11,7 +11,10 @@ use crate::{
 use anyhow::{Result, ensure};
 use nautilus_model::{
     data::{Data, QuoteTick},
+    events::OrderEventAny,
+    identifiers::ClientOrderId,
     identifiers::InstrumentId,
+    orders::Order,
     types::{Currency, Price, Quantity},
 };
 use rust_decimal::Decimal;
@@ -140,7 +143,29 @@ pub(crate) fn execute(request: &SessionRequest) -> Result<SessionResult> {
             && last.commission == prior.commission,
         "upstream finalization changed the completed session ledger"
     );
+    let cache = engine.0.kernel().cache.borrow();
+    let mut rejections = Vec::new();
+    for intent in &base.orders {
+        if let Some(order) = cache.order(&ClientOrderId::from(intent.id.as_str())) {
+            for event in order.events() {
+                let rejected = match event {
+                    OrderEventAny::Denied(e) => Some(("denied", e.reason.to_string())),
+                    OrderEventAny::Rejected(e) => Some(("rejected", e.reason.to_string())),
+                    _ => None,
+                };
+                if let Some((kind, reason)) = rejected {
+                    rejections.push(crate::session_contract::Rejection {
+                        order_id: intent.id.clone(),
+                        reason,
+                        event_type: kind.into(),
+                    });
+                }
+            }
+        }
+    }
     Ok(SessionResult {
+        initial_cash: request.initial_cash.clone(),
+        rejections,
         enforce_t1: request.enforce_t1,
         price_basis: request.price_basis.clone(),
         valuation_timezone: if request.currency == "CNY" {
