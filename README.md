@@ -140,9 +140,15 @@ requests and fingerprints must remain unchanged. Follow the
 [design](docs/superpowers/specs/2026-10-31-independent-engine-design.md) and
 [implementation plan](docs/superpowers/plans/2026-10-31-independent-engine.md).
 
-Next stages are opt-in runtime integration, hand-calculated behavior comparisons,
-and market-specific capabilities only after explicit tests. Target-weight strategies
-need a separately specified sizing interface before automatic migration.
+Opt-in runtime integration is available through
+[quant-backtest-runtime v5 jobs](https://github.com/runchengxie/quant-backtest-runtime/blob/e4ad3169d1897b93d04c3cb9e8f01c8e32b4a683/docs/development.md#independent-rust-engine-jobs-v5).
+It pins executable bytes and immutable inputs, supervises timeout/cancellation, and
+publishes a separately verified final snapshot. Runtime CI builds this engine at
+`a2dc923b01c46389f090db7865175c5d87b6819c` and tests the real process boundary.
+
+Next stages are broader behavior comparisons and market-specific capabilities only
+after explicit tests. Target-weight strategies need a separately specified sizing
+interface before automatic migration.
 
 ## Validation
 
