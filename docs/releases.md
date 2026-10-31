@@ -2,11 +2,22 @@
 
 [简体中文](releases.zh-CN.md)
 
-The first downloadable release is experimental and targets Linux x86_64 with glibc. It is built on
+The downloadable releases are experimental and target Linux x86_64 with glibc. They are built on
 Ubuntu 22.04 (glibc 2.35) using Rust 1.99.0 and locked NautilusTrader 0.66.0 crates.
-Other operating systems and musl binaries are not packaged. This is a CLI archive,
-not a crates.io publication. Until the first prerelease is published, build from
-source using the [quickstart](quickstart.md).
+Other operating systems and musl binaries are not packaged. The CLI is distributed
+through GitHub Releases. Rust source builds are covered in the [quickstart](quickstart.md).
+
+## Published versions
+
+Use [v0.2.0-alpha.2](https://github.com/runchengxie/quant-backtest-engine/releases/tag/v0.2.0-alpha.2)
+for a downloadable binary with static validator version 1. Its source revision is
+`e40894db86b97e9d054737ecf5f3d695139a4148`. The matching source archive includes the
+independent Python client. Alpha.1 remains available for historical reproduction
+and lacks the static validator required by current runtime v5 preflight.
+
+Alpha.2 retains the experimental trading scope described in the
+[capability matrix](capabilities.md). Unsupported market rules and real callers
+still require their own compatibility checks.
 
 Use the [GitHub Releases page](https://github.com/runchengxie/quant-backtest-engine/releases)
 for published prereleases. Download all three assets from the same release.
@@ -24,6 +35,21 @@ its directory. Pass a request JSON to `./quant-backtest-engine run REQUEST.json`
 the source archive includes `fixtures/roundtrip.json` for a synthetic trial.
 Build metadata records the exact Git revision, lockfile hash, compiler, Cargo,
 platform and glibc. Linux binaries still depend on the system C runtime.
+
+## Install the Python client from the source archive
+
+Extract the matching source archive as well as the binary archive. In the extracted
+source directory, create a Python 3.11+ environment and install the client.
+
+```sh
+python3 -m venv /absolute/external/engine-client-venv
+/absolute/external/engine-client-venv/bin/python -m pip install ./python
+```
+
+The client requires no third-party Python runtime packages. It still needs the
+separate engine executable. Record that executable's SHA-256 and absolute path
+when creating `EngineClient`, as shown in the [client guide](python-client.md).
+CNY session checks also require an `Asia/Shanghai` timezone database on the host.
 
 The executable statically links Rust dependencies, including LGPL NautilusTrader
 crates. Matching complete sources let recipients change dependencies and rebuild
@@ -58,7 +84,7 @@ setup. Build directories are temporary and removed after packaging.
 The `Experimental Linux release` workflow runs this process on pull requests and
 uploads artifacts for seven days. Manual dispatch defaults to `publish=false`,
 which also only uploads artifacts. After merge and review, dispatch on `main` with
-`publish=true` and a fresh tag such as `v0.2.0-alpha.1`. The publish job has
+`publish=true` and a fresh tag such as `v0.2.0-alpha.3`. The publish job has
 `contents: write`; the build job only has `contents: read`. Publication creates a
 GitHub prerelease targeting the tested revision, never a crates.io release. Existing
 release/tag names must not be reused. If a publication request loses its response,

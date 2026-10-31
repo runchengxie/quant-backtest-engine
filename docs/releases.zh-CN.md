@@ -2,10 +2,19 @@
 
 [English](releases.md)
 
-首个下载版本属于实验性版本，仅提供 Linux x86_64、glibc 环境下的 CLI，
+下载版本仍处于实验阶段，仅提供 Linux x86_64、glibc 环境下的 CLI，
 使用 Ubuntu 22.04（glibc 2.35）、Rust 1.99.0 和锁定的 NautilusTrader 0.66.0
 依赖构建。暂不提供其他操作系统或 musl 版本，也不发布到 crates.io。
-首个预发行版发布前，请按[快速开始](quickstart.zh-CN.md)从源码运行。
+需要从源码运行时，请按[快速开始](quickstart.zh-CN.md)操作。
+
+## 已发布版本
+
+[v0.2.0-alpha.2](https://github.com/runchengxie/quant-backtest-engine/releases/tag/v0.2.0-alpha.2)
+提供静态校验器版本 1，源码提交为 `e40894db86b97e9d054737ecf5f3d695139a4148`。
+配套源码包包含独立 Python 客户端。Alpha.1 保留用于历史复现，它缺少当前 runtime v5 预检查要求的静态校验器。
+
+Alpha.2 的交易支持范围仍以[能力矩阵](capabilities.zh-CN.md)为准。
+新版本发布后，尚未支持的市场规则和实际调用方仍需逐项验证。
 
 在 [GitHub Releases](https://github.com/runchengxie/quant-backtest-engine/releases)
 下载同一预发行版的以下三个文件。
@@ -22,6 +31,19 @@
 使用 `./quant-backtest-engine run REQUEST.json` 执行请求。源码包内的
 `fixtures/roundtrip.json` 可用于合成数据试跑。构建元数据记录 Git 提交、
 锁文件哈希、编译器、Cargo、平台和 glibc 版本。程序仍依赖系统 C 运行库。
+
+## 从源码包安装 Python 客户端
+
+解压同一版本的源码包和二进制包。在解压后的源码目录运行下面的命令，使用 Python 3.11 或更新版本。
+
+```sh
+python3 -m venv /absolute/external/engine-client-venv
+/absolute/external/engine-client-venv/bin/python -m pip install ./python
+```
+
+客户端无需第三方 Python 运行时包，还需要单独的引擎程序。
+创建 `EngineClient` 时，传入程序的绝对路径和 SHA-256 摘要，见[客户端说明](python-client.zh-CN.md)。
+核对人民币逐日账本时，主机还需要包含 `Asia/Shanghai` 的时区数据库。
 
 程序静态链接 Rust 依赖，其中包括采用 LGPL 的 NautilusTrader crate。
 对应的完整源码允许接收者修改依赖、重新构建和链接应用。源码包的
@@ -50,7 +72,7 @@ objc2 上游明确提供的 Apache 许可原文。下载内容按 SHA-256 固定
 
 `Experimental Linux release` 工作流在 PR 上构建，上传的产物保留七天。
 手动运行默认 `publish=false`，也只上传产物。合并并检查后，在 `main` 上以
-`publish=true` 和新标签（如 `v0.2.0-alpha.1`）运行，才会发布 GitHub 预发行版。
+`publish=true` 和新标签（如 `v0.2.0-alpha.3`）运行，才会发布 GitHub 预发行版。
 构建任务仅有 `contents: read`，发布任务才有 `contents: write`。标签指向本次
 验证的提交。流程不发布 crates.io。不要重复使用已有的标签或发行版名称。
 如果发布请求丢失响应，应先查询远端发行版和标签状态，再决定是否重试。
