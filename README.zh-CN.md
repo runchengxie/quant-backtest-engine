@@ -1,17 +1,14 @@
 # quant-backtest-engine
 
-[English documentation](README.md) · [在线文档](https://runchengxie.github.io/quant-backtest-engine/index.zh-CN/)
+[English](README.md) · [在线文档](https://runchengxie.github.io/quant-backtest-engine/index.zh-CN/)
 
-独立的 Rust 回测库和命令行入口，内部直接调用 NautilusTrader。
-撮合、订单状态、手续费和现金记账由上游完成；本仓库维护输入校验、薄适配和结果格式。
-研究脚本可以直接调用库，批量任务可以由独立 runtime 启动 CLI。
+独立的 Rust 回测库和 CLI，内部直接调用 NautilusTrader。
+撮合、手续费与账户记账由上游完成，本仓库维护版本化输入输出、校验与薄适配。
 
-**当前属于实验版本。** 已实现的范围是模拟市场中的美元现金股票账户、报价回放、
-预先生成的市价单、多标的持仓和最终现金/净值快照。
-尚未验证 A 股 T+1、涨跌停、停牌、分红拆股、退市、真实容量限制和完整日频账本。
-这些能力不能因上游是成熟框架就被默认视为已经支持。
+当前为实验版本，覆盖简化美元现金股票账户、L1 报价回放、预先生成的市价单和最终估值。
+A 股规则、目标权重换算和每日完整账本仍需迁移验证，现有 Python 后端保留作对照。
 
-## 使用
+## 运行示例
 
 需要 Rust 1.99.0 或以上，上游固定为 NautilusTrader 0.66.0。
 
@@ -21,27 +18,22 @@ cargo run --locked -- capabilities
 cargo run --locked -- run fixtures/roundtrip.json
 ```
 
-合成样例：初始资金 10000 美元，以 10 美元买入 10 股，再以 12 美元卖出，
-买卖各收 10 个基点手续费，最终现金和净值应为 **10019.78**，手续费合计 **0.22**。
-这些数值由真实上游回测结果验证。
+合成样例初始资金为 10000 美元，以 10 美元买入 10 股，再以 12 美元卖出。
+买卖各收 10 个基点手续费，最终现金和净值为 10019.78，手续费合计 0.22。
 
-请求中金额使用十进制字符串，时间使用 UTC 纳秒整数。订单只能在信息时间之后的
-下一条对应标的报价上提交；等于信息时间的报价不能成交。
-没有后续报价的订单保留为 `NOT_SUBMITTED`，资金不足由上游拒绝。
-剩余持仓按各标的最后买卖报价的中间价估值，不会自动卖出。
+金额使用十进制字符串，时间使用 UTC 纳秒整数。执行成功不代表每个订单都已成交，
+调用方必须检查订单状态。
 
-当前输入是明确股数的订单意图。模型目标权重如何换算成股数，仍由组合层决定。
-报价流动性固定为每侧 100 万股，只用于明确的简化模型，不代表真实成交容量。
-同一时间的报价按输入顺序处理，订单也按输入顺序提交；该顺序会影响现金分配。
+## 文档
 
-CLI 成功时标准输出只有一份 JSON，失败时错误写到标准错误并返回非零退出码。
-执行成功不代表每个订单都已成交，调用方必须检查订单状态。
-runtime 负责排队、超时、取消、任务状态和结果发布，引擎不写任务数据库。
-现有 quant-platform Python 后端继续保留，当前版本不会自动替换其回测行为。
+- [快速开始](https://runchengxie.github.io/quant-backtest-engine/quickstart.zh-CN/)
+- [输入输出契约](https://runchengxie.github.io/quant-backtest-engine/contracts.zh-CN/)
+- [成交与估值假设](https://runchengxie.github.io/quant-backtest-engine/execution.zh-CN/)
+- [Runtime 接入](https://runchengxie.github.io/quant-backtest-engine/runtime.zh-CN/)
+- [开发与验证](https://runchengxie.github.io/quant-backtest-engine/development.zh-CN/)
 
-runtime 已提供可选的 v5 接入，支持二进制哈希固定、不可变输入、超时取消与
-结果完整性校验。用法见
-[runtime 开发说明](https://github.com/runchengxie/quant-backtest-runtime/blob/e4ad3169d1897b93d04c3cb9e8f01c8e32b4a683/docs/development.zh-CN.md)。
+组合构造属于调用方。runtime 负责排队、任务状态、资源控制、取消和结果发布，
+独立引擎不依赖它们。runtime 已有可选 v5 接入，保留旧任务协议与指纹。
 
-完整字段约束、结果格式、估值假设、验证命令和许可证说明见 [英文文档](README.md)。
-采用 LGPL-3.0-only，保留上游许可与版权声明。
+许可证为 LGPL-3.0-only，原文保留在根目录的 LICENSE 与 COPYING。
+第三方说明见 [docs/third-party-notices.md](docs/third-party-notices.md)。
