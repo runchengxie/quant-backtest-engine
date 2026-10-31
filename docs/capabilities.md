@@ -1,6 +1,6 @@
 # Capability and compatibility matrix
 
-**State: experimental, package 0.2.0, upstream NautilusTrader 0.66.0.**
+Package 0.2.0 is experimental and uses NautilusTrader 0.66.0.
 Linux is the validated execution environment. Support below means synthetic cases
 are exercised, not that all exchange rules or real-world data have been validated.
 
@@ -18,12 +18,13 @@ are exercised, not that all exchange rules or real-world data have been validate
 | Dividends / splits / receivables / delisting policy | Unsupported | Retain Python backend; [conformance evidence](migration/corporate-action-conformance.md) |
 | Exchange calendars, tax schedules, margin, shorts, FX | Unsupported | Do not infer from USD/CNY choice |
 | Full platform execution-aware bundle | Not provided | Research clock, producer and provenance still required |
-| Training / research validation / scheduling | Outside engine | Research layer / runtime own these |
+| Training / research validation | Outside engine | Research layer owns these |
+| Job submission, state and process management | Outside engine | Provided by runtime; a persistent scheduler and global queue require separate implementation |
 
 ## Tested provider and consumer revisions
 
 The compatibility unit is a source revision plus a consumer revision, not a
-worktree directory or a mutable executable path. Current merged adoption records:
+worktree directory or a mutable executable path. The table records merged integrations.
 
 | Component | Merged revision / delivery | Tested provider and boundary |
 | --- | --- | --- |
@@ -42,8 +43,8 @@ execution-aware evidence. No production task or dataset is switched by this migr
 Earlier v6/adapter baselines remain recorded in
 [runtime PR #39](https://github.com/runchengxie/quant-backtest-runtime/pull/39) and
 [platform PR #170](https://github.com/runchengxie/quant-platform/pull/170).
-Executable SHA-256 identifies bytes, not a source revision or signature; retain
-both source/build records and byte hashes when deploying.
+Executable SHA-256 checks byte identity. Retain source and build records alongside
+the byte hash when deploying, and verify any publisher signature separately.
 
 ## Upgrade policy
 

@@ -19,7 +19,7 @@
 
 ## 一个范围明确的 Python 对照
 
-在另一个已安装 `quant-platform` 的 Python 环境中执行：
+在另一个已安装 `quant-platform` 的 Python 环境中运行下面的命令。
 
 ```sh
 /path/to/platform-python project_tools/compare_python.py \

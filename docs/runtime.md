@@ -13,7 +13,7 @@ The runtime remains the sole task-state writer and result publisher. It executes
 held verified inode, inherits address-space limits into the child, terminates/reaps
 it on cancellation and timeout, and uses Linux parent-death SIGKILL on hard recovery.
 These controls are not an untrusted-code sandbox. A successful job can contain
-rejected orders. v1–v4 jobs and their fingerprints are preserved.
+rejected orders. v1 to v4 jobs and their fingerprints are preserved.
 
 The final snapshot is diagnostic evidence. It must not be described as the platform's
 execution-aware daily bundle. Market and information-time limits remain those stated
@@ -23,13 +23,12 @@ Runtime CI pins engine revision `a2dc923b01c46389f090db7865175c5d87b6819c` and r
 real Rust subprocess integration. Source/build revisions and executable digests are
 different identities; retain both in deployment records.
 
-
 ## Static preflight
 
 Before job insertion, runtime agent plans can invoke `validate -` through the
 same held, SHA-256-verified executable inode. The validator reuses `Request` serde
 parsing and `Request::validate`; it performs no simulation. It reads no more than
-1 MiB plus one byte and emits an exact-byte SHA-256 receipt only on success:
+1 MiB plus one byte and emits an exact-byte SHA-256 receipt only on success.
 
 ```json
 {"schema_version":"engine_validation.v1","request_schema":"engine_request.v1","validator_version":1,"valid":true,"input_sha256":"<64 lowercase hex characters>"}
@@ -39,11 +38,10 @@ The validator contract version is independent of backend and simulation capabili
 versions. The CLI `capabilities` object adds `validator_version: 1`; the existing
 simulation capability list, `run`, `size` and session operations retain their contracts.
 Validation rejects unsupported semantics and malformed/oversized input with exit 2
-and empty stdout. I/O or internal failure uses exit 1. Deploy an immutable binary:
-holding a descriptor prevents pathname replacement, but does not prevent in-place
+and empty stdout. I/O or internal failure uses exit 1. Deploy an immutable binary.
+Holding a descriptor prevents pathname replacement, but does not prevent in-place
 writes to the executable inode. Consumers must bound subprocess time and both
 output streams and verify receipt identity before trusting preflight.
-
 
 ## Session jobs and Python analytics
 

@@ -1,7 +1,7 @@
 # 快速开始
 
 需要 Rust 1.99.0 或更新版本。上游固定为 NautilusTrader 0.66.0，Cargo.lock 固定传递依赖。
-在仓库根目录执行：
+在仓库根目录运行下面的命令。
 
 ```sh
 cargo build --locked
@@ -17,7 +17,8 @@ cargo run --locked -- run fixtures/roundtrip.json
 任务成功不代表所有订单都成交，调用方必须检查订单状态。
 
 Rust 调用方可以反序列化 `Request` 后调用同步的 `run(&request)`。
-每次调用使用独立线程隔离上游线程局部状态，线程本身不是资源沙箱。
+每次调用使用独立线程，避免上游在线程内保存的状态影响下一次调用。
+这个线程仍使用当前进程的内存和权限。
 需要超时、取消和内存限制时，由 runtime 启动独立 CLI 进程。
 
 完整 Rust 调用示例见[英文页面](quickstart.md#library)。

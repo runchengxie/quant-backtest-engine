@@ -27,7 +27,8 @@
 
 没有后续合格报价的订单状态为 NOT_SUBMITTED。已提交订单保留上游状态，
 例如 FILLED、DENIED 或 REJECTED。净值等于现金加持仓估值。
-当前结果是最终快照，不是每日时间序列，也不包含夏普率或最大回撤报告。
+v1 结果只记录回测结束时的状态。需要逐日现金、持仓和净值时，使用
+[v2 逐日账本](sessions.zh-CN.md)。夏普率和最大回撤等指标由调用方根据结果另行计算。
 
 能力声明为 quote_market_orders、multi_asset、final_balances、proportional_fees。
 完整 JSON 与 Rust 类型见[英文契约页面](contracts.md)。

@@ -2,21 +2,21 @@
 
 [简体中文](releases.zh-CN.md)
 
-The first downloadable release is experimental: Linux x86_64 with glibc, built on
+The first downloadable release is experimental and targets Linux x86_64 with glibc. It is built on
 Ubuntu 22.04 (glibc 2.35) using Rust 1.99.0 and locked NautilusTrader 0.66.0 crates.
 Other operating systems and musl binaries are not packaged. This is a CLI archive,
 not a crates.io publication. Until the first prerelease is published, build from
 source using the [quickstart](quickstart.md).
 
 Use the [GitHub Releases page](https://github.com/runchengxie/quant-backtest-engine/releases)
-for published prereleases. Download all three assets from the same release:
+for published prereleases. Download all three assets from the same release.
 
-- `quant-backtest-engine-0.2.0-x86_64-unknown-linux-gnu.tar.gz`: executable,
+- `quant-backtest-engine-0.2.0-x86_64-unknown-linux-gnu.tar.gz` contains the executable,
   LGPL/GPL texts, dependency notices and build metadata.
-- `quant-backtest-engine-0.2.0-x86_64-unknown-linux-gnu-source.tar.gz`: matching
+- `quant-backtest-engine-0.2.0-x86_64-unknown-linux-gnu-source.tar.gz` contains matching
   application source, `Cargo.lock`, all vendored Rust dependencies with published
   license texts, Cargo offline configuration and `REBUILD.md`.
-- `SHA256SUMS`: checksums of both archives. Run `sha256sum --check SHA256SUMS`
+- `SHA256SUMS` contains checksums of both archives. Run `sha256sum --check SHA256SUMS`
   before extracting them. Checksums detect corruption; they are not signatures.
 
 Extract the binary archive and run `./quant-backtest-engine capabilities` inside
@@ -36,7 +36,7 @@ license notices when redistributing; see [third-party notices](third-party-notic
 
 ## Maintainer packaging
 
-Commit changes first, then run from a clean Linux x86_64 checkout with Python 3.11+:
+Commit changes first, then run from a clean Linux x86_64 checkout with Python 3.11+.
 
 ```bash
 python3 project_tools/package_release.py --output /absolute/external/release-output

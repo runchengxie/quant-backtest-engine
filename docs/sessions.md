@@ -14,7 +14,7 @@ NAV is 10099, and final cash/NAV is 10197.8 with total commission 2.2.
 
 ## Inputs and clock
 
-Required top-level fields: `schema_version`, `currency` (CNY/USD), `price_basis`
+The required top-level fields are `schema_version`, `currency` (CNY/USD), `price_basis`
 (`raw` only), `initial_cash`, `fee_bps`, `enforce_t1`, `instruments`, `sessions`,
 `required_capabilities`. Instruments declare symbol, price precision and buy lot.
 
@@ -44,10 +44,11 @@ occurs. The caller must submit a new intent for a later session.
   eligibility; outstanding sells reserve it, with unused reservations released on
   upstream denial, rejection, cancellation or expiry. Competing sells cannot reuse it.
 - With T+1 disabled, actual buy fills may become sellable within the session.
-- Market orders use IOC. Unfilled remainder is canceled, never fabricated or silently
-  carried. Quote sizes and upstream liquidity consumption bound displayed liquidity.
+- Market orders use immediate-or-cancel (IOC). Shares available at the current quote
+  can fill and the remainder is canceled. Submit a new order to trade in a later session.
+  Quote sizes and upstream liquidity consumption bound displayed liquidity.
 
-Displayed quote liquidity is **not daily volume participation**. Upstream 0.66.0 can
+Displayed quote liquidity is not daily volume participation. Upstream 0.66.0 can
 retain consumed liquidity across identical-size, same-price quotes and reset it when
 size changes; no daily ADV/capacity parity is claimed. The uniform fee is caller-supplied;
 exchange-specific stamp duty, minimum fees and historical tax changes are not inferred.
@@ -69,6 +70,6 @@ validated valuation boundary. Every row satisfies NAV = cash + positions value.
 Finalization must not change completed economic state; otherwise the run fails.
 
 This is a reconciled session ledger. It does not automatically become the platform's
-`execution_aware` bundle: callers must still provide the required research clock,
+`execution_aware` bundle. Callers must still provide the required research clock,
 producer identity, complete canonical mapping and provenance. v5 runtime jobs remain
 v1 snapshot jobs; use an explicitly compatible runtime job version for v2 results.
