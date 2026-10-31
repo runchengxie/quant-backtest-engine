@@ -1,23 +1,28 @@
 //! Translates precomputed intents; contains no portfolio selection or matching logic.
 use crate::contract::{Request, Side, decimal};
-use anyhow::Result;
+use anyhow::{Context, Result};
 use nautilus_common::actor::DataActor;
 use nautilus_model::{
+    accounts::Account,
     data::QuoteTick,
     enums::OrderSide,
+    fees::calculate_maker_taker_commission,
     identifiers::{ClientOrderId, InstrumentId},
-    types::Quantity,
+    instruments::Instrument,
+    types::{Currency, Quantity},
 };
 use nautilus_trading::{
     nautilus_strategy,
     strategy::{Strategy, StrategyConfig, StrategyCore},
 };
+use rust_decimal::Decimal;
 
 #[derive(Debug)]
 pub(crate) struct IntentStrategy {
     core: StrategyCore,
     instruments: Vec<InstrumentId>,
     pending: Vec<Pending>,
+    fee_rate: Decimal,
 }
 #[derive(Debug)]
 struct Pending {
@@ -55,6 +60,7 @@ impl IntentStrategy {
             core: StrategyCore::new(StrategyConfig::default()),
             instruments,
             pending,
+            fee_rate: decimal(&request.fee_bps)? / Decimal::from(10000),
         })
     }
 }
@@ -73,6 +79,20 @@ impl DataActor for IntentStrategy {
         Ok(())
     }
     fn on_quote(&mut self, quote: &QuoteTick) -> Result<()> {
+        // Reserve cash for buys queued in this callback. Sell proceeds become
+        // available only after upstream processes the submitted orders.
+        let account = self
+            .cache()
+            .account_for_venue(&quote.instrument_id.venue)
+            .context("upstream account missing")?;
+        let mut available = account
+            .balance_free(Some(Currency::USD()))
+            .context("upstream USD free balance missing")?
+            .as_decimal();
+        let instrument = self
+            .cache()
+            .instrument(&quote.instrument_id)
+            .context("upstream instrument missing")?;
         let mut index = 0;
         while index < self.pending.len() {
             let p = &self.pending[index];
@@ -94,6 +114,25 @@ impl DataActor for IntentStrategy {
                 None,
                 Some(p.id),
             );
+            if p.side == OrderSide::Buy {
+                let notional = instrument
+                    .try_calculate_notional_value(p.quantity, quote.ask_price, Some(false))?
+                    .as_decimal();
+                let fee = calculate_maker_taker_commission(
+                    &instrument,
+                    p.quantity,
+                    quote.ask_price,
+                    self.fee_rate,
+                    Some(false),
+                )?
+                .as_decimal();
+                let required = notional + fee;
+                if required > available {
+                    self.deny_order(&order, "INSUFFICIENT_CASH_INCLUDING_FEES".into());
+                    continue;
+                }
+                available -= required;
+            }
             self.submit_order(order, None, None, None)?;
         }
         Ok(())

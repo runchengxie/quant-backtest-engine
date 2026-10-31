@@ -73,3 +73,33 @@ fn multiple_assets_use_individual_marks() {
     assert_eq!(a.equity, "10010");
     assert_eq!(a.positions.len(), 2);
 }
+
+#[test]
+fn cash_admission_includes_upstream_rounded_commission() {
+    let _guard = ENGINE.lock().unwrap_or_else(|e| e.into_inner());
+    let mut q = fixture();
+    q.orders.truncate(1);
+    q.initial_cash = "100.00".into();
+    let a = run(&q).unwrap();
+    assert!(a.fills.is_empty());
+    assert_eq!(a.cash, "100");
+    assert_eq!(a.orders[0].status, "DENIED");
+    q.initial_cash = "100.10".into();
+    let a = run(&q).unwrap();
+    assert_eq!(a.cash, "0");
+    assert_eq!(a.fills.len(), 1);
+}
+#[test]
+fn same_quote_buys_reserve_fees_before_admission() {
+    let _guard = ENGINE.lock().unwrap_or_else(|e| e.into_inner());
+    let mut q = fixture();
+    q.orders.truncate(1);
+    q.initial_cash = "200.10".into();
+    let mut second = q.orders[0].clone();
+    second.id = "buy-2".into();
+    q.orders.push(second);
+    let a = run(&q).unwrap();
+    assert_eq!(a.fills.len(), 1);
+    assert_eq!(a.cash, "100");
+    assert_eq!(a.orders[1].status, "DENIED");
+}

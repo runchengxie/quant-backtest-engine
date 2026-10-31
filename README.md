@@ -89,6 +89,12 @@ are rejected before upstream constructors are called.
 - Requests contain precomputed intents, not executable strategies or target weights.
   Portfolio construction and conversion from weights to quantities belong to callers.
 - The upstream proportional fee model rounds commission using USD precision.
+  A pretrade cash guard uses that same upstream fee function and upstream `deny_order`
+  API to reject buys whose notional plus commission exceeds available cash. Buys
+  queued in one quote callback reserve this amount; sell proceeds from that callback
+  become reusable on a later callback after upstream accounting has processed them.
+  This guard addresses upstream 0.66.0 notional-only cash admission, without
+  changing matching, fills or account balances.
 - No forced liquidation occurs at the end. A remaining position is marked at its
   instrument's last bid/ask midpoint; positions may therefore have stale marks if
   instrument histories end at different times. This is a valuation convention,
