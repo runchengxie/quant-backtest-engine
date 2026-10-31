@@ -1,2 +1,6 @@
 /target/
 /.superpowers/
+
+/site/
+/.venv-docs/
+__pycache__/
