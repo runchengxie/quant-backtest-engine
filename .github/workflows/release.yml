@@ -1,0 +1,81 @@
+name: Experimental Linux release
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish the tested archives as a GitHub prerelease (main only)
+        type: boolean
+        default: false
+      tag:
+        description: New prerelease tag matching the Cargo version
+        type: string
+        default: v0.2.0-alpha.1
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: dtolnay/rust-toolchain@1.99.0
+      - name: Native build prerequisites
+        run: sudo apt-get update && sudo apt-get install -y build-essential
+      - name: Build, verify offline sources, test and smoke archives
+        run: python3 project_tools/package_release.py --output "$RUNNER_TEMP/release"
+      - name: Verify archive checksums
+        working-directory: ${{ runner.temp }}/release
+        run: sha256sum --check SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: experimental-linux-x86_64
+          path: ${{ runner.temp }}/release/*
+          if-no-files-found: error
+          retention-days: 7
+  publish:
+    if: github.event_name == 'workflow_dispatch' && inputs.publish && github.ref == 'refs/heads/main'
+    needs: package
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          name: experimental-linux-x86_64
+          path: release
+      - name: Validate tag and artifact checksums
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: |
+          python3 - <<'PY'
+          import os, re, tomllib
+          with open('Cargo.toml', 'rb') as source:
+              version = tomllib.load(source)['package']['version']
+          if not re.fullmatch(r'v' + re.escape(version) + r'-(alpha|beta|rc)\.[1-9][0-9]*', os.environ['RELEASE_TAG']):
+              raise SystemExit('Tag must match Cargo version and alpha.N, beta.N or rc.N')
+          PY
+          existing_tags="$(git ls-remote --tags origin "refs/tags/$RELEASE_TAG")"
+          if [ -n "$existing_tags" ]; then
+            echo "Refusing to reuse an existing tag" >&2
+            exit 1
+          fi
+          cd release
+          sha256sum --check SHA256SUMS
+      - name: Publish a new prerelease with matching sources
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ inputs.tag }}
+          SOURCE_REVISION: ${{ github.sha }}
+        run: |
+          gh release create "$RELEASE_TAG" release/* --target "$SOURCE_REVISION" \
+            --prerelease --title "$RELEASE_TAG (experimental Linux x86_64)" \
+            --notes "Experimental Linux x86_64 CLI built on Ubuntu 22.04 (glibc 2.35), Rust 1.99.0. Download the binary archive, matching complete vendored source archive and SHA256SUMS together. Sources include offline rebuild/relink instructions and dependency license texts. See docs/releases.md at revision $SOURCE_REVISION for scope and prerequisites."

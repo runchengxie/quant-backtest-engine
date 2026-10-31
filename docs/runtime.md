@@ -22,3 +22,17 @@ in [execution assumptions](execution.md).
 Runtime CI pins engine revision `a2dc923b01c46389f090db7865175c5d87b6819c` and runs
 real Rust subprocess integration. Source/build revisions and executable digests are
 different identities; retain both in deployment records.
+
+## Session jobs and Python analytics
+
+Runtime [PR #39](https://github.com/runchengxie/quant-backtest-runtime/pull/39)
+adds opt-in v6 `nautilus.session_replay`, consuming `engine_request.v2` and
+publishing `quant.engine_job_result.v2`. It verifies daily flows and binds marks
+to valuation quotes before publication. Job success still permits denied orders.
+
+The platform's explicit
+[session client](https://github.com/runchengxie/quant-platform/pull/170)
+verifies selected executable bytes and maps the session output for Python
+analytics. It retains `execution_aware=False`; existing Python backends remain
+default. See [tested combinations](capabilities.md) and the
+[weight-to-ledger walkthrough](tutorial.md).
