@@ -9,7 +9,7 @@
 当前为实验版本，覆盖简化美元现金股票账户、L1 报价回放、预先生成的市价单和最终估值。
 新增目标权重计划工具和人民币/美元逐日账本，支持显式配置的 T+1、买入整手与报价权限。
 分红、送转股和退市等场景继续使用 Python 后端。具体支持范围见[能力矩阵](docs/capabilities.zh-CN.md)。
-Python 用户可通过独立 SDK 调用引擎，需要排队和保存任务结果时再接入 runtime。
+Python 用户可通过独立 SDK 调用引擎，需要提交任务、管理执行状态和保存结果时再接入 runtime。
 [文档首页](docs/index.zh-CN.md#几个常用名称)解释这些名称和常用单位。
 
 ## 运行示例
@@ -36,7 +36,7 @@ cargo run --locked -- run fixtures/roundtrip.json
 - [Runtime 接入](https://runchengxie.github.io/quant-backtest-engine/runtime.zh-CN/)
 - [开发与验证](https://runchengxie.github.io/quant-backtest-engine/development.zh-CN/)
 
-组合构造属于调用方。runtime 负责排队、任务状态、资源控制、取消和结果发布，
+组合构造属于调用方。runtime 负责任务提交和状态、进程资源限制、超时、取消和结果发布，
 独立引擎不依赖它们。runtime 已有可选 v5/v6 接入，保留旧任务协议与指纹。
 
 许可证为 LGPL-3.0-only，原文保留在根目录的 LICENSE 与 COPYING。

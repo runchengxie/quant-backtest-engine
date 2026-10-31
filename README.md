@@ -15,7 +15,7 @@ precomputed market-order intents. Existing Python backends remain compatibility
 references. A separate sizing utility and v2 CNY/USD session ledger support configured T+1, buy
 lots and quote permissions. Corporate actions and complete market parity remain
 explicit migration limits. Python callers can use the independent SDK. Use the
-separate runtime when jobs need queueing and durable results. The [documentation
+separate runtime to submit jobs, track execution state and retain validated results. The [documentation
 overview](docs/index.md#names-used-in-these-docs) explains these components and units.
 
 ## Run the synthetic example
@@ -51,8 +51,8 @@ exit with status 2 and empty stdout; I/O/internal failures use status 1.
 - [Development and validation](https://runchengxie.github.io/quant-backtest-engine/development/)
 
 The library depends on neither quant-platform nor quant-backtest-runtime. Portfolio
-construction belongs to callers; runtime owns queueing, job state, process limits,
-cancellation and durable publication. Runtime's opt-in v5/v6 integrations preserve
+construction belongs to callers; runtime handles job submission and state, process
+limits, timeouts, cancellation and durable publication. Runtime's opt-in v5/v6 integrations preserve
 legacy protocols and test this engine through pinned real subprocesses.
 
 ## License

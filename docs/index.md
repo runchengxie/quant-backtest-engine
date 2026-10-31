@@ -23,8 +23,8 @@ permissions. Corporate actions retain the existing Python backend. See
 
 CLI means the command-line program. It reads a JSON request and writes a JSON result.
 The Python SDK starts that same executable, validates the result and returns dictionaries.
-The separate runtime service queues jobs, enforces timeouts, cancels processes and
-saves results. Local examples can call the CLI directly. quant-platform provides
+The separate runtime handles job submission and state, starts engine processes,
+applies resource limits and handles timeouts, cancellation and result storage. Local examples can call the CLI directly. quant-platform provides
 portfolio construction and analytics, and retains Python backtests for unsupported workflows.
 
 An L1 quote gives the best bid and ask with their displayed quantities, without a

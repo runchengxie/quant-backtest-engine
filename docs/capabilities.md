@@ -18,7 +18,8 @@ are exercised, not that all exchange rules or real-world data have been validate
 | Dividends / splits / receivables / delisting policy | Unsupported | Retain Python backend; [conformance evidence](migration/corporate-action-conformance.md) |
 | Exchange calendars, tax schedules, margin, shorts, FX | Unsupported | Do not infer from USD/CNY choice |
 | Full platform execution-aware bundle | Not provided | Research clock, producer and provenance still required |
-| Training / research validation / scheduling | Outside engine | Research layer / runtime own these |
+| Training / research validation | Outside engine | Research layer owns these |
+| Job submission, state and process management | Outside engine | Provided by runtime; a persistent scheduler and global queue require separate implementation |
 
 ## Tested provider and consumer revisions
 
