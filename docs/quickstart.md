@@ -40,3 +40,5 @@ and disposes the engine after execution, including errors. Repeated calls are te
 For timeout, memory limits and cancellation use isolated CLI processes supervised
 by a runtime. An in-process thread is not a resource or security sandbox.
 
+
+[Continue with the target-weight walkthrough](tutorial.md).

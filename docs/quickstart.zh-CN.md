@@ -21,3 +21,5 @@ Rust 调用方可以反序列化 `Request` 后调用同步的 `run(&request)`。
 需要超时、取消和内存限制时，由 runtime 启动独立 CLI 进程。
 
 完整 Rust 调用示例见[英文页面](quickstart.md#library)。
+
+[接着运行目标权重回测教程](tutorial.zh-CN.md)。

@@ -51,6 +51,11 @@ nav:
   - English:
       - Overview: index.md
       - Quick start: quickstart.md
+      - Target-weight walkthrough: tutorial.md
+      - Capabilities and compatibility: capabilities.md
+      - Correctness evidence: correctness.md
+      - Batch benchmarks: benchmarks.md
+      - Releases: releases.md
       - Request and result contracts: contracts.md
       - Execution assumptions: execution.md
       - Target-weight planning: sizing.md
@@ -62,6 +67,11 @@ nav:
   - 简体中文:
       - 首页: index.zh-CN.md
       - 快速开始: quickstart.zh-CN.md
+      - 目标权重回测教程: tutorial.zh-CN.md
+      - 能力与兼容性: capabilities.zh-CN.md
+      - 正确性证据: correctness.zh-CN.md
+      - 批量性能实验: benchmarks.zh-CN.md
+      - 版本发布: releases.zh-CN.md
       - 输入输出契约: contracts.zh-CN.md
       - 成交与估值假设: execution.zh-CN.md
       - 目标权重计划: sizing.zh-CN.md

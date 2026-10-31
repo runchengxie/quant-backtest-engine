@@ -43,3 +43,18 @@ and empty stdout. I/O or internal failure uses exit 1. Deploy an immutable binar
 holding a descriptor prevents pathname replacement, but does not prevent in-place
 writes to the executable inode. Consumers must bound subprocess time and both
 output streams and verify receipt identity before trusting preflight.
+
+
+## Session jobs and Python analytics
+
+Runtime [PR #39](https://github.com/runchengxie/quant-backtest-runtime/pull/39)
+adds opt-in v6 `nautilus.session_replay`, consuming `engine_request.v2` and
+publishing `quant.engine_job_result.v2`. It verifies daily flows and binds marks
+to valuation quotes before publication. Job success still permits denied orders.
+
+The platform's explicit
+[session client](https://github.com/runchengxie/quant-platform/pull/170)
+verifies selected executable bytes and maps the session output for Python
+analytics. It retains `execution_aware=False`; existing Python backends remain
+default. See [tested combinations](capabilities.md) and the
+[weight-to-ledger walkthrough](tutorial.md).

@@ -50,6 +50,11 @@ def check(site: Path) -> None:
     for name in [
         "index",
         "quickstart",
+        "tutorial",
+        "capabilities",
+        "correctness",
+        "benchmarks",
+        "releases",
         "contracts",
         "execution",
         "runtime",

@@ -29,3 +29,16 @@ Python worker 独占任务数据库和结果发布。Rust 子进程继承地址�
 runtime 预检通过已校验摘要并保持打开的描述符启动验证器，限制运行时间和输出，核验回执
 后才信任结果。部署文件必须保持不可原地修改；描述符能防止路径替换，却不能阻止对
 同一可执行文件的原地写入。已有 `run`、`size` 和会话接口保持兼容。
+
+
+## 逐日任务与 Python 分析
+
+runtime [PR #39](https://github.com/runchengxie/quant-backtest-runtime/pull/39)
+增加显式选择的 v6 `nautilus.session_replay`，接收 `engine_request.v2` 并发布
+`quant.engine_job_result.v2`。发布前核对逐日资金和股份流动，并将估值绑定到请求报价。
+任务成功仍然可能包含被拒订单。
+
+platform 的[逐日结果客户端](https://github.com/runchengxie/quant-platform/pull/170)
+校验所选可执行文件字节，将结果转换后用于 Python 分析。它保留
+`execution_aware=False`，现有 Python 后端仍为默认路径。参见
+[已测试版本组合](capabilities.zh-CN.md)和[目标权重回测教程](tutorial.zh-CN.md)。

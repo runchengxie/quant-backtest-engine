@@ -33,32 +33,34 @@ only for complete liquidation. Emit deterministic sells then buys, fee-aware aff
 quantities and projected cash; return desired vs planned quantities to expose residuals.
 Projected sell proceeds may fund planned buys, explicitly requiring execution after sell
 settlement; they are not authoritative account balances.
-- [ ] Add literal tests: 1000 cash, 50% at price10 ->50 shares; 100% with10bps ->99 shares,
+- [x] Add literal tests: 1000 cash, 50% at price10 ->50 shares; 100% with10bps ->99 shares,
   projected cash9.01; sell100 A/buy99 B ->projected cash8.01. Reject future marks,
   duplicate assets, weights>1, fractional quantities, bad lots and unknown fields.
-- [ ] Observe failing tests with a missing sizing implementation.
-- [ ] Implement and run full locked tests; commit.
+- [x] Observe failing tests with a missing sizing implementation.
+- [x] Implement and run full locked tests; commit.
 
 ### Task 2: Session ledger and rule contract
 
 Files: src/sessions.rs, src/session_contract.rs, tests/sessions.rs and upstream helpers.
 Interfaces: run_sessions(&SessionRequest) -> Result<SessionResult>; CLI run dispatch by schema.
-- [ ] Write hand-calculated two-session/no-trade/multi-asset/T+1/limits/lot tests.
-- [ ] Implement streaming batches and cache-derived snapshots with fresh explicit marks.
-- [ ] Enforce configured eligibility using upstream denial events and fill-driven reservations.
-- [ ] Test complete timestamps, missing marks and finalization; run full checks; commit.
+- [x] Write hand-calculated two-session/no-trade/multi-asset/T+1/limits/lot tests.
+- [x] Implement streaming batches and cache-derived snapshots with fresh explicit marks.
+- [x] Enforce configured eligibility using upstream denial events and fill-driven reservations.
+- [x] Test complete timestamps, missing marks and finalization; run full checks; commit.
 
 ### Task 3: Capacity/corporate-action conformance
 
 Files: tests/conformance and docs/migration evidence.
-- [ ] Verify shared bid/ask consumption and IOC remainder against actual upstream.
-- [ ] Reproduce public cash/position adjustment propagation and basis/receivable semantics.
-- [ ] Implement only proven public-API extensions; record unsupported scenarios concretely.
+- [x] Verify shared bid/ask consumption and IOC remainder against actual upstream.
+- [x] Reproduce public cash/position adjustment propagation and basis/receivable semantics.
+- [x] Implement only proven public-API extensions; record unsupported scenarios concretely.
 
 ### Task 4: Consumers and delivery
 
 Files: runtime/platform isolated worktrees, new protocol/adapter tests and docs.
-- [ ] Add strict v2 result verification and opt-in runtime job version without changing old hashes.
-- [ ] Add platform sizing/result bridge and synthetic matched-reference tests.
-- [ ] Full required checks and independent review; provider then consumer PRs/merges.
-- [ ] Archive tested revision pairs and semantic limits; clean only task resources.
+- [x] Add strict v2 result verification and opt-in runtime job version without changing old hashes.
+- [x] Add platform sizing/result bridge and synthetic matched-reference tests.
+- [x] Full required checks and independent review; provider then consumer PRs/merges.
+- [x] Archive tested revision pairs and semantic limits; clean only task resources.
+
+Delivery: provider PR #4; runtime PR #39; platform PR #170. Unsupported corporate actions remain a documented migration boundary rather than an implemented capability.

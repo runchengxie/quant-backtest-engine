@@ -24,3 +24,9 @@
 | quant-backtest-runtime | 任务状态、进程隔离、取消与结果发布 |
 
 参见[开发与验证](development.zh-CN.md)及[第三方声明](third-party-notices.zh-CN.md)。
+
+## 接入状态
+
+包版本 0.2.0，处于实验阶段，上游固定为 0.66.0。先运行
+[目标权重到逐日账本教程](tutorial.zh-CN.md)，再查看[能力与已测试版本组合](capabilities.zh-CN.md)、
+[正确性证据](correctness.zh-CN.md)、[批量运行成本](benchmarks.zh-CN.md)和[版本发布说明](releases.zh-CN.md)。
