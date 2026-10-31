@@ -22,3 +22,24 @@ in [execution assumptions](execution.md).
 Runtime CI pins engine revision `a2dc923b01c46389f090db7865175c5d87b6819c` and runs
 real Rust subprocess integration. Source/build revisions and executable digests are
 different identities; retain both in deployment records.
+
+
+## Static preflight
+
+Before job insertion, runtime agent plans can invoke `validate -` through the
+same held, SHA-256-verified executable inode. The validator reuses `Request` serde
+parsing and `Request::validate`; it performs no simulation. It reads no more than
+1 MiB plus one byte and emits an exact-byte SHA-256 receipt only on success:
+
+```json
+{"schema_version":"engine_validation.v1","request_schema":"engine_request.v1","validator_version":1,"valid":true,"input_sha256":"<64 lowercase hex characters>"}
+```
+
+The validator contract version is independent of backend and simulation capability
+versions. The CLI `capabilities` object adds `validator_version: 1`; the existing
+simulation capability list, `run`, `size` and session operations retain their contracts.
+Validation rejects unsupported semantics and malformed/oversized input with exit 2
+and empty stdout. I/O or internal failure uses exit 1. Deploy an immutable binary:
+holding a descriptor prevents pathname replacement, but does not prevent in-place
+writes to the executable inode. Consumers must bound subprocess time and both
+output streams and verify receipt identity before trusting preflight.

@@ -16,3 +16,16 @@ Python worker 独占任务数据库和结果发布。Rust 子进程继承地址�
 
 旧 v1–v4 任务协议和请求指纹保留不变。新引擎最终快照属于诊断证据，
 不能标为完整每日执行账本。具体市场限制见[成交与估值假设](execution.zh-CN.md)。
+
+
+## 静态预检
+
+`validate REQUEST.json` 和 `validate -` 复用 `Request` 的解析与 `Request::validate`，
+只检查请求，不运行回测。输入最多 1 MiB，成功后输出 `engine_validation.v1`，
+包含 `request_schema=engine_request.v1`、`validator_version=1`、`valid=true` 和
+原始输入的 `input_sha256`。`capabilities` 单独声明验证器版本，模拟能力列表保持不变。
+无效请求、格式错误或超限返回退出码 2，标准输出为空；文件和内部故障返回 1。
+
+runtime 预检通过已校验摘要并保持打开的描述符启动验证器，限制运行时间和输出，核验回执
+后才信任结果。部署文件必须保持不可原地修改；描述符能防止路径替换，却不能阻止对
+同一可执行文件的原地写入。已有 `run`、`size` 和会话接口保持兼容。
