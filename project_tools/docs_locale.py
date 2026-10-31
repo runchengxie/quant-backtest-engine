@@ -21,6 +21,11 @@ def on_page_context(context, page, config, nav):
         item for item in nav.pages if item.file.src_uri.endswith(".zh-CN.md") == chinese
     ]
     context["nav"] = Navigation(section.children, pages)
+    localized_page = copy(page)
+    index = pages.index(page)
+    localized_page.previous_page = pages[index - 1] if index > 0 else None
+    localized_page.next_page = pages[index + 1] if index + 1 < len(pages) else None
+    context["page"] = localized_page
     localized = copy(config)
     localized.theme = copy(config.theme)
     language = "zh" if chinese else "en"

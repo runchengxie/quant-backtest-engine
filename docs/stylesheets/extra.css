@@ -35,3 +35,6 @@ body { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Se
 .md-typeset table:not([class]) th { background: var(--engine-surface); }
 .md-typeset code { border-radius: .2rem; }
 .md-footer-meta { border-top: 1px solid var(--engine-border); }
+
+.md-typeset a, .md-nav__link--active { color: var(--engine-accent); }
+.md-nav__link:hover, .md-typeset a:hover { color: var(--engine-accent); text-decoration: underline; }

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
@@ -80,6 +81,14 @@ def check(site: Path) -> None:
             nav = text.split("md-sidebar--primary", 1)[1].split(
                 "md-sidebar--secondary", 1
             )[0]
+            footer = re.search(r'<nav[^>]*class="md-footer__inner.*?</nav>', text, re.S)
+            if footer:
+                footer_links = Links()
+                footer_links.feed(footer.group())
+                for href in footer_links.links:
+                    assert (".zh-CN" in href) == chinese, (
+                        f"footer crosses locales: {relative}: {href}"
+                    )
             expected, excluded = (
                 ("输入输出契约", "Request and result contracts")
                 if chinese
