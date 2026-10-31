@@ -39,5 +39,9 @@ CLI 成功时标准输出只有一份 JSON，失败时错误写到标准错误�
 runtime 负责排队、超时、取消、任务状态和结果发布，引擎不写任务数据库。
 现有 quant-platform Python 后端继续保留，当前版本不会自动替换其回测行为。
 
+runtime 已提供可选的 v5 接入，支持二进制哈希固定、不可变输入、超时取消与
+结果完整性校验。用法见
+[runtime 开发说明](https://github.com/runchengxie/quant-backtest-runtime/blob/e4ad3169d1897b93d04c3cb9e8f01c8e32b4a683/docs/development.zh-CN.md)。
+
 完整字段约束、结果格式、估值假设、验证命令和许可证说明见 [英文文档](README.md)。
 采用 LGPL-3.0-only，保留上游许可与版权声明。

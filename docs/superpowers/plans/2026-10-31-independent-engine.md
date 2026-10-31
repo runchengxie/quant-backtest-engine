@@ -25,20 +25,20 @@ no self-written matching/accounting; no unsupported A-share capability claims.
 
 Files: Cargo.toml, src/contract.rs, src/lib.rs, tests/contract.rs, fixtures/*.json.
 Interfaces: Request::validate() -> anyhow::Result<()>; strict serde Request and Result.
-- [ ] Write tests rejecting bad schema, unsupported capabilities, invalid decimals,
+- [x] Write tests rejecting bad schema, unsupported capabilities, invalid decimals,
   unknown fields, duplicate IDs, invalid time order and information timing.
-- [ ] Run cargo test --test contract; observe missing behavior.
-- [ ] Implement contract validation and verify tests pass; commit.
+- [x] Run cargo test --test contract; observe missing behavior.
+- [x] Implement contract validation and verify tests pass; commit.
 
 ### Task 2: Nautilus execution adapter
 
 Files: src/nautilus.rs, src/strategy.rs, tests/engine.rs.
 Interfaces: run(&Request) -> anyhow::Result<BacktestResult> exposed by src/lib.rs.
-- [ ] Add hand-derived roundtrip, fees, open position, multi-asset, rejection,
+- [x] Add hand-derived roundtrip, fees, open position, multi-asset, rejection,
   no-lookahead and repeated-run tests; observe failure before implementation.
-- [ ] Translate quotes and intents into upstream instruments and Strategy callbacks;
+- [x] Translate quotes and intents into upstream instruments and Strategy callbacks;
   extract actual cached orders/fills/account balances/positions.
-- [ ] Run cargo test --locked; compare literal economic expectations; commit.
+- [x] Run cargo test --locked; compare literal economic expectations; commit.
 
 ### Task 3: CLI, docs and CI
 
@@ -46,9 +46,9 @@ Files: src/main.rs, tests/cli.rs, README.md, README.zh-CN.md,
 LICENSE*, THIRD_PARTY_NOTICES.md, .github/workflows/ci.yml.
 Interfaces: quant-backtest-engine run REQUEST.json emits result JSON on stdout;
 capabilities emits backend capability JSON; errors go to stderr and nonzero exit.
-- [ ] Test real CLI success, invalid input and stdout JSON purity before implementation.
-- [ ] Implement CLI; document schemas, market assumptions, usage and limitations.
-- [ ] Run fmt, clippy, locked tests, CLI fixture, diff check; independent review;
+- [x] Test real CLI success, invalid input and stdout JSON purity before implementation.
+- [x] Implement CLI; document schemas, market assumptions, usage and limitations.
+- [x] Run fmt, clippy, locked tests, CLI fixture, diff check; independent review;
   fix important findings with regression tests; open/merge provider PR.
 
 ### Task 4: Opt-in consumers
@@ -59,3 +59,19 @@ Interfaces: versioned subprocess request/result, explicit executable selection.
 - [ ] Test new path and legacy compatibility before implementing.
 - [ ] Run all consumer-required checks against the merged provider revision.
 - [ ] PR/merge in dependency order; record revisions and clean task resources.
+
+
+## Delivery evidence
+
+Engine PR #1 merged as `a2dc923b01c46389f090db7865175c5d87b6819c`:
+16 real-upstream/contract/CLI tests passed; fmt, clippy, synthetic CLI and remote CI passed.
+Runtime PR #37 merged as `e4ad3169d1897b93d04c3cb9e8f01c8e32b4a683`:
+67 tests passed locally with the real engine, 80% combined coverage; remote docs,
+Python 3.12/3.13 and pinned real-Rust integration checks passed. The v5 job contract
+is additive and uses its own final-snapshot result schema, preserving v1-v4.
+Platform boundary documentation is delivered separately; it changes no Python APIs.
+
+Rulings: order quantities remain the first engine input, with weight sizing owned by
+callers; the integrated release is LGPL-3.0-only; buy admission reserves upstream-rounded
+fees and does not reuse same-callback sell proceeds. No market-rule parity or untrusted
+code sandbox is claimed. These choices are documented in the public README.
