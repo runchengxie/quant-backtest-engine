@@ -17,3 +17,5 @@ SDK 负责进程通信和契约核验；消费方负责策略接口、表格转�
 测试仅使用合成数据。CI 构建 wheel 后，在独立环境中无依赖安装并运行测试；设置 `QUANT_ENGINE_BINARY` 可额外验证已选择的真实引擎程序。
 
 [English and usage example](python-client.md)
+
+CNY 逐日账本核验需要主机时区数据库包含 `Asia/Shanghai`，通常由系统 tzdata 提供。精简容器和 Windows 环境需要自行提供数据库；缺失时抛出带安装提示的 `EngineProtocolError`。

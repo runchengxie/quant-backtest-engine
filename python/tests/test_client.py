@@ -70,6 +70,24 @@ class ClientTests(unittest.TestCase):
             with self.assertRaises(EngineProtocolError):
                 self.client(result).size(self.fixture('sizing'))
 
+    def test_rejects_false_sizing_summaries_with_valid_quantities(self):
+        from quant_backtest_engine import EngineProtocolError
+        for key in ['marked_equity', 'projected_cash']:
+            result = self.fixture('sizing-result')
+            result[key] = '1'
+            with self.subTest(key=key), self.assertRaises(EngineProtocolError):
+                self.client(result).size(self.fixture('sizing'))
+
+    def test_sizing_summary_uses_rounded_notional_and_bankers_fees(self):
+        request = self.fixture('sizing')
+        request['fee_bps'] = '50'
+        request['assets'][0].update(reference_price='1.005', held_quantity='1')
+        result = self.fixture('sizing-result')
+        result.update(marked_equity='1001.005', projected_cash='999.00')
+        result['orders'][0]['quantity'] = '1'
+        result['targets'][0].update(desired_quantity='2', planned_quantity='2')
+        self.assertEqual(self.client(result).size(request), result)
+
     def test_constructor_rejects_unpinned_selection(self):
         from quant_backtest_engine import EngineClient
         for binary, digest, timeout in [(Path('relative'), 'a' * 64, 30),

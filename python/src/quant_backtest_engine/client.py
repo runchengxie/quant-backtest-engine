@@ -14,7 +14,7 @@ from decimal import ROUND_HALF_EVEN, Decimal, InvalidOperation, localcontext
 from pathlib import Path
 from typing import Any
 
-from zoneinfo import ZoneInfo
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 
 class EngineProtocolError(ValueError):
@@ -143,6 +143,7 @@ class EngineClient:
                 if order["side"] == "buy":
                     _require(quantity % assets[symbol]["buy_lot"] == 0, "invalid buy lot")
             _require(seen == {s for s, q in changes.items() if q}, "missing sizing orders")
+            _sizing_balances(request, result, assets)
         except (KeyError, TypeError, ArithmeticError, IndexError, AttributeError) as exc:
             raise EngineProtocolError(f"malformed sizing result: {exc}") from exc
         return result
@@ -172,6 +173,10 @@ class EngineClient:
         for key in ("currency", "initial_cash", "price_basis", "enforce_t1"):
             _require(result[key] == request[key], f"{key} mismatch")
         zone = "Asia/Shanghai" if request["currency"] == "CNY" else "UTC"
+        try:
+            ZoneInfo(zone)
+        except ZoneInfoNotFoundError as exc:
+            raise EngineProtocolError(f"host timezone database missing {zone}; install system tzdata") from exc
         _require(result["valuation_timezone"] == zone, "valuation timezone mismatch")
         _require(request["price_basis"] == "raw", "raw prices required")
         _require(
@@ -184,6 +189,28 @@ class EngineClient:
         fills_by_date, _, _ = _order_evidence(request, result, sessions, zone)
         _ledger_evidence(request, result, sessions, daily, fills_by_date, zone)
         return result
+
+
+def _sizing_balances(request: dict, result: dict, assets: dict) -> None:
+    # Reconcile returned intents only; quantity planning remains engine-owned.
+    with localcontext() as context:
+        context.prec = 64
+        _require(request["currency"] in ("CNY", "USD"), "unsupported sizing currency")
+        cash = _number(request["cash"])
+        equity = cash + sum(
+            (_number(asset["held_quantity"], integer=True) * _number(asset["reference_price"])
+             for asset in assets.values()), Decimal(0)
+        )
+        _equal(_number(result["marked_equity"]), equity)
+        fee_rate = _number(request["fee_bps"]) / Decimal(10000)
+        for order in result["orders"]:
+            notional = (_number(order["quantity"]) *
+                        _number(assets[order["symbol"]]["reference_price"])).quantize(
+                            Decimal("0.01"), rounding=ROUND_HALF_EVEN)
+            fee = (notional * fee_rate).quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)
+            cash += notional if order["side"] == "sell" else -notional
+            cash -= fee
+        _equal(_number(result["projected_cash"]), cash)
 
 
 def _ledger_evidence(

@@ -183,6 +183,12 @@ def archive(directory: Path, output: Path) -> None:
         tar.add(directory, arcname=directory.name)
 
 
+def vendor_directory(source: Path) -> Path:
+    # Nautilus probes ../../python/pyproject.toml from its crate directory.
+    # Keep its published crates away from our unrelated Python SDK manifest.
+    return source / ".cargo" / "vendor"
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
@@ -221,11 +227,11 @@ def main() -> None:
         binary.mkdir()
         # cargo vendor emits the exact registry-replacement config to stdout.
         config = run(
-            "cargo", f"+{TOOLCHAIN}", "vendor", "--locked", "vendor", cwd=source
+            "cargo", f"+{TOOLCHAIN}", "vendor", "--locked", str(vendor_directory(source).relative_to(source)), cwd=source
         )
         (source / ".cargo").mkdir(exist_ok=True)
         (source / ".cargo/config.toml").write_text(config)
-        inventory = license_inventory(source / "vendor", binary / "dependency-notices")
+        inventory = license_inventory(vendor_directory(source), binary / "dependency-notices")
         if (binary / "dependency-notices/supplemental").exists():
             shutil.copytree(
                 binary / "dependency-notices/supplemental",
@@ -280,13 +286,13 @@ From this directory, run:
     cargo +1.99.0 test --offline --locked
     target/x86_64-unknown-linux-gnu/release/quant-backtest-engine run fixtures/roundtrip.json
 
-Cargo.lock, vendor/ (including published license texts), and .cargo/config.toml
+Cargo.lock, .cargo/vendor/ (including published license texts), and .cargo/config.toml
 are included. No registry access is required after toolchain/native setup.
 The binary statically links Rust crates, including LGPL NautilusTrader crates;
 these complete application/dependency sources allow rebuilding and relinking.
-To modify a dependency, edit its vendor/<crate>/ sources and remove the modified
+To modify a dependency, edit its .cargo/vendor/<crate>/ sources and remove the modified
 file's entry from that crate's .cargo-checksum.json `files` map (or use a local
-path patch outside vendor). Cargo otherwise rejects edits to checksummed files.
+path patch outside .cargo/vendor). Cargo otherwise rejects edits to checksummed files.
 Rebuild with the commands above; the resulting executable contains your changes.
 Retain applicable copyright and license notices when redistributing.
 
