@@ -11,8 +11,9 @@ owns a versioned input/output boundary, validation and translation.
 
 **Experimental:** currently supports synthetic USD cash equities, L1 quote ticks and
 precomputed market-order intents. Existing Python backends remain compatibility
-references. A-share rules, target-weight sizing and a complete daily ledger still
-require explicit migration and validation.
+references. A separate sizing utility and v2 CNY/USD session ledger support configured T+1, buy
+lots and quote permissions. Corporate actions and complete market parity remain
+explicit migration limits.
 
 ## Run the synthetic example
 

@@ -1,4 +1,4 @@
-# Execution and valuation assumptions
+# V1 execution and valuation assumptions
 
 ## Timing and execution assumptions
 
@@ -27,3 +27,5 @@
 - Information timestamps are caller assertions. They do not prove that features,
   prices or model training inputs were historically available.
 
+
+For the additive v2 session model, see [session ledger and rules](sessions.md).

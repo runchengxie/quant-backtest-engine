@@ -23,7 +23,7 @@ use nautilus_model::{
 use rust_decimal::Decimal;
 use std::collections::BTreeMap;
 
-struct Engine(BacktestEngine);
+pub(crate) struct Engine(pub(crate) BacktestEngine);
 impl Drop for Engine {
     fn drop(&mut self) {
         self.0.dispose();
@@ -33,7 +33,11 @@ fn text(d: Decimal) -> String {
     d.normalize().to_string()
 }
 
-pub(crate) fn execute(request: &Request) -> Result<BacktestResult> {
+pub(crate) fn create_engine(
+    request: &Request,
+    currency: Currency,
+    liquidity: bool,
+) -> Result<Engine> {
     let config = BacktestEngineConfig {
         bypass_logging: true,
         logging: nautilus_common::logging::logger::LoggerConfig {
@@ -51,21 +55,21 @@ pub(crate) fn execute(request: &Request) -> Result<BacktestResult> {
             .venue(venue)
             .oms_type(OmsType::Netting)
             .account_type(AccountType::Cash)
-            .base_currency(Currency::USD())
+            .base_currency(currency)
             .book_type(BookType::L1_MBP)
+            .liquidity_consumption(liquidity)
             .starting_balances(vec![Money::from_decimal(
                 decimal(&request.initial_cash)?,
-                Currency::USD(),
+                currency,
             )?])
             .fee_model(FeeModelAny::MakerTaker(MakerTakerFeeModel::new(fee, fee)).into())
             .build()?,
     )?;
-    let mut precisions = BTreeMap::new();
     for i in &request.instruments {
         let instrument = Equity::builder()
             .instrument_id(InstrumentId::from(format!("{}.SIM", i.symbol)))
             .raw_symbol(Symbol::from(i.symbol.as_str()))
-            .currency(Currency::USD())
+            .currency(currency)
             .price_precision(i.price_precision)
             .price_increment(Price::from_decimal_dp(
                 Decimal::new(1, i.price_precision.into()),
@@ -78,8 +82,17 @@ pub(crate) fn execute(request: &Request) -> Result<BacktestResult> {
         engine
             .0
             .add_instrument(&InstrumentAny::Equity(instrument))?;
-        precisions.insert(i.symbol.as_str(), i.price_precision);
     }
+    Ok(engine)
+}
+
+pub(crate) fn execute(request: &Request) -> Result<BacktestResult> {
+    let mut engine = create_engine(request, Currency::USD(), false)?;
+    let precisions: BTreeMap<_, _> = request
+        .instruments
+        .iter()
+        .map(|i| (i.symbol.as_str(), i.price_precision))
+        .collect();
     engine.0.add_strategy(IntentStrategy::new(request)?)?;
     let mut data = Vec::with_capacity(request.quotes.len());
     let mut marks = BTreeMap::new();
@@ -100,18 +113,28 @@ pub(crate) fn execute(request: &Request) -> Result<BacktestResult> {
     }
     engine.0.add_data(data, None, true, true)?;
     engine.0.run(None, None, None, false)?;
+    snapshot(&engine, &request.orders, &marks, Currency::USD())
+}
+
+pub(crate) fn snapshot(
+    engine: &Engine,
+    intents: &[crate::contract::OrderIntent],
+    marks: &BTreeMap<&str, Decimal>,
+    currency: Currency,
+) -> Result<BacktestResult> {
     let cache = engine.0.kernel().cache.borrow();
+    let venue = Venue::from("SIM");
     let account = cache
         .account_for_venue(&venue)
         .context("upstream account missing")?;
     let cash = account
-        .balance_total(Some(Currency::USD()))
-        .context("upstream USD balance missing")?
+        .balance_total(Some(currency))
+        .context("upstream account-currency balance missing")?
         .as_decimal();
     let mut orders = Vec::new();
     let mut fills = Vec::new();
     let mut commission = Decimal::ZERO;
-    for intent in &request.orders {
+    for intent in intents {
         let Some(order) = cache.order(&ClientOrderId::from(intent.id.as_str())) else {
             orders.push(OrderResult {
                 id: intent.id.clone(),
@@ -171,7 +194,7 @@ pub(crate) fn execute(request: &Request) -> Result<BacktestResult> {
         backend: "nautilus".into(),
         backend_version: "0.66.0".into(),
         capabilities: CAPABILITIES.iter().map(|s| (*s).into()).collect(),
-        currency: "USD".into(),
+        currency: currency.to_string(),
         cash: text(cash),
         positions_value: text(positions_value),
         equity: text(cash + positions_value),
@@ -180,4 +203,91 @@ pub(crate) fn execute(request: &Request) -> Result<BacktestResult> {
         fills,
         positions,
     })
+}
+
+#[cfg(test)]
+mod corporate_action_conformance {
+    use super::*;
+    use nautilus_core::UUID4;
+    use nautilus_model::{enums::PositionAdjustmentType, events::PositionAdjusted};
+
+    #[test]
+    fn quantity_adjustment_propagates_to_cache_but_does_not_rebase_a_stock_split() {
+        // Characterizes the concrete upstream primitive before exposing any split capability.
+        let mut request: Request =
+            serde_json::from_str(include_str!("../fixtures/roundtrip.json")).unwrap();
+        request.orders.truncate(1);
+        request.fee_bps = "0".into();
+        let mut engine = create_engine(&request, Currency::USD(), false).unwrap();
+        engine
+            .0
+            .add_strategy(IntentStrategy::new(&request).unwrap())
+            .unwrap();
+        let id = InstrumentId::from("AAA.SIM");
+        engine
+            .0
+            .add_data(
+                vec![Data::Quote(QuoteTick::new(
+                    id,
+                    Price::from("10.00"),
+                    Price::from("10.00"),
+                    Quantity::from(100),
+                    Quantity::from(100),
+                    1735689600000000000_u64.into(),
+                    1735689600000000000_u64.into(),
+                ))],
+                None,
+                true,
+                true,
+            )
+            .unwrap();
+        engine.0.run(None, None, None, false).unwrap();
+        let position = engine
+            .0
+            .kernel()
+            .cache
+            .borrow()
+            .positions_open(None, None, None, None, None)[0]
+            .cloned();
+        assert_eq!(position.quantity.as_decimal(), Decimal::from(10));
+        let adjustment = PositionAdjusted::new(
+            position.trader_id,
+            position.strategy_id,
+            position.instrument_id,
+            position.id,
+            position.account_id,
+            PositionAdjustmentType::Commission,
+            Some(Decimal::from(10)),
+            None,
+            None,
+            UUID4::new(),
+            1735689601000000000_u64.into(),
+            1735689601000000000_u64.into(),
+        );
+        engine
+            .0
+            .kernel()
+            .cache
+            .borrow_mut()
+            .update_position_from_adjustment(position.id, adjustment)
+            .unwrap();
+        let actual = engine
+            .0
+            .kernel()
+            .cache
+            .borrow()
+            .positions_open(None, None, None, None, None)[0]
+            .cloned();
+        assert_eq!(actual.quantity.as_decimal(), Decimal::from(20));
+        assert_eq!(actual.avg_px_open, 10.0);
+        assert_eq!(
+            actual
+                .try_unrealized_pnl(Price::from("5.00"))
+                .unwrap()
+                .as_decimal(),
+            Decimal::from(-100)
+        );
+        // A true 2:1 split with no market move needs basis 5 and unrealized PnL 0.
+        // The commission/funding adjustment is not a substitute for that lifecycle.
+    }
 }
