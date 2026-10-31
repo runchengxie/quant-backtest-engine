@@ -38,3 +38,11 @@ cargo run --locked -- run fixtures/roundtrip.json
 
 许可证为 LGPL-3.0-only，原文保留在根目录的 LICENSE 与 COPYING。
 第三方说明见 [docs/third-party-notices.md](docs/third-party-notices.md)。
+
+
+`validate REQUEST.json` 或 `validate -`（标准输入）只做静态校验，不运行回测。
+它复用执行入口的请求解析与语义校验，输入上限为 1 MiB。成功时仅输出
+`engine_validation.v1` 回执，包含 `validator_version=1`、
+`request_schema=engine_request.v1`、`valid=true` 和原始字节的 `input_sha256`。
+`capabilities` 单独声明 `validator_version`，不改变模拟能力列表。
+格式、语义或大小不合要求时退出码为 2，标准输出为空；文件或内部故障退出码为 1。

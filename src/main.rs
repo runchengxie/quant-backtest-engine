@@ -5,6 +5,7 @@ use quant_backtest_engine::{
     run, run_sessions,
     session_contract::{SESSION_CAPABILITIES, SessionRequest},
     sizing::{SizingRequest, size_targets},
+    validation::{ValidationRejected, validate_reader},
 };
 use std::{
     env, fs,
@@ -15,10 +16,18 @@ fn execute() -> Result<()> {
     let args: Vec<_> = env::args_os().skip(1).collect();
     let output = match args.as_slice() {
         [command] if command == "capabilities" => {
-            serde_json::json!({"schema_version":"engine_capabilities.v1","request_schema":"engine_request.v1","result_schema":"engine_result.v1","backend":"nautilus","backend_version":"0.66.0","capabilities":CAPABILITIES})
+            serde_json::json!({"schema_version":"engine_capabilities.v1","request_schema":"engine_request.v1","result_schema":"engine_result.v1","backend":"nautilus","backend_version":"0.66.0","capabilities":CAPABILITIES,"validator_version":1})
         }
         [command] if command == "session-capabilities" => {
             serde_json::json!({"schema_version":"engine_capabilities.v2","request_schema":"engine_request.v2","result_schema":"engine_result.v2","backend":"nautilus","backend_version":"0.66.0","capabilities":SESSION_CAPABILITIES})
+        }
+        [command, path] if command == "validate" => {
+            let receipt = if path == "-" {
+                validate_reader(io::stdin().lock())?
+            } else {
+                validate_reader(fs::File::open(path).context("cannot open request file")?)?
+            };
+            serde_json::to_value(receipt)?
         }
         [command, path] if command == "size" => {
             let bytes = fs::read(path).context("cannot read sizing file")?;
@@ -46,7 +55,7 @@ fn execute() -> Result<()> {
         }
         _ => {
             bail!(
-                "usage: quant-backtest-engine run REQUEST.json | size SIZING.json | capabilities | session-capabilities"
+                "usage: quant-backtest-engine validate REQUEST.json|- | run REQUEST.json | size SIZING.json | capabilities | session-capabilities"
             )
         }
     };
@@ -60,7 +69,11 @@ fn main() -> ExitCode {
         Ok(()) => ExitCode::SUCCESS,
         Err(e) => {
             eprintln!("quant-backtest-engine: {e:#}");
-            ExitCode::FAILURE
+            if e.is::<ValidationRejected>() {
+                ExitCode::from(2)
+            } else {
+                ExitCode::FAILURE
+            }
         }
     }
 }
