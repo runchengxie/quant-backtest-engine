@@ -1,0 +1,66 @@
+site_name: quant-backtest-engine
+site_description: Independent Rust backtest engine backed by NautilusTrader
+site_url: https://runchengxie.github.io/quant-backtest-engine/
+repo_name: runchengxie/quant-backtest-engine
+repo_url: https://github.com/runchengxie/quant-backtest-engine
+edit_uri: edit/main/docs/
+theme:
+  name: material
+  language: en
+  font: false
+  features:
+    - navigation.sections
+    - navigation.footer
+    - navigation.top
+    - navigation.instant
+    - toc.follow
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - content.action.edit
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+plugins:
+  - search:
+      lang: [en, zh]
+hooks:
+  - project_tools/docs_locale.py
+extra_css:
+  - stylesheets/extra.css
+markdown_extensions:
+  - tables
+  - admonition
+  - attr_list
+  - pymdownx.details
+  - pymdownx.superfences
+  - toc:
+      permalink: true
+exclude_docs: |
+  requirements/
+  superpowers/
+nav:
+  - English:
+      - Overview: index.md
+      - Quick start: quickstart.md
+      - Request and result contracts: contracts.md
+      - Execution assumptions: execution.md
+      - Runtime integration: runtime.md
+      - Development: development.md
+      - Third-party notices: third-party-notices.md
+  - 简体中文:
+      - 首页: index.zh-CN.md
+      - 快速开始: quickstart.zh-CN.md
+      - 输入输出契约: contracts.zh-CN.md
+      - 成交与估值假设: execution.zh-CN.md
+      - Runtime 接入: runtime.zh-CN.md
+      - 开发与验证: development.zh-CN.md
+      - 第三方声明: third-party-notices.zh-CN.md

@@ -14,5 +14,5 @@ versions and checksums. Transitive dependencies retain their own licenses, docum
 in their published crate packages. Preserve applicable notices when distributing
 source or binaries, including LGPL/GPL texts and corresponding-source obligations.
 
-The GNU LGPL version 3 text is in LICENSE; its referenced GNU GPL version 3 text
-is in COPYING. These files do not transfer third-party copyright to this project.
+The GNU LGPL version 3 text is in [LICENSE](https://github.com/runchengxie/quant-backtest-engine/blob/main/LICENSE); its referenced GNU GPL version 3 text
+is in [COPYING](https://github.com/runchengxie/quant-backtest-engine/blob/main/COPYING). These files do not transfer third-party copyright to this project.

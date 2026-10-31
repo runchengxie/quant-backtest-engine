@@ -43,7 +43,7 @@ Interfaces: run(&Request) -> anyhow::Result<BacktestResult> exposed by src/lib.r
 ### Task 3: CLI, docs and CI
 
 Files: src/main.rs, tests/cli.rs, README.md, README.zh-CN.md,
-LICENSE*, THIRD_PARTY_NOTICES.md, .github/workflows/ci.yml.
+LICENSE*, docs/third-party-notices.md, .github/workflows/ci.yml.
 Interfaces: quant-backtest-engine run REQUEST.json emits result JSON on stdout;
 capabilities emits backend capability JSON; errors go to stderr and nonzero exit.
 - [x] Test real CLI success, invalid input and stdout JSON purity before implementation.
