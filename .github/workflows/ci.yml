@@ -21,3 +21,25 @@ jobs:
       - name: Synthetic target-weight walkthrough
         run: python3 project_tools/tutorial.py --engine "$PWD/target/debug/quant-backtest-engine" --output "$RUNNER_TEMP/tutorial"
       - run: git diff --check
+
+  python-client:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: dtolnay/rust-toolchain@1.99.0
+      - uses: Swatinem/rust-cache@v2
+      - run: python -m pip wheel --no-deps ./python --wheel-dir "$RUNNER_TEMP/wheels"
+      - run: python -m venv "$RUNNER_TEMP/sdk-env"
+      - run: '"$RUNNER_TEMP/sdk-env/bin/pip" install --no-deps "$RUNNER_TEMP"/wheels/*.whl'
+      - name: Test installed SDK without platform packages
+        working-directory: /tmp
+        run: '"$RUNNER_TEMP/sdk-env/bin/python" -I -m unittest discover -s "$GITHUB_WORKSPACE/python/tests"'
+      - run: cargo build --locked
+      - name: Test installed SDK against real engine
+        working-directory: /tmp
+        env:
+          QUANT_ENGINE_BINARY: ${{ github.workspace }}/target/debug/quant-backtest-engine
+        run: '"$RUNNER_TEMP/sdk-env/bin/python" -I -m unittest discover -s "$GITHUB_WORKSPACE/python/tests"'
