@@ -1,6 +1,6 @@
 # quant-backtest-engine
 
-[English documentation](README.md)
+[English documentation](README.md) · [在线文档](https://runchengxie.github.io/quant-backtest-engine/index.zh-CN/)
 
 独立的 Rust 回测库和命令行入口，内部直接调用 NautilusTrader。
 撮合、订单状态、手续费和现金记账由上游完成；本仓库维护输入校验、薄适配和结果格式。

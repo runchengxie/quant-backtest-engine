@@ -1,6 +1,6 @@
 # quant-backtest-engine
 
-[中文说明](README.zh-CN.md)
+[中文说明](README.zh-CN.md) · [Documentation](https://runchengxie.github.io/quant-backtest-engine/)
 
 A reusable **Rust library and CLI** with a thin adapter to
 [NautilusTrader](https://github.com/nautechsystems/nautilus_trader).
@@ -167,7 +167,7 @@ No performance advantage or production parity is claimed without measurement.
 ## License
 
 LGPL-3.0-only. See [LICENSE](LICENSE), [COPYING](COPYING) and
-[third-party notices](THIRD_PARTY_NOTICES.md). NautilusTrader is an upstream
+[third-party notices](docs/third-party-notices.md). NautilusTrader is an upstream
 dependency under its own copyright and LGPL-3.0-only license. Source and notices
 must accompany redistributions as required by the applicable licenses; changing
 linkage or packaging does not remove those requirements.
