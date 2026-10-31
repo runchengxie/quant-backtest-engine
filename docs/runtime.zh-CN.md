@@ -16,3 +16,15 @@ Python worker 独占任务数据库和结果发布。Rust 子进程继承地址�
 
 旧 v1–v4 任务协议和请求指纹保留不变。新引擎最终快照属于诊断证据，
 不能标为完整每日执行账本。具体市场限制见[成交与估值假设](execution.zh-CN.md)。
+
+## 逐日任务与 Python 分析
+
+runtime [PR #39](https://github.com/runchengxie/quant-backtest-runtime/pull/39)
+增加显式选择的 v6 `nautilus.session_replay`，接收 `engine_request.v2` 并发布
+`quant.engine_job_result.v2`。发布前核对逐日资金和股份流动，并将估值绑定到请求报价。
+任务成功仍然可能包含被拒订单。
+
+platform 的[逐日结果客户端](https://github.com/runchengxie/quant-platform/pull/170)
+校验所选可执行文件字节，将结果转换后用于 Python 分析。它保留
+`execution_aware=False`，现有 Python 后端仍为默认路径。参见
+[已测试版本组合](capabilities.zh-CN.md)和[目标权重回测教程](tutorial.zh-CN.md)。
