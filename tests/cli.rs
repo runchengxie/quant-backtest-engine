@@ -51,3 +51,20 @@ fn cli_describes_explicit_capabilities() {
             .any(|c| c == "multi_asset")
     );
 }
+
+#[test]
+fn cli_sizes_targets_without_executing_a_simulation() {
+    let output = Command::new(env!("CARGO_BIN_EXE_quant-backtest-engine"))
+        .args(["size", "fixtures/sizing.json"])
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let result: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(result["schema_version"], "sizing_result.v1");
+    assert_eq!(result["projected_cash"], "9.01");
+    assert_eq!(result["orders"][0]["quantity"], "99");
+}

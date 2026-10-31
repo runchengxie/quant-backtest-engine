@@ -1,5 +1,10 @@
 use anyhow::{Context, Result, bail};
-use quant_backtest_engine::{Request, contract::CAPABILITIES, run};
+use quant_backtest_engine::{
+    Request,
+    contract::CAPABILITIES,
+    run,
+    sizing::{SizingRequest, size_targets},
+};
 use std::{
     env, fs,
     io::{self, Write},
@@ -11,13 +16,21 @@ fn execute() -> Result<()> {
         [command] if command == "capabilities" => {
             serde_json::json!({"schema_version":"engine_capabilities.v1","request_schema":"engine_request.v1","result_schema":"engine_result.v1","backend":"nautilus","backend_version":"0.66.0","capabilities":CAPABILITIES})
         }
+        [command, path] if command == "size" => {
+            let bytes = fs::read(path).context("cannot read sizing file")?;
+            let request: SizingRequest =
+                serde_json::from_slice(&bytes).context("invalid sizing JSON")?;
+            serde_json::to_value(size_targets(&request)?)?
+        }
         [command, path] if command == "run" => {
             let bytes = fs::read(path).context("cannot read request file")?;
             let request: Request =
                 serde_json::from_slice(&bytes).context("invalid request JSON")?;
             serde_json::to_value(run(&request)?)?
         }
-        _ => bail!("usage: quant-backtest-engine run REQUEST.json | capabilities"),
+        _ => {
+            bail!("usage: quant-backtest-engine run REQUEST.json | size SIZING.json | capabilities")
+        }
     };
     let mut stdout = io::stdout().lock();
     serde_json::to_writer(&mut stdout, &output)?;

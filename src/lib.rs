@@ -14,3 +14,5 @@ pub fn run(request: &Request) -> anyhow::Result<BacktestResult> {
         .join()
         .map_err(|_| anyhow::anyhow!("upstream engine panicked"))?
 }
+
+pub mod sizing;

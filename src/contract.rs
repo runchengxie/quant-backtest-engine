@@ -38,7 +38,7 @@ pub struct Quote {
     pub bid: String,
     pub ask: String,
 }
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct OrderIntent {
     pub id: String,
@@ -64,7 +64,7 @@ pub(crate) fn decimal(value: &str) -> Result<Decimal> {
     );
     Decimal::from_str(value).with_context(|| format!("invalid decimal: {value}"))
 }
-fn amount(value: &str, precision: u32, max: i64, positive: bool) -> Result<Decimal> {
+pub(crate) fn amount(value: &str, precision: u32, max: i64, positive: bool) -> Result<Decimal> {
     let d = decimal(value)?;
     ensure!(
         d.scale() <= precision
@@ -75,13 +75,13 @@ fn amount(value: &str, precision: u32, max: i64, positive: bool) -> Result<Decim
     );
     Ok(d)
 }
-fn identifier(s: &str) -> bool {
+pub(crate) fn identifier(s: &str) -> bool {
     !s.is_empty()
         && s.len() <= 40
         && s.bytes()
             .all(|b| b.is_ascii_alphanumeric() || b == b'_' || b == b'-')
 }
-fn timestamp(t: u64) -> Result<()> {
+pub(crate) fn timestamp(t: u64) -> Result<()> {
     ensure!(
         t > 0 && t <= 4_102_444_800_000_000_000,
         "timestamp must be UTC nanoseconds after epoch and no later than 2100-01-01"
