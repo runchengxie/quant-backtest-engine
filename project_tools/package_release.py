@@ -80,7 +80,9 @@ for _crate in ("objc2-core-foundation-0.3.2", "objc2-io-kit-0.3.2"):
 
 
 def supplement_notices(crate: Path, destination: Path) -> list[dict]:
-    revision, files = SUPPLEMENTS[crate.name]
+    package = tomllib.loads((crate / "Cargo.toml").read_text())["package"]
+    identity = f"{package['name']}-{package['version']}"
+    revision, files = SUPPLEMENTS[identity]
     vcs = json.loads((crate / ".cargo_vcs_info.json").read_text())
     if vcs["git"]["sha1"] != revision:
         raise RuntimeError(f"Unexpected source revision for {crate.name}")
@@ -151,7 +153,7 @@ def license_inventory(vendor: Path, destination: Path) -> list[dict]:
             notices.append(crate / license_file)
         supplements = (
             supplement_notices(crate, destination / "supplemental")
-            if crate.name in SUPPLEMENTS
+            if f"{package['name']}-{package['version']}" in SUPPLEMENTS
             else []
         )
         if not notices and not supplements:
