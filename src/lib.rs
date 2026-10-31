@@ -16,3 +16,16 @@ pub fn run(request: &Request) -> anyhow::Result<BacktestResult> {
 }
 
 pub mod sizing;
+
+pub mod session_contract;
+mod session_strategy;
+mod sessions;
+pub fn run_sessions(
+    request: &session_contract::SessionRequest,
+) -> anyhow::Result<session_contract::SessionResult> {
+    request.validate()?;
+    let request = request.clone();
+    std::thread::spawn(move || sessions::execute(&request))
+        .join()
+        .map_err(|_| anyhow::anyhow!("upstream session engine panicked"))?
+}
