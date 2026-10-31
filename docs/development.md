@@ -45,3 +45,10 @@ kept in the locale hook catalog rather than financial data or protocol identifie
 
 Third-party attribution lives in [third-party-notices.md](third-party-notices.md).
 License originals stay at the repository root as LICENSE and COPYING.
+
+## Theme maintenance
+
+Material for MkDocs [announces end of life on May 5, 2027](https://squidfunk.github.io/mkdocs-material/).
+The current locked version matches the sibling project sites. Review the upstream
+successor or another maintained MkDocs-compatible theme before that date; the source
+content remains Markdown and publication uses standard static Pages artifacts.

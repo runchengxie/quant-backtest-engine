@@ -33,3 +33,9 @@ PR 只构建和检查，合并到 main 后通过 GitHub Actions 产物发布到 
 quant-backtest-runtime 的按语言过滤导航。英文为默认语言，中文页面有对应导航、
 界面语言和深浅色按钮文字。主题选择由 Material 保留，切换语言跳到当前页面的对应译文。
 缺少译文时回退英文首页。
+
+## 主题维护
+
+Material 官方[宣布于 2027 年 5 月 5 日结束维护](https://squidfunk.github.io/mkdocs-material/)。
+当前锁定版本与同系列项目一致。应在此日期前评估上游后继方案或仍受维护的兼容主题。
+正文保留为 Markdown，发布使用标准静态网页产物，便于后续迁移。
