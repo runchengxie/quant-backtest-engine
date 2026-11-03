@@ -18,9 +18,34 @@ use nautilus_model::{
     types::{Currency, Price, Quantity},
 };
 use rust_decimal::Decimal;
-use std::{cell::RefCell, collections::BTreeMap, rc::Rc};
+use std::{cell::RefCell, collections::BTreeMap, rc::Rc, time::Instant};
 
 pub(crate) fn execute(request: &SessionRequest) -> Result<SessionResult> {
+    execute_measured(request, false).map(|(result, _)| result)
+}
+
+#[derive(Default, serde::Serialize)]
+pub struct SessionTimings {
+    pub validation_clone_seconds: f64,
+    pub setup_seconds: f64,
+    pub quote_conversion_load_seconds: f64,
+    pub replay_matching_accounting_seconds: f64,
+    pub snapshot_ledger_seconds: f64,
+    pub finalization_seconds: f64,
+}
+
+pub(crate) fn execute_profiled(
+    request: &SessionRequest,
+) -> Result<(SessionResult, SessionTimings)> {
+    execute_measured(request, true)
+}
+
+fn execute_measured(
+    request: &SessionRequest,
+    profile: bool,
+) -> Result<(SessionResult, SessionTimings)> {
+    let mut timings = SessionTimings::default();
+    let started = profile.then(Instant::now);
     let currency = if request.currency == "CNY" {
         Currency::CNY()
     } else {
@@ -60,7 +85,9 @@ pub(crate) fn execute(request: &SessionRequest) -> Result<SessionResult> {
     let mut daily_positions = Vec::new();
     let mut latest = None;
     let mut prior_commission = Decimal::ZERO;
+    timings.setup_seconds = started.map_or(0.0, |t| t.elapsed().as_secs_f64());
     for (index, session) in request.sessions.iter().enumerate() {
+        let started = profile.then(Instant::now);
         {
             let mut state = state.borrow_mut();
             ensure!(
@@ -87,12 +114,17 @@ pub(crate) fn execute(request: &SessionRequest) -> Result<SessionResult> {
             )));
         }
         engine.0.add_data(data, None, true, true)?;
+        timings.quote_conversion_load_seconds += started.map_or(0.0, |t| t.elapsed().as_secs_f64());
+        let started = profile.then(Instant::now);
         let before = engine.0.iteration();
         engine.0.run(None, None, None, true)?;
         ensure!(
             engine.0.iteration() - before == session.quotes.len(),
             "session replay ended before valuation"
         );
+        timings.replay_matching_accounting_seconds +=
+            started.map_or(0.0, |t| t.elapsed().as_secs_f64());
+        let started = profile.then(Instant::now);
         let result = snapshot(&engine, &base.orders, &marks, currency)?;
         daily_ledger.push(DailyBalance {
             session_date: session.session_date.clone(),
@@ -121,7 +153,9 @@ pub(crate) fn execute(request: &SessionRequest) -> Result<SessionResult> {
         }
         latest = Some(result);
         engine.0.clear_data();
+        timings.snapshot_ledger_seconds += started.map_or(0.0, |t| t.elapsed().as_secs_f64());
     }
+    let started = profile.then(Instant::now);
     engine.0.end()?;
     let prior = latest.expect("validated sessions are nonempty");
     let final_session = request
@@ -163,7 +197,7 @@ pub(crate) fn execute(request: &SessionRequest) -> Result<SessionResult> {
             }
         }
     }
-    Ok(SessionResult {
+    let result = SessionResult {
         initial_cash: request.initial_cash.clone(),
         rejections,
         enforce_t1: request.enforce_t1,
@@ -186,5 +220,7 @@ pub(crate) fn execute(request: &SessionRequest) -> Result<SessionResult> {
         fills: last.fills,
         daily_ledger,
         daily_positions,
-    })
+    };
+    timings.finalization_seconds = started.map_or(0.0, |t| t.elapsed().as_secs_f64());
+    Ok((result, timings))
 }

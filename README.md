@@ -60,3 +60,39 @@ legacy protocols and test this engine through pinned real subprocesses.
 LGPL-3.0-only. See [LICENSE](LICENSE), [COPYING](COPYING) and
 [third-party notices](docs/third-party-notices.md). Upstream dependencies retain their
 own copyright and licensing obligations.
+
+For larger deterministic synthetic workloads, build the opt-in development runner
+with `cargo build --locked --release --example profile_sessions`, setting
+`CARGO_TARGET_DIR` outside the repository. Then run:
+
+```sh
+python3 project_tools/profile_workload.py --engine /absolute/target/release/examples/profile_sessions \
+  --output-dir /absolute/data/unique-workload-run --revision "$(git rev-parse HEAD)" \
+  --build-profile release --sessions 63 --symbols 100 --quote-times 241
+```
+
+This is 1,518,300 quote rows across 63 synthetic weekdays, with one alternating
+buy/sell intent per symbol per session. It is a representative synthetic workload,
+not a market-data replay or a capacity guarantee. Start with a small separate
+warmup (for example 2 sessions, 3 symbols, 4 quote times), then increase the scale.
+Each command records at least three fresh-process repetitions, input and result
+hashes, actual sizing time, ledger invariants, wall phases, and sampled child RSS.
+Use unique external output directories; existing inputs are never overwritten.
+
+The profile example uses the same execution implementation as `run_sessions`.
+Quote conversion and upstream loading share one timer. Upstream replay includes
+matching and accounting together; they cannot be separated through this adapter.
+Snapshot/ledger extraction and finalization have separate timers. Execution time
+also includes validation, request cloning and thread lifecycle overhead, so phase
+sums need not equal execution time. Result serialization measures compact result
+encoding only, excluding diagnostic-envelope encoding and stdout transfer. RSS is
+a 10 ms `/proc` sample maximum, hence a lower bound, not an exact peak or phase
+allocation measurement. Compare only identical build profiles and fixed input
+hashes; no timing threshold is used in tests.
+
+The workload generator runs in the Python parent; its memory is excluded from
+child RSS. Workload dimensions and child timeout are bounded, but this runner
+does not enforce an operating-system memory limit. Snapshot/ledger time includes
+upstream data clearing. Full child wall time includes diagnostic encoding and
+output transfer; Python polling can add up to one sampling interval. The sizing
+probe is independent of replay orders and is not represented as execution evidence.

@@ -65,3 +65,30 @@ it does not isolate engine compute time. Use representative larger synthetic
 workloads, repeated runs and a release build before selecting deployment limits.
 No release result or language baseline was measured here. Scheduling and resource
 limits belong to the caller; this script does not add an engine task service.
+
+## Larger deterministic workloads
+
+The separate development example `profile_sessions` adds opt-in wall phases to
+the same session execution implementation without changing either wire schema.
+See the [source README](https://github.com/runchengxie/quant-backtest-engine#readme)
+for `project_tools/profile_workload.py` commands. Default dimensions are 63
+synthetic weekdays × 100 symbols × 241 minute timestamps = 1,518,300 quote rows.
+Each session alternates buy/sell intents for every symbol. This covers multi-asset
+loading, repeated matching, upstream accounting, and daily snapshot extraction.
+It does not cover real market data, corporate actions, intraday portfolio decisions,
+or large competing order books.
+
+The runner keeps versioned synthetic inputs and their hashes, at least three
+fresh-child repetitions, independent sizing timings and digests, and actual order
+and fill counts. It verifies cash plus positions equals NAV, summed daily fees,
+and position values against the daily ledger. A separate small invocation is the
+warmup; do not mix warmup or debug measurements into release comparisons.
+
+Wall phases separate validation/cloning, setup (including all strategy quote rules
+and order preparation), quote conversion/loading, replay, daily snapshots/data
+clearing, and finalization. Upstream matching and accounting share the replay
+phase. Child RSS samples every 10 ms give a per-run peak lower bound, excluding
+Python input generation. There is no enforced memory limit and no per-phase
+allocation attribution. Input read/decode and result encoding are measured
+separately; envelope encoding, output transfer and polling remain in full wall
+time. Results describe the specified host and workload, not production capacity.
