@@ -94,3 +94,30 @@ cannot catch every spike. There is no per-phase
 allocation attribution. Input read/decode and result encoding are measured
 separately; envelope encoding, output transfer and polling remain in full wall
 time. Results describe the specified host and workload, not production capacity.
+
+## Broad universe and sparse execution
+
+`project_tools/sparse_workload.py` distinguishes the registered universe from
+predetermined orders. Its synthetic book trades only `--active` names each
+session, buying one group and selling that same group in the following session,
+then rotating to another group. This is twenty orders per session, not a claim
+that every daily rebalance of a twenty-name portfolio requires only twenty orders.
+The example also measures a separate initial sizing probe, not full-market alpha
+scoring, risk estimation or portfolio optimization.
+
+The `all` mode supplies every minute quote. `orders-and-valuation` retains every
+active name's minute quotes and a fresh valuation-boundary quote for every
+registered name in every session. This is valid only for the demonstrated
+fixed-intent execution consumer with no idle-security intraday signal, risk or
+cross-impact consumer. Never remove observations required to generate the orders.
+Synthetic marks are not a substitute for missing historical or suspended-stock
+valuation evidence. A small full-versus-routed financial-result comparison must
+precede interpreting a routed benchmark.
+
+The default two-million-quote preallocation budget writes a plan and returns an
+explicit non-execution status for an oversized full-market JSON request. It does
+not silently truncate instruments, days or quotes. Child RSS remains sampled and
+generator memory remains excluded; quote count is not an OS memory guarantee.
+For example, `--symbols 6000 --active 20 --sessions 63 --quote-times 241` is a
+synthetic size illustration, not a current listed-stock count. Both modes use
+one-minute spacing; fewer timestamps shorten the session, not its sampling rate.
