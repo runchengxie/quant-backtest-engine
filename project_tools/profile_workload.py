@@ -69,12 +69,13 @@ def check(result):
                 final_cash=result["final_cash"], final_nav=result["final_nav"], fees=result["total_commission"])
 
 
-def invoke(binary, request, sizing, timeout):
+def invoke(binary, request, sizing, timeout, max_rss_kib=6 * 1024 * 1024):
     started = time.perf_counter()
     with tempfile.TemporaryFile() as output, tempfile.TemporaryFile() as errors:
         process = subprocess.Popen([str(binary), str(request), str(sizing)], stdout=output, stderr=errors)
         peak = 0
         timed_out = False
+        memory_stopped = False
         while process.poll() is None:
             try:
                 for line in Path(f"/proc/{process.pid}/status").read_text().splitlines():
@@ -82,6 +83,10 @@ def invoke(binary, request, sizing, timeout):
                         peak = max(peak, int(line.split()[1]))
             except FileNotFoundError:
                 pass
+            if peak > max_rss_kib:
+                memory_stopped = True
+                process.kill()
+                break
             if time.perf_counter() - started > timeout:
                 timed_out = True
                 process.kill()
@@ -91,7 +96,7 @@ def invoke(binary, request, sizing, timeout):
         output.seek(0)
         errors.seek(0)
         record = dict(wall_seconds=time.perf_counter() - started, peak_rss_kib=peak,
-                      timeout=timed_out, exit_code=process.returncode, stderr=errors.read().decode(errors="replace")[-2000:])
+                      timeout=timed_out, memory_stopped=memory_stopped, exit_code=process.returncode, stderr=errors.read().decode(errors="replace")[-2000:])
         if process.returncode == 0:
             try:
                 profile = json.load(output)
@@ -114,13 +119,14 @@ def main():
     parser.add_argument("--symbols", type=int, default=100)
     parser.add_argument("--quote-times", type=int, default=241)
     parser.add_argument("--repetitions", type=int, default=3)
+    parser.add_argument("--max-rss-mib", type=int, default=6144)
     parser.add_argument("--timeout", type=float, default=300)
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     if not args.output_dir.is_absolute() or args.output_dir.resolve().is_relative_to(root):
         parser.error("output directory must be absolute and outside repository")
-    if args.repetitions < 3 or args.timeout <= 0:
-        parser.error("at least 3 repetitions and positive timeout required")
+    if args.repetitions < 3 or args.timeout <= 0 or args.max_rss_mib <= 0:
+        parser.error("at least 3 repetitions, positive timeout and RSS limit required")
     generation_started = time.perf_counter()
     request, sizing = generate(args.sessions, args.symbols, args.quote_times)
     args.output_dir.mkdir(parents=True, exist_ok=True)
@@ -135,8 +141,8 @@ def main():
         sessions=args.sessions, symbols=args.symbols, quote_times=args.quote_times,
         quote_rows=args.sessions * args.symbols * args.quote_times, expected_orders=args.sessions * args.symbols,
         input_generation_write_hash_seconds=time.perf_counter() - generation_started,
-        memory_scope="engine child only; generator memory excluded; no enforced memory limit",
-        timeout_seconds=args.timeout, rss_method="per-child /proc/PID/status VmRSS sampling; peak lower bound", rss_poll_seconds=.01,
+        memory_scope="engine child only; generator memory excluded; sampled child RSS guard; not an OS memory limit",
+        timeout_seconds=args.timeout, sampled_rss_stop_kib=args.max_rss_mib * 1024, rss_method="per-child /proc/PID/status VmRSS sampling; peak lower bound", rss_poll_seconds=.01,
         environment=dict(platform=platform.platform(), python=platform.python_version(), logical_cpus=os.cpu_count(),
                          threads={k: v for k, v in os.environ.items() if k in ("OMP_NUM_THREADS", "RAYON_NUM_THREADS")}),
         compiler=subprocess.check_output(["rustc", "--version"], text=True).strip(), runs=[])
@@ -148,7 +154,7 @@ def main():
         report["environment"]["memory_kib_before_runs"] = {line.split(":")[0]: int(line.split()[1]) for line in meminfo.read_text().splitlines() if line.startswith(("MemTotal:", "MemAvailable:"))}
     report["environment"]["execution_threads"] = "one synchronous caller and one engine worker; no concurrent cases"
     for index in range(args.repetitions):
-        record = invoke(args.engine, *paths, args.timeout)
+        record = invoke(args.engine, *paths, args.timeout, args.max_rss_mib * 1024)
         report["runs"].append(record)
         (args.output_dir / "report.json").write_text(json.dumps(report, indent=2) + "\n")
         print(json.dumps(dict(repetition=index, **record)), flush=True)
