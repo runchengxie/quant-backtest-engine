@@ -32,6 +32,13 @@ pub struct SessionTimings {
     pub replay_matching_accounting_seconds: f64,
     pub snapshot_ledger_seconds: f64,
     pub finalization_seconds: f64,
+    pub strategy_quote_callbacks: u64,
+    pub strategy_pending_checks: u64,
+    pub strategy_cache_reads: u64,
+    pub strategy_rules_seconds: f64,
+    pub strategy_cache_seconds: f64,
+    pub strategy_instrument_seconds: f64,
+    pub strategy_pending_seconds: f64,
 }
 
 pub(crate) fn execute_profiled(
@@ -73,6 +80,7 @@ fn execute_measured(
     };
     let mut engine = create_engine(&base, currency, true)?;
     let state = Rc::new(RefCell::new(SessionState::default()));
+    state.borrow_mut().profile = profile;
     engine
         .0
         .add_strategy(SessionStrategy::new(request, state.clone(), currency)?)?;
@@ -222,5 +230,13 @@ fn execute_measured(
         daily_positions,
     };
     timings.finalization_seconds = started.map_or(0.0, |t| t.elapsed().as_secs_f64());
+    let state = state.borrow();
+    timings.strategy_quote_callbacks = state.quote_callbacks;
+    timings.strategy_pending_checks = state.pending_checks;
+    timings.strategy_cache_reads = state.cache_reads;
+    timings.strategy_rules_seconds = state.rule_seconds;
+    timings.strategy_cache_seconds = state.cache_seconds;
+    timings.strategy_instrument_seconds = state.instrument_seconds;
+    timings.strategy_pending_seconds = state.pending_seconds;
     Ok((result, timings))
 }

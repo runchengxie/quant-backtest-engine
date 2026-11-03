@@ -20,11 +20,19 @@ use nautilus_trading::{
     strategy::{Strategy, StrategyConfig, StrategyCore},
 };
 use rust_decimal::Decimal;
-use std::{cell::RefCell, collections::BTreeMap, rc::Rc};
+use std::{cell::RefCell, collections::BTreeMap, rc::Rc, time::Instant};
 
 #[derive(Debug, Default)]
 pub(crate) struct SessionState {
     pub current: usize,
+    pub profile: bool,
+    pub quote_callbacks: u64,
+    pub pending_checks: u64,
+    pub cache_reads: u64,
+    pub rule_seconds: f64,
+    pub cache_seconds: f64,
+    pub instrument_seconds: f64,
+    pub pending_seconds: f64,
     pub sellable: BTreeMap<InstrumentId, Decimal>,
     pub reservations: BTreeMap<ClientOrderId, (InstrumentId, Decimal)>,
 }
@@ -143,15 +151,47 @@ impl DataActor for SessionStrategy {
         Ok(())
     }
     fn on_quote(&mut self, quote: &QuoteTick) -> Result<()> {
+        let profile = self.state.borrow().profile;
+        let started = profile.then(Instant::now);
+        let current = self.state.borrow().current;
+        let mut checks = 0;
+        let eligible = self.pending.iter().any(|p| {
+            checks += u64::from(profile);
+            p.session == current
+                && p.instrument == quote.instrument_id
+                && p.information_ts_ns < quote.ts_event.as_u64()
+        });
+        if let Some(started) = started {
+            let mut state = self.state.borrow_mut();
+            state.quote_callbacks += 1;
+            state.pending_checks += checks;
+            state.pending_seconds += started.elapsed().as_secs_f64();
+        }
+        // Account snapshots contain growing event history. Only request one when
+        // this quote can consume an intent; upstream still replays every quote.
+        if !eligible {
+            return Ok(());
+        }
+        let started = profile.then(Instant::now);
         let rule = self
             .rules
             .get(&(quote.instrument_id, quote.ts_event.as_u64()))
             .context("session rule missing")?
             .clone();
+        if let Some(started) = started {
+            let mut state = self.state.borrow_mut();
+            state.cache_reads += 1;
+            state.rule_seconds += started.elapsed().as_secs_f64();
+        }
+        let started = profile.then(Instant::now);
         let instrument = self
             .cache()
             .instrument(&quote.instrument_id)
             .context("instrument missing")?;
+        if let Some(started) = started {
+            self.state.borrow_mut().instrument_seconds += started.elapsed().as_secs_f64();
+        }
+        let started = profile.then(Instant::now);
         let mut cash = self
             .cache()
             .account_for_venue(&quote.instrument_id.venue)
@@ -159,8 +199,14 @@ impl DataActor for SessionStrategy {
             .balance_free(Some(self.currency))
             .context("cash balance missing")?
             .as_decimal();
+        if let Some(started) = started {
+            self.state.borrow_mut().cache_seconds += started.elapsed().as_secs_f64();
+        }
+        let started = profile.then(Instant::now);
+        let mut checks = 0;
         let mut index = 0;
         while index < self.pending.len() {
+            checks += u64::from(profile);
             let p = &self.pending[index];
             if p.session != self.state.borrow().current
                 || p.instrument != quote.instrument_id
@@ -231,6 +277,11 @@ impl DataActor for SessionStrategy {
                     .insert(p.id, (p.instrument, p.quantity.as_decimal()));
             }
             self.submit_order(order, None, None, None)?;
+        }
+        if let Some(started) = started {
+            let mut state = self.state.borrow_mut();
+            state.pending_checks += checks;
+            state.pending_seconds += started.elapsed().as_secs_f64();
         }
         Ok(())
     }
