@@ -93,11 +93,14 @@ def invoke(binary, request, sizing, timeout):
         record = dict(wall_seconds=time.perf_counter() - started, peak_rss_kib=peak,
                       timeout=timed_out, exit_code=process.returncode, stderr=errors.read().decode(errors="replace")[-2000:])
         if process.returncode == 0:
-            profile = json.load(output)
-            result = profile.pop("result")
-            sizing_result = profile["sizing"].pop("result")
-            record.update(profile=profile, result_sha256=hashlib.sha256(canonical(result)).hexdigest(),
-                          sizing_sha256=hashlib.sha256(canonical(sizing_result)).hexdigest(), checks=check(result))
+            try:
+                profile = json.load(output)
+                result = profile.pop("result")
+                sizing_result = profile["sizing"].pop("result")
+                record.update(profile=profile, result_sha256=hashlib.sha256(canonical(result)).hexdigest(),
+                              sizing_sha256=hashlib.sha256(canonical(sizing_result)).hexdigest(), checks=check(result))
+            except (ValueError, KeyError, TypeError, AssertionError, ArithmeticError) as error:
+                record["validation_error"] = f"{type(error).__name__}: {error}"
         return record
 
 
@@ -142,9 +145,9 @@ def main():
         report["runs"].append(record)
         (args.output_dir / "report.json").write_text(json.dumps(report, indent=2) + "\n")
         print(json.dumps(dict(repetition=index, **record)), flush=True)
-        if record["exit_code"] != 0:
+        if record["exit_code"] != 0 or "validation_error" in record:
             break
-    good = len(report["runs"]) == args.repetitions and all(r["exit_code"] == 0 for r in report["runs"])
+    good = len(report["runs"]) == args.repetitions and all(r["exit_code"] == 0 and "validation_error" not in r for r in report["runs"])
     if good:
         good = all(r["checks"]["orders"] == args.sessions * args.symbols and r["checks"]["fills"] == args.sessions * args.symbols and r["checks"]["rejections"] == 0 for r in report["runs"])
         good = good and len({r["result_sha256"] for r in report["runs"]}) == 1 and len({r["sizing_sha256"] for r in report["runs"]}) == 1
