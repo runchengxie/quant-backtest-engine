@@ -27,6 +27,22 @@ class WorkloadTests(unittest.TestCase):
         self.assertEqual(record["exit_code"], 0)
         self.assertIn("validation_error", record)
 
+    def test_memory_guard_preserves_actual_killed_exit(self):
+        class Child:
+            pid = 123
+            returncode = None
+            def poll(self):
+                return self.returncode
+            def kill(self):
+                self.returncode = -9
+            def wait(self):
+                return self.returncode
+        with patch("profile_workload.subprocess.Popen", return_value=Child()), patch("profile_workload.Path.read_text", return_value="VmRSS: 200 kB\n"):
+            record = invoke(Path("unused"), Path("request"), Path("sizing"), 1, 100)
+        self.assertEqual(record["exit_code"], -9)
+        self.assertTrue(record["memory_stopped"])
+        self.assertFalse(record["timeout"])
+
     def test_accounting_corruption_is_rejected(self):
         with self.assertRaises(AssertionError):
             check({'daily_ledger': [{'cash': '10', 'positions_value': '2', 'nav': '13'}]})
