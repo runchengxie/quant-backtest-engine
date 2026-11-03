@@ -1,5 +1,7 @@
 import unittest
-from profile_workload import canonical, generate, check
+from pathlib import Path
+from unittest.mock import patch
+from profile_workload import canonical, generate, check, invoke
 
 
 class WorkloadTests(unittest.TestCase):
@@ -11,6 +13,19 @@ class WorkloadTests(unittest.TestCase):
         for dimensions in [(0, 3, 4), (2, 0, 4), (2, 3, 1)]:
             with self.assertRaises(ValueError):
                 generate(*dimensions)
+
+    def test_successful_child_with_invalid_json_retains_failure_record(self):
+        class Child:
+            pid = 0
+            returncode = 0
+            def poll(self):
+                return 0
+            def wait(self):
+                return 0
+        with patch("profile_workload.subprocess.Popen", return_value=Child()):
+            record = invoke(Path("unused"), Path("request"), Path("sizing"), 1)
+        self.assertEqual(record["exit_code"], 0)
+        self.assertIn("validation_error", record)
 
     def test_accounting_corruption_is_rejected(self):
         with self.assertRaises(AssertionError):
