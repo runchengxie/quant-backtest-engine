@@ -134,12 +134,19 @@ def main():
         inputs={p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in paths},
         sessions=args.sessions, symbols=args.symbols, quote_times=args.quote_times,
         quote_rows=args.sessions * args.symbols * args.quote_times, expected_orders=args.sessions * args.symbols,
-        generator_wall_seconds=time.perf_counter() - generation_started,
+        input_generation_write_hash_seconds=time.perf_counter() - generation_started,
         memory_scope="engine child only; generator memory excluded; no enforced memory limit",
         timeout_seconds=args.timeout, rss_method="per-child /proc/PID/status VmRSS sampling; peak lower bound", rss_poll_seconds=.01,
         environment=dict(platform=platform.platform(), python=platform.python_version(), logical_cpus=os.cpu_count(),
                          threads={k: v for k, v in os.environ.items() if k in ("OMP_NUM_THREADS", "RAYON_NUM_THREADS")}),
         compiler=subprocess.check_output(["rustc", "--version"], text=True).strip(), runs=[])
+    cpuinfo = Path("/proc/cpuinfo")
+    if cpuinfo.exists():
+        report["environment"]["cpu_model"] = next((line.split(":", 1)[1].strip() for line in cpuinfo.read_text().splitlines() if line.startswith("model name")), "unknown")
+    meminfo = Path("/proc/meminfo")
+    if meminfo.exists():
+        report["environment"]["memory_kib_before_runs"] = {line.split(":")[0]: int(line.split()[1]) for line in meminfo.read_text().splitlines() if line.startswith(("MemTotal:", "MemAvailable:"))}
+    report["environment"]["execution_threads"] = "one synchronous caller and one engine worker; no concurrent cases"
     for index in range(args.repetitions):
         record = invoke(args.engine, *paths, args.timeout)
         report["runs"].append(record)
