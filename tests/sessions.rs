@@ -214,3 +214,95 @@ fn displayed_liquidity_retains_consumption_until_size_changes() {
         );
     }
 }
+
+#[test]
+fn one_nanosecond_information_boundary_is_strict() {
+    for delay in [0_u64, 1] {
+        let mut v = fixture();
+        v["sessions"].as_array_mut().unwrap().truncate(1);
+        v["sessions"][0]["orders"]
+            .as_array_mut()
+            .unwrap()
+            .truncate(1);
+        let t = v["sessions"][0]["open_ts_ns"].as_u64().unwrap();
+        v["sessions"][0]["orders"][0]["information_ts_ns"] = json!(t);
+        v["sessions"][0]["quotes"][1]["ts_ns"] = json!(t + delay + 1);
+        v["sessions"][0]["valuation_ts_ns"] = json!(t + delay + 1);
+        let a = run_sessions(&req(v)).unwrap();
+        assert_eq!(a.fills.len(), 1);
+        assert_eq!(a.fills[0].ts_ns, t + delay + 1);
+        assert_eq!(a.fills[0].price, "11");
+    }
+}
+
+#[test]
+fn unfilled_sale_cannot_finance_same_callback_purchase() {
+    let mut v = fixture();
+    v["initial_cash"] = json!("1001");
+    v["sessions"][1]["quotes"][0]["bid_size"] = json!("0");
+    let mut buy = v["sessions"][1]["orders"][0].clone();
+    buy["id"] = json!("unfunded-buy");
+    buy["side"] = json!("buy");
+    v["sessions"][1]["orders"].as_array_mut().unwrap().push(buy);
+    let a = run_sessions(&req(v)).unwrap();
+    assert_eq!(a.orders.last().unwrap().status, "DENIED");
+    assert_eq!(a.final_cash, "0");
+    assert_eq!(a.fills.len(), 1);
+    assert_eq!(a.daily_positions.last().unwrap().quantity, "100");
+}
+
+#[test]
+fn generated_partial_fills_conserve_cash_inventory_and_commission() {
+    use quant_backtest_engine::contract::Side;
+    use rust_decimal::Decimal;
+    use std::str::FromStr;
+    let d = |s: &str| Decimal::from_str(s).unwrap();
+    for capacity in [0, 1, 49, 50, 99, 100, 101, 199, 200] {
+        let mut v = fixture();
+        v["sessions"][0]["orders"]
+            .as_array_mut()
+            .unwrap()
+            .truncate(1);
+        v["sessions"][0]["orders"][0]["quantity"] = json!("200");
+        v["sessions"][0]["quotes"][0]["ask_size"] = json!(capacity.to_string());
+        v["sessions"][1]["quotes"][0]["bid_size"] = json!((capacity / 2).to_string());
+        v["sessions"][1]["orders"][0]["quantity"] = json!(capacity.to_string());
+        if capacity == 0 {
+            v["sessions"][1]["orders"] = json!([]);
+        }
+        let a = run_sessions(&req(v)).unwrap();
+        let mut cash = Decimal::from(10000);
+        let mut inventory = Decimal::ZERO;
+        let mut fees = Decimal::ZERO;
+        for f in &a.fills {
+            let qty = d(&f.quantity);
+            let gross = qty * d(&f.price);
+            let sign = if f.side == Side::Buy {
+                Decimal::ONE
+            } else {
+                -Decimal::ONE
+            };
+            inventory += sign * qty;
+            cash -= sign * gross + d(&f.commission);
+            fees += d(&f.commission);
+        }
+        assert_eq!(cash, d(&a.final_cash), "capacity {capacity}");
+        assert_eq!(fees, d(&a.total_commission));
+        let positions: Decimal = a
+            .daily_positions
+            .iter()
+            .filter(|p| p.session_date == "2025-01-03")
+            .map(|p| d(&p.quantity))
+            .sum();
+        assert_eq!(inventory, positions);
+        assert_eq!(d(&a.final_nav), cash + inventory * Decimal::from(12));
+        assert!(cash >= Decimal::ZERO);
+        let bought: Decimal = a
+            .fills
+            .iter()
+            .filter(|f| f.side == Side::Buy)
+            .map(|f| d(&f.quantity))
+            .sum();
+        assert_eq!(bought, Decimal::from(capacity));
+    }
+}

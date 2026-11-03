@@ -28,3 +28,18 @@
   prices or model training inputs were historically available.
 
 For the additive v2 session model, see [session ledger and rules](sessions.md).
+
+## Information time, delay and sensitivity
+
+The adapter models no network, exchange or acknowledgment latency. To study a
+specified decision-to-submission delay, callers must move each intent's eligibility
+time forward before submitting the request, preserve the original information time
+in their research record, and compare several delays. Eligibility still requires a
+strictly later quote; shifting time onto a quote does not permit that quote to fill.
+This is a scenario assumption, not measured exchange latency.
+
+Minute bars cannot identify the quote path, spread, displayed capacity or event
+order within a minute. Do not label reconstructed bar quotes as observed quotes.
+Report those reconstruction assumptions and compare timing, spread, fees and size
+scenarios separately. The v2 session model supports explicit displayed side sizes;
+its upstream liquidity behavior is documented in [session rules](sessions.md).

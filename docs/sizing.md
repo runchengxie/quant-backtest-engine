@@ -40,3 +40,11 @@ Order IDs combine information time and stable asset ordinal. They are scoped to 
 plan; do not merge multiple independent plans at the same information time without
 assigning distinct IDs. Execution must occur on a quote strictly after the returned
 information time. Never size with next-session execution prices.
+
+This planner applies long-only weights, integer buy lots, a cash budget and
+proportional fees. It does not optimize execution cost or enforce sellable/T+1
+inventory, quote permissions, capacity, minimum commission, turnover budgets or
+per-asset exposure limits. Apply those constraints when constructing targets and
+recheck admission with the session engine. Symbol-order cash allocation is
+reproducible but can favor earlier symbols when the budget binds; compare alternate
+targets and budget/fee assumptions rather than treating the plan as an optimum.
