@@ -88,7 +88,9 @@ Wall phases separate validation/cloning, setup (including all strategy quote rul
 and order preparation), quote conversion/loading, replay, daily snapshots/data
 clearing, and finalization. Upstream matching and accounting share the replay
 phase. Child RSS samples every 10 ms give a per-run peak lower bound, excluding
-Python input generation. There is no enforced memory limit and no per-phase
+Python input generation. The default 6144 MiB sampled child guard stops and
+records an over-budget child, but is not an operating-system memory limit and
+cannot catch every spike. There is no per-phase
 allocation attribution. Input read/decode and result encoding are measured
 separately; envelope encoding, output transfer and polling remain in full wall
 time. Results describe the specified host and workload, not production capacity.

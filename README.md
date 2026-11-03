@@ -92,7 +92,9 @@ hashes; no timing threshold is used in tests.
 
 The workload generator runs in the Python parent; its memory is excluded from
 child RSS. Workload dimensions and child timeout are bounded, but this runner
-does not enforce an operating-system memory limit. Snapshot/ledger time includes
+does not enforce an operating-system memory limit. It kills and records a child
+whose sampled RSS exceeds `--max-rss-mib` (default 6144 MiB); sampling may miss
+a short spike and does not bound parent-generator memory. Snapshot/ledger time includes
 upstream data clearing. Full child wall time includes diagnostic encoding and
 output transfer; Python polling can add up to one sampling interval. The sizing
 probe is independent of replay orders and is not represented as execution evidence.
