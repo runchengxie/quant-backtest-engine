@@ -49,7 +49,7 @@ def generate(sessions, symbols, times):
         day += timedelta(days=1)
     sizing = dict(schema_version="sizing_request.v1", currency="CNY",
         information_ts_ns=request["sessions"][0]["open_ts_ns"] - 1,
-        cash="100000000", fee_bps="10", assets=[dict(symbol=n, held_quantity="0",
+        cash="1000000", fee_bps="10", assets=[dict(symbol=n, held_quantity="0",
         reference_price=str(10 + i % 10), price_ts_ns=request["sessions"][0]["open_ts_ns"] - 2,
         target_weight=str((Decimal(1) / Decimal(symbols + 1)).quantize(Decimal("0.00000001"), rounding="ROUND_DOWN")), buy_lot=100) for i, n in enumerate(names)])
     return request, sizing
