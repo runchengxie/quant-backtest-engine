@@ -79,3 +79,33 @@ fn invalid_or_lookahead_plans_fail() {
     v["assets"].as_array_mut().unwrap().push(duplicate);
     assert!(size_targets(&request(v)).is_err());
 }
+
+#[test]
+fn generated_lot_and_fee_plans_conserve_estimated_cash() {
+    use quant_backtest_engine::contract::Side;
+    use rust_decimal::Decimal;
+    use std::str::FromStr;
+    let d = |s: &str| Decimal::from_str(s).unwrap();
+    for lot in [1, 3, 10, 100] {
+        for fee_bps in ["0", "10", "33.3333", "10000"] {
+            let mut v = fixture();
+            v["fee_bps"] = json!(fee_bps);
+            v["assets"][0]["buy_lot"] = json!(lot);
+            v["assets"][0]["target_weight"] = json!("1");
+            let a = size_targets(&request(v)).unwrap();
+            let mut cash = Decimal::from(1000);
+            for order in &a.orders {
+                assert_eq!(order.side, Side::Buy);
+                let quantity = d(&order.quantity);
+                assert_eq!(quantity % Decimal::from(lot), Decimal::ZERO);
+                let notional = quantity * Decimal::from(10);
+                // Currency precision is cents; these prices have exact cent notionals.
+                let fee = (notional * d(fee_bps) / Decimal::from(10000)).round_dp(2);
+                cash -= notional + fee;
+            }
+            assert_eq!(cash, d(&a.projected_cash));
+            assert!(cash >= Decimal::ZERO);
+            assert!(d(&a.targets[0].planned_quantity) <= d(&a.targets[0].desired_quantity));
+        }
+    }
+}
