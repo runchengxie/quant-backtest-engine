@@ -81,7 +81,14 @@ Use unique external output directories; existing inputs are never overwritten.
 
 The profile example uses the same execution implementation as `run_sessions`.
 Quote conversion and upstream loading share one timer. Upstream replay includes
-matching and accounting together; they cannot be separated through this adapter.
+matching and accounting together. Nested strategy timers measure rule lookup,
+instrument lookup, owned account snapshot reads (`strategy_cache_seconds`), and
+pending-intent admission/submission (`strategy_pending_seconds`); the latter
+includes upstream work called synchronously by submission. Counters record quote
+callbacks, pending entries inspected, and account snapshot reads. These timers
+overlap replay and must not be added to it. Normal execution does not read clocks.
+Quotes without an eligible current-session intent skip adapter rule/cache reads;
+all quotes still pass through upstream replay for matching and valuation.
 Snapshot/ledger extraction and finalization have separate timers. Execution time
 also includes validation, request cloning and thread lifecycle overhead, so phase
 sums need not equal execution time. Result serialization measures compact result
