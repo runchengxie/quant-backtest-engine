@@ -72,3 +72,36 @@ v2 需要显式兼容的任务版本。
 仍会累积，数据源自身的缓冲也可能占用内存。因此总内存仍可能增长。
 本接口不承诺总内存有固定上限、运行提速或状态恢复。
 CLI 和 Python v2 客户端继续接收完整请求；当前未提供交互式传输协议或金融状态快照导入。
+
+## 交互式交易时段传输
+
+`quant-backtest-engine session-stream` 从标准输入读取以 LF 换行结尾的 UTF-8 NDJSON，
+每处理一帧就在标准输出写入并刷新一条 JSON 响应。诊断信息写入标准错误。
+客户端发送一帧、收到响应后再发下一帧，发送 finish 后关闭标准输入，供引擎验证 EOF。
+每个 session 帧必须包含完整交易时段，包括相同时间戳的全部报价、订单和最新估值报价。
+
+输入均包含 `schema_version: "engine_session_stream.v1"`、`type` 和 `sequence`。
+start 帧使用 `type: "start"`、序号 0，`config` 为现有 `SessionConfig`，即去掉
+`sessions` 的 v2 请求。session 帧使用 `type: "session"`、序号 1 至 N，`session`
+为 `MarketSession`。finish 帧使用 `type: "finish"`、序号 N+1，不含其他载荷。
+至少需要一个交易时段。未知字段、重复字段、错误序号、重复 start、非法或截断行、
+finish 后的其他帧均会导致失败。
+
+响应使用 `engine_session_stream_result.v1`，并回传 `sequence`。ready 帧包含
+`type: "ready"`、`header_sha256` 和 `max_frame_bytes: 67108864`。session 响应包含
+`type: "session"`、`prefix_sha256` 和 `report`。报告字段包括从 0 开始的
+`session_index`、`session_date`、`valuation_ts_ns`、`balance`（现有日结余额）、
+`positions`（当日持仓），以及当前时段的 `orders`、`fills` 和 `rejections`。
+收到 finished 前，这些报告均为暂定结果。finished 帧包含 `type: "finished"`、
+`prefix_sha256` 和保持原有结构的 v2 `result`。
+
+头部摘要为 start 帧原始 JSON 字节（不含 LF）的 SHA256。每个 session 和 finish
+帧将摘要更新为 SHA256（前一摘要的原始 32 字节 + 当前帧原始 JSON 字节，不含 LF）。
+空白字符会影响摘要。输入和输出单帧上限均为 67108864 字节，包含 LF。
+最终结果超限时失败，不会输出部分成功帧。报价仅保留当前时段，上游历史和最终汇总
+输出仍会增长。此传输不提供财务检查点或恢复保证。
+
+库接口为 `run_sessions_iter_with_reports(config, sessions, callback)`。
+回调接收拥有所有权的 `SessionReport`，返回 `anyhow::Result<()>`，在回放和快照完成后、
+读取下一时段之前执行。数据源或回调出错会中止执行，不返回最终结果。
+原有 `run_sessions_iter` 保持兼容。

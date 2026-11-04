@@ -64,3 +64,21 @@ where
         .join()
         .map_err(|_| anyhow::anyhow!("upstream session engine panicked"))?
 }
+
+/// Reports each provisional upstream snapshot before pulling the next whole session.
+/// Callback failures abort replay and suppress the final result.
+pub fn run_sessions_iter_with_reports<I, F>(
+    config: session_contract::SessionConfig,
+    sessions: I,
+    report: F,
+) -> anyhow::Result<session_contract::SessionResult>
+where
+    I: Iterator<Item = anyhow::Result<session_contract::MarketSession>> + Send + 'static,
+    F: FnMut(session_contract::SessionReport) -> anyhow::Result<()> + Send + 'static,
+{
+    std::thread::spawn(move || sessions::execute_iter_with_reports(config, sessions, report))
+        .join()
+        .map_err(|_| anyhow::anyhow!("upstream session engine panicked"))?
+}
+
+pub mod session_stream;

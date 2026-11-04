@@ -20,12 +20,29 @@ must never emit a partial frame. Raw bytes determine the digest, including white
 
 ## Steps
 
-- [ ] Add callback tests proving snapshot equality, current-session selection and
+- [x] Add callback tests proving snapshot equality, current-session selection and
   callback failure before the next pull; observe failure then extend the runner.
-- [ ] Add framing tests for exact limits, strict keys, hashes and invalid sequencing;
+- [x] Add framing tests for exact limits, strict keys, hashes and invalid sequencing;
   observe failure then implement a bounded parser and writer in `src/session_stream.rs`.
-- [ ] Add real binary interactive tests for ready before EOF, reports before finish,
+- [x] Add real binary interactive tests for ready before EOF, reports before finish,
   final equality, missing finish and trailing input; add the CLI command.
-- [ ] Document the protocol in aligned English and Chinese session guides.
-- [ ] Run format, clippy, the complete Rust suite, CLI examples, SDK/project tools,
+- [x] Document the protocol in aligned English and Chinese session guides.
+- [x] Run format, clippy, the complete Rust suite, CLI examples, SDK/project tools,
   strict documentation and locale validation; inspect the diff and commit.
+
+## Validation record
+
+Validated the implementation based on main revision `c0e14a8` with 67 passing Rust
+unit and integration tests, including real binary interaction and fixed input limits.
+`cargo fmt --all --check`, `cargo clippy --locked --all-targets -- -D warnings`,
+`cargo test --locked`, the documented roundtrip CLI and the synthetic tutorial passed.
+All 11 SDK tests passed both from source and from an installed wheel against the real
+binary, and all 12 project tooling tests passed. The strict documentation build and
+rendered locale, counterpart, theme and local asset checks passed. `git diff --check`
+passed. Build, tutorial, wheel and site outputs are retained outside the repository.
+
+The old financial fixtures run through the batch, iterator and callback APIs with
+their original assertions preserved. New tests cover snapshot timing, callback failure,
+input source errors, exact byte limits, duplicate and unknown fields, invalid UTF-8,
+truncation, invalid sequences, missing finish, trailing frames and oversized final
+output without partial serialization. Earlier report frames remain provisional.

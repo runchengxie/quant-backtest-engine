@@ -15,6 +15,12 @@ use std::{
 fn execute() -> Result<()> {
     let args: Vec<_> = env::args_os().skip(1).collect();
     let output = match args.as_slice() {
+        [command] if command == "session-stream" => {
+            return quant_backtest_engine::session_stream::serve(
+                io::BufReader::new(io::stdin()),
+                io::stdout(),
+            );
+        }
         [command] if command == "capabilities" => {
             serde_json::json!({"schema_version":"engine_capabilities.v1","request_schema":"engine_request.v1","result_schema":"engine_result.v1","backend":"nautilus","backend_version":"0.66.0","capabilities":CAPABILITIES,"validator_version":1})
         }

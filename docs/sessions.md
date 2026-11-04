@@ -113,3 +113,39 @@ Memory can grow with these records and with source-owned buffers. This API makes
 no bounded total RSS, speedup or restart guarantee. The CLI and Python v2 client
 continue to accept complete requests. There is no interactive wire transport or
 financial snapshot import.
+
+## Interactive session transport
+
+`quant-backtest-engine session-stream` accepts LF-terminated UTF-8 NDJSON on stdin
+and flushes one JSON response per frame on stdout. Diagnostics use stderr. The client
+sends one frame and waits for its response before sending another. Close stdin after
+finish so EOF can be verified. A session frame contains one complete session, including
+all equal-timestamp quotes, orders and its fresh valuation boundary.
+
+Every input has `schema_version: "engine_session_stream.v1"`, `type` and `sequence`.
+Start has type `start`, sequence 0 and `config` containing the existing `SessionConfig`
+(v2 request without `sessions`). Session has type `session`, sequence 1 through N and
+`session` containing a `MarketSession`. Finish has type `finish`, sequence N+1 and no
+payload. At least one session is required. Unknown or duplicate fields, incorrect
+sequences, repeated starts, malformed or truncated lines and trailing frames fail.
+
+Responses use `engine_session_stream_result.v1` and echo `sequence`. Ready has type
+`ready`, `header_sha256` and `max_frame_bytes: 67108864`. Each session response has
+`type: "session"`, `prefix_sha256` and `report`. A report includes zero-based
+`session_index`, `session_date`, `valuation_ts_ns`, `balance` (the existing daily
+balance), `positions` (that day's positions), and current-session `orders`, `fills`
+and `rejections`. Reports are provisional until the finished response arrives.
+Finished has type `finished`, `prefix_sha256` and the unchanged v2 `result`.
+
+The header digest is SHA256 of the exact start JSON bytes excluding LF. Each session
+and finish updates the digest as SHA256 of the previous raw 32 digest bytes followed
+by the exact frame JSON bytes excluding LF. Whitespace is significant. Both input
+and output limits include LF and are fixed at 67108864 bytes. An oversized final
+result fails without a partial success frame. Quotes are retained for one session;
+upstream histories and the collected final output continue growing. This transport
+provides no financial checkpoint or recovery guarantee.
+
+The library equivalent is `run_sessions_iter_with_reports(config, sessions, callback)`.
+The callback owns each `SessionReport` and returns `anyhow::Result<()>`. It completes
+after replay and snapshot and before the next source pull. Source and callback errors
+abort execution and return no final result. Existing `run_sessions_iter` is unchanged.

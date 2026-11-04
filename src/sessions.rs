@@ -5,7 +5,7 @@ use crate::{
     nautilus::{create_engine, snapshot},
     session_contract::{
         DailyBalance, DailyPosition, MarketSession, SESSION_CAPABILITIES, SessionConfig,
-        SessionRequest, SessionResult, SessionValidation,
+        SessionReport, SessionRequest, SessionResult, SessionValidation,
     },
     session_strategy::{SessionState, SessionStrategy},
 };
@@ -26,6 +26,7 @@ pub(crate) fn execute(request: &SessionRequest) -> Result<SessionResult> {
         &SessionConfig::from(request),
         request.sessions.iter().cloned().map(Ok),
         false,
+        |_| Ok(()),
     )
     .map(|(result, _)| result)
 }
@@ -54,6 +55,7 @@ pub(crate) fn execute_profiled(
         &SessionConfig::from(request),
         request.sessions.iter().cloned().map(Ok),
         true,
+        |_| Ok(()),
     )
 }
 
@@ -61,13 +63,26 @@ pub(crate) fn execute_iter<I>(config: SessionConfig, sessions: I) -> Result<Sess
 where
     I: Iterator<Item = Result<MarketSession>>,
 {
-    execute_measured(&config, sessions, false).map(|(result, _)| result)
+    execute_measured(&config, sessions, false, |_| Ok(())).map(|(result, _)| result)
+}
+
+pub(crate) fn execute_iter_with_reports<I, F>(
+    config: SessionConfig,
+    sessions: I,
+    report: F,
+) -> Result<SessionResult>
+where
+    I: Iterator<Item = Result<MarketSession>>,
+    F: FnMut(SessionReport) -> Result<()>,
+{
+    execute_measured(&config, sessions, false, report).map(|(result, _)| result)
 }
 
 fn execute_measured(
     request: &SessionConfig,
     sessions: impl Iterator<Item = Result<MarketSession>>,
     profile: bool,
+    mut report: impl FnMut(SessionReport) -> Result<()>,
 ) -> Result<(SessionResult, SessionTimings)> {
     let mut validation = SessionValidation::new(request)?;
     let mut timings = SessionTimings::default();
@@ -151,6 +166,11 @@ fn execute_measured(
         timings.replay_matching_accounting_seconds +=
             started.map_or(0.0, |t| t.elapsed().as_secs_f64());
         let started = profile.then(Instant::now);
+        let session_ids = session
+            .orders
+            .iter()
+            .map(|o| o.id.clone())
+            .collect::<std::collections::BTreeSet<_>>();
         base.orders.extend(session.orders);
         let result = snapshot(&engine, &base.orders, &marks, currency)?;
         daily_ledger.push(DailyBalance {
@@ -164,6 +184,7 @@ fn execute_measured(
                 .to_string(),
         });
         prior_commission = decimal(&result.commission)?;
+        let position_start = daily_positions.len();
         state.borrow_mut().sellable.clear();
         for p in &result.positions {
             state.borrow_mut().sellable.insert(
@@ -178,6 +199,30 @@ fn execute_measured(
                 market_value: p.market_value.clone(),
             });
         }
+        let rejections = rejections_for(
+            &engine,
+            base.orders.iter().filter(|o| session_ids.contains(&o.id)),
+        );
+        report(SessionReport {
+            session_index: daily_ledger.len() - 1,
+            session_date: session.session_date.clone(),
+            valuation_ts_ns: session.valuation_ts_ns,
+            balance: daily_ledger.last().unwrap().clone(),
+            positions: daily_positions[position_start..].to_vec(),
+            orders: result
+                .orders
+                .iter()
+                .filter(|o| session_ids.contains(&o.id))
+                .cloned()
+                .collect(),
+            fills: result
+                .fills
+                .iter()
+                .filter(|f| session_ids.contains(&f.order_id))
+                .cloned()
+                .collect(),
+            rejections,
+        })?;
         latest = Some(result);
         engine.0.clear_data();
         state.borrow_mut().clear_input();
@@ -202,26 +247,7 @@ fn execute_measured(
             && last.commission == prior.commission,
         "upstream finalization changed the completed session ledger"
     );
-    let cache = engine.0.kernel().cache.borrow();
-    let mut rejections = Vec::new();
-    for intent in &base.orders {
-        if let Some(order) = cache.order(&ClientOrderId::from(intent.id.as_str())) {
-            for event in order.events() {
-                let rejected = match event {
-                    OrderEventAny::Denied(e) => Some(("denied", e.reason.to_string())),
-                    OrderEventAny::Rejected(e) => Some(("rejected", e.reason.to_string())),
-                    _ => None,
-                };
-                if let Some((kind, reason)) = rejected {
-                    rejections.push(crate::session_contract::Rejection {
-                        order_id: intent.id.clone(),
-                        reason,
-                        event_type: kind.into(),
-                    });
-                }
-            }
-        }
-    }
+    let rejections = rejections_for(&engine, base.orders.iter());
     let result = SessionResult {
         initial_cash: request.initial_cash.clone(),
         rejections,
@@ -256,4 +282,31 @@ fn execute_measured(
     timings.strategy_instrument_seconds = state.instrument_seconds;
     timings.strategy_pending_seconds = state.pending_seconds;
     Ok((result, timings))
+}
+
+fn rejections_for<'a>(
+    engine: &crate::nautilus::Engine,
+    intents: impl Iterator<Item = &'a crate::contract::OrderIntent>,
+) -> Vec<crate::session_contract::Rejection> {
+    let cache = engine.0.kernel().cache.borrow();
+    let mut rejections = Vec::new();
+    for intent in intents {
+        if let Some(order) = cache.order(&ClientOrderId::from(intent.id.as_str())) {
+            for event in order.events() {
+                let rejected = match event {
+                    OrderEventAny::Denied(e) => Some(("denied", e.reason.to_string())),
+                    OrderEventAny::Rejected(e) => Some(("rejected", e.reason.to_string())),
+                    _ => None,
+                };
+                if let Some((kind, reason)) = rejected {
+                    rejections.push(crate::session_contract::Rejection {
+                        order_id: intent.id.clone(),
+                        reason,
+                        event_type: kind.into(),
+                    });
+                }
+            }
+        }
+    }
+    rejections
 }
