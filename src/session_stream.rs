@@ -1,7 +1,7 @@
 //! Bounded, interactive whole-session NDJSON transport. Reports remain provisional.
 use crate::{
     run_sessions_iter_with_reports,
-    session_contract::{MarketSession, SessionConfig},
+    session_contract::{MarketSession, SessionConfig, SessionReport, SessionResult},
 };
 use anyhow::{Context, Result, bail, ensure};
 use serde::{Deserialize, Serialize};
@@ -14,6 +14,36 @@ use std::{
 pub const MAX_FRAME_BYTES: usize = 67_108_864;
 const INPUT_SCHEMA: &str = "engine_session_stream.v1";
 const OUTPUT_SCHEMA: &str = "engine_session_stream_result.v1";
+
+#[derive(Serialize)]
+struct ReadyResponse {
+    schema_version: &'static str,
+    #[serde(rename = "type")]
+    kind: &'static str,
+    sequence: u64,
+    header_sha256: String,
+    max_frame_bytes: usize,
+}
+
+#[derive(Serialize)]
+struct SessionResponse<'a> {
+    schema_version: &'static str,
+    #[serde(rename = "type")]
+    kind: &'static str,
+    sequence: u64,
+    prefix_sha256: String,
+    report: &'a SessionReport,
+}
+
+#[derive(Serialize)]
+struct FinishedResponse<'a> {
+    schema_version: &'static str,
+    #[serde(rename = "type")]
+    kind: &'static str,
+    sequence: u64,
+    prefix_sha256: String,
+    result: &'a SessionResult,
+}
 
 #[derive(Debug, Deserialize)]
 #[serde(tag = "type", rename_all = "lowercase", deny_unknown_fields)]
@@ -163,7 +193,13 @@ where
     let prefix: [u8; 32] = Sha256::digest(bytes).into();
     write_frame(
         &mut writer,
-        &serde_json::json!({"schema_version":OUTPUT_SCHEMA,"type":"ready","sequence":0,"header_sha256":hex(&prefix),"max_frame_bytes":limit}),
+        &ReadyResponse {
+            schema_version: OUTPUT_SCHEMA,
+            kind: "ready",
+            sequence: 0,
+            header_sha256: hex(&prefix),
+            max_frame_bytes: limit,
+        },
         limit,
     )?;
     let source = Arc::new(Mutex::new(Source {
@@ -182,7 +218,13 @@ where
         let current = current.lock().unwrap();
         write_frame(
             &mut *output.lock().unwrap(),
-            &serde_json::json!({"schema_version":OUTPUT_SCHEMA,"type":"session","sequence":current.sequence,"prefix_sha256":hex(&current.prefix),"report":report}),
+            &SessionResponse {
+                schema_version: OUTPUT_SCHEMA,
+                kind: "session",
+                sequence: current.sequence,
+                prefix_sha256: hex(&current.prefix),
+                report: &report,
+            },
             limit,
         )
     })?;
@@ -190,7 +232,13 @@ where
     ensure!(current.finished, "missing finish frame");
     write_frame(
         &mut *writer.lock().unwrap(),
-        &serde_json::json!({"schema_version":OUTPUT_SCHEMA,"type":"finished","sequence":current.sequence,"prefix_sha256":hex(&current.prefix),"result":result}),
+        &FinishedResponse {
+            schema_version: OUTPUT_SCHEMA,
+            kind: "finished",
+            sequence: current.sequence,
+            prefix_sha256: hex(&current.prefix),
+            result: &result,
+        },
         limit,
     )
 }
