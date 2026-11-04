@@ -1,4 +1,20 @@
-use quant_backtest_engine::{run_sessions, session_contract::SessionRequest};
+use quant_backtest_engine::{
+    run_sessions_iter,
+    session_contract::{SessionConfig, SessionRequest, SessionResult},
+};
+fn run_sessions(request: &SessionRequest) -> anyhow::Result<SessionResult> {
+    let existing = quant_backtest_engine::run_sessions(request);
+    let streamed = run_sessions_iter(
+        SessionConfig::from(request),
+        request.sessions.clone().into_iter().map(Ok),
+    );
+    match (&existing, &streamed) {
+        (Ok(a), Ok(b)) => assert_eq!(a, b),
+        (Err(_), Err(_)) => (),
+        _ => panic!("session input paths disagree"),
+    }
+    existing
+}
 use serde_json::{Value, json};
 fn fixture() -> Value {
     let t = 1735781400000000000_u64; // 2025-01-02 09:30 Asia/Shanghai
@@ -357,4 +373,161 @@ fn generated_partial_fills_conserve_cash_inventory_and_commission() {
             .sum();
         assert_eq!(bought, Decimal::from(capacity));
     }
+}
+
+#[test]
+fn incremental_source_errors_and_empty_input_return_errors() {
+    let request = req(fixture());
+    assert!(run_sessions_iter(SessionConfig::from(&request), std::iter::empty()).is_err());
+    let mut input = request.sessions.into_iter();
+    let first = input.next().unwrap();
+    let calls = std::sync::Arc::new(std::sync::atomic::AtomicUsize::new(0));
+    let seen = calls.clone();
+    let source = vec![
+        Ok(first),
+        Err(anyhow::anyhow!("source failed")),
+        Err(anyhow::anyhow!("unexpected third source item")),
+    ]
+    .into_iter()
+    .inspect(move |_| {
+        seen.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+    });
+    let error = run_sessions_iter(SessionConfig::from(&req(fixture())), source).unwrap_err();
+    assert!(error.to_string().contains("source failed"));
+    assert_eq!(calls.load(std::sync::atomic::Ordering::SeqCst), 2);
+}
+#[test]
+fn incremental_late_invalid_sessions_stop_consumption() {
+    for kind in 0..5 {
+        let mut request = req(fixture());
+        match kind {
+            0 => request.sessions[1].orders[0].id = request.sessions[0].orders[0].id.clone(),
+            1 => request.sessions[1].open_ts_ns = request.sessions[0].valuation_ts_ns,
+            2 => request.sessions[1].quotes.reverse(),
+            3 => {
+                request.sessions[1].quotes.pop();
+            }
+            _ => request.sessions[1].session_date = request.sessions[0].session_date.clone(),
+        }
+        let config = SessionConfig::from(&request);
+        let calls = std::sync::Arc::new(std::sync::atomic::AtomicUsize::new(0));
+        let seen = calls.clone();
+        let source = request
+            .sessions
+            .into_iter()
+            .map(Ok)
+            .chain(std::iter::once_with(|| {
+                Err(anyhow::anyhow!("unexpected third source item"))
+            }))
+            .inspect(move |_| {
+                seen.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+            });
+        let error = run_sessions_iter(config, source).unwrap_err().to_string();
+        let expected = [
+            "invalid or duplicate session order",
+            "overlapping session boundaries",
+            "unordered or duplicate session quotes",
+            "every instrument needs a fresh quote",
+            "sessions must have unique increasing ISO dates",
+        ];
+        assert!(error.contains(expected[kind]), "{error}");
+        assert_eq!(calls.load(std::sync::atomic::Ordering::SeqCst), 2);
+    }
+}
+
+#[test]
+fn incremental_invalid_first_session_never_pulls_second_and_drops_source() {
+    struct Source {
+        first: Option<quant_backtest_engine::session_contract::MarketSession>,
+        dropped: std::sync::Arc<std::sync::atomic::AtomicBool>,
+        calls: std::sync::Arc<std::sync::atomic::AtomicUsize>,
+    }
+    impl Iterator for Source {
+        type Item = anyhow::Result<quant_backtest_engine::session_contract::MarketSession>;
+        fn next(&mut self) -> Option<Self::Item> {
+            self.calls.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+            self.first.take().map(Ok)
+        }
+    }
+    impl Drop for Source {
+        fn drop(&mut self) {
+            self.dropped
+                .store(true, std::sync::atomic::Ordering::SeqCst);
+        }
+    }
+    let mut request = req(fixture());
+    let config = SessionConfig::from(&request);
+    let mut first = request.sessions.remove(0);
+    first.quotes.clear();
+    let dropped = std::sync::Arc::new(std::sync::atomic::AtomicBool::new(false));
+    let calls = std::sync::Arc::new(std::sync::atomic::AtomicUsize::new(0));
+    let error = run_sessions_iter(
+        config,
+        Source {
+            first: Some(first),
+            dropped: dropped.clone(),
+            calls: calls.clone(),
+        },
+    )
+    .unwrap_err();
+    assert!(
+        error
+            .to_string()
+            .contains("every instrument needs a fresh quote")
+    );
+    assert_eq!(calls.load(std::sync::atomic::Ordering::SeqCst), 1);
+    assert!(dropped.load(std::sync::atomic::Ordering::SeqCst));
+}
+
+#[test]
+fn multisymbol_timestamp_ties_and_parallel_runs_are_equivalent() {
+    let mut value = fixture();
+    let mut instrument = value["instruments"][0].clone();
+    instrument["symbol"] = json!("BBB");
+    value["instruments"]
+        .as_array_mut()
+        .unwrap()
+        .push(instrument);
+    for session in value["sessions"].as_array_mut().unwrap() {
+        let mut quotes = Vec::new();
+        for quote in session["quotes"].as_array().unwrap() {
+            quotes.push(quote.clone());
+            let mut other = quote.clone();
+            other["symbol"] = json!("BBB");
+            quotes.push(other);
+        }
+        session["quotes"] = json!(quotes);
+    }
+    let request = req(value);
+    let expected = run_sessions(&request).unwrap();
+    let handles: Vec<_> = (0..3)
+        .map(|_| {
+            let request = request.clone();
+            std::thread::spawn(move || run_sessions(&request).unwrap())
+        })
+        .collect();
+    for handle in handles {
+        assert_eq!(handle.join().unwrap(), expected);
+    }
+}
+
+#[test]
+fn incremental_config_rejects_embedded_sessions_and_invalid_headers() {
+    assert!(serde_json::from_value::<SessionConfig>(fixture()).is_err());
+    let request = req(fixture());
+    let mut config = SessionConfig::from(&request);
+    config.price_basis = "adjusted".into();
+    let calls = std::sync::Arc::new(std::sync::atomic::AtomicUsize::new(0));
+    let seen = calls.clone();
+    let source = std::iter::once_with(move || {
+        seen.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+        Err(anyhow::anyhow!("invalid config pulled source"))
+    });
+    let error = run_sessions_iter(config, source).unwrap_err();
+    assert!(
+        error
+            .to_string()
+            .contains("v2 requires raw prices and the v2 schema")
+    );
+    assert_eq!(calls.load(std::sync::atomic::Ordering::SeqCst), 0);
 }
