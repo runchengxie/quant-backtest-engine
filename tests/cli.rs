@@ -114,7 +114,10 @@ fn cli_validates_exact_bytes_without_simulation() {
     assert_eq!(receipt["validator_version"], 1);
     assert_eq!(receipt["request_schema"], "engine_request.v1");
     assert_eq!(receipt["valid"], true);
-    assert_eq!(receipt["input_sha256"].as_str().unwrap().len(), 64);
+    assert_eq!(
+        receipt["input_sha256"],
+        "b039b17267c93943cc9704a53899585115f4bea8da4da4457d7a7d4258442a75"
+    );
     let file = Command::new(env!("CARGO_BIN_EXE_quant-backtest-engine"))
         .args(["validate", "fixtures/roundtrip.json"])
         .output()

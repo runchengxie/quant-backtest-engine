@@ -47,6 +47,9 @@ pub fn validate_reader(source: impl Read) -> Result<ValidationReceipt> {
         request_schema: "engine_request.v1",
         validator_version: 1,
         valid: true,
-        input_sha256: format!("{:x}", Sha256::digest(&bytes)),
+        input_sha256: Sha256::digest(&bytes)
+            .iter()
+            .map(|byte| format!("{byte:02x}"))
+            .collect(),
     })
 }

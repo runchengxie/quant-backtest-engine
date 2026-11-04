@@ -18,11 +18,11 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 90
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: '3.11'
-      - uses: dtolnay/rust-toolchain@1.99.0
+      - uses: dtolnay/rust-toolchain@1.99.1
       - name: Release assembly regression tests
         run: python3 project_tools/test_package_release.py
       - name: Native build prerequisites
@@ -32,7 +32,7 @@ jobs:
       - name: Verify archive checksums
         working-directory: ${{ runner.temp }}/release
         run: sha256sum --check SHA256SUMS
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: experimental-linux-x86_64
           path: ${{ runner.temp }}/release/*
@@ -45,11 +45,11 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: '3.11'
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: experimental-linux-x86_64
           path: release
@@ -80,4 +80,4 @@ jobs:
         run: |
           gh release create "$RELEASE_TAG" release/* --target "$SOURCE_REVISION" \
             --prerelease --title "$RELEASE_TAG (experimental Linux x86_64)" \
-            --notes "Experimental Linux x86_64 CLI built on Ubuntu 22.04 (glibc 2.35), Rust 1.99.0. Download the binary archive, matching complete vendored source archive and SHA256SUMS together. Sources include offline rebuild/relink instructions and dependency license texts. See docs/releases.md at revision $SOURCE_REVISION for scope and prerequisites."
+            --notes "Experimental Linux x86_64 CLI built on Ubuntu 22.04 (glibc 2.35), Rust 1.99.1. Download the binary archive, matching complete vendored source archive and SHA256SUMS together. Sources include offline rebuild/relink instructions and dependency license texts. See docs/releases.md at revision $SOURCE_REVISION for scope and prerequisites."
