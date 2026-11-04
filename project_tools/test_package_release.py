@@ -9,6 +9,14 @@ import package_release
 
 
 class PackageTests(TestCase):
+    def test_rebuild_instructions_use_the_selected_packaging_toolchain(self):
+        with patch.object(package_release, "TOOLCHAIN", "test-toolchain"):
+            instructions = package_release.rebuild_instructions()
+        self.assertIn("Install Rust test-toolchain", instructions)
+        self.assertIn("cargo +test-toolchain build --offline --locked", instructions)
+        self.assertIn("cargo +test-toolchain test --offline --locked", instructions)
+
+
     def test_release_toolchain_matches_workflows_and_recipient_instructions(self):
         toolchain = package_release.TOOLCHAIN
         for name in ("ci.yml", "release.yml"):

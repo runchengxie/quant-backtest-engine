@@ -189,6 +189,33 @@ def vendor_directory(source: Path) -> Path:
     return source / ".cargo" / "vendor"
 
 
+def rebuild_instructions() -> str:
+    return f"""# Offline rebuild and relink
+
+Install Rust {TOOLCHAIN} with the x86_64-unknown-linux-gnu target and native build tools
+(C compiler/linker, libc development headers; Ubuntu 22.04 build-essential).
+From this directory, run:
+
+    cargo +{TOOLCHAIN} build --offline --locked --release --target x86_64-unknown-linux-gnu
+    cargo +{TOOLCHAIN} test --offline --locked
+    target/x86_64-unknown-linux-gnu/release/quant-backtest-engine run fixtures/roundtrip.json
+
+Cargo.lock, .cargo/vendor/ (including published license texts), and .cargo/config.toml
+are included. No registry access is required after toolchain/native setup.
+The binary statically links Rust crates, including LGPL NautilusTrader crates;
+these complete application/dependency sources allow rebuilding and relinking.
+To modify a dependency, edit its .cargo/vendor/<crate>/ sources and remove the modified
+file's entry from that crate's .cargo-checksum.json `files` map (or use a local
+path patch outside .cargo/vendor). Cargo otherwise rejects edits to checksummed files.
+Rebuild with the commands above; the resulting executable contains your changes.
+Retain applicable copyright and license notices when redistributing.
+
+These instructions support repeatable source builds, not a guarantee of identical
+binary bytes across machines or a legal compliance opinion. Native build tools
+and the Rust toolchain are external prerequisites, not included in this archive.
+"""
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
@@ -276,30 +303,7 @@ def main() -> None:
             (tree / "BUILD-METADATA.json").write_text(
                 json.dumps(metadata, indent=2) + "\n"
             )
-        (source / "REBUILD.md").write_text(f"""# Offline rebuild and relink
-
-Install Rust {TOOLCHAIN} with the x86_64-unknown-linux-gnu target and native build tools
-(C compiler/linker, libc development headers; Ubuntu 22.04 build-essential).
-From this directory, run:
-
-    cargo +{TOOLCHAIN} build --offline --locked --release --target x86_64-unknown-linux-gnu
-    cargo +{TOOLCHAIN} test --offline --locked
-    target/x86_64-unknown-linux-gnu/release/quant-backtest-engine run fixtures/roundtrip.json
-
-Cargo.lock, .cargo/vendor/ (including published license texts), and .cargo/config.toml
-are included. No registry access is required after toolchain/native setup.
-The binary statically links Rust crates, including LGPL NautilusTrader crates;
-these complete application/dependency sources allow rebuilding and relinking.
-To modify a dependency, edit its .cargo/vendor/<crate>/ sources and remove the modified
-file's entry from that crate's .cargo-checksum.json `files` map (or use a local
-path patch outside .cargo/vendor). Cargo otherwise rejects edits to checksummed files.
-Rebuild with the commands above; the resulting executable contains your changes.
-Retain applicable copyright and license notices when redistributing.
-
-These instructions support repeatable source builds, not a guarantee of identical
-binary bytes across machines or a legal compliance opinion. Native build tools
-and the Rust toolchain are external prerequisites, not included in this archive.
-""")
+        (source / "REBUILD.md").write_text(rebuild_instructions())
         (binary / "README.txt").write_text(
             "Experimental Linux x86_64 / glibc CLI. Built on Ubuntu 22.04 in release CI; "
             "see BUILD-METADATA.json for the actual local build baseline.\n"
