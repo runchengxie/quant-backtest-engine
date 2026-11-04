@@ -21,7 +21,7 @@ rebasing the per-share cost. The current adapter lacks that operation, so these
 workflows continue to use the Python backend.
 
 The pinned `PositionAdjustmentType` enum exposes Commission and Funding. Public
-`Cache::update_position_from_adjustment` propagates the quantity change to cache;
+`Cache::update_position_from_adjustment` propagates the quantity change to cache.
 `Position::apply_adjustment` does not rebase `avg_px_open`. Public
 `SimulatedExchange::try_adjust_account` handles balance adjustments, and simulation
 modules can return account adjustments, but these alone do not represent a complete
@@ -31,11 +31,11 @@ record-date entitlement, ex-date receivable, payment/release and stock-basis lif
 
 | Scenario | Required evidence before Rust migration |
 | --- | --- |
-| Cash dividend | Record-date ownership; ex-date receivable; actual payment date; withholding |
+| Cash dividend | Record-date ownership. Ex-date receivable. Actual payment date. Withholding |
 | Split/stock dividend | Quantity plus basis rebasing, released vs receivable shares, cache/portfolio consistency |
-| Fractional entitlement | Explicit settlement or cash-in-lieu policy; no implicit integer truncation |
+| Fractional entitlement | Explicit settlement or cash-in-lieu policy. No implicit integer truncation |
 | Adjusted vs raw prices | No double counting of cash or share distributions |
-| Delisting | Authoritative recovery/valuation policy; no arbitrary final liquidation |
+| Delisting | Authoritative recovery/valuation policy. No arbitrary final liquidation |
 
 Requests containing corporate-action fields or requesting a corporate-action capability
 are rejected by the new strict schema, rather than ignored. Do not label configured

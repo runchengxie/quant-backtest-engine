@@ -28,11 +28,11 @@ for published prereleases. Download all three assets from the same release.
   application source, `Cargo.lock`, all vendored Rust dependencies with published
   license texts, Cargo offline configuration and `REBUILD.md`.
 - `SHA256SUMS` contains checksums of both archives. Run `sha256sum --check SHA256SUMS`
-  before extracting them. Checksums detect corruption; they are not signatures.
+  before extracting them. Checksums detect corruption. They are not signatures.
 
 Extract the binary archive and run `./quant-backtest-engine capabilities` inside
-its directory. Pass a request JSON to `./quant-backtest-engine run REQUEST.json`;
-the source archive includes `fixtures/roundtrip.json` for a synthetic trial.
+its directory. Pass a request JSON to `./quant-backtest-engine run REQUEST.json`.
+The source archive includes `fixtures/roundtrip.json` for a synthetic trial.
 Build metadata records the exact Git revision, lockfile hash, compiler, Cargo,
 platform and glibc. Linux binaries still depend on the system C runtime.
 
@@ -55,10 +55,10 @@ The executable statically links Rust dependencies, including LGPL NautilusTrader
 crates. Matching complete sources let recipients change dependencies and rebuild
 and relink the application. Read `REBUILD.md` in the source archive for offline
 commands and how to modify vendored crates without checksum rejection. Install
-Rust 1.99.0 and native build prerequisites first; these tools are not bundled.
+Rust 1.99.0 and native build prerequisites first. These tools are not bundled.
 The package supports repeatable source builds, without claiming byte-identical
 binaries across machines or a legal guarantee. Preserve applicable copyright and
-license notices when redistributing; see [third-party notices](third-party-notices.md).
+license notices when redistributing. See [third-party notices](third-party-notices.md).
 
 ## Maintainer packaging
 
@@ -71,9 +71,9 @@ python3 project_tools/package_release.py --output /absolute/external/release-out
 Use the project's configured data directory for retained outputs. The script
 archives the committed Git tree, vendors the lockfile dependencies, rejects crates
 without license/notice files, and builds from those sources. A small explicit list
-of published crates omits repository-wide license files; the packager supplements
+of published crates omits repository-wide license files. The packager supplements
 these from the exact upstream source revisions (plus the Apache license text
-explicitly offered by objc2). Downloaded texts are SHA-256 pinned; their URLs,
+explicitly offered by objc2). Downloaded texts are SHA-256 pinned. Their URLs,
 source revisions and hashes are recorded in `dependency-licenses.json` and the
 texts are preserved in both archives without changing vendored crate files. It runs offline
 release-profile `cargo test` and compilation with an empty Cargo home, then
@@ -85,7 +85,7 @@ The `Experimental Linux release` workflow runs this process on pull requests and
 uploads artifacts for seven days. Manual dispatch defaults to `publish=false`,
 which also only uploads artifacts. After merge and review, dispatch on `main` with
 `publish=true` and a fresh tag such as `v0.2.0-alpha.3`. The publish job has
-`contents: write`; the build job only has `contents: read`. Publication creates a
+`contents: write`. The build job only has `contents: read`. Publication creates a
 GitHub prerelease targeting the tested revision, never a crates.io release. Existing
 release/tag names must not be reused. If a publication request loses its response,
 inspect the remote release and tag before attempting it again.

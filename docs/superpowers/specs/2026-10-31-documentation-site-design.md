@@ -4,8 +4,8 @@ The owner requested GitHub Pages, MkDocs, English/Chinese switching, dark mode a
 the visual language of the existing Quant project documentation. Use MkDocs Material,
 locked Python documentation dependencies, a warm neutral palette modeled on
 quant-platform, and language-isolated navigation with localized theme controls like
-quant-backtest-runtime. English is the default. Counterpart links preserve the page;
-missing translations fall back to English. Theme preference uses Material storage.
+quant-backtest-runtime. English is the default. Counterpart links preserve the page.
+Missing translations fall back to English. Theme preference uses Material storage.
 
 Keep LICENSE, COPYING, Cargo.toml and Cargo.lock at project root. Move third-party
 attribution to docs/third-party-notices.md and update references. Publish only merged

@@ -9,8 +9,8 @@ a stable request/result boundary without installing the research platform or sch
 
 ## Approaches
 
-Chosen: direct Rust crate integration, retaining upstream execution/accounting.
-Alternative: Rust launcher with Python Nautilus adapter, easier access to Python APIs
+Chosen. Direct Rust crate integration, retaining upstream execution/accounting.
+Alternative. Rust launcher with Python Nautilus adapter, easier access to Python APIs
 but an additional interpreter/process protocol. Rejected for this first implementation.
 A new simulator or a source-code fork would increase maintenance and is not justified.
 
@@ -31,9 +31,9 @@ against a quote that predates or equals their information timestamp. Multiple in
 are supported. Monetary prices, quantities and fees use decimal strings. Unknown fields,
 unsupported semantics, invalid precision, duplicate IDs, unordered/duplicate instrument
 quotes, impossible quantities and invalid timestamps fail before entering the engine.
-A batch CLI process handles one request; runtime may run isolated processes concurrently.
+A batch CLI process handles one request. Runtime may run isolated processes concurrently.
 
-The initial order-intent boundary is narrower than portfolio target weights: weight-to-order
+The initial order-intent boundary is narrower than portfolio target weights. Weight-to-order
 translation remains a portfolio responsibility. No A-share T+1, limit bands, corporate
 actions, volume participation or short selling is claimed. Requests requiring unsupported
 capabilities must fail explicitly. No hidden final liquidation is performed.
@@ -43,24 +43,24 @@ capabilities must fail explicitly. No hidden final liquidation is performed.
 Versioned JSON reports backend/version, declared capabilities, executed orders/fills,
 final positions, cash, commission and marked equity. Values come from upstream cache,
 accounts and positions, with quote midpoint marking explicitly documented. Stable user
-order IDs and deterministic economic output are required; random upstream IDs and wall
+order IDs and deterministic economic output are required. Random upstream IDs and wall
 clock timings are excluded. Cash plus marked position value must equal equity.
 No fill may be fabricated by the adapter. Record unexecuted intents explicitly.
 
 ## Validation and delivery
 
-Pin upstream 0.66.0 and Rust 1.99.0 minimum; commit Cargo.lock. Validate hand-calculated
+Pin upstream 0.66.0 and Rust 1.99.0 minimum. Commit Cargo.lock. Validate hand-calculated
 single/multi-asset trades, fees, insufficient cash, no lookahead, open positions,
 repeatability, malformed inputs and CLI errors against real upstream execution.
 Use cargo fmt, clippy with warnings denied, locked tests and synthetic CLI smoke in CI.
 Publish English docs with linked Chinese introduction, upstream notices and limitations.
 Use LGPL-3.0-only for this integrated first release to align distribution with the
-upstream; include upstream license texts, without claiming legal advice or relicensing it.
+upstream. Include upstream license texts, without claiming legal advice or relicensing it.
 
 ## Integration stages
 
 First merge the engine provider. Then add explicit opt-in runtime execution using a
-versioned subprocess boundary; keep runtime the sole job-state/publication writer.
+versioned subprocess boundary. Keep runtime the sole job-state/publication writer.
 Preserve v1-v4 and their fingerprints. Update platform boundary documentation and provide
 a compatibility path only where verified. Record exact provider/consumer revisions.
 If a legacy contract cannot represent the new result, add a new version rather than

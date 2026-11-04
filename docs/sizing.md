@@ -8,7 +8,7 @@ cargo run --locked -- size fixtures/sizing.json
 ```
 
 The fixture plans 99 shares from CNY 1000 at reference price 10 and 10 bps fees,
-leaving projected cash 9.01. The desired quantity is 100; the result reports the
+leaving projected cash 9.01. The desired quantity is 100. The result reports the
 planned 99 explicitly so fee and lot residuals are visible.
 
 ## Contract
@@ -18,26 +18,26 @@ planned 99 explicitly so fee and lot residuals are visible.
 `reference_price`, `price_ts_ns`, `target_weight`, and `buy_lot`.
 All assets, including assets to liquidate, must be explicit and unique. Weights are
 nonnegative and sum to at most one. Prices must be known no later than the information
-time. Quantities are integers; buy lots are positive integers. Financial values use
+time. Quantities are integers. Buy lots are positive integers. Financial values use
 decimal strings and input bounds match the engine's conservative order bounds.
 
 Desired quantity is target weight times marked equity divided by the reference price,
 rounded down to a buy lot. Sells are planned first, then buys in stable symbol order.
 Upstream currency rounding is used for estimated notional and proportional fees.
 The output reports marked equity, projected cash, quantity intents and desired/planned
-quantities per asset. Full liquidation can sell an existing odd lot; buy quantities
+quantities per asset. Full liquidation can sell an existing odd lot. Buy quantities
 always respect the configured buy lot.
 
 ## Estimates and sequencing
 
 Projected sale proceeds can fund planned buys. Callers must execute/settle sells before
 relying on their proceeds, then use actual account state for further decisions.
-Future execution prices and fills are unknown; the plan does not guarantee target
+Future execution prices and fills are unknown. The plan does not guarantee target
 weights or positive cash after a different realized execution sequence. The engine
 always rechecks actual upstream free cash and may deny a planned buy.
 
 Order IDs combine information time and stable asset ordinal. They are scoped to the
-plan; do not merge multiple independent plans at the same information time without
+plan. Do not merge multiple independent plans at the same information time without
 assigning distinct IDs. Execution must occur on a quote strictly after the returned
 information time. Never size with next-session execution prices.
 
@@ -46,5 +46,5 @@ proportional fees. It does not optimize execution cost or enforce sellable/T+1
 inventory, quote permissions, capacity, minimum commission, turnover budgets or
 per-asset exposure limits. Apply those constraints when constructing targets and
 recheck admission with the session engine. Symbol-order cash allocation is
-reproducible but can favor earlier symbols when the budget binds; compare alternate
+reproducible but can favor earlier symbols when the budget binds. Compare alternate
 targets and budget/fee assumptions rather than treating the plan as an optimum.
