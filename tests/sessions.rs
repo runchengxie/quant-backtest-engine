@@ -13,6 +13,16 @@ fn run_sessions(request: &SessionRequest) -> anyhow::Result<SessionResult> {
         (Err(_), Err(_)) => (),
         _ => panic!("session input paths disagree"),
     }
+    let callback = quant_backtest_engine::run_sessions_iter_with_reports(
+        SessionConfig::from(request),
+        request.sessions.clone().into_iter().map(Ok),
+        |_| Ok(()),
+    );
+    match (&existing, &callback) {
+        (Ok(a), Ok(b)) => assert_eq!(a, b),
+        (Err(_), Err(_)) => (),
+        _ => panic!("session report path disagrees"),
+    }
     existing
 }
 use serde_json::{Value, json};
@@ -530,4 +540,101 @@ fn incremental_config_rejects_embedded_sessions_and_invalid_headers() {
             .contains("v2 requires raw prices and the v2 schema")
     );
     assert_eq!(calls.load(std::sync::atomic::Ordering::SeqCst), 0);
+}
+
+#[test]
+fn reports_are_snapshot_derived_and_precede_the_next_pull() {
+    use std::sync::{Arc, Mutex};
+    let request = req(fixture());
+    let expected = run_sessions(&request).unwrap();
+    let reports = Arc::new(Mutex::new(Vec::new()));
+    let seen = reports.clone();
+    let observed = reports.clone();
+    let source = request
+        .sessions
+        .clone()
+        .into_iter()
+        .enumerate()
+        .map(move |(i, s)| {
+            assert_eq!(seen.lock().unwrap().len(), i);
+            Ok(s)
+        });
+    let result = quant_backtest_engine::run_sessions_iter_with_reports(
+        SessionConfig::from(&request),
+        source,
+        move |report| {
+            observed.lock().unwrap().push(report);
+            Ok(())
+        },
+    )
+    .unwrap();
+    assert_eq!(result, expected);
+    let reports = reports.lock().unwrap();
+    assert_eq!(reports.len(), 2);
+    for (index, report) in reports.iter().enumerate() {
+        assert_eq!(report.session_index, index);
+        assert_eq!(report.balance, result.daily_ledger[index]);
+        assert_eq!(report.session_date, result.daily_ledger[index].session_date);
+        assert_eq!(
+            report.positions,
+            result
+                .daily_positions
+                .iter()
+                .filter(|p| p.session_date == report.session_date)
+                .cloned()
+                .collect::<Vec<_>>()
+        );
+        let ids = request.sessions[index]
+            .orders
+            .iter()
+            .map(|o| &o.id)
+            .collect::<Vec<_>>();
+        assert_eq!(
+            report.orders,
+            result
+                .orders
+                .iter()
+                .filter(|o| ids.contains(&&o.id))
+                .cloned()
+                .collect::<Vec<_>>()
+        );
+        assert_eq!(
+            report.fills,
+            result
+                .fills
+                .iter()
+                .filter(|f| ids.contains(&&f.order_id))
+                .cloned()
+                .collect::<Vec<_>>()
+        );
+        assert_eq!(
+            report.rejections,
+            result
+                .rejections
+                .iter()
+                .filter(|r| ids.contains(&&r.order_id))
+                .cloned()
+                .collect::<Vec<_>>()
+        );
+    }
+}
+
+#[test]
+fn report_failure_aborts_before_pulling_another_session() {
+    let request = req(fixture());
+    let mut source = request.sessions.into_iter();
+    let first = source.next().unwrap();
+    let mut pulled = false;
+    let source = std::iter::from_fn(move || {
+        assert!(!pulled, "source pulled after report failure");
+        pulled = true;
+        Some(Ok(first.clone()))
+    });
+    let error = quant_backtest_engine::run_sessions_iter_with_reports(
+        SessionConfig::from(&req(fixture())),
+        source,
+        |_| anyhow::bail!("report sink closed"),
+    )
+    .unwrap_err();
+    assert!(error.to_string().contains("report sink closed"));
 }

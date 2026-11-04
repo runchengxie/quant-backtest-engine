@@ -285,3 +285,17 @@ pub struct Rejection {
     pub reason: String,
     pub event_type: String,
 }
+
+/// Provisional upstream snapshot for one completed session.
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct SessionReport {
+    pub session_index: usize,
+    pub session_date: String,
+    pub valuation_ts_ns: u64,
+    pub balance: DailyBalance,
+    pub positions: Vec<DailyPosition>,
+    pub orders: Vec<OrderResult>,
+    pub fills: Vec<Fill>,
+    pub rejections: Vec<Rejection>,
+}
