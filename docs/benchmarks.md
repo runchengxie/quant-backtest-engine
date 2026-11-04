@@ -121,3 +121,42 @@ generator memory remains excluded; quote count is not an OS memory guarantee.
 For example, `--symbols 6000 --active 20 --sessions 63 --quote-times 241` is a
 synthetic size illustration, not a current listed-stock count. Both modes use
 one-minute spacing; fewer timestamps shorten the session, not its sampling rate.
+
+## Pending-intent indexing, 2026-11-04
+
+Session replay indexes pending intents by session and instrument. Each quote
+checks only that bucket, retaining request order and the strict
+`information_ts_ns < quote.ts_ns` boundary. Eligible intents are consumed in one
+pass without shifting the remaining quarter's orders. Account reads, cash and
+fee admission, T+1 reservations, quote permissions and upstream IOC matching
+continue through the same execution path. `strategy_pending_checks` counts
+individual intent eligibility examinations, including the initial eligibility
+probe and the subsequent admission pass; map lookups are not counted.
+
+A release comparison against `c33434d4a5f96eb947d71a751ef25bd434dd3d5e`
+used Rust 1.99.1 on Linux x86-64. Each binary had a separate warmup followed by
+three fresh-child repetitions of each deterministic workload. Inputs came from
+`generate_sparse(8, 120, 6, 30, "all", 100000)` and `generate(8, 20, 20)` in
+the existing workload tools, using the nonwire `profile_sessions` example.
+
+| Workload | Quotes / orders | Pending checks before / after | Full wall seconds before / after (range) |
+| --- | --- | --- | --- |
+| Sparse, eight sessions | 28,800 / 48 | 605,448 / 96 | 0.256–0.365 / 0.257–0.416 |
+| Dense, eight sessions | 3,200 / 160 | 225,840 / 320 | 0.087–0.097 / 0.084–0.092 |
+
+All complete financial result objects matched before and after in every run.
+Canonical result SHA-256 values were
+`c9f864adab63e77f0e5ed909738eb3d201f3705c64774cbc12789e0840a09c7d`
+(sparse) and
+`56a6d73ef65d7959c43d1b4d06928924faa16f680d010eeae1ab00a9933beec2`
+(dense). Both workloads filled every order with no rejections; account reads
+remained 48 and 160 respectively. The operation-count regression also keeps 103
+unsubmitted intents across two sessions and two instruments: eight quotes inspect
+206 matching-bucket intents, compared with 824 global examinations before indexing.
+
+These small runs establish fewer pending-intent examinations and economic equality,
+not a wall-time speedup or full-market capacity. Wall ranges overlap and include
+input decoding, setup, replay and output. Pending intents within one bucket are
+still scanned until eligible; rule storage, whole-request cloning, quote loading,
+upstream accounting and memory limits are unchanged. No quarter-scale run or
+streaming input redesign is included in this change.

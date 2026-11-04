@@ -53,7 +53,6 @@ impl SessionState {
 }
 #[derive(Debug)]
 struct Pending {
-    session: usize,
     id: ClientOrderId,
     instrument: InstrumentId,
     information_ts_ns: u64,
@@ -63,7 +62,7 @@ struct Pending {
 #[derive(Debug)]
 pub(crate) struct SessionStrategy {
     core: StrategyCore,
-    pending: Vec<Pending>,
+    pending: BTreeMap<(usize, InstrumentId), Vec<Pending>>,
     instruments: Vec<InstrumentId>,
     rules: BTreeMap<(InstrumentId, u64), SessionQuote>,
     lots: BTreeMap<InstrumentId, u32>,
@@ -78,7 +77,7 @@ impl SessionStrategy {
         state: Rc<RefCell<SessionState>>,
         currency: Currency,
     ) -> Result<Self> {
-        let mut pending = Vec::new();
+        let mut pending: BTreeMap<_, Vec<_>> = BTreeMap::new();
         let mut rules = BTreeMap::new();
         for (session, s) in request.sessions.iter().enumerate() {
             for q in &s.quotes {
@@ -88,18 +87,21 @@ impl SessionStrategy {
                 );
             }
             for o in &s.orders {
-                pending.push(Pending {
-                    session,
-                    id: ClientOrderId::from(o.id.as_str()),
-                    instrument: InstrumentId::from(format!("{}.SIM", o.symbol)),
-                    information_ts_ns: o.information_ts_ns,
-                    side: if o.side == Side::Buy {
-                        OrderSide::Buy
-                    } else {
-                        OrderSide::Sell
-                    },
-                    quantity: Quantity::from_decimal_dp(decimal(&o.quantity)?, 0)?,
-                });
+                let instrument = InstrumentId::from(format!("{}.SIM", o.symbol));
+                pending
+                    .entry((session, instrument))
+                    .or_default()
+                    .push(Pending {
+                        id: ClientOrderId::from(o.id.as_str()),
+                        instrument,
+                        information_ts_ns: o.information_ts_ns,
+                        side: if o.side == Side::Buy {
+                            OrderSide::Buy
+                        } else {
+                            OrderSide::Sell
+                        },
+                        quantity: Quantity::from_decimal_dp(decimal(&o.quantity)?, 0)?,
+                    });
             }
         }
         let lots = request
@@ -154,12 +156,13 @@ impl DataActor for SessionStrategy {
         let profile = self.state.borrow().profile;
         let started = profile.then(Instant::now);
         let current = self.state.borrow().current;
+        let key = (current, quote.instrument_id);
         let mut checks = 0;
-        let eligible = self.pending.iter().any(|p| {
-            checks += u64::from(profile);
-            p.session == current
-                && p.instrument == quote.instrument_id
-                && p.information_ts_ns < quote.ts_event.as_u64()
+        let eligible = self.pending.get(&key).is_some_and(|pending| {
+            pending.iter().any(|p| {
+                checks += u64::from(profile);
+                p.information_ts_ns < quote.ts_event.as_u64()
+            })
         });
         if let Some(started) = started {
             let mut state = self.state.borrow_mut();
@@ -204,18 +207,17 @@ impl DataActor for SessionStrategy {
         }
         let started = profile.then(Instant::now);
         let mut checks = 0;
-        let mut index = 0;
-        while index < self.pending.len() {
+        // A quote consumes only its session/instrument bucket. Iterate in
+        // request order, retaining later-information intents in that same order;
+        // sorting by information time would change cash/liquidity priority.
+        let pending = self.pending.remove(&key).expect("eligible pending bucket");
+        let mut deferred = Vec::new();
+        for p in pending {
             checks += u64::from(profile);
-            let p = &self.pending[index];
-            if p.session != self.state.borrow().current
-                || p.instrument != quote.instrument_id
-                || p.information_ts_ns >= quote.ts_event.as_u64()
-            {
-                index += 1;
+            if p.information_ts_ns >= quote.ts_event.as_u64() {
+                deferred.push(p);
                 continue;
             }
-            let p = self.pending.remove(index);
             let order = self.order().market(
                 p.instrument,
                 p.side,
@@ -277,6 +279,9 @@ impl DataActor for SessionStrategy {
                     .insert(p.id, (p.instrument, p.quantity.as_decimal()));
             }
             self.submit_order(order, None, None, None)?;
+        }
+        if !deferred.is_empty() {
+            self.pending.insert(key, deferred);
         }
         if let Some(started) = started {
             let mut state = self.state.borrow_mut();
