@@ -252,6 +252,58 @@ fn unfilled_sale_cannot_finance_same_callback_purchase() {
 }
 
 #[test]
+fn pending_bucket_preserves_request_priority_across_information_times() {
+    let mut v = fixture();
+    v["sessions"].as_array_mut().unwrap().truncate(1);
+    v["initial_cash"] = json!("1001");
+    let t = v["sessions"][0]["open_ts_ns"].as_u64().unwrap();
+    let mut first = v["sessions"][0]["orders"][0].clone();
+    first["id"] = json!("first-later-information");
+    first["information_ts_ns"] = json!(t + 1);
+    let mut second = first.clone();
+    second["id"] = json!("second-earlier-information");
+    second["information_ts_ns"] = json!(t);
+    v["sessions"][0]["orders"] = json!([first, second]);
+    // Both remain pending on the first quote; both qualify on the next one.
+    // Request order, not information-time sorting, determines who gets cash.
+    v["sessions"][0]["quotes"][1]["bid"] = json!("10");
+    v["sessions"][0]["quotes"][1]["ask"] = json!("10");
+    v["sessions"][0]["quotes"][1]["ask_size"] = json!("100");
+    let a = run_sessions(&req(v)).unwrap();
+    assert_eq!(a.fills.len(), 1);
+    assert_eq!(a.fills[0].order_id, "first-later-information");
+    assert_eq!(a.fills[0].ts_ns, t + 1_000_000_000);
+    assert_eq!(a.orders[1].status, "DENIED");
+    assert_eq!(a.rejections[0].reason, "INSUFFICIENT_CASH_INCLUDING_FEES");
+    assert_eq!(a.final_cash, "0");
+    assert_eq!(a.final_nav, "1000");
+    assert_eq!(a.total_commission, "1");
+}
+
+#[test]
+fn deferred_intent_does_not_block_a_later_ready_intent() {
+    let mut v = fixture();
+    v["sessions"].as_array_mut().unwrap().truncate(1);
+    v["initial_cash"] = json!("1001");
+    let t = v["sessions"][0]["open_ts_ns"].as_u64().unwrap();
+    let mut deferred = v["sessions"][0]["orders"][0].clone();
+    deferred["id"] = json!("deferred");
+    deferred["information_ts_ns"] = json!(t);
+    let mut ready = deferred.clone();
+    ready["id"] = json!("ready");
+    ready["information_ts_ns"] = json!(t - 1);
+    v["sessions"][0]["orders"] = json!([deferred, ready]);
+    let a = run_sessions(&req(v)).unwrap();
+    assert_eq!(a.fills.len(), 1);
+    assert_eq!(a.fills[0].order_id, "ready");
+    assert_eq!(a.fills[0].ts_ns, t);
+    assert_eq!(a.orders[0].status, "DENIED");
+    assert_eq!(a.final_cash, "0");
+    assert_eq!(a.final_nav, "1100");
+    assert_eq!(a.total_commission, "1");
+}
+
+#[test]
 fn generated_partial_fills_conserve_cash_inventory_and_commission() {
     use quant_backtest_engine::contract::Side;
     use rust_decimal::Decimal;
