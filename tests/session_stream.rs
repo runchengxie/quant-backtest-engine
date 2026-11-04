@@ -12,7 +12,10 @@ fn frames() -> Vec<String> {
     vec![json!({"schema_version":"engine_session_stream.v1","type":"start","sequence":0,"config":config}).to_string(), json!({"schema_version":"engine_session_stream.v1","type":"session","sequence":1,"session":sessions[0]}).to_string(), json!({"schema_version":"engine_session_stream.v1","type":"finish","sequence":2}).to_string()]
 }
 fn digest(bytes: &[u8]) -> String {
-    format!("{:x}", Sha256::digest(bytes))
+    Sha256::digest(bytes)
+        .iter()
+        .map(|byte| format!("{byte:02x}"))
+        .collect()
 }
 #[test]
 fn real_binary_is_interactive_and_final_result_matches_v2() {
