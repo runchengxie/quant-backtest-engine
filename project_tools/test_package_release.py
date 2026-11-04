@@ -9,6 +9,22 @@ import package_release
 
 
 class PackageTests(TestCase):
+    def test_release_toolchain_matches_workflows_and_recipient_instructions(self):
+        toolchain = package_release.TOOLCHAIN
+        for name in ("ci.yml", "release.yml"):
+            workflow = (package_release.ROOT / ".github/workflows" / name).read_text()
+            versions = [
+                line.split("dtolnay/rust-toolchain@", 1)[1].strip()
+                for line in workflow.splitlines()
+                if "dtolnay/rust-toolchain@" in line
+            ]
+            self.assertTrue(versions)
+            self.assertEqual(set(versions), {toolchain})
+        for name in ("releases.md", "releases.zh-CN.md"):
+            instructions = (package_release.ROOT / "docs" / name).read_text()
+            self.assertIn(f"Rust {toolchain}", instructions)
+
+
     def test_supplement_lookup_uses_manifest_identity_not_vendor_directory_name(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

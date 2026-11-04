@@ -3,7 +3,7 @@
 [简体中文](releases.zh-CN.md)
 
 The downloadable releases are experimental and target Linux x86_64 with glibc. They are built on
-Ubuntu 22.04 (glibc 2.35) using Rust 1.99.0 and locked NautilusTrader 0.66.0 crates.
+Ubuntu 22.04 (glibc 2.35) using Rust 1.99.1 and locked NautilusTrader 0.66.0 crates.
 Other operating systems and musl binaries are not packaged. The CLI is distributed
 through GitHub Releases. Rust source builds are covered in the [quickstart](quickstart.md).
 
@@ -55,7 +55,7 @@ The executable statically links Rust dependencies, including LGPL NautilusTrader
 crates. Matching complete sources let recipients change dependencies and rebuild
 and relink the application. Read `REBUILD.md` in the source archive for offline
 commands and how to modify vendored crates without checksum rejection. Install
-Rust 1.99.0 and native build prerequisites first. These tools are not bundled.
+Rust 1.99.1 and native build prerequisites first. These tools are not bundled.
 The package supports repeatable source builds, without claiming byte-identical
 binaries across machines or a legal guarantee. Preserve applicable copyright and
 license notices when redistributing. See [third-party notices](third-party-notices.md).

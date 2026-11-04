@@ -3,7 +3,7 @@
 [English](releases.md)
 
 下载版本仍处于实验阶段，仅提供 Linux x86_64、glibc 环境下的 CLI，
-使用 Ubuntu 22.04（glibc 2.35）、Rust 1.99.0 和锁定的 NautilusTrader 0.66.0
+使用 Ubuntu 22.04（glibc 2.35）、Rust 1.99.1 和锁定的 NautilusTrader 0.66.0
 依赖构建。暂不提供其他操作系统或 musl 版本，也不发布到 crates.io。
 需要从源码运行时，请按[快速开始](quickstart.zh-CN.md)操作。
 
@@ -48,7 +48,7 @@ python3 -m venv /absolute/external/engine-client-venv
 程序静态链接 Rust 依赖，其中包括采用 LGPL 的 NautilusTrader crate。
 对应的完整源码允许接收者修改依赖、重新构建和链接应用。源码包的
 `REBUILD.md` 提供离线命令，并说明修改 vendor 源码时如何处理校验文件。
-需先安装 Rust 1.99.0 和本机编译工具，这些工具不在包内。打包流程支持按
+需先安装 Rust 1.99.1 和本机编译工具，这些工具不在包内。打包流程支持按
 相同源码重建，不保证不同机器产物逐字节相同，也不构成法律合规保证。
 再分发时应保留适用的版权及许可声明，参见[第三方声明](third-party-notices.zh-CN.md)。
 

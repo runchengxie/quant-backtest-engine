@@ -1,7 +1,7 @@
 """Build experimental Linux archives from a committed tree, with offline sources.
 
 All generated files live under --output (which must be outside the repository).
-No publication is performed by this command. Requires Python 3.11+, Rust 1.99.0,
+No publication is performed by this command. Requires Python 3.11+, Rust 1.99.1,
 Cargo, git, and Linux x86_64 native build prerequisites.
 """
 
@@ -23,7 +23,7 @@ from urllib.error import HTTPError, URLError
 from urllib.request import urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
-TOOLCHAIN = "1.99.0"
+TOOLCHAIN = "1.99.1"
 TARGET = "x86_64-unknown-linux-gnu"
 
 
@@ -276,14 +276,14 @@ def main() -> None:
             (tree / "BUILD-METADATA.json").write_text(
                 json.dumps(metadata, indent=2) + "\n"
             )
-        (source / "REBUILD.md").write_text("""# Offline rebuild and relink
+        (source / "REBUILD.md").write_text(f"""# Offline rebuild and relink
 
-Install Rust 1.99.0 with the x86_64-unknown-linux-gnu target and native build tools
+Install Rust {TOOLCHAIN} with the x86_64-unknown-linux-gnu target and native build tools
 (C compiler/linker, libc development headers; Ubuntu 22.04 build-essential).
 From this directory, run:
 
-    cargo +1.99.0 build --offline --locked --release --target x86_64-unknown-linux-gnu
-    cargo +1.99.0 test --offline --locked
+    cargo +{TOOLCHAIN} build --offline --locked --release --target x86_64-unknown-linux-gnu
+    cargo +{TOOLCHAIN} test --offline --locked
     target/x86_64-unknown-linux-gnu/release/quant-backtest-engine run fixtures/roundtrip.json
 
 Cargo.lock, .cargo/vendor/ (including published license texts), and .cargo/config.toml
