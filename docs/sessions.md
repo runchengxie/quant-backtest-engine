@@ -110,9 +110,9 @@ must provide a whole session, including complete timestamp groups across symbols
 Global order IDs and cumulative intent metadata remain retained, along with the
 collected final orders, fills, ledgers and upstream account/order/position histories.
 Memory can grow with these records and with source-owned buffers. This API makes
-no bounded total RSS, speedup or restart guarantee. The CLI and Python v2 client
-continue to accept complete requests. There is no interactive wire transport or
-financial snapshot import.
+no bounded total RSS, speedup or restart guarantee. The existing CLI and Python v2
+client continue to accept complete requests. The separate interactive transport
+is described below. Financial snapshot import remains unsupported.
 
 ## Interactive session transport
 
