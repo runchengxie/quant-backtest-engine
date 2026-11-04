@@ -37,8 +37,13 @@ MkDocs build and rendered locale/link validation passed. Python checks passed
 11 SDK tests against the built engine and 12 project-tool tests. Rustc was 1.99.1;
 Nautilus dependencies remained locked at 0.66.0.
 
-A separate synthetic harness generated 100 sessions with 1,000 quotes each and no
-orders. Complete results were byte-identical. Linux `wait4` measured peak RSS of
+A separate synthetic harness generated 100 sessions with 1,000 quotes each for one
+instrument and no orders, totaling 100,000 quotes. Both cases linked the same newly
+built implementation. Each case used a fresh fork-and-exec child. The eager case
+generated and collected sessions in that child's caller thread before calling
+`run_sessions`; the iterator case generated each session in the engine worker.
+Producer buffers were included in the measured child process. Complete results
+were byte-identical. Linux `wait4` `ru_maxrss`, expressed in KiB, measured peak RSS of
 88,968 KiB for the full-request path and 30,504 KiB for the lazy iterator path.
 These are single-run synthetic measurements, including source buffers and upstream
 state. They establish neither a general memory bound nor a speedup.

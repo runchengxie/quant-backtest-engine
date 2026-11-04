@@ -83,8 +83,8 @@ and fill counts. It verifies cash plus positions equals NAV, summed daily fees,
 and position values against the daily ledger. A separate small invocation is the
 warmup. Do not mix warmup or debug measurements into release comparisons.
 
-Wall phases separate validation/cloning, setup (including all strategy quote rules
-and order preparation), quote conversion/loading, replay, daily snapshots/data
+Wall phases separate validation/cloning, header and engine setup, current-session
+input preparation and quote conversion/loading, replay, daily snapshots/data
 clearing, and finalization. Upstream matching and accounting share the replay
 phase. Child RSS samples every 10 ms give a per-run peak lower bound, excluding
 Python input generation. The default 6144 MiB sampled child guard stops and
@@ -181,7 +181,19 @@ hashes, actual sizing time, ledger invariants, wall phases, and sampled child RS
 Use unique external output directories. Existing inputs are never overwritten.
 
 The profile example uses the same execution implementation as `run_sessions`.
-Quote conversion and upstream loading share one timer. Upstream replay includes
+With owned incremental session input, `setup_seconds` covers engine, instrument
+and strategy header setup. `quote_conversion_load_seconds` includes loading the
+current session's pending intents and quote rules, quote conversion and upstream
+loading. Per-session incremental validation is included in overall execution time
+outside these named phases. `validation_clone_seconds` continues to measure the
+compatibility wrapper's full-request validation and cloning.
+
+Earlier build receipts that preload all sessions' rules and intents include that
+work in setup. Their phase definitions remain attached to those source revisions.
+Compare phase values only with their implementation revision and definitions;
+the same field names do not establish equivalent phase boundaries.
+
+ Upstream replay includes
 matching and accounting together. Nested strategy timers measure rule lookup,
 instrument lookup, owned account snapshot reads (`strategy_cache_seconds`), and
 pending-intent admission/submission (`strategy_pending_seconds`). The latter
