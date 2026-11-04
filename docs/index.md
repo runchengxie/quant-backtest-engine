@@ -48,7 +48,7 @@ See [development](development.md) and [third-party notices](third-party-notices.
 
 ## Adoption status
 
-Package 0.2.0, experimental; upstream 0.66.0. Start with the
+Package 0.2.0, experimental. Upstream 0.66.0. Start with the
 [weight-to-ledger walkthrough](tutorial.md), then review [capabilities and tested
 consumer combinations](capabilities.md), [correctness evidence](correctness.md),
 [measured batch costs](benchmarks.md) and [release instructions](releases.md).

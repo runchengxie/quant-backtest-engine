@@ -1,6 +1,6 @@
 # Development and verification
 
-Requires Rust 1.99.0+; upstream crates are pinned to NautilusTrader 0.66.0.
+Requires Rust 1.99.0+. Upstream crates are pinned to NautilusTrader 0.66.0.
 Cargo.toml and Cargo.lock stay at the project root. Keep build outputs outside the
 source tree when your workspace requires it, using CARGO_TARGET_DIR.
 
@@ -32,9 +32,9 @@ uv pip sync --python .venv-docs/bin/python docs/requirements/docs.lock
 
 Set `--site-dir` to an external task data directory for retained builds.
 PRs build and verify documentation without publishing. Only merged main commits
-publish through GitHub Actions artifacts to GitHub Pages; no force push or generated
-site commits are needed. Theme selection persists through Material's built-in storage;
-language switching links to the counterpart page and navigation stays in that locale.
+publish through GitHub Actions artifacts to GitHub Pages. No force push or generated
+site commits are needed. Theme selection persists through Material's built-in storage.
+Language switching links to the counterpart page and navigation stays in that locale.
 English is the fallback if a translated counterpart is unavailable.
 
 Site styling follows the restrained warm neutral palette in quant-platform, with
@@ -49,5 +49,5 @@ License originals stay at the repository root as LICENSE and COPYING.
 
 Material for MkDocs [announces end of life on May 5, 2027](https://squidfunk.github.io/mkdocs-material/).
 The current locked version matches the sibling project sites. Review the upstream
-successor or another maintained MkDocs-compatible theme before that date; the source
+successor or another maintained MkDocs-compatible theme before that date. The source
 content remains Markdown and publication uses standard static Pages artifacts.

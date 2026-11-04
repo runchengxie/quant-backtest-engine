@@ -2,7 +2,7 @@
 
 This synthetic walkthrough calls the Rust sizing utility, feeds its actual order
 into the upstream-backed session engine, checks hand-computable results and saves
-all requests/results. Python 3 and a prebuilt engine are sufficient; no data feed,
+all requests/results. Python 3 and a prebuilt engine are sufficient. No data feed,
 model package, platform service or runtime database is needed.
 
 ```sh
@@ -22,18 +22,18 @@ is declared available before the first executable quote.
 
 | Step | Calculation / observed outcome |
 | --- | --- |
-| Plan | CNY 10,000 × 10% / 10 = 100 shares; declared buy lot 100 |
-| First fill | Buy 100 at 10; commission 1; cash 8,999 |
-| First valuation | 100 × midpoint 11 = 1,100; NAV 10,099 |
-| Same-day sale | Denied by configured T+1; reason retained in `rejections` |
-| Next-session sale | Sell 100 at 12; commission 1.2; cash/NAV 10,197.8 |
+| Plan | CNY 10,000 × 10% / 10 = 100 shares. Declared buy lot 100 |
+| First fill | Buy 100 at 10. Commission 1. Cash 8,999 |
+| First valuation | 100 × midpoint 11 = 1,100. NAV 10,099 |
+| Same-day sale | Denied by configured T+1. Reason retained in `rejections` |
+| Next-session sale | Sell 100 at 12. Commission 1.2. Cash/NAV 10,197.8 |
 
 The script replaces the fixture's first buy with the sizing utility's order.
 The subsequent sell intents and quotes are synthetic fixture inputs. It checks
 both daily balances, total commission 2.2, two actual fills and the denied order.
 Saved JSON includes the executable SHA-256, sizing input/output and engine input/output.
 Inspect `engine_result.json` for actual fills, order statuses, denial reasons and
-`daily_ledger`; a completed run does not imply every order filled.
+`daily_ledger`. A completed run does not imply every order filled.
 
 ## Choose the next entry point
 

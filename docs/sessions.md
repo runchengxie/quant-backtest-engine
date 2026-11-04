@@ -19,15 +19,17 @@ The required top-level fields are `schema_version`, `currency` (CNY/USD), `price
 `required_capabilities`. Instruments declare symbol, price precision and buy lot.
 
 Each session provides an increasing ISO `session_date`, `open_ts_ns`,
-`valuation_ts_ns`, quotes and quantity orders. CNY session dates use Asia/Shanghai;
+`valuation_ts_ns`, quotes and quantity orders. CNY session dates use Asia/Shanghai.
 USD uses UTC as an explicit simulation convention. The caller supplies trading
-sessions; the engine does not infer holidays, exchanges or instrument settlement rules.
+sessions. The engine does not infer holidays, exchanges or instrument settlement rules.
 
 Quotes declare symbol, time, bid/ask, bid/ask size, `tradable`, `limit_up` and
 `limit_down`. Times are nondecreasing and unique per instrument. Every instrument
 needs a fresh quote at the common session valuation timestamp, including no-trade
 sessions. Stale marks and adjusted-price requests fail. Data sharing a timestamp
-stays in one streaming batch; all session quotes must be processed before valuation.
+stays in one upstream streaming batch. All session quotes must be processed before valuation.
+The public request still holds the complete input in memory. This internal batching
+does not provide streamed input transport or a restorable financial checkpoint.
 
 An order belongs to one session. Its information time is no earlier than the prior
 session's valuation and no later than this session's valuation. It becomes eligible
@@ -36,12 +38,12 @@ occurs. The caller must submit a new intent for a later session.
 
 ## Configured trade admission
 
-- Long-only cash account; actual free cash plus upstream-rounded fee admission.
+- Long-only cash account. Actual free cash plus upstream-rounded fee admission.
 - Buy quantities must be multiples of the instrument's declared buy lot.
-- `tradable=false` denies both sides; limit-up denies buys and limit-down denies sells.
+- `tradable=false` denies both sides. Limit-up denies buys and limit-down denies sells.
   These are caller-supplied quote permissions, not limits inferred from prices.
 - With `enforce_t1=true`, only prior-session holdings are sellable. Actual fills drive
-  eligibility; outstanding sells reserve it, with unused reservations released on
+  eligibility. Outstanding sells reserve it, with unused reservations released on
   upstream denial, rejection, cancellation or expiry. Competing sells cannot reuse it.
 - With T+1 disabled, actual buy fills may become sellable within the session.
 - Market orders use immediate-or-cancel (IOC). Shares available at the current quote
@@ -50,8 +52,8 @@ occurs. The caller must submit a new intent for a later session.
 
 Displayed quote liquidity is not daily volume participation. Upstream 0.66.0 can
 retain consumed liquidity across identical-size, same-price quotes and reset it when
-size changes; no daily ADV/capacity parity is claimed. The uniform fee is caller-supplied;
-exchange-specific stamp duty, minimum fees and historical tax changes are not inferred.
+size changes. No daily ADV/capacity parity is claimed. The uniform fee is caller-supplied.
+Exchange-specific stamp duty, minimum fees and historical tax changes are not inferred.
 
 These configurable guards are not a claim of complete A-share market compliance.
 [Corporate-action and delisting migration limits](migration/corporate-action-conformance.md)
@@ -67,9 +69,9 @@ Each daily balance records session/date/time, cash, positions value, NAV and tha
 session's commission. Holdings record quantity, mark and market value. All values
 come from upstream cache/account state, with last bid/ask midpoint marks at the
 validated valuation boundary. Every row satisfies NAV = cash + positions value.
-Finalization must not change completed economic state; otherwise the run fails.
+Finalization must not change completed economic state. Otherwise the run fails.
 
 This is a reconciled session ledger. It does not automatically become the platform's
 `execution_aware` bundle. Callers must still provide the required research clock,
 producer identity, complete canonical mapping and provenance. v5 runtime jobs remain
-v1 snapshot jobs; use an explicitly compatible runtime job version for v2 results.
+v1 snapshot jobs. Use an explicitly compatible runtime job version for v2 results.

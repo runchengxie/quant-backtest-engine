@@ -9,7 +9,7 @@
 4. 由运维参数指定引擎绝对路径，请求中不能携带任意命令。
 5. 读取校验过的 quant.engine_job_result.v1 结果并检查订单状态。
 
-Python worker 负责写任务数据库和发布结果。它启动 Rust 子进程，并把内存地址空间限制传给子进程。
+使用 Python 兼容实现时，Python worker 负责写任务数据库和发布结果。它启动 Rust 子进程，并把内存地址空间限制传给子进程。
 任务取消或超时时，worker 会终止并回收子进程。父进程被强制杀死时，Linux 会通过 parent-death SIGKILL 终止子进程。
 运行前，worker 检查引擎文件并保持文件描述符打开。即使部署程序随后替换同一路径，
 本次任务仍运行原先检查过的文件。
@@ -17,6 +17,11 @@ Python worker 负责写任务数据库和发布结果。它启动 Rust 子进程
 
 旧 v1 到 v4 任务协议和请求指纹保留不变。新引擎最终快照属于诊断证据，
 不能标为完整每日执行账本。具体市场限制见[成交与估值假设](execution.zh-CN.md)。
+
+当前 runtime CI 固定引擎提交 `341de0177bc3e6b95ff8b4abb8c80c83eaedf207`，
+通过真实 Rust 子进程验证接入。源码提交和可执行文件摘要是不同的标识，部署时应同时记录。
+Go 实现负责任务状态与结果发布时，Python 适配器不管理数据库。详见
+[runtime Go 指南](https://github.com/runchengxie/quant-backtest-runtime/blob/main/docs/go-runtime.zh-CN.md)。
 
 ## 静态预检
 

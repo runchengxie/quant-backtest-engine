@@ -19,15 +19,18 @@ The final snapshot is diagnostic evidence. It must not be described as the platf
 execution-aware daily bundle. Market and information-time limits remain those stated
 in [execution assumptions](execution.md).
 
-Runtime CI pins engine revision `a2dc923b01c46389f090db7865175c5d87b6819c` and runs
+Runtime CI pins engine revision `341de0177bc3e6b95ff8b4abb8c80c83eaedf207` and runs
 real Rust subprocess integration. Source/build revisions and executable digests are
-different identities; retain both in deployment records.
+different identities. Retain both in deployment records.
+
+With Go job management, Go owns state and publication. The optional Python adapter
+is stateless. See the [runtime Go guide](https://github.com/runchengxie/quant-backtest-runtime/blob/main/docs/go-runtime.md).
 
 ## Static preflight
 
 Before job insertion, runtime agent plans can invoke `validate -` through the
 same held, SHA-256-verified executable inode. The validator reuses `Request` serde
-parsing and `Request::validate`; it performs no simulation. It reads no more than
+parsing and `Request::validate`. It performs no simulation. It reads no more than
 1 MiB plus one byte and emits an exact-byte SHA-256 receipt only on success.
 
 ```json
@@ -35,7 +38,7 @@ parsing and `Request::validate`; it performs no simulation. It reads no more tha
 ```
 
 The validator contract version is independent of backend and simulation capability
-versions. The CLI `capabilities` object adds `validator_version: 1`; the existing
+versions. The CLI `capabilities` object adds `validator_version: 1`. The existing
 simulation capability list, `run`, `size` and session operations retain their contracts.
 Validation rejects unsupported semantics and malformed/oversized input with exit 2
 and empty stdout. I/O or internal failure uses exit 1. Deploy an immutable binary.
@@ -53,6 +56,6 @@ to valuation quotes before publication. Job success still permits denied orders.
 The platform's explicit
 [session client](https://github.com/runchengxie/quant-platform/pull/170)
 verifies selected executable bytes and maps the session output for Python
-analytics. It retains `execution_aware=False`; existing Python backends remain
+analytics. It retains `execution_aware=False`. Existing Python backends remain
 default. See [tested combinations](capabilities.md) and the
 [weight-to-ledger walkthrough](tutorial.md).
