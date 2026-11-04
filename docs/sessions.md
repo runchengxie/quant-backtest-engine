@@ -1,5 +1,7 @@
 # Reconciled session replay
 
+[中文](sessions.zh-CN.md)
+
 `engine_request.v2` adds explicit sessions and raw-price market constraints while
 preserving the v1 request/result wire contracts.
 
@@ -28,8 +30,8 @@ Quotes declare symbol, time, bid/ask, bid/ask size, `tradable`, `limit_up` and
 needs a fresh quote at the common session valuation timestamp, including no-trade
 sessions. Stale marks and adjusted-price requests fail. Data sharing a timestamp
 stays in one upstream streaming batch. All session quotes must be processed before valuation.
-The public request still holds the complete input in memory. This internal batching
-does not provide streamed input transport or a restorable financial checkpoint.
+The v2 request and CLI hold the complete input in memory. Library callers can use
+the owned session iterator described below.
 
 An order belongs to one session. Its information time is no earlier than the prior
 session's valuation and no later than this session's valuation. It becomes eligible
@@ -75,3 +77,39 @@ This is a reconciled session ledger. It does not automatically become the platfo
 `execution_aware` bundle. Callers must still provide the required research clock,
 producer identity, complete canonical mapping and provenance. v5 runtime jobs remain
 v1 snapshot jobs. Use an explicitly compatible runtime job version for v2 results.
+
+## Owned library input
+
+`run_sessions_iter(config, sessions)` accepts `SessionConfig` and an owned
+`Iterator<Item = anyhow::Result<MarketSession>> + Send + 'static`. The header has
+the v2 request fields except `sessions`; unknown fields are rejected. Construct it
+directly for a lazy source, or copy an existing request header with
+`SessionConfig::from(&request)`.
+
+```rust
+use quant_backtest_engine::{run_sessions_iter, session_contract::SessionConfig};
+fn example(request: quant_backtest_engine::session_contract::SessionRequest) -> anyhow::Result<()> {
+let config = SessionConfig::from(&request);
+let sessions = request.sessions.into_iter().map(Ok);
+let result = run_sessions_iter(config, sessions)?;
+assert_eq!(result.schema_version, "engine_result.v2");
+Ok(()) }
+```
+
+This example moves existing sessions. A lazy producer can generate or load each
+owned session in its iterator's `next` method. The source runs on a dedicated
+worker thread, which also owns the single Nautilus engine until disposal. The call
+blocks until completion. Each session is validated, replayed and snapshotted before
+the next source item is requested. Empty sources, source errors and invalid late
+sessions return `Err` and provide no successful final result. The engine stops
+consuming the source at the first error. External side effects in the producer
+remain the producer's responsibility.
+
+Quotes and quote admission rules are retained for the current session. The source
+must provide a whole session, including complete timestamp groups across symbols.
+Global order IDs and cumulative intent metadata remain retained, along with the
+collected final orders, fills, ledgers and upstream account/order/position histories.
+Memory can grow with these records and with source-owned buffers. This API makes
+no bounded total RSS, speedup or restart guarantee. The CLI and Python v2 client
+continue to accept complete requests. There is no interactive wire transport or
+financial snapshot import.

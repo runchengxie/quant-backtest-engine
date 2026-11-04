@@ -48,3 +48,19 @@ pub fn run_sessions_profiled(
     Ok((result, timings))
 }
 pub use sessions::SessionTimings;
+
+/// Replays owned whole sessions on one dedicated upstream worker thread.
+/// The source is pulled only after the preceding session replay and snapshot.
+/// Errors discard the final result. Quotes and admission rules are retained for
+/// one session; final reports, intent metadata and upstream histories grow.
+pub fn run_sessions_iter<I>(
+    config: session_contract::SessionConfig,
+    sessions: I,
+) -> anyhow::Result<session_contract::SessionResult>
+where
+    I: Iterator<Item = anyhow::Result<session_contract::MarketSession>> + Send + 'static,
+{
+    std::thread::spawn(move || sessions::execute_iter(config, sessions))
+        .join()
+        .map_err(|_| anyhow::anyhow!("upstream session engine panicked"))?
+}

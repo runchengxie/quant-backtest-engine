@@ -4,7 +4,8 @@ use crate::{
     contract::{Instrument, decimal},
     nautilus::{create_engine, snapshot},
     session_contract::{
-        DailyBalance, DailyPosition, SESSION_CAPABILITIES, SessionRequest, SessionResult,
+        DailyBalance, DailyPosition, MarketSession, SESSION_CAPABILITIES, SessionConfig,
+        SessionRequest, SessionResult, SessionValidation,
     },
     session_strategy::{SessionState, SessionStrategy},
 };
@@ -21,7 +22,12 @@ use rust_decimal::Decimal;
 use std::{cell::RefCell, collections::BTreeMap, rc::Rc, time::Instant};
 
 pub(crate) fn execute(request: &SessionRequest) -> Result<SessionResult> {
-    execute_measured(request, false).map(|(result, _)| result)
+    execute_measured(
+        &SessionConfig::from(request),
+        request.sessions.iter().cloned().map(Ok),
+        false,
+    )
+    .map(|(result, _)| result)
 }
 
 #[derive(Default, serde::Serialize)]
@@ -44,13 +50,26 @@ pub struct SessionTimings {
 pub(crate) fn execute_profiled(
     request: &SessionRequest,
 ) -> Result<(SessionResult, SessionTimings)> {
-    execute_measured(request, true)
+    execute_measured(
+        &SessionConfig::from(request),
+        request.sessions.iter().cloned().map(Ok),
+        true,
+    )
+}
+
+pub(crate) fn execute_iter<I>(config: SessionConfig, sessions: I) -> Result<SessionResult>
+where
+    I: Iterator<Item = Result<MarketSession>>,
+{
+    execute_measured(&config, sessions, false).map(|(result, _)| result)
 }
 
 fn execute_measured(
-    request: &SessionRequest,
+    request: &SessionConfig,
+    sessions: impl Iterator<Item = Result<MarketSession>>,
     profile: bool,
 ) -> Result<(SessionResult, SessionTimings)> {
+    let mut validation = SessionValidation::new(request)?;
     let mut timings = SessionTimings::default();
     let started = profile.then(Instant::now);
     let currency = if request.currency == "CNY" {
@@ -58,7 +77,7 @@ fn execute_measured(
     } else {
         Currency::USD()
     };
-    let base = Request {
+    let mut base = Request {
         schema_version: "engine_request.v1".into(),
         initial_cash: request.initial_cash.clone(),
         fee_bps: request.fee_bps.clone(),
@@ -71,11 +90,7 @@ fn execute_measured(
             })
             .collect(),
         quotes: Vec::new(),
-        orders: request
-            .sessions
-            .iter()
-            .flat_map(|s| s.orders.clone())
-            .collect(),
+        orders: Vec::new(),
         required_capabilities: Vec::new(),
     };
     let mut engine = create_engine(&base, currency, true)?;
@@ -94,7 +109,10 @@ fn execute_measured(
     let mut latest = None;
     let mut prior_commission = Decimal::ZERO;
     timings.setup_seconds = started.map_or(0.0, |t| t.elapsed().as_secs_f64());
-    for (index, session) in request.sessions.iter().enumerate() {
+    let mut final_marks = BTreeMap::new();
+    for session in sessions {
+        let session = session?;
+        validation.validate(&session)?;
         let started = profile.then(Instant::now);
         {
             let mut state = state.borrow_mut();
@@ -102,7 +120,7 @@ fn execute_measured(
                 state.reservations.values().all(|(_, q)| q.is_zero()),
                 "IOC reservations remain at session boundary"
             );
-            state.current = index;
+            state.load(&session)?;
             state.reservations.clear();
         }
         let mut data = Vec::new();
@@ -133,6 +151,7 @@ fn execute_measured(
         timings.replay_matching_accounting_seconds +=
             started.map_or(0.0, |t| t.elapsed().as_secs_f64());
         let started = profile.then(Instant::now);
+        base.orders.extend(session.orders);
         let result = snapshot(&engine, &base.orders, &marks, currency)?;
         daily_ledger.push(DailyBalance {
             session_date: session.session_date.clone(),
@@ -161,22 +180,20 @@ fn execute_measured(
         }
         latest = Some(result);
         engine.0.clear_data();
+        state.borrow_mut().clear_input();
+        final_marks = marks
+            .into_iter()
+            .map(|(symbol, mark)| (symbol.to_owned(), mark))
+            .collect();
         timings.snapshot_ledger_seconds += started.map_or(0.0, |t| t.elapsed().as_secs_f64());
     }
     let started = profile.then(Instant::now);
+    let prior = latest.ok_or_else(|| anyhow::anyhow!("sessions and instruments are required"))?;
     engine.0.end()?;
-    let prior = latest.expect("validated sessions are nonempty");
-    let final_session = request
-        .sessions
-        .last()
-        .expect("validated sessions are nonempty");
-    let mut final_marks = BTreeMap::new();
-    for q in &final_session.quotes {
-        final_marks.insert(
-            q.symbol.as_str(),
-            (decimal(&q.bid)? + decimal(&q.ask)?) / Decimal::from(2),
-        );
-    }
+    let final_marks = final_marks
+        .iter()
+        .map(|(symbol, mark)| (symbol.as_str(), *mark))
+        .collect();
     let last = snapshot(&engine, &base.orders, &final_marks, currency)?;
     ensure!(
         last.cash == prior.cash
