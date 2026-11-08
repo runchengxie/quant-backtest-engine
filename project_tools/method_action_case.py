@@ -2,6 +2,7 @@
 
 
 def build_action_case(targets, bars, records, scenario, number, digest, policy_type):
+    from method_owner_calls import define_call, execute_call, restore_session
     import json
     import pandas as pd
     from quant_platform.backtest.minute import (
@@ -10,7 +11,6 @@ def build_action_case(targets, bars, records, scenario, number, digest, policy_t
         MinuteExecutionConfig,
         ValuationEvent,
     )
-    from quant_platform.backtest.minute_session import MinuteSession
     from quant_platform.backtest.quantity_locks import QuantityLock
 
     t = targets(("2026-01-05 09:30", "2026-01-06 09:30", "2026-01-07 09:30"), (1, 0, 0))
@@ -37,14 +37,16 @@ def build_action_case(targets, bars, records, scenario, number, digest, policy_t
     start = int(pd.Timestamp("2026-01-06", tz="Asia/Shanghai").value)
     end = int(pd.Timestamp("2026-01-07 09:30", tz="Asia/Shanghai").value)
     lock = QuantityLock(start, start, end, ("A",), "synthetic")
-    baseline = MinuteSession(
+    baseline_run = define_call(
+        "session",
         t,
         b,
         cfg,
         policy=policy_type(),
         corporate_actions=(action,),
         quantity_locks=(lock,),
-    ).run()
+    )
+    baseline = execute_call(baseline_run).run()
     states = []
     for index, row in enumerate(baseline.daily.itertuples()):
         price = 10 if index == 0 else 4.5
@@ -74,18 +76,21 @@ def build_action_case(targets, bars, records, scenario, number, digest, policy_t
         "deposit", "2026-01-07 09:28+08:00", "2026-01-07 09:29+08:00", 1000, "synthetic"
     )
 
+    continuation_run = define_call(
+        "session",
+        t,
+        b,
+        cfg,
+        policy=policy_type(),
+        report_delay_seconds=600,
+        corporate_actions=(action,),
+        valuation_events=(valuation,),
+        capital_flows=(flow,),
+        quantity_locks=(lock,),
+    )
+
     def make():
-        return MinuteSession(
-            t,
-            b,
-            cfg,
-            policy=policy_type(),
-            report_delay_seconds=600,
-            corporate_actions=(action,),
-            valuation_events=(valuation,),
-            capital_flows=(flow,),
-            quantity_locks=(lock,),
-        )
+        return execute_call(continuation_run)
 
     full = make()
     result = full.run()
@@ -98,15 +103,13 @@ def build_action_case(targets, bars, records, scenario, number, digest, policy_t
         "capital_flow_ledger",
     ]
     expected = {name: records(getattr(result, name)) for name in names}
-    for boundary in range(len(full.simulation.times) + 1):
+    restore_boundaries = list(range(len(full.simulation.times) + 1))
+    for boundary in restore_boundaries:
         session = make()
         for _ in range(boundary):
             session.step()
         checkpoint = json.loads(json.dumps(session.checkpoint(), allow_nan=False))
-        policy = policy_type()
-        policy.rows = checkpoint["policy"]["rows"]
-        policy.hold = checkpoint["policy"]["hold"]
-        restored = MinuteSession.restore(t, b, cfg, checkpoint, policy=policy).run()
+        restored = restore_session(continuation_run, checkpoint).run()
         if expected != {name: records(getattr(restored, name)) for name in names}:
             raise AssertionError("financial-action checkpoint parity failed")
     states.append(
@@ -126,13 +129,8 @@ def build_action_case(targets, bars, records, scenario, number, digest, policy_t
         "actions",
         states,
         {
-            "targets": records(t),
-            "bars": records(b),
-            "initial_cash": 10000,
-            "distribution": action,
-            "lock": lock,
-            "valuation": valuation,
-            "capital_flow": flow,
+            "runs": {"baseline": baseline_run, "continuation": continuation_run},
+            "restore_boundaries": restore_boundaries,
         },
         ["packages/platform/src/quant_platform/backtest/minute_session.py"],
         uninterrupted_sha256=digest(expected),

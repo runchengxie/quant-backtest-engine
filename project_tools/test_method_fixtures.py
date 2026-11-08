@@ -59,6 +59,28 @@ class MethodFixtures(unittest.TestCase):
                     scenario["input_sha256"], hashlib.sha256(canonical).hexdigest()
                 )
                 self.assertEqual(scenario["config_sha256"], scenario["input_sha256"])
+                for name, run in scenario["inputs"].get("runs", {}).items():
+                    raw = json.dumps(run, sort_keys=True, allow_nan=False).encode()
+                    self.assertEqual(
+                        scenario["run_sha256"][name], hashlib.sha256(raw).hexdigest()
+                    )
+                    self.assertEqual(run["schema"], "public-owner-call.v1")
+                    if run["api"] in {"minute", "session"}:
+                        self.assertEqual(
+                            set(run["arguments"]["config"]["fields"]),
+                            {
+                                "initial_cash",
+                                "participation_rate",
+                                "buy_fee_bp",
+                                "sell_fee_bp",
+                                "lot_size",
+                                "release_slices",
+                                "execution_minutes",
+                                "latency_minutes",
+                                "commission_minimum_cny",
+                                "sell_tax_bp",
+                            },
+                        )
                 self.assertTrue(scenario["units"])
                 self.assertTrue(scenario["clocks"])
                 self.assertTrue(scenario["owner"])
@@ -199,6 +221,13 @@ class MethodFixtures(unittest.TestCase):
                 check=True,
             )
             self.assertEqual(output.read_bytes(), ASSET.read_bytes())
+            subprocess.run(
+                [
+                    os.environ.get("METHOD_PYTHON", "python3"),
+                    str(ROOT / "project_tools/check_method_owner_calls.py"),
+                ],
+                check=True,
+            )
 
 
 if __name__ == "__main__":

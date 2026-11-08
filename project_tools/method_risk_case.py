@@ -2,8 +2,8 @@
 
 
 def build_risk_cases(records, scenario, number):
+    from method_owner_calls import define_call, execute_call
     import pandas as pd
-    from quant_platform.analytics.risk_calibration import audit_risk_calibration
 
     forecasts, outcomes = [], []
     for index, (variance, realized) in enumerate(
@@ -40,9 +40,10 @@ def build_risk_cases(records, scenario, number):
     o = pd.DataFrame(outcomes)
     cases = []
     for ident, available in [("risk-full", o), ("risk-missing", o.iloc[:2])]:
-        report = audit_risk_calibration(
-            f, available, as_of=pd.Timestamp("2026-03-01", tz="UTC")
+        audit = define_call(
+            "risk_audit", f, available, as_of=pd.Timestamp("2026-03-01", tz="UTC")
         )
+        report = execute_call(audit)
         rows = []
         for row in report.rows.itertuples():
             rows.append(
@@ -77,11 +78,7 @@ def build_risk_cases(records, scenario, number):
         case = scenario(
             ident,
             rows,
-            {
-                "forecasts": records(f),
-                "outcomes": records(available),
-                "as_of": "2026-03-01T00:00:00+00:00",
-            },
+            {"runs": {"audit": audit}},
             ["packages/platform/src/quant_platform/analytics/risk_calibration.py"],
             certified=report.certified,
             real_calibration=report.real_calibration,

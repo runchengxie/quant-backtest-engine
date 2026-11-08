@@ -106,6 +106,7 @@ def export(platform, runtime, engine):
             name: digest((ROOT / name).read_bytes())
             for name in [
                 "project_tools/method_fixture_common.py",
+                "project_tools/method_owner_calls.py",
                 "project_tools/method_market_cases.py",
                 "project_tools/method_session_cases.py",
                 "project_tools/method_action_case.py",

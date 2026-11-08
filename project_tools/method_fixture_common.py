@@ -72,7 +72,10 @@ def scenario(ident, states, inputs, source, *, owner_name="platform", **extra):
         "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
         "input_sha256": digest(inputs),
         "config_sha256": digest(inputs),
-        "configuration_scope": "complete synthetic input/configuration object",
+        "configuration_scope": "complete synthetic inputs; typed owner-call definitions include resolved arguments and dataclass defaults",
+        "run_sha256": {
+            name: digest(run) for name, run in inputs.get("runs", {}).items()
+        },
         "inputs": wire(inputs),
         "units": {
             "money": "CNY unless explicitly USD",

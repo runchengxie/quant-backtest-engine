@@ -5,19 +5,17 @@ import subprocess
 from decimal import Decimal
 import itertools
 from method_fixture_common import ROOT, number, scenario, targets, bars, records
+from method_owner_calls import define_call, execute_call
 
 
 def build_market_cases(engine):
     from quant_platform.backtest.impact import LinearImpact
     from quant_platform.backtest.minute import (
         MinuteExecutionConfig,
-        simulate_minute_execution,
     )
     from quant_platform.portfolio.discrete_inventory import (
         DiscreteInventoryRequest,
-        solve_discrete_inventory,
     )
-    from ticknet.simulator.matching import MatchingEngine
 
     scenes = {}
     request = json.loads((ROOT / "fixtures/roundtrip.json").read_text())
@@ -67,20 +65,32 @@ def build_market_cases(engine):
         ]
     }
 
-    book = MatchingEngine()
-    book.apply_order("bid", 1, 99, 100)
-    book.apply_order("ask-near", -1, 101, 5)
-    book.apply_order("ask-deep", -1, 110, 10)
-    trade = book.apply_order("teaching-buy", 1, 110, 20)
+    book_inputs = {
+        "runs": {"matcher": define_call("matching")},
+        "orders": [
+            ("bid", 1, 99, 100),
+            ("ask-near", -1, 101, 5),
+            ("ask-deep", -1, 110, 10),
+            ("teaching-buy", 1, 110, 20),
+        ],
+        "initial_clock_ms": 0,
+        "match_clock_ms": 1000,
+        "report_delay_ms": 600,
+        "initial_mid": 100,
+    }
+    book = execute_call(book_inputs["runs"]["matcher"])
+    for order in book_inputs["orders"]:
+        trade = book.apply_order(*order)
+    requested = book_inputs["orders"][-1][-1]
     cumulative = 0
     gross = 0
     book_rows = [
         {
             "clock": "0",
             "quantity": "0",
-            "remaining": "20",
+            "remaining": str(requested),
             "reported": "0",
-            "price": "100",
+            "price": str(book_inputs["initial_mid"]),
             "gross": "0",
             "phase": "spread",
         }
@@ -90,9 +100,9 @@ def build_market_cases(engine):
         gross += fill.volume * fill.price
         book_rows.append(
             {
-                "clock": "1000",
+                "clock": str(book_inputs["match_clock_ms"]),
                 "quantity": str(cumulative),
-                "remaining": str(20 - cumulative),
+                "remaining": str(requested - cumulative),
                 "reported": "0",
                 "price": str(fill.price),
                 "gross": str(gross),
@@ -101,19 +111,19 @@ def build_market_cases(engine):
         )
     # Explicit presentation/report-delay assumption, not a matching-engine latency model.
     book_rows.append(
-        dict(book_rows[-1], clock="1600", reported=str(cumulative), phase="report")
+        dict(
+            book_rows[-1],
+            clock=str(book_inputs["match_clock_ms"] + book_inputs["report_delay_ms"]),
+            reported=str(cumulative),
+            phase="report",
+        )
     )
     scenes["book"] = {
         "scenarios": [
             scenario(
                 "depth",
                 book_rows,
-                {
-                    "bid": [99, 100],
-                    "asks": [[101, 5], [110, 10]],
-                    "order": [110, 20],
-                    "report_delay_ms": 600,
-                },
+                book_inputs,
                 ["packages/microstructure/src/ticknet/simulator/matching.py"],
                 report_scope="illustrative 600 ms delivery schedule; actual delayed accounting is scene risk",
             )
@@ -128,25 +138,34 @@ def build_market_cases(engine):
         ("close", 100, 10, 0),
     ]:
         config = {"transient": 0.002, "permanent": permanent, "decay_seconds": 60}
-        model = LinearImpact(**config)
+        impact_inputs = {
+            "runs": {"model": define_call("impact", **config)},
+            "symbol": "A",
+            "unaffected_price": 10,
+            "events": [
+                (0, quantity),
+                (spacing, 0),
+                (spacing, quantity),
+                (spacing + 180, 0),
+            ],
+        }
+        model = execute_call(impact_inputs["runs"]["model"])
         rows = []
-        for clock, q in [
-            (0, quantity),
-            (spacing, 0),
-            (spacing, quantity),
-            (spacing + 180, 0),
-        ]:
-            offset = model.execute("A", clock, q) if q else model.offset("A", clock)
-            state = model.checkpoint()["states"]["A"]
+        for clock, q in impact_inputs["events"]:
+            symbol = impact_inputs["symbol"]
+            offset = (
+                model.execute(symbol, clock, q) if q else model.offset(symbol, clock)
+            )
+            state = model.checkpoint()["states"][symbol]
             rows.append(
                 {
                     "clock": str(clock),
                     "quantity": str(q),
-                    "unaffected": "10",
+                    "unaffected": number(impact_inputs["unaffected_price"]),
                     "offset": number(offset),
                     "transient": number(state["transient"]),
                     "permanent": number(state["permanent"]),
-                    "price": number(10 + offset),
+                    "price": number(impact_inputs["unaffected_price"] + offset),
                     "phase": "fill" if q else "decay",
                 }
             )
@@ -154,28 +173,23 @@ def build_market_cases(engine):
             scenario(
                 ident,
                 rows,
-                dict(config, quantity=quantity, spacing=spacing),
+                impact_inputs,
                 ["packages/platform/src/quant_platform/backtest/impact.py"],
             )
         )
     scenes["impact"] = {"scenarios": impact_scenarios}
 
-    shared_inputs = {
-        "initial_cash": 12000,
-        "participation": 0.1,
-        "target": 5 / 6,
-        "minimum_fee": 1,
-        "permanent": 0.002,
-    }
     t = targets(weights=(5 / 6,))
     b = bars(("2026-01-05 09:29", "2026-01-05 09:32"))
-    impact = LinearImpact(permanent=0.002)
-    shared = simulate_minute_execution(
+    execution = define_call(
+        "minute",
         t,
         b,
         MinuteExecutionConfig(12000, 0.1, 0, 0, commission_minimum_cny=1),
-        impact_model=impact,
+        impact_model=LinearImpact(permanent=0.002),
     )
+    shared_inputs = {"runs": {"execution": execution}}
+    shared = execute_call(execution)
     f = shared.fills.iloc[0]
     cost_rows = [
         {
@@ -231,7 +245,9 @@ def build_market_cases(engine):
             "cash": 14,
             "minimum_fee": fee,
         }
-        solved = solve_discrete_inventory(DiscreteInventoryRequest(**config))
+        planning = define_call("discrete", DiscreteInventoryRequest(**config))
+        planning_runs = {"planning": planning}
+        solved = execute_call(planning)
         rows = []
         for phase, plan in [
             ("heuristic", solved.heuristic),
@@ -250,9 +266,12 @@ def build_market_cases(engine):
             )
         grid = []
         for state in itertools.product(range(4), repeat=2):
-            oracle = solve_discrete_inventory(
-                DiscreteInventoryRequest(**(config | {"target_shares": state}))
+            request = define_call(
+                "discrete",
+                DiscreteInventoryRequest(**(config | {"target_shares": state})),
             )
+            planning_runs[f"grid-{state[0]}-{state[1]}"] = request
+            oracle = execute_call(request)
             grid.append(
                 {
                     "shares": ",".join(map(str, state)),
@@ -266,7 +285,7 @@ def build_market_cases(engine):
             scenario(
                 ident,
                 rows,
-                config,
+                {"runs": planning_runs},
                 [
                     "packages/platform/src/quant_platform/portfolio/discrete_inventory.py"
                 ],

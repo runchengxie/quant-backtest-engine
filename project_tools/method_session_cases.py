@@ -3,6 +3,7 @@
 import itertools
 import json
 import pandas as pd
+from method_owner_calls import define_call, execute_call, restore_session
 from method_fixture_common import (
     number,
     wire,
@@ -19,17 +20,11 @@ def build_session_cases(shared_case):
     from quant_platform.backtest.impact import LinearImpact
     from quant_platform.backtest.minute import (
         MinuteExecutionConfig,
-        simulate_minute_execution,
     )
-    from quant_platform.backtest.minute_session import MinuteSession
     from quant_platform.backtest.quantity_locks import QuantityLock
     from quant_platform.portfolio.sleeve_allocation import (
         SleeveDemand,
-        net_sleeve_demands,
-        allocate_external_fills,
     )
-    from quant_platform.analytics.execution_integrity import exit_wealth
-    from quant_platform.scenarios import build_scenario
 
     shared_inputs, shared, cost_rows = shared_case
     f = shared.fills.iloc[0]
@@ -45,13 +40,15 @@ def build_session_cases(shared_case):
         b = bars()
         b.loc[2, ["open", "high", "low", "close"]] = last_price
         b.loc[2, "amount"] = last_price * 1000
-        policy = Policy(hold)
-        delivered = simulate_minute_execution(
+        run = define_call(
+            "minute",
             t,
             b,
             MinuteExecutionConfig(10000, participation, 0, 0),
-            decision_policy=policy,
+            decision_policy=Policy(hold),
         )
+        # The decoded policy is executed once and retained for its actual feedback rows.
+        delivered, policy = execute_call(run, return_policy=True)
         rows = [dict(row, phase="decision") for row in policy.rows]
         end = delivered.daily.iloc[-1]
         rows.append(
@@ -68,12 +65,7 @@ def build_session_cases(shared_case):
             scenario(
                 ident,
                 rows,
-                {
-                    "targets": records(t),
-                    "bars": records(b),
-                    "participation": participation,
-                    "hold_actual": hold,
-                },
+                {"runs": {"execution": run}},
                 ["packages/platform/src/quant_platform/backtest/minute.py"],
                 forecast_sha256=digest(records(t)),
                 market_sha256=digest(records(b)),
@@ -83,7 +75,8 @@ def build_session_cases(shared_case):
         )
     scenes["paths"] = {"scenarios": path_scenarios}
 
-    null = build_scenario("null_signal", seed=0)
+    null_run = define_call("null_scenario", "null_signal", seed=0)
+    null = execute_call(null_run)
     returns = null.frames["signals"]["return"].tolist()
     trial_rows = []
     # Six predeclared balanced portfolios; no fitted signal, no filtering of failures.
@@ -108,7 +101,7 @@ def build_session_cases(shared_case):
                 "null-search",
                 trial_rows,
                 {
-                    "seed": 0,
+                    "runs": {"generator": null_run},
                     "rule": "all six 2-of-4 equal-weight subsets; maximum same-sample return; first tie wins",
                     "signals": records(null.frames["signals"]),
                 },
@@ -127,15 +120,18 @@ def build_session_cases(shared_case):
     b = bars()
     cfg = MinuteExecutionConfig(10000, 0.1, 0, 0)
 
+    session_run = define_call(
+        "session",
+        t,
+        b,
+        cfg,
+        policy=Policy(),
+        report_delay_seconds=600,
+        impact=LinearImpact(transient=0.002),
+    )
+
     def make():
-        return MinuteSession(
-            t,
-            b,
-            cfg,
-            policy=Policy(),
-            report_delay_seconds=600,
-            impact=LinearImpact(transient=0.002),
-        )
+        return execute_call(session_run)
 
     full = make()
     expected = full.run()
@@ -144,15 +140,13 @@ def build_session_cases(shared_case):
         for name in ["daily", "orders", "fills", "holdings"]
     }
     checks = []
-    for boundary in range(len(full.simulation.times) + 1):
+    restore_boundaries = list(range(len(full.simulation.times) + 1))
+    for boundary in restore_boundaries:
         part = make()
         for _ in range(boundary):
             part.step()
         checkpoint = json.loads(json.dumps(part.checkpoint(), allow_nan=False))
-        policy = Policy()
-        policy.rows = checkpoint["policy"]["rows"]
-        policy.hold = checkpoint["policy"]["hold"]
-        restored = MinuteSession.restore(t, b, cfg, checkpoint, policy=policy)
+        restored = restore_session(session_run, checkpoint)
         recovered = restored.run()
         recovered_wire = {
             name: records(getattr(recovered, name)) for name in expected_wire
@@ -172,11 +166,8 @@ def build_session_cases(shared_case):
         "recovery",
         checks,
         {
-            "targets": records(t),
-            "bars": records(b),
-            "delay_seconds": 600,
-            "initial_cash": 10000,
-            "impact_transient": 0.002,
+            "runs": {"session": session_run},
+            "restore_boundaries": restore_boundaries,
         },
         ["packages/platform/src/quant_platform/backtest/minute_session.py"],
         uninterrupted_sha256=digest(expected_wire),
@@ -198,7 +189,8 @@ def build_session_cases(shared_case):
         )
         for s in ["a", "b"]
     ]
-    plan = net_sleeve_demands(demands, reference_prices={"A": "10"})
+    netting = define_call("net_sleeves", demands, reference_prices={"A": "10"})
+    plan = execute_call(netting)
     fill = {
         "fill_id": "synthetic-owner-row-0",
         "ts_ns": int(f.time.value),
@@ -209,11 +201,18 @@ def build_session_cases(shared_case):
         "gross_amount": str(f.gross_amount),
         "fee": str(f.transaction_cost),
     }
-    allocated = allocate_external_fills(plan, [fill, fill])
+    allocation = define_call("allocate", plan, [fill, fill])
+    allocated = execute_call(allocation)
     sharing = scenario(
         "shared",
         cost_rows,
-        shared_inputs | {"demands": wire(demands)},
+        {
+            "runs": {
+                **shared_inputs["runs"],
+                "netting": netting,
+                "allocation": allocation,
+            }
+        },
         ["packages/platform/src/quant_platform/portfolio/sleeve_allocation.py"],
         allocation=wire(allocated),
         external_orders=wire(plan.external_orders),
@@ -229,25 +228,29 @@ def build_session_cases(shared_case):
     start = int(pd.Timestamp("2026-01-06 09:00", tz="Asia/Shanghai").value)
     end = int(pd.Timestamp("2026-01-06 15:00", tz="Asia/Shanghai").value)
     lock = QuantityLock(start, start, end, ("A",), "synthetic-notice")
-    exit_result = MinuteSession(
+    exit_run = define_call(
+        "session",
         t,
         b,
         MinuteExecutionConfig(10000, 0.5, 0, 0),
         policy=Policy(),
         quantity_locks=(lock,),
-    ).run()
+    )
+    exit_result = execute_call(exit_run).run()
     clock = int(b.time.iloc[-1].value)
     final_cash = exit_result.daily.iloc[-1].cash
     quantities = {r.symbol: int(r.quantity) for r in exit_result.holdings.itertuples()}
     if not quantities:
         quantities = {"A": int(exit_result.holdings.iloc[-1].quantity)}
-    wealth = exit_wealth(
+    wealth_run = define_call(
+        "exit_wealth",
         str(final_cash),
         quantities,
         {"A": {"price": "10", "ts_ns": clock}},
         as_of_ns=clock,
         max_mark_age_ns=0,
     )
+    wealth = execute_call(wealth_run)
     exits = []
     for i, row in enumerate(exit_result.daily.itertuples()):
         exits.append(
@@ -265,12 +268,7 @@ def build_session_cases(shared_case):
     residual = scenario(
         "residual",
         exits,
-        {
-            "targets": records(t),
-            "bars": records(b),
-            "lock": wire(lock),
-            "initial_cash": 10000,
-        },
+        {"runs": {"session": exit_run, "wealth": wealth_run}},
         [
             "packages/platform/src/quant_platform/analytics/execution_integrity.py",
             "packages/platform/src/quant_platform/backtest/minute_session.py",

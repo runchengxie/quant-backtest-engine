@@ -136,6 +136,8 @@ The risk audit matches forecast and outcome on the same one-day horizon and basi
 
 [Fixture JSON](assets/method/fixtures.json) retains exact merged owner identities, source and input hashes, clocks, units and economic outputs. The exporter file hash identifies the actual exporting code, including before its commit. The page embeds those local states at build time and sends no requests for data, scripts, fonts or telemetry outside this site.
 
+Fixture configuration bindings include typed, fully resolved public-owner call definitions. The exporter executes those serialized definitions, preserving exact float bits, frame dtypes, clocks and every configuration default. Action baselines and continuations are separate runs. Each run has its own digest, and the overall input/configuration digest covers all contributing runs; mutation tests verify that changed cash, capacity, latency, impact and report delay change the binding and the actual owner behavior.
+
 Normal Rust, standalone Python client and documentation builds do not require Platform or Runtime. To regenerate the optional fixtures, use clean checkouts at the pinned public revisions in the JSON and a separately locked Platform development environment with its microstructure dependencies. Build the Engine from the recorded source revision, then run the exporter with explicit paths. Keep environment, build and output paths outside source repositories.
 
 ```bash
