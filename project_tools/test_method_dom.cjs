@@ -70,3 +70,41 @@ test('back-forward cache restore remounts disposed controls',()=>{
   control(scene,'step').click();assert.match(scene.querySelector('.method-status').textContent,/Frame 2 \/ 3/);
  } finally {app.close()}
 });
+
+test('browser payload excludes raw provenance and preserves exact replay clocks',()=>{
+ const fixtures=JSON.parse(fs.readFileSync(path.join(root,'docs/assets/method/fixtures.json'),'utf8'));
+ function assertSafeIntegers(value,location) {
+  if(typeof value==='number' && Number.isInteger(value))
+   assert.ok(Number.isSafeInteger(value),location+' contains an unsafe numeric integer');
+  if(value && typeof value==='object')
+   Object.entries(value).forEach(([key,item])=>assertSafeIntegers(item,location+'.'+key));
+ }
+ for(const locale of ['en','zh-CN']) {
+  const app=setup(locale);
+  try {
+   for(const element of app.w.document.querySelectorAll('.method-payload')) {
+    const payload=JSON.parse(element.textContent);
+    assertSafeIntegers(payload,payload.id);
+    assert.deepEqual(Object.keys(payload.scene),['scenarios']);
+    const authoritative=fixtures.scenes[payload.id].scenarios;
+    assert.equal(payload.scene.scenarios.length,authoritative.length);
+    payload.scene.scenarios.forEach((scenario,index)=>{
+     const original=authoritative[index];
+     assert.deepEqual(Object.keys(scenario).sort(),
+      ('grid' in original?['grid','id','states']:['id','states']));
+     assert.equal(scenario.id,original.id);
+     assert.deepEqual(scenario.states,original.states);
+     if('grid' in original)assert.deepEqual(scenario.grid,original.grid);
+    });
+    if(payload.id==='flow') {
+     const states=payload.scene.scenarios[0].states;
+     assert.equal(states[0].clock,'1735689599999999999');
+     assert.equal(states[1].clock,'1735689600000000000');
+     assert.notEqual(states[0].clock,states[1].clock);
+     assert.match(element.closest('.method-scene').querySelector('.method-status').textContent,
+      /1735689599999999999/);
+    }
+   }
+  } finally {app.close()}
+ }
+});

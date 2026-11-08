@@ -92,8 +92,16 @@ def on_page_markdown(markdown, page, config, files):
                 + ", ".join(links)
                 + f"<br>input SHA-256 <code>{s['input_sha256']}</code></p>"
             )
+        # Keep complete provenance in the downloadable authoritative fixture.
+        # Replay only needs these fields; raw numeric ns clocks are unsafe in JS.
+        replay_scene = {
+            "scenarios": [
+                {key: s[key] for key in ("id", "states", "grid") if key in s}
+                for s in scene["scenarios"]
+            ]
+        }
         payload = json.dumps(
-            {"id": ident, "scene": scene, "english": english, "locale": locale},
+            {"id": ident, "scene": replay_scene, "english": english, "locale": locale},
             ensure_ascii=False,
             allow_nan=False,
         ).replace("<", "\\u003c")
