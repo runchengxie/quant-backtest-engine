@@ -34,8 +34,12 @@ plugins:
       lang: [en, zh]
 hooks:
   - project_tools/docs_locale.py
+  - project_tools/method_docs.py
 extra_css:
   - stylesheets/extra.css
+  - stylesheets/method-replay.css
+extra_javascript:
+  - javascripts/method-replay.js
 markdown_extensions:
   - tables
   - admonition
@@ -51,6 +55,7 @@ nav:
   - English:
       - Overview: index.md
       - Quick start: quickstart.md
+      - Backtesting explained: backtesting-explained.md
       - Target-weight walkthrough: tutorial.md
       - Capabilities and compatibility: capabilities.md
       - Correctness evidence: correctness.md
@@ -68,6 +73,7 @@ nav:
   - 简体中文:
       - 首页: index.zh-CN.md
       - 快速开始: quickstart.zh-CN.md
+      - 回测为什么不能只看一条净值线: backtesting-explained.zh-CN.md
       - 目标权重回测教程: tutorial.zh-CN.md
       - 能力与兼容性: capabilities.zh-CN.md
       - 正确性证据: correctness.zh-CN.md

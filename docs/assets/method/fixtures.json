@@ -1,0 +1,3229 @@
+{
+  "exporter_sha256": "492ced4a6a8ded82600a3d21e3ffeab3b21a5e9e14a8767031263731bb7ebb11",
+  "exporter_sources": {
+    "project_tools/method_action_case.py": "364b9ebbccea900ee301867c19641db2e372b3654931f2fec8cc2ee74add9856",
+    "project_tools/method_fixture_common.py": "fd21e9b6a7c95fdfb91550bc1c1479ae7a5374aa3d1d7012fb12ae94cc93ed43",
+    "project_tools/method_market_cases.py": "69a4f7891465097d0361cd44162e57e513bb4318dd982caf0d3122af65e4d7f9",
+    "project_tools/method_risk_case.py": "23b3e52cc32015d9438304442350e31d7556545be734edd0bc2d486a18635e97",
+    "project_tools/method_session_cases.py": "2e8706946c31aa9e29958142b0ff53995e692e585a6a026858ddcda843cbc61f"
+  },
+  "owners": {
+    "engine": {
+      "revision": "c65548a4ee1e938125cce1edbcc282c760c4c8f2",
+      "source_sha256": {
+        "fixtures/roundtrip.json": "b039b17267c93943cc9704a53899585115f4bea8da4da4457d7a7d4258442a75"
+      },
+      "url": "https://github.com/runchengxie/quant-backtest-engine/tree/c65548a4ee1e938125cce1edbcc282c760c4c8f2"
+    },
+    "platform": {
+      "lock_sha256": "4f14ea8260533c1517f4ff2858218df92ce99a0d4e9f8c821eedead11612199a",
+      "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+      "source_sha256": {
+        "packages/microstructure/src/ticknet/simulator/matching.py": "920adb6b3f5196512cbf23692ab6dbfd7f980b5a80e965a2854d7cf60c216e2a",
+        "packages/platform/src/quant_platform/analytics/execution_integrity.py": "7b6d1fcaa1c79de49eb6d045695f49880f66fc991411984750d813cfa6bd2097",
+        "packages/platform/src/quant_platform/analytics/risk_calibration.py": "f382e9109d41262c27cea80992764c92cf2cf562b60a6e47d409130653bcbc1d",
+        "packages/platform/src/quant_platform/backtest/impact.py": "3efcab489722e2b287b4a55cdfded617b52414458adb514ccf4789f38c85c160",
+        "packages/platform/src/quant_platform/backtest/minute.py": "82e0041c16c53b4f7a3f181fcb3e07233a15da39e4c1869597f205a712728814",
+        "packages/platform/src/quant_platform/backtest/minute_session.py": "0872227f551639c1b75ef84119691e4c92171c7c3af16ff55a95c45452ee7039",
+        "packages/platform/src/quant_platform/portfolio/discrete_inventory.py": "3238ecae91588ae6818f718af8938ecefc506ae2e357c5627644f07ed982bd58",
+        "packages/platform/src/quant_platform/portfolio/sleeve_allocation.py": "6916287aed000cc3a6d349c8ce83ae2c4ee6d43158333eddbf68b56eb7d83577",
+        "packages/platform/src/quant_platform/scenarios.py": "d2cf66162af85a37bb724746ef270a05391d3abf1b33be3776d306e0e7784399"
+      },
+      "url": "https://github.com/runchengxie/quant-platform/tree/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355"
+    },
+    "runtime": {
+      "revision": "01ed4c34f955ef6cd39d13aa073b6d61b610d321",
+      "source_sha256": {
+        "docs/financial-sessions.md": "85648bf51720a7dea862f76234cbb52bb81d8b87f06b9e00aed856b2ea3cc6ec"
+      },
+      "url": "https://github.com/runchengxie/quant-backtest-runtime/tree/01ed4c34f955ef6cd39d13aa073b6d61b610d321"
+    }
+  },
+  "scenes": {
+    "book": {
+      "scenarios": [
+        {
+          "clocks": {
+            "decision": "strictly prior eligible information",
+            "event": "elapsed milliseconds",
+            "report": "receipt clock; may lag economic fill"
+          },
+          "config_sha256": "2dedf577c3f03c0a121e6b5f2dfbbdd08b2486bcc4616ac481ced23e27f7b253",
+          "configuration_scope": "complete synthetic input/configuration object",
+          "evidence": "synthetic",
+          "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+          "id": "depth",
+          "input_sha256": "2dedf577c3f03c0a121e6b5f2dfbbdd08b2486bcc4616ac481ced23e27f7b253",
+          "inputs": {
+            "asks": [
+              [
+                101,
+                5
+              ],
+              [
+                110,
+                10
+              ]
+            ],
+            "bid": [
+              99,
+              100
+            ],
+            "order": [
+              110,
+              20
+            ],
+            "report_delay_ms": 600
+          },
+          "owner": "platform",
+          "report_scope": "illustrative 600 ms delivery schedule; actual delayed accounting is scene risk",
+          "source": [
+            "packages/microstructure/src/ticknet/simulator/matching.py"
+          ],
+          "states": [
+            {
+              "clock": "0",
+              "gross": "0",
+              "phase": "spread",
+              "price": "100",
+              "quantity": "0",
+              "remaining": "20",
+              "reported": "0"
+            },
+            {
+              "clock": "1000",
+              "gross": "505",
+              "phase": "fill",
+              "price": "101",
+              "quantity": "5",
+              "remaining": "15",
+              "reported": "0"
+            },
+            {
+              "clock": "1000",
+              "gross": "1605",
+              "phase": "fill",
+              "price": "110",
+              "quantity": "15",
+              "remaining": "5",
+              "reported": "0"
+            },
+            {
+              "clock": "1600",
+              "gross": "1605",
+              "phase": "report",
+              "price": "110",
+              "quantity": "15",
+              "remaining": "5",
+              "reported": "15"
+            }
+          ],
+          "status": "synthetic_mechanism",
+          "units": {
+            "money": "synthetic currency units",
+            "offset": "price displacement",
+            "price": "currency/share",
+            "quantity": "shares",
+            "score": "return fraction"
+          }
+        }
+      ],
+      "supported_controls": {
+        "playback": [
+          "play",
+          "pause",
+          "step",
+          "reset"
+        ],
+        "scenario_ids": [
+          "depth"
+        ]
+      }
+    },
+    "cost": {
+      "scenarios": [
+        {
+          "clocks": {
+            "decision": "strictly prior eligible information",
+            "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
+            "report": "receipt clock; may lag economic fill"
+          },
+          "config_sha256": "c301409eaefd0fe5af9b142ba392d8dd6f2b2e8f07c49b871a9d0c7d68788abc",
+          "configuration_scope": "complete synthetic input/configuration object",
+          "evidence": "synthetic",
+          "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+          "fills": [
+            {
+              "cash_after": "10989",
+              "commission": "1",
+              "gross_amount": "1010",
+              "order_id": 0,
+              "price": "10.1",
+              "quantity": 100,
+              "sell_tax": "0",
+              "side": "buy",
+              "symbol": "A",
+              "time": "2026-01-05T09:32:00+08:00",
+              "transaction_cost": "1"
+            }
+          ],
+          "id": "once",
+          "input_sha256": "c301409eaefd0fe5af9b142ba392d8dd6f2b2e8f07c49b871a9d0c7d68788abc",
+          "inputs": {
+            "initial_cash": 12000,
+            "minimum_fee": 1,
+            "participation": "0.1",
+            "permanent": "0.002",
+            "target": "0.8333333333333334"
+          },
+          "owner": "platform",
+          "source": [
+            "packages/platform/src/quant_platform/backtest/minute.py"
+          ],
+          "states": [
+            {
+              "cash": "12000",
+              "clock": "1767576540000000000",
+              "fees": "0",
+              "gross": "0",
+              "impact_cost": "0",
+              "phase": "reserve",
+              "quantity": "0"
+            },
+            {
+              "cash": "10989",
+              "clock": "1767576720000000000",
+              "fees": "1",
+              "gross": "1010",
+              "impact_cost": "10",
+              "phase": "cash",
+              "price": "10.1",
+              "quantity": "100"
+            }
+          ],
+          "status": "synthetic_mechanism",
+          "units": {
+            "money": "CNY",
+            "offset": "price displacement",
+            "price": "currency/share",
+            "quantity": "shares",
+            "score": "return fraction"
+          }
+        }
+      ],
+      "supported_controls": {
+        "playback": [
+          "play",
+          "pause",
+          "step",
+          "reset"
+        ],
+        "scenario_ids": [
+          "once"
+        ]
+      }
+    },
+    "flow": {
+      "scenarios": [
+        {
+          "clocks": {
+            "decision": "strictly prior eligible information",
+            "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
+            "report": "receipt clock; may lag economic fill"
+          },
+          "config_sha256": "b8ab5cf321aff1bf81c7d1bd72bd6696f2e7490c4f64a961602342c472f247f6",
+          "configuration_scope": "complete synthetic input/configuration object",
+          "currency": "USD",
+          "evidence": "synthetic",
+          "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+          "id": "roundtrip",
+          "input_sha256": "b8ab5cf321aff1bf81c7d1bd72bd6696f2e7490c4f64a961602342c472f247f6",
+          "inputs": {
+            "fee_bps": "10",
+            "initial_cash": "10000.00",
+            "instruments": [
+              {
+                "price_precision": 2,
+                "symbol": "AAA"
+              }
+            ],
+            "orders": [
+              {
+                "id": "buy-1",
+                "information_ts_ns": 1735689599999999999,
+                "quantity": "10",
+                "side": "buy",
+                "symbol": "AAA"
+              },
+              {
+                "id": "sell-1",
+                "information_ts_ns": 1735689600000000000,
+                "quantity": "10",
+                "side": "sell",
+                "symbol": "AAA"
+              }
+            ],
+            "quotes": [
+              {
+                "ask": "10.00",
+                "bid": "10.00",
+                "symbol": "AAA",
+                "ts_ns": 1735689600000000000
+              },
+              {
+                "ask": "12.00",
+                "bid": "12.00",
+                "symbol": "AAA",
+                "ts_ns": 1735689601000000000
+              },
+              {
+                "ask": "11.00",
+                "bid": "11.00",
+                "symbol": "AAA",
+                "ts_ns": 1735689602000000000
+              }
+            ],
+            "required_capabilities": [],
+            "schema_version": "engine_request.v1"
+          },
+          "owner": "engine",
+          "result": {
+            "backend": "nautilus",
+            "backend_version": "0.66.0",
+            "capabilities": [
+              "quote_market_orders",
+              "multi_asset",
+              "final_balances",
+              "proportional_fees"
+            ],
+            "cash": "10019.78",
+            "commission": "0.22",
+            "currency": "USD",
+            "equity": "10019.78",
+            "fills": [
+              {
+                "commission": "0.1",
+                "order_id": "buy-1",
+                "price": "10",
+                "quantity": "10",
+                "side": "buy",
+                "symbol": "AAA",
+                "ts_ns": 1735689600000000000
+              },
+              {
+                "commission": "0.12",
+                "order_id": "sell-1",
+                "price": "12",
+                "quantity": "10",
+                "side": "sell",
+                "symbol": "AAA",
+                "ts_ns": 1735689601000000000
+              }
+            ],
+            "orders": [
+              {
+                "filled_quantity": "10",
+                "id": "buy-1",
+                "status": "FILLED",
+                "symbol": "AAA"
+              },
+              {
+                "filled_quantity": "10",
+                "id": "sell-1",
+                "status": "FILLED",
+                "symbol": "AAA"
+              }
+            ],
+            "positions": [],
+            "positions_value": "0",
+            "schema_version": "engine_result.v1"
+          },
+          "source": [
+            "fixtures/roundtrip.json"
+          ],
+          "states": [
+            {
+              "cash": "10000",
+              "clock": "1735689599999999999",
+              "fees": "0",
+              "phase": "forecast",
+              "price": "10",
+              "quantity": "0"
+            },
+            {
+              "cash": "9899.9",
+              "clock": "1735689600000000000",
+              "fees": "0.1",
+              "phase": "buy",
+              "price": "10",
+              "quantity": "10"
+            },
+            {
+              "cash": "10019.78",
+              "clock": "1735689601000000000",
+              "fees": "0.22",
+              "phase": "sell",
+              "price": "12",
+              "quantity": "0"
+            }
+          ],
+          "status": "synthetic_mechanism",
+          "units": {
+            "money": "USD",
+            "offset": "price displacement",
+            "price": "currency/share",
+            "quantity": "shares",
+            "score": "return fraction"
+          }
+        }
+      ],
+      "supported_controls": {
+        "playback": [
+          "play",
+          "pause",
+          "step",
+          "reset"
+        ],
+        "scenario_ids": [
+          "roundtrip"
+        ]
+      }
+    },
+    "impact": {
+      "scenarios": [
+        {
+          "clocks": {
+            "decision": "strictly prior eligible information",
+            "event": "elapsed seconds",
+            "report": "receipt clock; may lag economic fill"
+          },
+          "config_sha256": "0ab92be9dac41498b771a8391fd3c45da7fb748fe40af92ee5faf4c254d017d0",
+          "configuration_scope": "complete synthetic input/configuration object",
+          "evidence": "synthetic",
+          "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+          "id": "small",
+          "input_sha256": "0ab92be9dac41498b771a8391fd3c45da7fb748fe40af92ee5faf4c254d017d0",
+          "inputs": {
+            "decay_seconds": 60,
+            "permanent": 0,
+            "quantity": 100,
+            "spacing": 60,
+            "transient": "0.002"
+          },
+          "owner": "platform",
+          "source": [
+            "packages/platform/src/quant_platform/backtest/impact.py"
+          ],
+          "states": [
+            {
+              "clock": "0",
+              "offset": "0.1",
+              "permanent": "0",
+              "phase": "fill",
+              "price": "10.1",
+              "quantity": "100",
+              "transient": "0.2",
+              "unaffected": "10"
+            },
+            {
+              "clock": "60",
+              "offset": "0.07357588823428847",
+              "permanent": "0",
+              "phase": "decay",
+              "price": "10.073575888234288",
+              "quantity": "0",
+              "transient": "0.07357588823428847",
+              "unaffected": "10"
+            },
+            {
+              "clock": "60",
+              "offset": "0.1735758882342885",
+              "permanent": "0",
+              "phase": "fill",
+              "price": "10.17357588823429",
+              "quantity": "100",
+              "transient": "0.27357588823428847",
+              "unaffected": "10"
+            },
+            {
+              "clock": "240",
+              "offset": "0.013620541451319626",
+              "permanent": "0",
+              "phase": "decay",
+              "price": "10.013620541451319",
+              "quantity": "0",
+              "transient": "0.013620541451319626",
+              "unaffected": "10"
+            }
+          ],
+          "status": "synthetic_mechanism",
+          "units": {
+            "money": "CNY",
+            "offset": "price displacement",
+            "price": "currency/share",
+            "quantity": "shares",
+            "score": "return fraction"
+          }
+        },
+        {
+          "clocks": {
+            "decision": "strictly prior eligible information",
+            "event": "elapsed seconds",
+            "report": "receipt clock; may lag economic fill"
+          },
+          "config_sha256": "705fa018ecab06944d2db5c69338a68099958faad539e6de97b4eaf631ce50d3",
+          "configuration_scope": "complete synthetic input/configuration object",
+          "evidence": "synthetic",
+          "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+          "id": "large",
+          "input_sha256": "705fa018ecab06944d2db5c69338a68099958faad539e6de97b4eaf631ce50d3",
+          "inputs": {
+            "decay_seconds": 60,
+            "permanent": 0,
+            "quantity": 200,
+            "spacing": 120,
+            "transient": "0.002"
+          },
+          "owner": "platform",
+          "source": [
+            "packages/platform/src/quant_platform/backtest/impact.py"
+          ],
+          "states": [
+            {
+              "clock": "0",
+              "offset": "0.2",
+              "permanent": "0",
+              "phase": "fill",
+              "price": "10.2",
+              "quantity": "200",
+              "transient": "0.4",
+              "unaffected": "10"
+            },
+            {
+              "clock": "120",
+              "offset": "0.054134113294645084",
+              "permanent": "0",
+              "phase": "decay",
+              "price": "10.054134113294644",
+              "quantity": "0",
+              "transient": "0.054134113294645084",
+              "unaffected": "10"
+            },
+            {
+              "clock": "120",
+              "offset": "0.2541341132946451",
+              "permanent": "0",
+              "phase": "fill",
+              "price": "10.254134113294645",
+              "quantity": "200",
+              "transient": "0.4541341132946451",
+              "unaffected": "10"
+            },
+            {
+              "clock": "300",
+              "offset": "0.022610006146779764",
+              "permanent": "0",
+              "phase": "decay",
+              "price": "10.02261000614678",
+              "quantity": "0",
+              "transient": "0.022610006146779764",
+              "unaffected": "10"
+            }
+          ],
+          "status": "synthetic_mechanism",
+          "units": {
+            "money": "CNY",
+            "offset": "price displacement",
+            "price": "currency/share",
+            "quantity": "shares",
+            "score": "return fraction"
+          }
+        },
+        {
+          "clocks": {
+            "decision": "strictly prior eligible information",
+            "event": "elapsed seconds",
+            "report": "receipt clock; may lag economic fill"
+          },
+          "config_sha256": "5b8f9e1a10b90b10ae59315fd512dc32ffae6f29b67e42ebdc580e67a4496041",
+          "configuration_scope": "complete synthetic input/configuration object",
+          "evidence": "synthetic",
+          "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+          "id": "nondecaying",
+          "input_sha256": "5b8f9e1a10b90b10ae59315fd512dc32ffae6f29b67e42ebdc580e67a4496041",
+          "inputs": {
+            "decay_seconds": 60,
+            "permanent": "0.001",
+            "quantity": 100,
+            "spacing": 60,
+            "transient": "0.002"
+          },
+          "owner": "platform",
+          "source": [
+            "packages/platform/src/quant_platform/backtest/impact.py"
+          ],
+          "states": [
+            {
+              "clock": "0",
+              "offset": "0.15",
+              "permanent": "0.1",
+              "phase": "fill",
+              "price": "10.15",
+              "quantity": "100",
+              "transient": "0.2",
+              "unaffected": "10"
+            },
+            {
+              "clock": "60",
+              "offset": "0.1735758882342885",
+              "permanent": "0.1",
+              "phase": "decay",
+              "price": "10.17357588823429",
+              "quantity": "0",
+              "transient": "0.07357588823428847",
+              "unaffected": "10"
+            },
+            {
+              "clock": "60",
+              "offset": "0.3235758882342885",
+              "permanent": "0.2",
+              "phase": "fill",
+              "price": "10.323575888234288",
+              "quantity": "100",
+              "transient": "0.27357588823428847",
+              "unaffected": "10"
+            },
+            {
+              "clock": "240",
+              "offset": "0.21362054145131965",
+              "permanent": "0.2",
+              "phase": "decay",
+              "price": "10.21362054145132",
+              "quantity": "0",
+              "transient": "0.013620541451319626",
+              "unaffected": "10"
+            }
+          ],
+          "status": "synthetic_mechanism",
+          "units": {
+            "money": "CNY",
+            "offset": "price displacement",
+            "price": "currency/share",
+            "quantity": "shares",
+            "score": "return fraction"
+          }
+        },
+        {
+          "clocks": {
+            "decision": "strictly prior eligible information",
+            "event": "elapsed seconds",
+            "report": "receipt clock; may lag economic fill"
+          },
+          "config_sha256": "94b955b31b12d54d84668776ceb722bdd2c5919206c07af645a6677ba5c5ed56",
+          "configuration_scope": "complete synthetic input/configuration object",
+          "evidence": "synthetic",
+          "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+          "id": "close",
+          "input_sha256": "94b955b31b12d54d84668776ceb722bdd2c5919206c07af645a6677ba5c5ed56",
+          "inputs": {
+            "decay_seconds": 60,
+            "permanent": 0,
+            "quantity": 100,
+            "spacing": 10,
+            "transient": "0.002"
+          },
+          "owner": "platform",
+          "source": [
+            "packages/platform/src/quant_platform/backtest/impact.py"
+          ],
+          "states": [
+            {
+              "clock": "0",
+              "offset": "0.1",
+              "permanent": "0",
+              "phase": "fill",
+              "price": "10.1",
+              "quantity": "100",
+              "transient": "0.2",
+              "unaffected": "10"
+            },
+            {
+              "clock": "10",
+              "offset": "0.16929634497812285",
+              "permanent": "0",
+              "phase": "decay",
+              "price": "10.169296344978124",
+              "quantity": "0",
+              "transient": "0.16929634497812285",
+              "unaffected": "10"
+            },
+            {
+              "clock": "10",
+              "offset": "0.2692963449781228",
+              "permanent": "0",
+              "phase": "fill",
+              "price": "10.269296344978123",
+              "quantity": "100",
+              "transient": "0.36929634497812286",
+              "unaffected": "10"
+            },
+            {
+              "clock": "190",
+              "offset": "0.01838618237542807",
+              "permanent": "0",
+              "phase": "decay",
+              "price": "10.018386182375428",
+              "quantity": "0",
+              "transient": "0.01838618237542807",
+              "unaffected": "10"
+            }
+          ],
+          "status": "synthetic_mechanism",
+          "units": {
+            "money": "CNY",
+            "offset": "price displacement",
+            "price": "currency/share",
+            "quantity": "shares",
+            "score": "return fraction"
+          }
+        }
+      ],
+      "supported_controls": {
+        "playback": [
+          "play",
+          "pause",
+          "step",
+          "reset"
+        ],
+        "scenario_ids": [
+          "small",
+          "large",
+          "nondecaying",
+          "close"
+        ]
+      }
+    },
+    "lots": {
+      "scenarios": [
+        {
+          "clocks": {
+            "decision": "strictly prior eligible information",
+            "event": "single decision, clock 0",
+            "report": "receipt clock; may lag economic fill"
+          },
+          "config_sha256": "4cd75cb410a51fdf9eb90c0575bb93c8aeb9259ac313fc156fe1bdbb413a3dc5",
+          "configuration_scope": "complete synthetic input/configuration object",
+          "domain_states": 16,
+          "evidence": "synthetic",
+          "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+          "grid": [
+            {
+              "cash": "14",
+              "feasible": true,
+              "shares": "0,0"
+            },
+            {
+              "cash": "10",
+              "feasible": true,
+              "shares": "0,1"
+            },
+            {
+              "cash": "6",
+              "feasible": true,
+              "shares": "0,2"
+            },
+            {
+              "cash": "2",
+              "feasible": true,
+              "shares": "0,3"
+            },
+            {
+              "cash": "8",
+              "feasible": true,
+              "shares": "1,0"
+            },
+            {
+              "cash": "4",
+              "feasible": true,
+              "shares": "1,1"
+            },
+            {
+              "cash": "0",
+              "feasible": true,
+              "shares": "1,2"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "1,3"
+            },
+            {
+              "cash": "2",
+              "feasible": true,
+              "shares": "2,0"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "2,1"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "2,2"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "2,3"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "3,0"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "3,1"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "3,2"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "3,3"
+            }
+          ],
+          "id": "no-minimum",
+          "input_sha256": "4cd75cb410a51fdf9eb90c0575bb93c8aeb9259ac313fc156fe1bdbb413a3dc5",
+          "inputs": {
+            "available_sell_shares": [
+              0,
+              0
+            ],
+            "buy_lot_sizes": [
+              1,
+              1
+            ],
+            "cash": 14,
+            "holdings": [
+              0,
+              0
+            ],
+            "max_buy_lots": [
+              3,
+              3
+            ],
+            "minimum_fee": 0,
+            "prices": [
+              6,
+              4
+            ],
+            "sell_lot_sizes": [
+              1,
+              1
+            ],
+            "target_shares": [
+              "1.6",
+              "1.6"
+            ]
+          },
+          "owner": "platform",
+          "source": [
+            "packages/platform/src/quant_platform/portfolio/discrete_inventory.py"
+          ],
+          "states": [
+            {
+              "cash": "2",
+              "clock": "0",
+              "error": "2.72",
+              "fees": "0",
+              "phase": "heuristic",
+              "quantity": "2",
+              "shares": "2,0"
+            },
+            {
+              "cash": "0",
+              "clock": "0",
+              "error": "0.52",
+              "fees": "0",
+              "phase": "bounded",
+              "quantity": "3",
+              "shares": "1,2"
+            }
+          ],
+          "status": "optimal_exhaustive",
+          "units": {
+            "money": "CNY",
+            "offset": "price displacement",
+            "price": "currency/share",
+            "quantity": "shares",
+            "score": "return fraction"
+          }
+        },
+        {
+          "clocks": {
+            "decision": "strictly prior eligible information",
+            "event": "single decision, clock 0",
+            "report": "receipt clock; may lag economic fill"
+          },
+          "config_sha256": "801fd0bff613d61d51f1cde04a56f294af2a7f81e72dad00c95f03093eaa05c5",
+          "configuration_scope": "complete synthetic input/configuration object",
+          "domain_states": 16,
+          "evidence": "synthetic",
+          "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+          "grid": [
+            {
+              "cash": "14",
+              "feasible": true,
+              "shares": "0,0"
+            },
+            {
+              "cash": "9",
+              "feasible": true,
+              "shares": "0,1"
+            },
+            {
+              "cash": "5",
+              "feasible": true,
+              "shares": "0,2"
+            },
+            {
+              "cash": "1",
+              "feasible": true,
+              "shares": "0,3"
+            },
+            {
+              "cash": "7",
+              "feasible": true,
+              "shares": "1,0"
+            },
+            {
+              "cash": "2",
+              "feasible": true,
+              "shares": "1,1"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "1,2"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "1,3"
+            },
+            {
+              "cash": "1",
+              "feasible": true,
+              "shares": "2,0"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "2,1"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "2,2"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "2,3"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "3,0"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "3,1"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "3,2"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "3,3"
+            }
+          ],
+          "id": "minimum",
+          "input_sha256": "801fd0bff613d61d51f1cde04a56f294af2a7f81e72dad00c95f03093eaa05c5",
+          "inputs": {
+            "available_sell_shares": [
+              0,
+              0
+            ],
+            "buy_lot_sizes": [
+              1,
+              1
+            ],
+            "cash": 14,
+            "holdings": [
+              0,
+              0
+            ],
+            "max_buy_lots": [
+              3,
+              3
+            ],
+            "minimum_fee": 1,
+            "prices": [
+              6,
+              4
+            ],
+            "sell_lot_sizes": [
+              1,
+              1
+            ],
+            "target_shares": [
+              "1.6",
+              "1.6"
+            ]
+          },
+          "owner": "platform",
+          "source": [
+            "packages/platform/src/quant_platform/portfolio/discrete_inventory.py"
+          ],
+          "states": [
+            {
+              "cash": "1",
+              "clock": "0",
+              "error": "2.72",
+              "fees": "1",
+              "phase": "heuristic",
+              "quantity": "2",
+              "shares": "2,0"
+            },
+            {
+              "cash": "2",
+              "clock": "0",
+              "error": "0.72",
+              "fees": "2",
+              "phase": "bounded",
+              "quantity": "2",
+              "shares": "1,1"
+            }
+          ],
+          "status": "optimal_exhaustive",
+          "units": {
+            "money": "CNY",
+            "offset": "price displacement",
+            "price": "currency/share",
+            "quantity": "shares",
+            "score": "return fraction"
+          }
+        },
+        {
+          "clocks": {
+            "decision": "strictly prior eligible information",
+            "event": "single decision, clock 0",
+            "report": "receipt clock; may lag economic fill"
+          },
+          "config_sha256": "30db5ca20e231571bebbc6ca93a7aa091cf6e1e28d9395c84ccc0d745bd86f36",
+          "configuration_scope": "complete synthetic input/configuration object",
+          "domain_states": 16,
+          "evidence": "synthetic",
+          "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+          "grid": [
+            {
+              "cash": "14",
+              "feasible": true,
+              "shares": "0,0"
+            },
+            {
+              "cash": "9",
+              "feasible": true,
+              "shares": "0,1"
+            },
+            {
+              "cash": "5",
+              "feasible": true,
+              "shares": "0,2"
+            },
+            {
+              "cash": "1",
+              "feasible": true,
+              "shares": "0,3"
+            },
+            {
+              "cash": "7",
+              "feasible": true,
+              "shares": "1,0"
+            },
+            {
+              "cash": "2",
+              "feasible": true,
+              "shares": "1,1"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "1,2"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "1,3"
+            },
+            {
+              "cash": "1",
+              "feasible": true,
+              "shares": "2,0"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "2,1"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "2,2"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "2,3"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "3,0"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "3,1"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "3,2"
+            },
+            {
+              "cash": null,
+              "feasible": false,
+              "shares": "3,3"
+            }
+          ],
+          "id": "grid",
+          "input_sha256": "30db5ca20e231571bebbc6ca93a7aa091cf6e1e28d9395c84ccc0d745bd86f36",
+          "inputs": {
+            "available_sell_shares": [
+              0,
+              0
+            ],
+            "buy_lot_sizes": [
+              1,
+              1
+            ],
+            "cash": 14,
+            "holdings": [
+              0,
+              0
+            ],
+            "max_buy_lots": [
+              3,
+              3
+            ],
+            "minimum_fee": 1,
+            "prices": [
+              6,
+              4
+            ],
+            "sell_lot_sizes": [
+              1,
+              1
+            ],
+            "target_shares": [
+              "1.5",
+              "1.5"
+            ]
+          },
+          "owner": "platform",
+          "source": [
+            "packages/platform/src/quant_platform/portfolio/discrete_inventory.py"
+          ],
+          "states": [
+            {
+              "cash": "2",
+              "clock": "0",
+              "error": "0.5",
+              "fees": "2",
+              "phase": "heuristic",
+              "quantity": "2",
+              "shares": "1,1"
+            },
+            {
+              "cash": "2",
+              "clock": "0",
+              "error": "0.5",
+              "fees": "2",
+              "phase": "bounded",
+              "quantity": "2",
+              "shares": "1,1"
+            }
+          ],
+          "status": "optimal_exhaustive",
+          "units": {
+            "money": "CNY",
+            "offset": "price displacement",
+            "price": "currency/share",
+            "quantity": "shares",
+            "score": "return fraction"
+          }
+        }
+      ],
+      "supported_controls": {
+        "playback": [
+          "play",
+          "pause",
+          "step",
+          "reset"
+        ],
+        "scenario_ids": [
+          "no-minimum",
+          "minimum",
+          "grid"
+        ]
+      }
+    },
+    "paths": {
+      "scenarios": [
+        {
+          "clocks": {
+            "decision": "strictly prior eligible information",
+            "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
+            "report": "receipt clock; may lag economic fill"
+          },
+          "config_sha256": "35f10124270efc20db83eddd3182bdfb5937d17c7f35d30c19752483915fd4d7",
+          "configuration_scope": "complete synthetic input/configuration object",
+          "evidence": "synthetic",
+          "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+          "fills": [
+            {
+              "cash_after": "9000",
+              "commission": "0",
+              "gross_amount": "1000",
+              "order_id": 0,
+              "price": "10",
+              "quantity": 100,
+              "sell_tax": "0",
+              "side": "buy",
+              "symbol": "A",
+              "time": "2026-01-05T09:32:00+08:00",
+              "transaction_cost": "0"
+            },
+            {
+              "cash_after": "8000",
+              "commission": "0",
+              "gross_amount": "1000",
+              "order_id": 0,
+              "price": "10",
+              "quantity": 100,
+              "sell_tax": "0",
+              "side": "buy",
+              "symbol": "A",
+              "time": "2026-01-05T09:36:00+08:00",
+              "transaction_cost": "0"
+            }
+          ],
+          "forecast_sha256": "50412276572cba0a0bffc669f48dffd4ed98a61948d07852dbb78b8491275635",
+          "id": "thin",
+          "input_sha256": "35f10124270efc20db83eddd3182bdfb5937d17c7f35d30c19752483915fd4d7",
+          "inputs": {
+            "bars": [
+              {
+                "amount": "10000",
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-05T09:28:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-05T09:29:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              },
+              {
+                "amount": "10000",
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-05T09:31:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-05T09:32:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              },
+              {
+                "amount": "10000",
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-05T09:35:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-05T09:36:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              }
+            ],
+            "hold_actual": false,
+            "participation": "0.1",
+            "targets": [
+              {
+                "decision_time": "2026-01-05T09:29:00+08:00",
+                "entry_time": "2026-01-05T09:30:00+08:00",
+                "symbol": "A",
+                "weight": 1
+              },
+              {
+                "decision_time": "2026-01-05T09:33:00+08:00",
+                "entry_time": "2026-01-05T09:34:00+08:00",
+                "symbol": "A",
+                "weight": 1
+              }
+            ]
+          },
+          "market_sha256": "4ea119298b61e59592a483727340f6a4be579c8d6098e76c0e577d20d4015cbf",
+          "orders": [
+            {
+              "commission_paid": "0",
+              "deadline": "2026-01-05T10:00:00+08:00",
+              "decision_time": "2026-01-05T09:29:00+08:00",
+              "entry_time": "2026-01-05T09:30:00+08:00",
+              "executed_notional": "2000",
+              "filled_quantity": 200,
+              "order_id": 0,
+              "quantity": 1000,
+              "reason": "partial_fill",
+              "reference_basis": "raw",
+              "reference_price": "10",
+              "reference_source_time": "2026-01-05T09:29:00+08:00",
+              "reference_time": "2026-01-05T09:29:00+08:00",
+              "side": "buy",
+              "status": "expired",
+              "symbol": "A",
+              "tax_paid": "0"
+            }
+          ],
+          "owner": "platform",
+          "source": [
+            "packages/platform/src/quant_platform/backtest/minute.py"
+          ],
+          "states": [
+            {
+              "cash": "10000",
+              "clock": "1767576540000000000",
+              "next_target": "1",
+              "pending": false,
+              "phase": "decision",
+              "quantity": "0"
+            },
+            {
+              "cash": "9000",
+              "clock": "1767576780000000000",
+              "next_target": null,
+              "pending": true,
+              "phase": "decision",
+              "quantity": "100"
+            },
+            {
+              "cash": "8000",
+              "clock": "1767576960000000000",
+              "next_target": null,
+              "phase": "account",
+              "price": "10",
+              "quantity": "200"
+            }
+          ],
+          "status": "synthetic_mechanism",
+          "units": {
+            "money": "CNY",
+            "offset": "price displacement",
+            "price": "currency/share",
+            "quantity": "shares",
+            "score": "return fraction"
+          }
+        },
+        {
+          "clocks": {
+            "decision": "strictly prior eligible information",
+            "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
+            "report": "receipt clock; may lag economic fill"
+          },
+          "config_sha256": "8b555ee4207f286080c2315f95dd43307a46d8e857ed03ebdca25d2b163437db",
+          "configuration_scope": "complete synthetic input/configuration object",
+          "evidence": "synthetic",
+          "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+          "fills": [
+            {
+              "cash_after": "5000",
+              "commission": "0",
+              "gross_amount": "5000",
+              "order_id": 0,
+              "price": "10",
+              "quantity": 500,
+              "sell_tax": "0",
+              "side": "buy",
+              "symbol": "A",
+              "time": "2026-01-05T09:32:00+08:00",
+              "transaction_cost": "0"
+            },
+            {
+              "cash_after": "0",
+              "commission": "0",
+              "gross_amount": "5000",
+              "order_id": 0,
+              "price": "10",
+              "quantity": 500,
+              "sell_tax": "0",
+              "side": "buy",
+              "symbol": "A",
+              "time": "2026-01-05T09:36:00+08:00",
+              "transaction_cost": "0"
+            }
+          ],
+          "forecast_sha256": "50412276572cba0a0bffc669f48dffd4ed98a61948d07852dbb78b8491275635",
+          "id": "deep",
+          "input_sha256": "8b555ee4207f286080c2315f95dd43307a46d8e857ed03ebdca25d2b163437db",
+          "inputs": {
+            "bars": [
+              {
+                "amount": "10000",
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-05T09:28:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-05T09:29:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              },
+              {
+                "amount": "10000",
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-05T09:31:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-05T09:32:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              },
+              {
+                "amount": "10000",
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-05T09:35:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-05T09:36:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              }
+            ],
+            "hold_actual": false,
+            "participation": "0.5",
+            "targets": [
+              {
+                "decision_time": "2026-01-05T09:29:00+08:00",
+                "entry_time": "2026-01-05T09:30:00+08:00",
+                "symbol": "A",
+                "weight": 1
+              },
+              {
+                "decision_time": "2026-01-05T09:33:00+08:00",
+                "entry_time": "2026-01-05T09:34:00+08:00",
+                "symbol": "A",
+                "weight": 1
+              }
+            ]
+          },
+          "market_sha256": "4ea119298b61e59592a483727340f6a4be579c8d6098e76c0e577d20d4015cbf",
+          "orders": [
+            {
+              "commission_paid": "0",
+              "deadline": "2026-01-05T10:00:00+08:00",
+              "decision_time": "2026-01-05T09:29:00+08:00",
+              "entry_time": "2026-01-05T09:30:00+08:00",
+              "executed_notional": "10000",
+              "filled_quantity": 1000,
+              "order_id": 0,
+              "quantity": 1000,
+              "reason": "filled",
+              "reference_basis": "raw",
+              "reference_price": "10",
+              "reference_source_time": "2026-01-05T09:29:00+08:00",
+              "reference_time": "2026-01-05T09:29:00+08:00",
+              "side": "buy",
+              "status": "filled",
+              "symbol": "A",
+              "tax_paid": "0"
+            }
+          ],
+          "owner": "platform",
+          "source": [
+            "packages/platform/src/quant_platform/backtest/minute.py"
+          ],
+          "states": [
+            {
+              "cash": "10000",
+              "clock": "1767576540000000000",
+              "next_target": "1",
+              "pending": false,
+              "phase": "decision",
+              "quantity": "0"
+            },
+            {
+              "cash": "5000",
+              "clock": "1767576780000000000",
+              "next_target": null,
+              "pending": true,
+              "phase": "decision",
+              "quantity": "500"
+            },
+            {
+              "cash": "0",
+              "clock": "1767576960000000000",
+              "next_target": null,
+              "phase": "account",
+              "price": "10",
+              "quantity": "1000"
+            }
+          ],
+          "status": "synthetic_mechanism",
+          "units": {
+            "money": "CNY",
+            "offset": "price displacement",
+            "price": "currency/share",
+            "quantity": "shares",
+            "score": "return fraction"
+          }
+        },
+        {
+          "clocks": {
+            "decision": "strictly prior eligible information",
+            "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
+            "report": "receipt clock; may lag economic fill"
+          },
+          "config_sha256": "a1c188c31c8145bffbb5551c3ade689d950ff0fbad9b8338739cf0374476f7d3",
+          "configuration_scope": "complete synthetic input/configuration object",
+          "evidence": "synthetic",
+          "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+          "fills": [
+            {
+              "cash_after": "9000",
+              "commission": "0",
+              "gross_amount": "1000",
+              "order_id": 0,
+              "price": "10",
+              "quantity": 100,
+              "sell_tax": "0",
+              "side": "buy",
+              "symbol": "A",
+              "time": "2026-01-05T09:32:00+08:00",
+              "transaction_cost": "0"
+            },
+            {
+              "cash_after": "7950",
+              "commission": "0",
+              "gross_amount": "1050",
+              "order_id": 0,
+              "price": "10.5",
+              "quantity": 100,
+              "sell_tax": "0",
+              "side": "buy",
+              "symbol": "A",
+              "time": "2026-01-05T09:36:00+08:00",
+              "transaction_cost": "0"
+            }
+          ],
+          "forecast_sha256": "50412276572cba0a0bffc669f48dffd4ed98a61948d07852dbb78b8491275635",
+          "id": "market-up",
+          "input_sha256": "a1c188c31c8145bffbb5551c3ade689d950ff0fbad9b8338739cf0374476f7d3",
+          "inputs": {
+            "bars": [
+              {
+                "amount": "10000",
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-05T09:28:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-05T09:29:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              },
+              {
+                "amount": "10000",
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-05T09:31:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-05T09:32:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              },
+              {
+                "amount": "10500",
+                "close": "10.5",
+                "down_limit": 1,
+                "high": "10.5",
+                "interval_start": "2026-01-05T09:35:30+08:00",
+                "low": "10.5",
+                "open": "10.5",
+                "symbol": "A",
+                "time": "2026-01-05T09:36:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              }
+            ],
+            "hold_actual": false,
+            "participation": "0.1",
+            "targets": [
+              {
+                "decision_time": "2026-01-05T09:29:00+08:00",
+                "entry_time": "2026-01-05T09:30:00+08:00",
+                "symbol": "A",
+                "weight": 1
+              },
+              {
+                "decision_time": "2026-01-05T09:33:00+08:00",
+                "entry_time": "2026-01-05T09:34:00+08:00",
+                "symbol": "A",
+                "weight": 1
+              }
+            ]
+          },
+          "market_sha256": "36b0250a187969673f725c6e29a7a7cdeb3c68dd7fcb85f1e037da9c0d500a92",
+          "orders": [
+            {
+              "commission_paid": "0",
+              "deadline": "2026-01-05T10:00:00+08:00",
+              "decision_time": "2026-01-05T09:29:00+08:00",
+              "entry_time": "2026-01-05T09:30:00+08:00",
+              "executed_notional": "2050",
+              "filled_quantity": 200,
+              "order_id": 0,
+              "quantity": 1000,
+              "reason": "partial_fill",
+              "reference_basis": "raw",
+              "reference_price": "10",
+              "reference_source_time": "2026-01-05T09:29:00+08:00",
+              "reference_time": "2026-01-05T09:29:00+08:00",
+              "side": "buy",
+              "status": "expired",
+              "symbol": "A",
+              "tax_paid": "0"
+            }
+          ],
+          "owner": "platform",
+          "source": [
+            "packages/platform/src/quant_platform/backtest/minute.py"
+          ],
+          "states": [
+            {
+              "cash": "10000",
+              "clock": "1767576540000000000",
+              "next_target": "1",
+              "pending": false,
+              "phase": "decision",
+              "quantity": "0"
+            },
+            {
+              "cash": "9000",
+              "clock": "1767576780000000000",
+              "next_target": null,
+              "pending": true,
+              "phase": "decision",
+              "quantity": "100"
+            },
+            {
+              "cash": "7950",
+              "clock": "1767576960000000000",
+              "next_target": null,
+              "phase": "account",
+              "price": "10.5",
+              "quantity": "200"
+            }
+          ],
+          "status": "synthetic_mechanism",
+          "units": {
+            "money": "CNY",
+            "offset": "price displacement",
+            "price": "currency/share",
+            "quantity": "shares",
+            "score": "return fraction"
+          }
+        },
+        {
+          "clocks": {
+            "decision": "strictly prior eligible information",
+            "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
+            "report": "receipt clock; may lag economic fill"
+          },
+          "config_sha256": "b989367c2be4962ff8e10a81ce9d7b6c806a73f1ccf9716e8b280694a0cd1b7c",
+          "configuration_scope": "complete synthetic input/configuration object",
+          "evidence": "synthetic",
+          "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+          "fills": [
+            {
+              "cash_after": "9000",
+              "commission": "0",
+              "gross_amount": "1000",
+              "order_id": 0,
+              "price": "10",
+              "quantity": 100,
+              "sell_tax": "0",
+              "side": "buy",
+              "symbol": "A",
+              "time": "2026-01-05T09:32:00+08:00",
+              "transaction_cost": "0"
+            }
+          ],
+          "forecast_sha256": "50412276572cba0a0bffc669f48dffd4ed98a61948d07852dbb78b8491275635",
+          "id": "feedback",
+          "input_sha256": "b989367c2be4962ff8e10a81ce9d7b6c806a73f1ccf9716e8b280694a0cd1b7c",
+          "inputs": {
+            "bars": [
+              {
+                "amount": "10000",
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-05T09:28:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-05T09:29:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              },
+              {
+                "amount": "10000",
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-05T09:31:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-05T09:32:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              },
+              {
+                "amount": "10000",
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-05T09:35:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-05T09:36:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              }
+            ],
+            "hold_actual": true,
+            "participation": "0.1",
+            "targets": [
+              {
+                "decision_time": "2026-01-05T09:29:00+08:00",
+                "entry_time": "2026-01-05T09:30:00+08:00",
+                "symbol": "A",
+                "weight": 1
+              },
+              {
+                "decision_time": "2026-01-05T09:33:00+08:00",
+                "entry_time": "2026-01-05T09:34:00+08:00",
+                "symbol": "A",
+                "weight": 1
+              }
+            ]
+          },
+          "market_sha256": "4ea119298b61e59592a483727340f6a4be579c8d6098e76c0e577d20d4015cbf",
+          "orders": [
+            {
+              "commission_paid": "0",
+              "deadline": "2026-01-05T10:00:00+08:00",
+              "decision_time": "2026-01-05T09:29:00+08:00",
+              "entry_time": "2026-01-05T09:30:00+08:00",
+              "executed_notional": "1000",
+              "filled_quantity": 100,
+              "order_id": 0,
+              "quantity": 1000,
+              "reason": "superseded",
+              "reference_basis": "raw",
+              "reference_price": "10",
+              "reference_source_time": "2026-01-05T09:29:00+08:00",
+              "reference_time": "2026-01-05T09:29:00+08:00",
+              "side": "buy",
+              "status": "cancelled",
+              "symbol": "A",
+              "tax_paid": "0"
+            }
+          ],
+          "owner": "platform",
+          "source": [
+            "packages/platform/src/quant_platform/backtest/minute.py"
+          ],
+          "states": [
+            {
+              "cash": "10000",
+              "clock": "1767576540000000000",
+              "next_target": "1",
+              "pending": false,
+              "phase": "decision",
+              "quantity": "0"
+            },
+            {
+              "cash": "9000",
+              "clock": "1767576780000000000",
+              "next_target": "0.1",
+              "pending": true,
+              "phase": "decision",
+              "quantity": "100"
+            },
+            {
+              "cash": "9000",
+              "clock": "1767576960000000000",
+              "next_target": "0.1",
+              "phase": "account",
+              "price": "10",
+              "quantity": "100"
+            }
+          ],
+          "status": "synthetic_mechanism",
+          "units": {
+            "money": "CNY",
+            "offset": "price displacement",
+            "price": "currency/share",
+            "quantity": "shares",
+            "score": "return fraction"
+          }
+        }
+      ],
+      "supported_controls": {
+        "playback": [
+          "play",
+          "pause",
+          "step",
+          "reset"
+        ],
+        "scenario_ids": [
+          "thin",
+          "deep",
+          "market-up",
+          "feedback"
+        ]
+      }
+    },
+    "risk": {
+      "scenarios": [
+        {
+          "clocks": {
+            "decision": "strictly prior eligible information",
+            "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
+            "report": "receipt clock; may lag economic fill"
+          },
+          "config_sha256": "d5fe78b54290529ec42691c3a011bad32f343436cd8110f60cc9ec8a0454cd9f",
+          "configuration_scope": "complete synthetic input/configuration object",
+          "decision_reports": [
+            {
+              "cash": "10000",
+              "clock": "1767576540000000000",
+              "next_target": "1",
+              "pending": false,
+              "quantity": "0"
+            },
+            {
+              "cash": "10000",
+              "clock": "1767576780000000000",
+              "next_target": null,
+              "pending": true,
+              "quantity": "0"
+            }
+          ],
+          "evidence": "synthetic",
+          "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+          "id": "recovery",
+          "input_sha256": "d5fe78b54290529ec42691c3a011bad32f343436cd8110f60cc9ec8a0454cd9f",
+          "inputs": {
+            "bars": [
+              {
+                "amount": "10000",
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-05T09:28:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-05T09:29:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              },
+              {
+                "amount": "10000",
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-05T09:31:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-05T09:32:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              },
+              {
+                "amount": "10000",
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-05T09:35:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-05T09:36:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              }
+            ],
+            "delay_seconds": 600,
+            "impact_transient": "0.002",
+            "initial_cash": 10000,
+            "targets": [
+              {
+                "decision_time": "2026-01-05T09:29:00+08:00",
+                "entry_time": "2026-01-05T09:30:00+08:00",
+                "symbol": "A",
+                "weight": 1
+              },
+              {
+                "decision_time": "2026-01-05T09:33:00+08:00",
+                "entry_time": "2026-01-05T09:34:00+08:00",
+                "symbol": "A",
+                "weight": 1
+              }
+            ]
+          },
+          "owner": "platform",
+          "recovered_sha256": "f4da4dc037f3011aa80cee33ffc0628757ff499bdf953f39428ac0530107e06d",
+          "source": [
+            "packages/platform/src/quant_platform/backtest/minute_session.py"
+          ],
+          "states": [
+            {
+              "cash": "7979.6336872222255",
+              "clock": "0",
+              "phase": "restore",
+              "quantity": "200",
+              "report_pending": false
+            },
+            {
+              "cash": "7979.6336872222255",
+              "clock": "1",
+              "phase": "restore",
+              "quantity": "200",
+              "report_pending": false
+            },
+            {
+              "cash": "7979.6336872222255",
+              "clock": "2",
+              "phase": "restore",
+              "quantity": "200",
+              "report_pending": true
+            },
+            {
+              "cash": "7979.6336872222255",
+              "clock": "3",
+              "phase": "restore",
+              "quantity": "200",
+              "report_pending": true
+            },
+            {
+              "cash": "7979.6336872222255",
+              "clock": "4",
+              "phase": "restore",
+              "quantity": "200",
+              "report_pending": true
+            },
+            {
+              "cash": "7979.6336872222255",
+              "clock": "5",
+              "phase": "restore",
+              "quantity": "200",
+              "report_pending": true
+            },
+            {
+              "cash": "7979.6336872222255",
+              "clock": "6",
+              "phase": "restore",
+              "quantity": "200",
+              "report_pending": true
+            }
+          ],
+          "status": "synthetic_mechanism",
+          "uninterrupted_sha256": "f4da4dc037f3011aa80cee33ffc0628757ff499bdf953f39428ac0530107e06d",
+          "units": {
+            "money": "CNY",
+            "offset": "price displacement",
+            "price": "currency/share",
+            "quantity": "shares",
+            "score": "return fraction"
+          }
+        },
+        {
+          "allocation": {
+            "deltas": [
+              {
+                "cash_delta": "-1011",
+                "external_quantity": 100,
+                "fee": "1",
+                "internal_quantity": 0,
+                "quantity_delta": 100,
+                "residual": 400,
+                "sleeve": "a",
+                "symbol": "A"
+              },
+              {
+                "cash_delta": "0",
+                "external_quantity": 0,
+                "fee": "0",
+                "internal_quantity": 0,
+                "quantity_delta": 0,
+                "residual": 500,
+                "sleeve": "b",
+                "symbol": "A"
+              }
+            ],
+            "fills": [
+              {
+                "fee": "1",
+                "fill_id": "synthetic-owner-row-0",
+                "gross_amount": "1010",
+                "price": "10.1",
+                "quantity": 100,
+                "side": "buy",
+                "symbol": "A",
+                "ts_ns": 1767576720000000000
+              }
+            ],
+            "pooled_cash_delta": "-1011",
+            "pooled_fee": "1",
+            "pooled_quantities": [
+              [
+                "A",
+                100
+              ]
+            ]
+          },
+          "clocks": {
+            "decision": "strictly prior eligible information",
+            "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
+            "report": "receipt clock; may lag economic fill"
+          },
+          "config_sha256": "2d3cc3793da767245097b8a6165198b75afac5193c17babd8cead0e619780e0b",
+          "configuration_scope": "complete synthetic input/configuration object",
+          "evidence": "synthetic",
+          "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+          "external_orders": [
+            {
+              "lot_size": 100,
+              "quantity": 1000,
+              "side": "buy",
+              "symbol": "A"
+            }
+          ],
+          "id": "shared",
+          "input_sha256": "2d3cc3793da767245097b8a6165198b75afac5193c17babd8cead0e619780e0b",
+          "inputs": {
+            "demands": [
+              {
+                "blocked": false,
+                "cash_budget": "6000",
+                "fee_budget": "1",
+                "inventory": 0,
+                "locked": 0,
+                "lot_size": 100,
+                "max_buy_price": "11",
+                "quantity": 500,
+                "sellable": 0,
+                "sleeve": "a",
+                "symbol": "A"
+              },
+              {
+                "blocked": false,
+                "cash_budget": "6000",
+                "fee_budget": "1",
+                "inventory": 0,
+                "locked": 0,
+                "lot_size": 100,
+                "max_buy_price": "11",
+                "quantity": 500,
+                "sellable": 0,
+                "sleeve": "b",
+                "symbol": "A"
+              }
+            ],
+            "initial_cash": 12000,
+            "minimum_fee": 1,
+            "participation": "0.1",
+            "permanent": "0.002",
+            "target": "0.8333333333333334"
+          },
+          "owner": "platform",
+          "source": [
+            "packages/platform/src/quant_platform/portfolio/sleeve_allocation.py"
+          ],
+          "states": [
+            {
+              "cash": "12000",
+              "clock": "1767576540000000000",
+              "fees": "0",
+              "gross": "0",
+              "impact_cost": "0",
+              "phase": "reserve",
+              "quantity": "0"
+            },
+            {
+              "cash": "10989",
+              "clock": "1767576720000000000",
+              "fees": "1",
+              "gross": "1010",
+              "impact_cost": "10",
+              "phase": "cash",
+              "price": "10.1",
+              "quantity": "100"
+            }
+          ],
+          "status": "synthetic_mechanism",
+          "units": {
+            "money": "CNY",
+            "offset": "price displacement",
+            "price": "currency/share",
+            "quantity": "shares",
+            "score": "return fraction"
+          }
+        },
+        {
+          "clocks": {
+            "decision": "strictly prior eligible information",
+            "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
+            "report": "receipt clock; may lag economic fill"
+          },
+          "config_sha256": "5749734d2980caa1fde1a688b079f6ff029feb85074c8536224f1b7cd90cfab7",
+          "configuration_scope": "complete synthetic input/configuration object",
+          "evidence": "synthetic",
+          "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+          "exit_wealth": {
+            "as_of_ns": 1767749520000000000,
+            "basis": "supplied_raw_marks_not_executable_liquidation_quote",
+            "cash": "6000",
+            "cash_realized_wealth": null,
+            "mark_evidence": {
+              "A": {
+                "price": "10",
+                "ts_ns": 1767749520000000000
+              }
+            },
+            "marked_wealth": "10000",
+            "max_mark_age_ns": 0,
+            "receivable": "0",
+            "residual_marked_value": "4000",
+            "residual_quantities": {
+              "A": "400"
+            },
+            "unpriced_symbols": []
+          },
+          "fills": [
+            {
+              "cash_after": "5000",
+              "commission": "0",
+              "gross_amount": "5000",
+              "order_id": 0,
+              "price": "10",
+              "quantity": 500,
+              "sell_tax": "0",
+              "side": "buy",
+              "symbol": "A",
+              "time": "2026-01-05T09:32:00+08:00",
+              "transaction_cost": "0"
+            },
+            {
+              "cash_after": "6000",
+              "commission": "0",
+              "gross_amount": "1000",
+              "order_id": 1,
+              "price": "10",
+              "quantity": 100,
+              "sell_tax": "0",
+              "side": "sell",
+              "symbol": "A",
+              "time": "2026-01-07T09:32:00+08:00",
+              "transaction_cost": "0"
+            }
+          ],
+          "id": "residual",
+          "input_sha256": "5749734d2980caa1fde1a688b079f6ff029feb85074c8536224f1b7cd90cfab7",
+          "inputs": {
+            "bars": [
+              {
+                "amount": 10000,
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-05T09:28:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-05T09:29:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              },
+              {
+                "amount": 10000,
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-05T09:31:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-05T09:32:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              },
+              {
+                "amount": 10000,
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-06T09:28:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-06T09:29:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              },
+              {
+                "amount": 10000,
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-06T09:31:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-06T09:32:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              },
+              {
+                "amount": 2000,
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-07T09:28:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-07T09:29:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 200
+              },
+              {
+                "amount": 2000,
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-07T09:31:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-07T09:32:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 200
+              }
+            ],
+            "initial_cash": 10000,
+            "lock": {
+              "available_ns": 1767661200000000000,
+              "end_ns": 1767682800000000000,
+              "source_binding": "synthetic-notice",
+              "start_ns": 1767661200000000000,
+              "symbols": [
+                "A"
+              ]
+            },
+            "targets": [
+              {
+                "decision_time": "2026-01-05T09:29:00+08:00",
+                "entry_time": "2026-01-05T09:30:00+08:00",
+                "symbol": "A",
+                "weight": "0.5"
+              },
+              {
+                "decision_time": "2026-01-06T09:29:00+08:00",
+                "entry_time": "2026-01-06T09:30:00+08:00",
+                "symbol": "A",
+                "weight": "0"
+              },
+              {
+                "decision_time": "2026-01-07T09:29:00+08:00",
+                "entry_time": "2026-01-07T09:30:00+08:00",
+                "symbol": "A",
+                "weight": "0"
+              }
+            ]
+          },
+          "owner": "platform",
+          "source": [
+            "packages/platform/src/quant_platform/analytics/execution_integrity.py",
+            "packages/platform/src/quant_platform/backtest/minute_session.py"
+          ],
+          "states": [
+            {
+              "cash": "5000",
+              "cash_realized_wealth": null,
+              "clock": "2026-01-05",
+              "phase": "buy",
+              "quantity": "500",
+              "wealth": "10000"
+            },
+            {
+              "cash": "5000",
+              "cash_realized_wealth": null,
+              "clock": "2026-01-06",
+              "phase": "locked",
+              "quantity": "500",
+              "wealth": "10000"
+            },
+            {
+              "cash": "6000",
+              "cash_realized_wealth": null,
+              "clock": "2026-01-07",
+              "phase": "residual",
+              "quantity": "400",
+              "wealth": "10000"
+            }
+          ],
+          "status": "synthetic_mechanism",
+          "units": {
+            "money": "CNY",
+            "offset": "price displacement",
+            "price": "currency/share",
+            "quantity": "shares",
+            "score": "return fraction"
+          }
+        },
+        {
+          "capital_flow_ledger": [
+            {
+              "amount": "1000",
+              "available_time": "2026-01-07T09:28:00+08:00",
+              "cash_after": "9200",
+              "cash_before": "8200",
+              "effective_time": "2026-01-07T09:29:00+08:00",
+              "event_id": "deposit",
+              "nav_after": "10400",
+              "nav_before": "9400",
+              "source": "synthetic",
+              "time": "2026-01-07T09:29:00+08:00"
+            }
+          ],
+          "clocks": {
+            "decision": "strictly prior eligible information",
+            "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
+            "report": "receipt clock; may lag economic fill"
+          },
+          "config_sha256": "89062b34f351ab9ea0f7a559cfbff3cf523fe8ea9d9a18721a9dd88af89db25d",
+          "configuration_scope": "complete synthetic input/configuration object",
+          "evidence": "synthetic",
+          "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+          "id": "actions",
+          "input_sha256": "89062b34f351ab9ea0f7a559cfbff3cf523fe8ea9d9a18721a9dd88af89db25d",
+          "inputs": {
+            "bars": [
+              {
+                "amount": "10000",
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-05T09:28:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-05T09:29:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              },
+              {
+                "amount": "10000",
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-05T09:31:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-05T09:32:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              },
+              {
+                "amount": "10000",
+                "close": "10",
+                "down_limit": 1,
+                "high": "10",
+                "interval_start": "2026-01-05T09:32:30+08:00",
+                "low": "10",
+                "open": "10",
+                "symbol": "A",
+                "time": "2026-01-05T09:33:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              },
+              {
+                "amount": "4500",
+                "close": "4.5",
+                "down_limit": 1,
+                "high": "4.5",
+                "interval_start": "2026-01-06T09:28:30+08:00",
+                "low": "4.5",
+                "open": "4.5",
+                "symbol": "A",
+                "time": "2026-01-06T09:29:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              },
+              {
+                "amount": "4500",
+                "close": "4.5",
+                "down_limit": 1,
+                "high": "4.5",
+                "interval_start": "2026-01-06T09:31:30+08:00",
+                "low": "4.5",
+                "open": "4.5",
+                "symbol": "A",
+                "time": "2026-01-06T09:32:00+08:00",
+                "tradable": true,
+                "up_limit": 20,
+                "volume": 1000
+              },
+              {
+                "amount": "4500",
+                "close": "4.5",
+                "down_limit": 1,
+                "high": "4.5",
+                "interval_start": "2026-01-07T09:28:30+08:00",
+                "low": "4.5",
+                "open": "4.5",
+                "symbol": "A",
+                "time": "2026-01-07T09:29:00+08:00",
+                "tradable": false,
+                "up_limit": 20,
+                "volume": 1000
+              },
+              {
+                "amount": "4500",
+                "close": "4.5",
+                "down_limit": 1,
+                "high": "4.5",
+                "interval_start": "2026-01-07T09:31:30+08:00",
+                "low": "4.5",
+                "open": "4.5",
+                "symbol": "A",
+                "time": "2026-01-07T09:32:00+08:00",
+                "tradable": false,
+                "up_limit": 20,
+                "volume": 1000
+              }
+            ],
+            "capital_flow": {
+              "amount": "1000",
+              "available_time": "2026-01-07T09:28:00+08:00",
+              "effective_time": "2026-01-07T09:29:00+08:00",
+              "event_id": "deposit",
+              "source": "synthetic"
+            },
+            "distribution": {
+              "available_date": "2026-01-04T00:00:00",
+              "cash_pay_date": "2026-01-07T00:00:00",
+              "cash_per_share": "1",
+              "event_id": "distribution",
+              "ex_date": "2026-01-06T00:00:00",
+              "record_date": "2026-01-05T00:00:00",
+              "stock_per_share": "1",
+              "stock_tradable_date": "2026-01-07T00:00:00",
+              "symbol": "A",
+              "withholding_rate": "0"
+            },
+            "initial_cash": 10000,
+            "lock": {
+              "available_ns": 1767628800000000000,
+              "end_ns": 1767749400000000000,
+              "source_binding": "synthetic",
+              "start_ns": 1767628800000000000,
+              "symbols": [
+                "A"
+              ]
+            },
+            "targets": [
+              {
+                "decision_time": "2026-01-05T09:29:00+08:00",
+                "entry_time": "2026-01-05T09:30:00+08:00",
+                "symbol": "A",
+                "weight": 1
+              },
+              {
+                "decision_time": "2026-01-06T09:29:00+08:00",
+                "entry_time": "2026-01-06T09:30:00+08:00",
+                "symbol": "A",
+                "weight": 0
+              },
+              {
+                "decision_time": "2026-01-07T09:29:00+08:00",
+                "entry_time": "2026-01-07T09:30:00+08:00",
+                "symbol": "A",
+                "weight": 0
+              }
+            ],
+            "valuation": {
+              "available_time": "2026-01-07T09:28:00+08:00",
+              "basis": "declared",
+              "effective_time": "2026-01-07T09:29:00+08:00",
+              "event_id": "terminal",
+              "source": "synthetic",
+              "symbol": "A",
+              "value_per_share": "3"
+            }
+          },
+          "owner": "platform",
+          "recovered_sha256": "6ffb9af7868c3eb5f8dea019eefd771e9b0793572012ceacf69336bdeb74f6d7",
+          "source": [
+            "packages/platform/src/quant_platform/backtest/minute_session.py"
+          ],
+          "states": [
+            {
+              "capital_flow": "0",
+              "cash": "8000",
+              "cash_right": "0",
+              "clock": "2026-01-05",
+              "phase": "buy",
+              "quantity": "200",
+              "stock_right": "0",
+              "wealth": "10000"
+            },
+            {
+              "capital_flow": "0",
+              "cash": "8000",
+              "cash_right": "200",
+              "clock": "2026-01-06",
+              "phase": "ex",
+              "quantity": "200",
+              "stock_right": "200",
+              "wealth": "10000"
+            },
+            {
+              "capital_flow": "0",
+              "cash": "8200",
+              "cash_right": "0",
+              "clock": "2026-01-07",
+              "phase": "release",
+              "quantity": "400",
+              "stock_right": "0",
+              "wealth": "10000"
+            },
+            {
+              "capital_flow": "1000",
+              "cash": "9200",
+              "cash_right": "0",
+              "clock": "2026-01-07T09:29:00+08:00",
+              "phase": "capital",
+              "quantity": "400",
+              "stock_right": "0",
+              "wealth": "10400",
+              "wealth_before_flow": "9400"
+            }
+          ],
+          "status": "synthetic_mechanism",
+          "uninterrupted_sha256": "6ffb9af7868c3eb5f8dea019eefd771e9b0793572012ceacf69336bdeb74f6d7",
+          "units": {
+            "money": "CNY",
+            "offset": "price displacement",
+            "price": "currency/share",
+            "quantity": "shares",
+            "score": "return fraction"
+          },
+          "valuation_ledger": [
+            {
+              "available_time": "2026-01-07T09:28:00+08:00",
+              "basis": "declared",
+              "cash_after": "8200",
+              "cash_before": "8200",
+              "delta_value": "-600",
+              "effective_time": "2026-01-07T09:29:00+08:00",
+              "event_id": "terminal",
+              "previous_value_per_share": "4.5",
+              "quantity": "400",
+              "source": "synthetic",
+              "stock_receivable_quantity": "0",
+              "symbol": "A",
+              "time": "2026-01-07T09:29:00+08:00",
+              "value_per_share": "3"
+            }
+          ]
+        },
+        {
+          "certified": false,
+          "clocks": {
+            "decision": "strictly prior eligible information",
+            "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
+            "report": "receipt clock; may lag economic fill"
+          },
+          "cohorts": [
+            {
+              "coverage": "1",
+              "distinct_target_intervals": 2,
+              "exposure_observations": 0,
+              "forecasts": 2,
+              "horizon_ns": 86400000000000,
+              "interval_coverage": null,
+              "interval_covered": null,
+              "interval_observations": 0,
+              "liquidity": "illiquid",
+              "nonoverlapping_target_intervals": 2,
+              "paired_observations": 2,
+              "predicted_variance": "4",
+              "realized_squared_residual": "20",
+              "regime": "high",
+              "sample_status": "insufficient_target_intervals",
+              "tail_observations": 2,
+              "two_sigma_exceedances": 1,
+              "two_sigma_rate": "0.5",
+              "unit": "return_bps",
+              "variance_ratio": "5",
+              "zero_variance_nonzero_residuals": 0
+            },
+            {
+              "coverage": "1",
+              "distinct_target_intervals": 2,
+              "exposure_observations": 0,
+              "forecasts": 2,
+              "horizon_ns": 86400000000000,
+              "interval_coverage": null,
+              "interval_covered": null,
+              "interval_observations": 0,
+              "liquidity": "liquid",
+              "nonoverlapping_target_intervals": 2,
+              "paired_observations": 2,
+              "predicted_variance": "1",
+              "realized_squared_residual": "5",
+              "regime": "low",
+              "sample_status": "insufficient_target_intervals",
+              "tail_observations": 2,
+              "two_sigma_exceedances": 1,
+              "two_sigma_rate": "0.5",
+              "unit": "return_bps",
+              "variance_ratio": "5",
+              "zero_variance_nonzero_residuals": 0
+            }
+          ],
+          "config_sha256": "996f06acd41af1281765c29f678870ea8161a34255d53e7e38298c9ea6ff70e5",
+          "configuration_scope": "complete synthetic input/configuration object",
+          "evidence": "synthetic",
+          "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+          "id": "risk-full",
+          "independence_status": "unverified",
+          "input_sha256": "996f06acd41af1281765c29f678870ea8161a34255d53e7e38298c9ea6ff70e5",
+          "inputs": {
+            "as_of": "2026-03-01T00:00:00+00:00",
+            "forecasts": [
+              {
+                "available_at": "2026-01-01T00:00:00+00:00",
+                "forecast_at": "2026-01-01T00:00:00+00:00",
+                "forecast_mean": "0",
+                "forecast_variance": "1",
+                "liquidity": "liquid",
+                "regime": "low",
+                "symbol": "A",
+                "target_end": "2026-01-02T00:00:00+00:00",
+                "target_start": "2026-01-01T00:00:00+00:00",
+                "unit": "return_bps"
+              },
+              {
+                "available_at": "2026-01-02T00:00:00+00:00",
+                "forecast_at": "2026-01-02T00:00:00+00:00",
+                "forecast_mean": "0",
+                "forecast_variance": "1",
+                "liquidity": "liquid",
+                "regime": "low",
+                "symbol": "A",
+                "target_end": "2026-01-03T00:00:00+00:00",
+                "target_start": "2026-01-02T00:00:00+00:00",
+                "unit": "return_bps"
+              },
+              {
+                "available_at": "2026-01-03T00:00:00+00:00",
+                "forecast_at": "2026-01-03T00:00:00+00:00",
+                "forecast_mean": "0",
+                "forecast_variance": "4",
+                "liquidity": "illiquid",
+                "regime": "high",
+                "symbol": "A",
+                "target_end": "2026-01-04T00:00:00+00:00",
+                "target_start": "2026-01-03T00:00:00+00:00",
+                "unit": "return_bps"
+              },
+              {
+                "available_at": "2026-01-04T00:00:00+00:00",
+                "forecast_at": "2026-01-04T00:00:00+00:00",
+                "forecast_mean": "0",
+                "forecast_variance": "4",
+                "liquidity": "illiquid",
+                "regime": "high",
+                "symbol": "A",
+                "target_end": "2026-01-05T00:00:00+00:00",
+                "target_start": "2026-01-04T00:00:00+00:00",
+                "unit": "return_bps"
+              }
+            ],
+            "outcomes": [
+              {
+                "available_at": "2026-01-02T00:00:00+00:00",
+                "observation_end": "2026-01-02T00:00:00+00:00",
+                "observation_start": "2026-01-01T00:00:00+00:00",
+                "realized": "1",
+                "symbol": "A",
+                "target_end": "2026-01-02T00:00:00+00:00",
+                "target_start": "2026-01-01T00:00:00+00:00",
+                "unit": "return_bps"
+              },
+              {
+                "available_at": "2026-01-03T00:00:00+00:00",
+                "observation_end": "2026-01-03T00:00:00+00:00",
+                "observation_start": "2026-01-02T00:00:00+00:00",
+                "realized": "-3",
+                "symbol": "A",
+                "target_end": "2026-01-03T00:00:00+00:00",
+                "target_start": "2026-01-02T00:00:00+00:00",
+                "unit": "return_bps"
+              },
+              {
+                "available_at": "2026-01-04T00:00:00+00:00",
+                "observation_end": "2026-01-04T00:00:00+00:00",
+                "observation_start": "2026-01-03T00:00:00+00:00",
+                "realized": "2",
+                "symbol": "A",
+                "target_end": "2026-01-04T00:00:00+00:00",
+                "target_start": "2026-01-03T00:00:00+00:00",
+                "unit": "return_bps"
+              },
+              {
+                "available_at": "2026-01-05T00:00:00+00:00",
+                "observation_end": "2026-01-05T00:00:00+00:00",
+                "observation_start": "2026-01-04T00:00:00+00:00",
+                "realized": "-6",
+                "symbol": "A",
+                "target_end": "2026-01-05T00:00:00+00:00",
+                "target_start": "2026-01-04T00:00:00+00:00",
+                "unit": "return_bps"
+              }
+            ]
+          },
+          "owner": "platform",
+          "real_calibration": "unavailable",
+          "sample_status": "insufficient_target_intervals",
+          "source": [
+            "packages/platform/src/quant_platform/analytics/risk_calibration.py"
+          ],
+          "states": [
+            {
+              "clock": "2026-01-01T00:00:00+00:00",
+              "paired": true,
+              "phase": "risk",
+              "predicted_variance": "1",
+              "realized_squared_residual": "1"
+            },
+            {
+              "clock": "2026-01-02T00:00:00+00:00",
+              "paired": true,
+              "phase": "risk",
+              "predicted_variance": "1",
+              "realized_squared_residual": "9"
+            },
+            {
+              "clock": "2026-01-03T00:00:00+00:00",
+              "paired": true,
+              "phase": "risk",
+              "predicted_variance": "4",
+              "realized_squared_residual": "4"
+            },
+            {
+              "clock": "2026-01-04T00:00:00+00:00",
+              "paired": true,
+              "phase": "risk",
+              "predicted_variance": "4",
+              "realized_squared_residual": "36"
+            },
+            {
+              "clock": "2026-03-01T00:00:00+00:00",
+              "coverage": "1",
+              "phase": "aggregate",
+              "predicted_variance": "2.5",
+              "realized_squared_residual": "12.5",
+              "variance_ratio": "5"
+            }
+          ],
+          "status": "synthetic_mechanism",
+          "summary": [
+            {
+              "coverage": "1",
+              "distinct_target_intervals": 4,
+              "exposure_observations": 0,
+              "forecasts": 4,
+              "horizon_ns": 86400000000000,
+              "interval_coverage": null,
+              "interval_covered": null,
+              "interval_observations": 0,
+              "nonoverlapping_target_intervals": 4,
+              "paired_observations": 4,
+              "predicted_variance": "2.5",
+              "realized_squared_residual": "12.5",
+              "sample_status": "insufficient_target_intervals",
+              "tail_observations": 4,
+              "two_sigma_exceedances": 2,
+              "two_sigma_rate": "0.5",
+              "unit": "return_bps",
+              "variance_ratio": "5",
+              "zero_variance_nonzero_residuals": 0
+            }
+          ],
+          "units": {
+            "coverage": "paired rows / forecast rows",
+            "money": "CNY",
+            "variance": "squared basis points over one-day target interval",
+            "variance_ratio": "dimensionless"
+          }
+        },
+        {
+          "certified": false,
+          "clocks": {
+            "decision": "strictly prior eligible information",
+            "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
+            "report": "receipt clock; may lag economic fill"
+          },
+          "cohorts": [
+            {
+              "coverage": "0",
+              "distinct_target_intervals": 0,
+              "exposure_observations": 0,
+              "forecasts": 2,
+              "horizon_ns": 86400000000000,
+              "interval_coverage": null,
+              "interval_covered": null,
+              "interval_observations": 0,
+              "liquidity": "illiquid",
+              "nonoverlapping_target_intervals": 0,
+              "paired_observations": 0,
+              "predicted_variance": null,
+              "realized_squared_residual": null,
+              "regime": "high",
+              "sample_status": "insufficient_target_intervals",
+              "tail_observations": 0,
+              "two_sigma_exceedances": null,
+              "two_sigma_rate": null,
+              "unit": "return_bps",
+              "variance_ratio": null,
+              "zero_variance_nonzero_residuals": 0
+            },
+            {
+              "coverage": "1",
+              "distinct_target_intervals": 2,
+              "exposure_observations": 0,
+              "forecasts": 2,
+              "horizon_ns": 86400000000000,
+              "interval_coverage": null,
+              "interval_covered": null,
+              "interval_observations": 0,
+              "liquidity": "liquid",
+              "nonoverlapping_target_intervals": 2,
+              "paired_observations": 2,
+              "predicted_variance": "1",
+              "realized_squared_residual": "5",
+              "regime": "low",
+              "sample_status": "insufficient_target_intervals",
+              "tail_observations": 2,
+              "two_sigma_exceedances": "1",
+              "two_sigma_rate": "0.5",
+              "unit": "return_bps",
+              "variance_ratio": "5",
+              "zero_variance_nonzero_residuals": 0
+            }
+          ],
+          "config_sha256": "132b9dabbadf75355f025944fa4b9ddb766560a1fe57070a6840bbfafdbfbfc3",
+          "configuration_scope": "complete synthetic input/configuration object",
+          "evidence": "synthetic",
+          "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+          "id": "risk-missing",
+          "independence_status": "unverified",
+          "input_sha256": "132b9dabbadf75355f025944fa4b9ddb766560a1fe57070a6840bbfafdbfbfc3",
+          "inputs": {
+            "as_of": "2026-03-01T00:00:00+00:00",
+            "forecasts": [
+              {
+                "available_at": "2026-01-01T00:00:00+00:00",
+                "forecast_at": "2026-01-01T00:00:00+00:00",
+                "forecast_mean": "0",
+                "forecast_variance": "1",
+                "liquidity": "liquid",
+                "regime": "low",
+                "symbol": "A",
+                "target_end": "2026-01-02T00:00:00+00:00",
+                "target_start": "2026-01-01T00:00:00+00:00",
+                "unit": "return_bps"
+              },
+              {
+                "available_at": "2026-01-02T00:00:00+00:00",
+                "forecast_at": "2026-01-02T00:00:00+00:00",
+                "forecast_mean": "0",
+                "forecast_variance": "1",
+                "liquidity": "liquid",
+                "regime": "low",
+                "symbol": "A",
+                "target_end": "2026-01-03T00:00:00+00:00",
+                "target_start": "2026-01-02T00:00:00+00:00",
+                "unit": "return_bps"
+              },
+              {
+                "available_at": "2026-01-03T00:00:00+00:00",
+                "forecast_at": "2026-01-03T00:00:00+00:00",
+                "forecast_mean": "0",
+                "forecast_variance": "4",
+                "liquidity": "illiquid",
+                "regime": "high",
+                "symbol": "A",
+                "target_end": "2026-01-04T00:00:00+00:00",
+                "target_start": "2026-01-03T00:00:00+00:00",
+                "unit": "return_bps"
+              },
+              {
+                "available_at": "2026-01-04T00:00:00+00:00",
+                "forecast_at": "2026-01-04T00:00:00+00:00",
+                "forecast_mean": "0",
+                "forecast_variance": "4",
+                "liquidity": "illiquid",
+                "regime": "high",
+                "symbol": "A",
+                "target_end": "2026-01-05T00:00:00+00:00",
+                "target_start": "2026-01-04T00:00:00+00:00",
+                "unit": "return_bps"
+              }
+            ],
+            "outcomes": [
+              {
+                "available_at": "2026-01-02T00:00:00+00:00",
+                "observation_end": "2026-01-02T00:00:00+00:00",
+                "observation_start": "2026-01-01T00:00:00+00:00",
+                "realized": "1",
+                "symbol": "A",
+                "target_end": "2026-01-02T00:00:00+00:00",
+                "target_start": "2026-01-01T00:00:00+00:00",
+                "unit": "return_bps"
+              },
+              {
+                "available_at": "2026-01-03T00:00:00+00:00",
+                "observation_end": "2026-01-03T00:00:00+00:00",
+                "observation_start": "2026-01-02T00:00:00+00:00",
+                "realized": "-3",
+                "symbol": "A",
+                "target_end": "2026-01-03T00:00:00+00:00",
+                "target_start": "2026-01-02T00:00:00+00:00",
+                "unit": "return_bps"
+              }
+            ]
+          },
+          "owner": "platform",
+          "real_calibration": "unavailable",
+          "sample_status": "insufficient_target_intervals",
+          "source": [
+            "packages/platform/src/quant_platform/analytics/risk_calibration.py"
+          ],
+          "states": [
+            {
+              "clock": "2026-01-01T00:00:00+00:00",
+              "paired": true,
+              "phase": "risk",
+              "predicted_variance": "1",
+              "realized_squared_residual": "1"
+            },
+            {
+              "clock": "2026-01-02T00:00:00+00:00",
+              "paired": true,
+              "phase": "risk",
+              "predicted_variance": "1",
+              "realized_squared_residual": "9"
+            },
+            {
+              "clock": "2026-01-03T00:00:00+00:00",
+              "paired": false,
+              "phase": "risk",
+              "predicted_variance": "4",
+              "realized_squared_residual": null
+            },
+            {
+              "clock": "2026-01-04T00:00:00+00:00",
+              "paired": false,
+              "phase": "risk",
+              "predicted_variance": "4",
+              "realized_squared_residual": null
+            },
+            {
+              "clock": "2026-03-01T00:00:00+00:00",
+              "coverage": "0",
+              "phase": "missing",
+              "predicted_variance": null,
+              "realized_squared_residual": null,
+              "variance_ratio": null
+            }
+          ],
+          "status": "synthetic_mechanism",
+          "summary": [
+            {
+              "coverage": "0.5",
+              "distinct_target_intervals": 2,
+              "exposure_observations": 0,
+              "forecasts": 4,
+              "horizon_ns": 86400000000000,
+              "interval_coverage": null,
+              "interval_covered": null,
+              "interval_observations": 0,
+              "nonoverlapping_target_intervals": 2,
+              "paired_observations": 2,
+              "predicted_variance": "1",
+              "realized_squared_residual": "5",
+              "sample_status": "insufficient_target_intervals",
+              "tail_observations": 2,
+              "two_sigma_exceedances": 1,
+              "two_sigma_rate": "0.5",
+              "unit": "return_bps",
+              "variance_ratio": "5",
+              "zero_variance_nonzero_residuals": 0
+            }
+          ],
+          "units": {
+            "coverage": "paired rows / forecast rows",
+            "money": "CNY",
+            "variance": "squared basis points over one-day target interval",
+            "variance_ratio": "dimensionless"
+          }
+        }
+      ],
+      "supported_controls": {
+        "playback": [
+          "play",
+          "pause",
+          "step",
+          "reset"
+        ],
+        "scenario_ids": [
+          "recovery",
+          "shared",
+          "residual",
+          "actions",
+          "risk-full",
+          "risk-missing"
+        ]
+      }
+    },
+    "selection": {
+      "scenarios": [
+        {
+          "clocks": {
+            "decision": "strictly prior eligible information",
+            "event": "trial index",
+            "report": "receipt clock; may lag economic fill"
+          },
+          "config_sha256": "b8b3d3169f81fc9915ecc743f790f21456ad0c171450570f9263fb13c9d528b4",
+          "configuration_scope": "complete synthetic input/configuration object",
+          "evidence": "synthetic",
+          "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+          "id": "null-search",
+          "input_sha256": "b8b3d3169f81fc9915ecc743f790f21456ad0c171450570f9263fb13c9d528b4",
+          "inputs": {
+            "rule": "all six 2-of-4 equal-weight subsets; maximum same-sample return; first tie wins",
+            "seed": 0,
+            "signals": [
+              {
+                "industry": 0,
+                "prediction": "-850",
+                "return": "-0.015625",
+                "symbol": "SYN_A",
+                "trade_date": "2024-01-02"
+              },
+              {
+                "industry": 0,
+                "prediction": "850",
+                "return": "-0.015625",
+                "symbol": "SYN_B",
+                "trade_date": "2024-01-02"
+              },
+              {
+                "industry": 1,
+                "prediction": "-850",
+                "return": "0.015625",
+                "symbol": "SYN_C",
+                "trade_date": "2024-01-02"
+              },
+              {
+                "industry": 1,
+                "prediction": "850",
+                "return": "0.015625",
+                "symbol": "SYN_D",
+                "trade_date": "2024-01-02"
+              }
+            ]
+          },
+          "owner": "platform",
+          "scope": "finite teaching enumeration only; no PBO/CSCV or real out-of-sample claim",
+          "source": [
+            "packages/platform/src/quant_platform/scenarios.py",
+            "project_tools/method_session_cases.py"
+          ],
+          "states": [
+            {
+              "clock": "0",
+              "phase": "trial",
+              "score": "-0.015625",
+              "selected": false,
+              "shares": "SYN_A,SYN_B",
+              "trial": "1"
+            },
+            {
+              "clock": "1",
+              "phase": "trial",
+              "score": "0",
+              "selected": false,
+              "shares": "SYN_A,SYN_C",
+              "trial": "2"
+            },
+            {
+              "clock": "2",
+              "phase": "trial",
+              "score": "0",
+              "selected": false,
+              "shares": "SYN_A,SYN_D",
+              "trial": "3"
+            },
+            {
+              "clock": "3",
+              "phase": "trial",
+              "score": "0",
+              "selected": false,
+              "shares": "SYN_B,SYN_C",
+              "trial": "4"
+            },
+            {
+              "clock": "4",
+              "phase": "trial",
+              "score": "0",
+              "selected": false,
+              "shares": "SYN_B,SYN_D",
+              "trial": "5"
+            },
+            {
+              "clock": "5",
+              "phase": "trial",
+              "score": "0.015625",
+              "selected": true,
+              "shares": "SYN_C,SYN_D",
+              "trial": "6"
+            }
+          ],
+          "status": "synthetic_mechanism",
+          "truth": {
+            "covariance": "0"
+          },
+          "units": {
+            "money": "CNY",
+            "offset": "price displacement",
+            "price": "currency/share",
+            "quantity": "shares",
+            "score": "return fraction"
+          }
+        }
+      ],
+      "supported_controls": {
+        "playback": [
+          "play",
+          "pause",
+          "step",
+          "reset"
+        ],
+        "scenario_ids": [
+          "null-search"
+        ]
+      }
+    }
+  },
+  "schema": "engine-method-replay.v1"
+}

@@ -8,6 +8,8 @@
 新增目标权重计划工具和 v2 人民币/美元逐日账本，支持显式配置的 T+1、买入整手与报价权限。
 [公司行为与退市等迁移边界](migration/corporate-action-conformance.zh-CN.md)仍明确保留 Python 后端。
 
+[回测为什么不能只看一条净值线](backtesting-explained.zh-CN.md)用八个可交互的合成场景说明成交、成本、持仓选择与恢复。关闭 JavaScript 也能读到全部数值。
+
 ## 开始使用
 
 1. [跑通合成示例](quickstart.zh-CN.md)，预期净值 10019.78，手续费 0.22。

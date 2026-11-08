@@ -51,6 +51,7 @@ def check(site: Path) -> None:
         "index",
         "quickstart",
         "tutorial",
+        "backtesting-explained",
         "capabilities",
         "correctness",
         "benchmarks",
@@ -110,6 +111,28 @@ def check(site: Path) -> None:
                 f"https://runchengxie.github.io/quant-backtest-engine/{counterpart}"
                 in text
             ), relative
+    from method_docs import ASSETS
+    import json
+
+    fixtures = json.loads((ASSETS / "fixtures.json").read_text())
+    for suffix in ["", ".zh-CN"]:
+        text = (root / f"backtesting-explained{suffix}/index.html").read_text(
+            encoding="utf-8"
+        )
+        assert text.count('class="method-scene"') == 8
+        assert text.count('class="method-payload"') == 8
+        for scene in fixtures["scenes"].values():
+            for scenario in scene["scenarios"]:
+                for index in range(len(scenario["states"])):
+                    assert (
+                        f'data-scenario="{scenario["id"]}" data-frame="{index}"' in text
+                    )
+        assert "10019.78" in text and "10989" in text
+        assert 'aria-live="polite"' in text and 'scope="col"' in text
+        assert (
+            "javascripts/method-replay.js" in text
+            and "stylesheets/method-replay.css" in text
+        )
     print(
         "Rendered locales, theme controls, counterpart links and local assets verified"
     )
