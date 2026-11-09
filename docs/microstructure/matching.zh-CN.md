@@ -16,6 +16,9 @@
 价格单位为整数分、数量为整数股、模拟器时钟为整数毫秒，不是 ProductManifest 的 UTC 纳秒时钟。
 价格优先、同价 FIFO、逐笔成交价、部分撤单和原有重复 ID 行为均保留；汇总成交价格仍为最后一笔成交价。
 调用方应提供唯一 ID：重复挂单 ID 不会被拒绝，可能共用撤单索引，不代表已去重。
+重复 ID 的撤单不在后端一致性保证范围内：Python 索引指向最后一笔重复订单，原生撤单选择队列中第一笔匹配订单。
+同价 5 股和 7 股共用 ID 时，先撤 3 股再全撤该 ID，Python 盘口为空，原生仍剩 7 股且该 ID 已无索引。
+这是保留并纳入测试的历史差异；调用方须使用唯一挂单 ID。
 
 ```python
 from quant_backtest_core.microstructure.matching import MatchingEngine

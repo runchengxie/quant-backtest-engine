@@ -251,3 +251,18 @@ def test_sequence_gap_fixture_preserves_native_reference_parity():
     assert sort_simulator_events(events, backend="rust") == sort_simulator_events(events)
     assert ordering_provenance(events)["sequence_gap_count"] == 1
     assert ordering_provenance(events)["sequence_completeness"] == "gaps_observed"
+
+
+def test_duplicate_ids_retain_explicit_legacy_backend_difference():
+    """Duplicate IDs are not a parity-supported identity contract in legacy v0.1."""
+    _native()
+    python_engine, native_engine = [MatchingEngine(backend=b) for b in ("python", "rust")]
+    for engine in (python_engine, native_engine):
+        engine.apply_order("duplicate", 1, 100, 5)
+        engine.apply_order("duplicate", 1, 100, 7)
+        assert engine.cancel_order("duplicate", 3)
+        assert engine.lob.best_bid() == (100, 9)
+        assert engine.cancel_order("duplicate")
+        assert not engine.has_order("duplicate")
+    assert python_engine.lob.best_bid() is None
+    assert native_engine.lob.best_bid() == (100, 7)

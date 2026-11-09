@@ -21,6 +21,11 @@ Price priority and FIFO preserve original aggregate trade rounding (the final fi
 price is the aggregate trade price), per-fill prices, partial cancellation and
 legacy duplicate-ID behavior. Callers should supply distinct IDs: duplicate resting
 IDs are not rejected and can alias cancellation lookup; no deduplication is implied.
+Duplicate-ID cancellation is not a parity-supported contract: Python indexes the
+last duplicate, while native cancellation selects the first matching queue entry.
+For two same-price orders of 5 and 7 shares under one ID, cancelling 3 then cancelling
+the ID leaves Python empty but native with 7 shares no longer indexed by that ID.
+This historical difference is retained and tested; supply unique resting IDs.
 
 ```python
 from quant_backtest_core.microstructure.matching import MatchingEngine

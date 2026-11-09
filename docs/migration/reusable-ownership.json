@@ -9181,6 +9181,7 @@
     "public_original_source": "https://github.com/runchengxie/quant-platform/tree/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/packages/microstructure",
     "release_availability": "Not merged or released by this source metadata; provider B cohort continues through Task 11.",
     "native_contract": "Original aggregate trades and book ticks; per-fill unavailable, not zero. No native-to-Python fallback.",
-    "source_changes": "Python namespace/package boundary, two replay union type annotations and style; unchanged arithmetic. Native implementation, Cargo.lock and stub byte-identical; added original license and package metadata."
+    "source_changes": "Python namespace/package boundary, two replay union type annotations and style; unchanged arithmetic. Native implementation, Cargo.lock and stub byte-identical; added original license and package metadata.",
+    "duplicate_order_ids": "Preserved legacy duplicate-ID cancellation differs between Python and native; duplicate IDs are outside the parity-supported identity contract. Explicit characterization tests and paired matching guides retain and disclose the difference."
   }
 }
