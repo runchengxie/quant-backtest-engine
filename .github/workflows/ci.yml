@@ -88,6 +88,11 @@ jobs:
         run: |
           uv pip install --python "$UV_PROJECT_ENVIRONMENT/bin/python" --reinstall --no-deps "$RUNNER_TEMP"/wheels/*.whl
           "$UV_PROJECT_ENVIRONMENT/bin/python" -I -B -m pytest core/tests -q -p no:cacheprovider
+      - name: Minimal installed minute recovery acceptance
+        run: |
+          uv venv --python "${{ matrix.python }}" "$RUNNER_TEMP/core-minute"
+          uv pip install --python "$RUNNER_TEMP/core-minute/bin/python" "$RUNNER_TEMP/wheels/quant_backtest_core-0.1.0-py3-none-any.whl[minute]" "$RUNNER_TEMP/wheels/quant_backtest_engine_client-0.3.0-py3-none-any.whl"
+          "$RUNNER_TEMP/core-minute/bin/python" -I -B project_tools/verify_installed_product.py --mode minute --manifest fixtures/product/minute-session.json --artifact-root fixtures/product --output-root "$RUNNER_TEMP/minute-output"
       - name: Installed synthetic minute example
         run: '"$UV_PROJECT_ENVIRONMENT/bin/python" -I -B examples/product/minute_session.py'
       - name: Installed CLI acceptance

@@ -1,8 +1,9 @@
-# 显式选择 Rust 后端
+# 显式选择财务后端
 
 [English](backends.md)
 
-`rust.nautilus.sessions` 是 core 0.1.0 唯一可执行的注册键。
+Core 0.1.0 注册 `rust.nautilus.sessions` 和 `python.minute`。
+分钟输入、能力和可恢复接口见[财务恢复](recovery.zh-CN.md)。下文说明 Rust 后端。
 它只调用一次现有 `EngineClient.run_sessions`。NautilusTrader 0.66.0
 负责成交与会计，不增加 Python 现金账本，也不自动切换后端。
 原生 CLI、SDK 身份、Rust 版本和原生 v1/v2 数据契约均保持不变。

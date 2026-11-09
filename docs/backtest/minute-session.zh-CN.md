@@ -121,7 +121,7 @@ Platform 的版本 1 和版本 2 检查点会被拒绝，错误信息要求从�
 
 此接口由 `quant-backtest-core[minute]` 显式提供，财务类型仅在 core 中定义。
 Platform 当前仍保留原提供方；其类型、`LinearImpact` 与兼容别名在后续消费者切换时整体迁移。
-不导入 Platform、Runtime 或模型训练依赖。此处尚未注册产品运行器的分钟后端。
+不导入 Platform、Runtime 或模型训练依赖。产品运行器现已注册 `python.minute`，见[财务恢复](../product/recovery.zh-CN.md)。
 
 从已安装 wheel 运行仓库中的合成 CNY 示例：
 
@@ -130,5 +130,5 @@ python -I -B examples/product/minute_session.py
 ```
 
 示例包含公司行动、数量锁、报告延迟与外部资金，验证检查点恢复后的完整财务表。
-[会话与资金流契约](../backtest/minute-session.zh-CN.md)说明时钟和恢复限制。
+[分钟执行指南](../guides/minute-execution.zh-CN.md)说明时钟和恢复限制。
 旧 `minute-session.v2` 必须使用原先固定的完整提供方环境，不允许改写摘要或静默迁移。

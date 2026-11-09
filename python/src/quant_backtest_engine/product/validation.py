@@ -79,7 +79,7 @@ def _freeze(value, name="JSON", active=None):
             for key, item in value.items():
                 if not isinstance(key, str):
                     raise ValueError(f"{name} object keys must be strings")
-                if key in DECIMAL_FIELDS:
+                if key in DECIMAL_FIELDS and item is not None:
                     _decimal(item, f"{name}.{key}")
                 if key.endswith("_ns") and item is not None:
                     _ns(item, f"{name}.{key}")
@@ -248,6 +248,9 @@ def _validate(obj):
             raise ValueError("timezone must identify an installed IANA zone") from exc
         if obj.input_schema == "rust-session.v1":
             validate_rust_session(obj)
+        elif obj.input_schema == "minute-input.v1":
+            from .minute import validate_minute_input
+            validate_minute_input(obj)
     elif isinstance(obj, t.EvidenceTable):
         if obj.name not in TABLE_NAMES:
             raise ValueError("unknown economic table")

@@ -203,3 +203,8 @@ source_sha256, dependencies, artifact_sha256`。
 [归属注册表](../migration/reusable-ownership.json) 在记录已审查的源提交前，
 仍将这项新增标为 planned，其他迁移项也保持 planned。
 SDK 不新增 core、Platform 或 Runtime 导入，不新增撮合引擎或额外现金账本。
+
+
+## 分钟输入配置
+
+SDK 不依赖 pandas 即可校验 `minute-input.v1`。精确十进制与字符串时钟、显式输入带和固定策略注册表见[恢复与完整字段语义](recovery.zh-CN.md)。

@@ -40,7 +40,7 @@ OHLC 无法确定高低价出现顺序，不能据此推断止损与限价触发
 每次成交都会扣减该标的该 bar 的参与容量。完整快照会取消旧待执行订单，因此公开目标
 接口通常每个标的只有一个待执行母单。检验纯费用敏感性时应固定目标、保留现金余量。
 现金约束生效时，费用也会改变整手成交数量。合成回归例见
-`tests/test_minute_execution_hardening.py`。
+`core/tests/test_minute_execution_hardening.py`。
 
 ## 临时不可交易估值的来源时间
 

@@ -216,3 +216,8 @@ The [ownership registry](../migration/reusable-ownership.json) keeps this additi
 planned until a reviewed source revision is recorded. Existing migration rows
 remain planned. No core/Platform/Runtime import, matching engine or extra cash
 ledger is added by the SDK.
+
+
+## Minute input profile
+
+`minute-input.v1` is validated by the SDK without pandas. See [recovery and complete field semantics](recovery.md) for exact decimal/string-clock transport, explicit tapes and the fixed policy registry.

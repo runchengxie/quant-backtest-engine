@@ -1,8 +1,10 @@
-# Explicit Rust backend
+# Explicit financial backends
 
 [简体中文](backends.zh-CN.md)
 
-`rust.nautilus.sessions` is the only executable registry key in core 0.1.0.
+Core 0.1.0 registers `rust.nautilus.sessions` and `python.minute`.
+For the minute profile, explicit capabilities and resumable API, see [financial recovery](recovery.md).
+The following sections describe the Rust backend.
 It calls the existing `EngineClient.run_sessions` once. NautilusTrader 0.66.0 owns
 execution and accounting; there is no Python cash ledger or fallback. The native
 CLI, SDK identities, Rust version and native v1/v2 wire contracts are unchanged.

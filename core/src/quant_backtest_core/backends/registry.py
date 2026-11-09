@@ -7,7 +7,11 @@ def get_backend(backend_id: str, context: BackendContext) -> Backend:
         from .rust import RustBackend
 
         return RustBackend(context)
-    if backend_id in {"python.minute", "python.daily"}:
+    if backend_id == "python.minute":
+        from .minute import MinuteBackend
+
+        return MinuteBackend(context)
+    if backend_id == "python.daily":
         raise BackendUnavailableError(
             f"{backend_id} is not implemented in core 0.1.0; installing its extra does not enable it"
         )

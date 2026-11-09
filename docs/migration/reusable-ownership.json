@@ -1,6 +1,6 @@
 {
   "schema": "engine-ownership.v1",
-  "scope": "Approved future ownership ledger, not a current capability or release inventory. No transfer is implemented by M0.",
+  "scope": "Ownership ledger with provider A implementation evidence; release availability and consumer cutover are separate. Future-route commitments remain in force.",
   "observed_versions": {
     "engine_source": "c65548a4ee1e938125cce1edbcc282c760c4c8f2",
     "engine_rust": "0.2.0",
@@ -4886,7 +4886,7 @@
         "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
         "license": "Apache-2.0"
       },
-      "implementation_note": "Leaf code/tests/docs present for provider review. Keep planned until a real independently reviewed Engine source commit is recorded; release availability and consumer cutover remain separate. Historical shared route commitments are retained for later complete-owner pages."
+      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
     },
     {
       "symbol": "quant_platform.backtest.stress",
@@ -4957,7 +4957,7 @@
         "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
         "license": "Apache-2.0"
       },
-      "implementation_note": "Leaf code/tests/docs present for provider review. Keep planned until a real independently reviewed Engine source commit is recorded; release availability and consumer cutover remain separate. Historical shared route commitments are retained for later complete-owner pages."
+      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
     },
     {
       "symbol": "quant_platform.backtest.costs",
@@ -5028,7 +5028,7 @@
         "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
         "license": "Apache-2.0"
       },
-      "implementation_note": "Leaf code/tests/docs present for provider review. Keep planned until a real independently reviewed Engine source commit is recorded; release availability and consumer cutover remain separate. Historical shared route commitments are retained for later complete-owner pages."
+      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
     },
     {
       "symbol": "quant_platform.backtest.impact",
@@ -5099,7 +5099,7 @@
         "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
         "license": "Apache-2.0"
       },
-      "implementation_note": "Leaf code/tests/docs present for provider review. Keep planned until a real independently reviewed Engine source commit is recorded; release availability and consumer cutover remain separate. Historical shared route commitments are retained for later complete-owner pages."
+      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
     },
     {
       "symbol": "quant_platform.backtest.impact_scenarios",
@@ -5170,7 +5170,7 @@
         "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
         "license": "Apache-2.0"
       },
-      "implementation_note": "Leaf code/tests/docs present for provider review. Keep planned until a real independently reviewed Engine source commit is recorded; release availability and consumer cutover remain separate. Historical shared route commitments are retained for later complete-owner pages."
+      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
     },
     {
       "symbol": "quant_platform.analytics.execution_integrity",
@@ -5220,7 +5220,7 @@
         "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
         "license": "Apache-2.0"
       },
-      "implementation_note": "Leaf code/tests/docs present for provider review. Keep planned until a real independently reviewed Engine source commit is recorded; release availability and consumer cutover remain separate. Historical shared route commitments are retained for later complete-owner pages."
+      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
     },
     {
       "symbol": "quant_platform.analytics.transaction_costs",
@@ -5291,7 +5291,7 @@
         "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
         "license": "Apache-2.0"
       },
-      "implementation_note": "Leaf code/tests/docs present for provider review. Keep planned until a real independently reviewed Engine source commit is recorded; release availability and consumer cutover remain separate. Historical shared route commitments are retained for later complete-owner pages."
+      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
     },
     {
       "symbol": "quant_platform.analytics.cost_scope",
@@ -5341,7 +5341,7 @@
         "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
         "license": "Apache-2.0"
       },
-      "implementation_note": "Leaf code/tests/docs present for provider review. Keep planned until a real independently reviewed Engine source commit is recorded; release availability and consumer cutover remain separate. Historical shared route commitments are retained for later complete-owner pages."
+      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
     },
     {
       "symbol": "quant_platform.analytics.capital_returns",
@@ -5391,7 +5391,7 @@
         "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
         "license": "Apache-2.0"
       },
-      "implementation_note": "Leaf code/tests/docs present for provider review. Keep planned until a real independently reviewed Engine source commit is recorded; release availability and consumer cutover remain separate. Historical shared route commitments are retained for later complete-owner pages."
+      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
     },
     {
       "symbol": "quant_platform.backtest.minute",
@@ -5476,7 +5476,7 @@
           }
         ]
       },
-      "implementation_note": "Complete minute source/tests/docs present for provider review; schema minute-session.v3 rejects old v2. Keep planned until independently reviewed Engine revision is recorded. Product wrapper and consumer type/impact/alias cutover remain separate; retain historical route commitments."
+      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
     },
     {
       "symbol": "quant_platform.backtest.minute_session",
@@ -5561,7 +5561,7 @@
           }
         ]
       },
-      "implementation_note": "Complete minute source/tests/docs present for provider review; schema minute-session.v3 rejects old v2. Keep planned until independently reviewed Engine revision is recorded. Product wrapper and consumer type/impact/alias cutover remain separate; retain historical route commitments."
+      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
     },
     {
       "symbol": "quant_platform.backtest._minute_checkpoint",
@@ -5646,7 +5646,7 @@
           }
         ]
       },
-      "implementation_note": "Complete minute source/tests/docs present for provider review; schema minute-session.v3 rejects old v2. Keep planned until independently reviewed Engine revision is recorded. Product wrapper and consumer type/impact/alias cutover remain separate; retain historical route commitments."
+      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
     },
     {
       "symbol": "quant_platform.backtest.quantity_locks",
@@ -5731,7 +5731,7 @@
           }
         ]
       },
-      "implementation_note": "Complete minute source/tests/docs present for provider review; schema minute-session.v3 rejects old v2. Keep planned until independently reviewed Engine revision is recorded. Product wrapper and consumer type/impact/alias cutover remain separate; retain historical route commitments."
+      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
     },
     {
       "symbol": "quant_platform._portfolio.minute_execution",
@@ -5804,7 +5804,7 @@
           }
         ]
       },
-      "implementation_note": "Complete minute source/tests/docs present for provider review; schema minute-session.v3 rejects old v2. Keep planned until independently reviewed Engine revision is recorded. Product wrapper and consumer type/impact/alias cutover remain separate; retain historical route commitments."
+      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
     },
     {
       "symbol": "quant_platform._portfolio._minute_state",
@@ -5877,7 +5877,7 @@
           }
         ]
       },
-      "implementation_note": "Complete minute source/tests/docs present for provider review; schema minute-session.v3 rejects old v2. Keep planned until independently reviewed Engine revision is recorded. Product wrapper and consumer type/impact/alias cutover remain separate; retain historical route commitments."
+      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
     },
     {
       "symbol": "quant_platform._portfolio._minute_validation",
@@ -5950,7 +5950,7 @@
           }
         ]
       },
-      "implementation_note": "Complete minute source/tests/docs present for provider review; schema minute-session.v3 rejects old v2. Keep planned until independently reviewed Engine revision is recorded. Product wrapper and consumer type/impact/alias cutover remain separate; retain historical route commitments."
+      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
     },
     {
       "symbol": "quant_platform._portfolio.capital_flows",
@@ -6023,7 +6023,7 @@
           }
         ]
       },
-      "implementation_note": "Complete minute source/tests/docs present for provider review; schema minute-session.v3 rejects old v2. Keep planned until independently reviewed Engine revision is recorded. Product wrapper and consumer type/impact/alias cutover remain separate; retain historical route commitments."
+      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
     },
     {
       "symbol": "quant_platform._portfolio.corporate_actions",
@@ -6096,7 +6096,7 @@
           }
         ]
       },
-      "implementation_note": "Complete minute source/tests/docs present for provider review; schema minute-session.v3 rejects old v2. Keep planned until independently reviewed Engine revision is recorded. Product wrapper and consumer type/impact/alias cutover remain separate; retain historical route commitments."
+      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
     },
     {
       "symbol": "quant_platform._portfolio.valuation_events",
@@ -6169,7 +6169,7 @@
           }
         ]
       },
-      "implementation_note": "Complete minute source/tests/docs present for provider review; schema minute-session.v3 rejects old v2. Keep planned until independently reviewed Engine revision is recorded. Product wrapper and consumer type/impact/alias cutover remain separate; retain historical route commitments."
+      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
     },
     {
       "symbol": "quant_platform.backtest.paper_account",
@@ -8839,14 +8839,16 @@
       ],
       "compatibility_path": "quant_backtest_engine",
       "removal_gate": "retain",
-      "acceptance_test": "python -m unittest discover -s python/tests -p test_product_contracts.py",
+      "acceptance_test": "python -I -B -m unittest discover -s python/tests -v",
       "provider_sources": [
         "python/src/quant_backtest_engine/product/__init__.py",
         "python/src/quant_backtest_engine/product/types.py",
         "python/src/quant_backtest_engine/product/validation.py",
-        "python/src/quant_backtest_engine/product/capabilities.py"
+        "python/src/quant_backtest_engine/product/capabilities.py",
+        "python/src/quant_backtest_engine/product/minute.py"
       ],
-      "anchor_policy": "Additive SDK contracts; retain native client route and API. Mark implemented only after independent review records a real source commit."
+      "anchor_policy": "Additive SDK contracts; retain native client route and API. Mark implemented only after independent review records a real source commit.",
+      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
     },
     {
       "symbol": "quant_backtest_core.runner",
@@ -8883,13 +8885,25 @@
       ],
       "compatibility_path": "quant_backtest_engine",
       "removal_gate": "retain",
-      "acceptance_test": "python -I -m unittest discover -s core/tests -v",
+      "acceptance_test": "python -I -B -m pytest core/tests/test_runner.py core/tests/test_product_sessions.py core/tests/test_product_checkpoint.py -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/runner.py",
         "core/src/quant_backtest_core/backends/rust.py",
-        "core/src/quant_backtest_core/artifacts.py"
+        "core/src/quant_backtest_core/artifacts.py",
+        "core/src/quant_backtest_core/backends/minute.py",
+        "core/src/quant_backtest_core/sessions/__init__.py",
+        "core/src/quant_backtest_core/sessions/checkpoint.py",
+        "core/src/quant_backtest_core/sessions/minute.py",
+        "core/src/quant_backtest_core/sessions/policies.py",
+        "core/src/quant_backtest_core/sessions/protocol.py",
+        "core/src/quant_backtest_core/sessions/results.py"
       ],
-      "anchor_policy": "Additive optional runner retains native sessions documentation and API. Mark implemented after independent review records its real source commit; release availability is separate."
+      "anchor_policy": "Additive optional runner retains native sessions documentation and API. Mark implemented after independent review records its real source commit; release availability is separate.",
+      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review.",
+      "leaf_documentation": [
+        "docs/product/recovery.md",
+        "docs/product/recovery.zh-CN.md"
+      ]
     }
   ],
   "public_import_namespaces": [

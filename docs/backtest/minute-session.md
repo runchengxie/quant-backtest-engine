@@ -139,8 +139,7 @@ synthetic accounting tests, not Runtime process-kill or live-broker recovery cla
 Install `quant-backtest-core[minute]` explicitly. Core defines the financial types.
 Platform remains on its original provider until the complete type, `LinearImpact`
 and compatibility-alias cohort switches in the consumer wave. No Platform, Runtime
-or model-training dependency is imported. The product runner minute backend is
-not registered by this source transfer.
+or model-training dependency is imported. The product runner now registers `python.minute`; see [financial recovery](../product/recovery.md).
 
 Run the repository’s synthetic CNY example against installed wheels:
 
@@ -149,6 +148,6 @@ python -I -B examples/product/minute_session.py
 ```
 
 It exercises actions, locks, delayed reports and external capital, checking complete
-financial tables after recovery. See the [session and capital-flow contract](../backtest/minute-session.md)
+financial tables after recovery. See the [minute execution guide](../guides/minute-execution.md)
 for clock and recovery semantics. Old `minute-session.v2` state requires its original
 complete pinned provider environment; rewriting digests or silent migration is unsupported.

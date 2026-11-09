@@ -49,7 +49,7 @@ Complete snapshots supersede earlier pending orders, so the public target API
 normally has at most one pending parent per symbol. Fee sensitivity should be
 checked with fixed targets and sufficient cash headroom when isolating cost;
 with binding cash, fees can also change lot-rounded fills. Synthetic regression
-examples are in `tests/test_minute_execution_hardening.py`.
+examples are in `core/tests/test_minute_execution_hardening.py`.
 
 ## Temporary nontrading mark provenance
 

@@ -2,7 +2,7 @@
 
 [简体中文](installation.zh-CN.md)
 
-Core 0.1.0 provides the explicit Rust session runner. Install the SDK 0.3.0 wheel
+Core 0.1.0 provides explicit Rust and resumable Python minute runners. Install the SDK 0.3.0 wheel
 and core wheel built from the same reviewed Engine revision into a Python 3.12 or
 3.13 environment (`>=3.12,<3.14`). Python 3.14 needs a separate numerical
 baseline upgrade: pandas 3.0.6 requires NumPy >=2.3.3 on that interpreter. The SDK itself still supports Python 3.11. No PyPI release is
@@ -57,10 +57,9 @@ Development checks use the locked dev group: `ruff check core`, `ruff format
 The `scenario` extra supports [market paths and stress](../backtest/market-paths.md);
 `cost` supports [transaction cost evidence](../backtest/transaction-cost-evidence.md)
 and scoped fitting. These are independent leaf APIs. The `minute` extra now provides the direct
-[minute session and financial kernels](../backtest/minute-session.md). Other extras reserve dependency
-groups for later transfers. Installing one does
-not implement or register a Python backend in core 0.1.0. `python.minute` and
-`python.daily` fail explicitly as unavailable; unknown keys are rejected.
+[minute session and financial kernels](../backtest/minute-session.md). The minute extra enables `python.minute`; see [recovery and exact input codec](recovery.md).
+Other extras reserve dependency groups for later transfers. `python.daily` remains unavailable;
+unknown keys are rejected.
 See [backend limits](backends.md) before choosing a manifest.
 
 

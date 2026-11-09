@@ -2,7 +2,7 @@
 
 [English](installation.md)
 
-Core 0.1.0 提供显式选择的 Rust 会话执行器。在 Python 3.12 或 3.13 环境中，
+Core 0.1.0 提供显式选择的 Rust 执行器和可恢复 Python 分钟执行器。在 Python 3.12 或 3.13 环境中，
 安装从同一已审核 Engine 提交构建的 SDK 0.3.0 和 core wheel。
 core 的解释器范围为 `>=3.12,<3.14`。Python 3.14 上 pandas 3.0.6 要求
 NumPy >=2.3.3，需另行验证数值基线升级。SDK 本身仍支持 Python 3.11。这里不要求、也不表示已发布到 PyPI；
@@ -52,8 +52,8 @@ done
 
 `scenario` 支持[市场路径与压力变换](../backtest/market-paths.zh-CN.md)，
 `cost` 支持[交易成本证据](../backtest/transaction-cost-evidence.zh-CN.md)及适用范围拟合。
-这些是独立叶子 API；其他 extra 仍为后续迁移预留依赖组。安装 extra 不会在 core 0.1.0 中实现或注册 Python 后端。
-`python.minute`、`python.daily` 会明确报告不可用，未知注册键也会被拒绝。
+这些是独立叶子 API；minute extra 启用 `python.minute`，见[恢复和输入契约](recovery.zh-CN.md)。
+其他 extra 仍为后续迁移预留依赖组；`python.daily` 仍不可用，未知注册键会被拒绝。
 选择请求前请阅读[后端限制](backends.zh-CN.md)。
 
 

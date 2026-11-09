@@ -1,7 +1,7 @@
 """Capability checks compare one explicit provider, never a backend union."""
 from .types import BackendDescriptor, ProductManifest
 
-VALIDATED_INPUT_SCHEMAS = frozenset({"rust-session.v1"})
+VALIDATED_INPUT_SCHEMAS = frozenset({"rust-session.v1", "minute-input.v1"})
 
 
 def require_capabilities(manifest: ProductManifest, descriptor: BackendDescriptor) -> None:
