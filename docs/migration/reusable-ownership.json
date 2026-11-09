@@ -7243,8 +7243,8 @@
       "old_module": "quant_platform._portfolio.execution_sim.config",
       "new_module": "quant_backtest_core.daily.execution_sim.config",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "8a178d2ad4e405dcbefdc78045fcb52d1b87fb72",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -7301,11 +7301,27 @@
       ],
       "compatibility_path": "quant_platform._portfolio.execution_sim.config",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/test_daily_contracts.py -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/execution_sim/config.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Historical and promised destination URLs/anchors remain unchanged. Current destination hubs identify Task 13 leaf scope and link paired daily-inputs documentation; full daily execution remains Task 14/15.",
+      "leaf_documentation": [
+        "docs/product/daily-inputs.md",
+        "docs/product/daily-inputs.zh-CN.md"
+      ],
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/config.py",
+            "source_sha256": "c21866701033c4ba98a69288d23ec6c757fcf71412278412b7021c1a72f14de5"
+          }
+        ]
+      },
+      "implementation_note": "Task 13 transfers the exact config class/parser body with provenance comments only; no future runner import. Core version remains 0.2.0 on the unreleased C branch until Task 14 completes the 0.3.0 execution profile. Implemented means code presence, not gate C release or consumer migration."
     },
     {
       "symbol": "quant_platform._portfolio.execution_sim.core",
@@ -9607,5 +9623,50 @@
       "Exact merged-artifact validation before Platform Task 12",
       "Daily-owner variants remain Tasks 14/15"
     ]
+  },
+  "provider_c_task13": {
+    "source_revision": "8a178d2ad4e405dcbefdc78045fcb52d1b87fb72",
+    "status": "implemented-unreleased",
+    "scope": "Daily leaf metadata/calendar/summary and original pure config only; no execution adapter or SDK admission.",
+    "released_prerequisites": {
+      "engine_provider_b": "51ab1e8cb2267d938a0681b81f2419d504ed91cc",
+      "platform_consumer_b": "7ff3822675b6734a4e6a99a9491730bece386fa3"
+    },
+    "historical_source_revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+    "provider_sources": [
+      "core/src/quant_backtest_core/daily/__init__.py",
+      "core/src/quant_backtest_core/daily/contracts.py",
+      "core/src/quant_backtest_core/daily/calendar.py",
+      "core/src/quant_backtest_core/daily/summary.py",
+      "core/src/quant_backtest_core/daily/execution_sim/__init__.py",
+      "core/src/quant_backtest_core/daily/execution_sim/config.py"
+    ],
+    "leaf_documentation": [
+      "docs/product/daily-inputs.md",
+      "docs/product/daily-inputs.zh-CN.md"
+    ],
+    "accepted_input_schemas": [],
+    "pending_input_schemas": [
+      "daily-input.v1"
+    ],
+    "validation": {
+      "python": [
+        "3.12",
+        "3.13"
+      ],
+      "installed_daily_tests": 28,
+      "original_config_cases": 50,
+      "original_calendar_cases": 25,
+      "original_research_clock_cases": 4,
+      "sdk_python": "3.11",
+      "sdk_tests_with_real_binary": 29
+    },
+    "calendar_source": {
+      "path": "packages/platform/src/quant_platform/_portfolio/execution_calendar.py",
+      "sha256": "3d7d0ea78c6ad6afe75df044641e8005d0c094d6fc91525e50e189bce7b13d10",
+      "changes": "Retain inclusive supplied-session filtering and <=0/positive arithmetic; no provider, weekday or future fallback. New exhausted keys are explicit None."
+    },
+    "summary_policy": "Finite owner returns require available complete daily evidence plus complete marks and zero external flow for each ordered row. No subset compounding, research metric, flow adjustment, invented turnover denominator, fee fallback or second debit.",
+    "release_availability": "Task 13 source only. Whole C review, Task 14 graph, gate C version/artifact/merge verification and Task 15 consumer migration remain pending."
   }
 }

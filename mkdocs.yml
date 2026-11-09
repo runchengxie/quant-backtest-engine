@@ -66,6 +66,7 @@ nav:
       - Product installation: product/installation.md
       - Product backends: product/backends.md
       - Daily inputs: product/daily-inputs.md
+      - Daily execution scope: guides/execution-simulation.md
       - Financial recovery: product/recovery.md
       - Independent scenarios: product/scenarios.md
       - Impact-aware planning: concepts/impact-planning.md
@@ -109,6 +110,7 @@ nav:
       - 产品安装: product/installation.zh-CN.md
       - 产品后端: product/backends.zh-CN.md
       - 日频输入: product/daily-inputs.zh-CN.md
+      - 日频执行范围: guides/execution-simulation.zh-CN.md
       - 财务会话恢复: product/recovery.zh-CN.md
       - 独立场景: product/scenarios.zh-CN.md
       - 冲击与滚动规划: concepts/impact-planning.zh-CN.md
