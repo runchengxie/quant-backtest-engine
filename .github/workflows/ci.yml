@@ -51,14 +51,15 @@ jobs:
     strategy:
       matrix:
         python: ['3.12', '3.13']
-    env:
-      UV_PROJECT_ENVIRONMENT: ${{ runner.temp }}/core-dev
-      UV_CACHE_DIR: ${{ runner.temp }}/uv-cache
-      RUFF_CACHE_DIR: ${{ runner.temp }}/ruff-cache
-      MYPY_CACHE_DIR: ${{ runner.temp }}/mypy-cache
-      PYTHONPYCACHEPREFIX: ${{ runner.temp }}/pycache
-      CARGO_TARGET_DIR: ${{ runner.temp }}/target
     steps:
+      - name: Set external build and cache paths
+        run: |
+          echo "UV_PROJECT_ENVIRONMENT=$RUNNER_TEMP/core-dev" >> "$GITHUB_ENV"
+          echo "UV_CACHE_DIR=$RUNNER_TEMP/uv-cache" >> "$GITHUB_ENV"
+          echo "RUFF_CACHE_DIR=$RUNNER_TEMP/ruff-cache" >> "$GITHUB_ENV"
+          echo "MYPY_CACHE_DIR=$RUNNER_TEMP/mypy-cache" >> "$GITHUB_ENV"
+          echo "PYTHONPYCACHEPREFIX=$RUNNER_TEMP/pycache" >> "$GITHUB_ENV"
+          echo "CARGO_TARGET_DIR=$RUNNER_TEMP/target" >> "$GITHUB_ENV"
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
       - uses: dtolnay/rust-toolchain@1.99.1
