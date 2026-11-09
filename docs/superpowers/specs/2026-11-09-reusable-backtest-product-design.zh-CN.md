@@ -166,7 +166,7 @@ Engine 管财务状态；Runtime 继续管候选文件写入、同步、重命�
 | M1 产品接口 | 能力、运行清单、结果及明确后端和会话接口；原 API 不变 | 跨语言契约、缺包与不支持能力拒绝、旧 SDK/CLI 兼容 |
 | M2 独立机制 | 路径、执行成本与冲击，以及必要的中立完整性工具 | 安装包独立测试、来源和配置身份、手算与旧新对照，无反向依赖 |
 | M3 财务实现组 | 分钟会话、账户、公司行动、估值、资金流、锁定与延迟状态；分离撮合和训练初始化 | 每事件边界恢复、现金股数费用权益守恒、估值未知和不依赖训练栈 |
-| M4 规划与情景 | 有界执行规划、实际成交分配、有限退出、独立情景和外部策略接口 | 预备资金、容量、反馈、依赖闭包及失败留痕 |
+| M4 规划与情景 | 有界执行规划、实际成交分配、有限退出、纯回放执行冲击估计、独立情景和外部策略接口 | 预备资金、容量、反馈、完整冲击与接纳测试、原生后端缺失成交证据时拒绝、依赖闭包及失败留痕 |
 | M5 日级执行解耦 | 分离选股、研究指标、供应商日历和发布后，迁入日级成交与核算 | 完整日账、日期费用与公司行动，明确目标和日历，无供应商登录依赖 |
 | M6 调用方和 Runtime | Platform 转发新 owner；Runtime 新固定提供者；独立消费样例 | 精确依赖组合、真实进程终止验收、旧 v1 至 v8 保持有效 |
 | M7 产品交付 | Engine 文档、教程、发行和 Platform 兼容页、Runtime 运维说明 | 双语实浏览器、移动布局、主题、键盘、减少动态效果、导航及部署版本核对，最后清理任务资源 |
@@ -196,6 +196,10 @@ README、API、示例、能力和发行矩阵、导航、语言登记、源码�
 
 M3 初始依赖组为 Platform 的 quant_platform/backtest/{minute,minute_session,_minute_checkpoint,impact,quantity_locks}.py，以及 _portfolio/{minute_execution,_minute_state,_minute_validation,capital_flows,corporate_actions,valuation_events}.py。兼容转发必须保留类身份。account-events、paper-account、checkpoints 与 pending-allocation 的优化器接口按 M4 单独梳理，不能因此迁入整套通用研究优化器。
 
+M4 的纯回放依赖还包括 `ticknet.simulator.impact` 的 `ExecutionSchedule`、`ImpactResult`、`ImpactEstimator(session).estimate(schedule)` 和 `_mid`。Task 9 将 `packages/microstructure/src/ticknet/simulator/impact.py` 迁入 `core/src/quant_backtest_core/microstructure/impact.py`，保留数据类字段、单位、子限价单策略、校验与操作顺序，以及实际成交和 VWAP 证据；仅使用标准库，不依赖 Torch 或 Platform。完整迁移原 `tests/microstructure/test_impact.py` 的十一项测试、`test_replay_clock.py` 中两项冲击接纳测试，以及 `test_rust_parity.py` 的 `test_native_impact_estimation_rejects_missing_fill_evidence`；必须提供安装后 Python 执行、真实原生后端拒绝和固定版本源码对照证据。原生后端缺少逐笔实际成交证据，继续在状态变更前抛出 `NotImplementedError`。空订单簿的中间价和滑点原始哨兵值保持不变，并说明其诊断局限：零哨兵值不代表测得零市场冲击，描述性的价格位移和执行价差也不能再扣一笔现金费用。
+
+Engine 只提取六个纯实现模块 `matching,pack,ordering,replay,correctness,impact` 及惰性 `__init__`，不能把旧 simulator 的九个文件一概迁入。Task 12 为迁出的类提供保留身份的薄别名，覆盖三个冲击类及原先支持的惰性导出。`generator.py` 仍属学习模型职责；`sqrt_law.py` 继续作为使用该生成器和估计器的受支持消费者与诊断工具，等待更广的归属决定。保留其集成测试和旧路径，不能按笼统提取规则复制或删除，也不能宣称该诊断已实现经过校准的平方根市场冲击规律。
+
 日级 reporting 目前会导入研究统计，持仓回放混有选股，日历也可能抓供应商数据。M5 先定义执行摘要、明确目标和调用方提供的日历，再搬财务实现；因子 IC、top-k 选股和供应商认证留在各自原有职责层。
 
 | 当前 Platform 文档 | 对应迁移后归属 |
@@ -203,6 +207,7 @@ M3 初始依赖组为 Platform 的 quant_platform/backtest/{minute,minute_sessio
 | backtest/market-paths 中英文 | Engine 同名路径说明，随 M2 |
 | backtest/minute-session；guides/minute-execution 英文与中文原文 | Engine 对应会话、分钟执行说明，随 M3 |
 | transaction-cost-evidence；cost-scope 分析 | Engine 执行成本证据说明，随 M2/M4，保留统计限制 |
+| [旧回放冲击源码](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/packages/microstructure/src/ticknet/simulator/impact.py)；没有历史文档路由 | Task 9 随代码与测试新增 Engine `docs/microstructure/impact-estimation{,.zh-CN}.md`，登记实际已审查代码 SHA 和已实现但未发行状态；本次计划修订不登记完成 |
 | concepts/impact-planning、discrete-inventory 中英文 | Engine 可选执行规划，随 M4 |
 | sleeve-allocation、execution-integrity、paper-account、account-feedback、capital/reconciliation | Engine 分配、账户和证据说明，随 M3/M4；补缺失中文入口 |
 | pending-allocation 和 signed/sparse 优化说明 | 执行预留接口进 Engine，通用优化器说明留 Platform |
