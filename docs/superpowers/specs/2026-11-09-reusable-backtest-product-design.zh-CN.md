@@ -215,6 +215,108 @@ M3 初始依赖组为 Platform 的 quant_platform/backtest/{minute,minute_sessio
 
 PR 19 导出器目前允许 quant_platform 类型，并记录相应类和模块源码哈希。每批迁移同步更新类型允许表、owner 版本和 URL、导出器及全部执行源码哈希，从干净且已合并的提供者重新生成。旧样例身份作为历史证据保留。当前强制 Runtime 检出只为哈希一份文档，应改为可选的版本化文档引用；风险或无信号教学场景仍可把 Platform 标为独立分析 owner，不使 Engine 的运行依赖于它。
 
+## 10.1 静态产品前端与保留的技术参考
+
+`web/` 使用 Astro 静态输出，React 是唯一的客户端组件框架。Astro 在构建时生成产品导航、解释、证据边界和完整结果表；React islands 负责事件回放、同步图表和预设控制。普通构建读取已提交的公开合成数据产物，不需要常驻服务器、券商、Platform 源码或 Runtime 服务。先验证兼容性，再在 `web/package.json` 和锁文件中固定依赖、Node 和包管理器版本，不凭记忆指定框架主版本。
+
+MkDocs 继续生成现有技术参考和保留的八场景教程。本次选择 Astro 是为了组件和交互状态易于维护，并非认为 MkDocs 无法执行 JavaScript。不同时迁移到 Starlight，也不把所有旧页面统一搬到 `/docs/`。静态交互边界参照 [Astro islands](https://docs.astro.build/en/concepts/islands/)，部署参数参照 [官方 Pages 指南](https://docs.astro.build/en/guides/deploy/github/)；以下拼装规则属于本项目设计，并非 Astro 自带功能。
+
+## 10.2 首页、路由与静态资源的归属
+
+以下路径均相对站点基础路径 `/quant-backtest-engine/`；生产站点域名为 `https://runchengxie.github.io`。Astro 采用静态输出和末尾斜杠目录路由。本地验收必须在同一基础路径下运行，不能只验证根路径 `/`。
+
+| 公开路径 | 归属与行为 |
+| --- | --- |
+| `/`、`/index.zh-CN/` | Astro 英文与中文产品首页；新产品介绍之后保留对应 MkDocs 概览文章的完整渲染内容及旧标题 ID。正文来源仍为 `docs/index{,.zh-CN}.md`。 |
+| `/reference/`、`/reference/zh-CN/` | Astro 技术参考导航，链接实际未变更的 MkDocs 地址，不复制完整参考正文。 |
+| `/learn/`、`/learn/zh-CN/` | Astro 学习总览；八张场景入口各给出结论、来源类别、证据阶段、样本范围和主要未解问题。 |
+| `/learn/{scene}/`、`/learn/zh-CN/{scene}/` | Astro 场景解释及完整静态结果表；scene 为 `flow,book,impact,cost,lots,paths,selection,risk`。 |
+| `/lab/{scene}/`、`/lab/zh-CN/{scene}/` | 同一产物的同步回放工作区，链接对应学习页。 |
+| 其余已有 HTML，包括 `/backtesting-explained/`、`/backtesting-explained.zh-CN/` | MkDocs，保留公开地址和锚点；包括 `tutorial`、`contracts`、`migration/...`、`.zh-CN` 及后续增加的技术文档。 |
+| `/_astro/**` | Astro 独占的客户端资源。 |
+| `/assets/learning/**` | 已提交的公开轨迹、清单、来源记录和词条投影，由拼装工具统一复制，Astro 不再输出一份。 |
+| `/assets/method/**`、`/javascripts/**`、`/stylesheets/**`、`/search/**`、主题资源、`/404.html`、`/sitemap.xml`、`/sitemap.xml.gz` | 保留 MkDocs 归属；拼装时只生成一次包含 Astro 路由的站点地图，并检查搜索结果链接。旧 fixture 下载地址不变。 |
+| `/site-build.json` | 拼装工具输出的版本及逐文件 SHA-256 收据，不包含自己的递归哈希。 |
+
+唯一允许替换的 HTML 文件是 `index.html` 和 `index.zh-CN/index.html`。`extract_reference_home(site_dir, output_dir)` 只提取可信 MkDocs 构建的 `<article>` 内容，去掉编辑按钮和脚本，保留正文标题 ID，按照原页面地址解析并重写相对链接，检查 ID 唯一性。`LegacyOverview.astro` 静态呈现正文，样式限制在 `.legacy-overview`，不加载 MkDocs 导航和 JS。Astro 新标题采用 `product-` 前缀。英文首页继续支持 `#quant-backtest-engine`、`#start-here`、`#names-used-in-these-docs`、`#responsibilities`、`#adoption-status`；中文继续支持 `#quant-backtest-engine` 和 `#_1`–`#_4`。新增标题以更新后的实际构建清单为准，不能猜测中文 slug。
+
+先提取并排除这两个旧首页，再合并输出；不得靠复制顺序覆盖。其他路径冲突一律失败，即使重复文件内容相同。拒绝符号链接、越界路径和未声明的资源命名空间。保留现有输出支持的 `.html` 访问形式和编码后的片段链接。旧教程的标题和控件 ID 不变，不能把带旧锚点的 URL 重定向到新的通用入口。补充材料中的 `route-anchor-inventory.json` 来自实际 HTML；Task 19 必须用干净的 PR 19 和当时已合并主分支重新构建并更新。
+
+## 10.3 八场景复用及有限预设
+
+保留 PR 19（`4820af3b82940e7697cb8c92154315b1d59ee23d`）的署名、提交历史、导出器、语义词条、精确证据和测试。控制者证明完整集成之前，不删除原分支或工作树。历史产物保持原提供方信息，不能将旧字节改称当前 Engine 的结果。
+
+| 场景 | 保留的精确预设 ID | 新呈现及边界 |
+| --- | --- | --- |
+| `flow` | `roundtrip` | 因果阶段及真实 Rust 行情、订单、成交、账户事件；已有订单样例没有拟合预测和优化器。无对应证据的阶段只作概念说明，不补数字。 |
+| `book` | `depth` | 深度消耗、部分成交、订单到达、报告可见性；原 600 ms 延迟仍标明为演示假设，不能称为撮合提供方实测。 |
+| `impact` | `small,large,nondecaying,close` | 同轴显示无冲击价格、暂态、非衰减状态与成交偏移；已计入价格的冲击不重复扣费。 |
+| `cost` | `once` | 分开现金扣款与描述性价差、冲击和机会损失，保持唯一核算主体。 |
+| `lots` | `no-minimum,minimum,grid` | 整数可行域、启发式与有限域精确结果；最优性只适用于枚举域。 |
+| `paths` | `thin,deep,market-up,feedback` | 同步展示独立账户、预测和市场哈希、策略改变及可见待处理状态。 |
+| `selection` | `null-search` | 保留全部六次尝试及真实 Platform 分析/教学归属，不声称 PBO 或样本外结果。 |
+| `risk` | `recovery,shared,residual,actions,risk-full,risk-missing` | 分开状态恢复、分配、剩余库存、资本/权利与风险诊断；未知保持未知。 |
+
+第一版固定网格就是这 21 个预设，不能将参数自由交叉组合。标签以导出的实际配置为准：`impact.large` 同时把数量改成 200、间隔改成 120 秒；`small` 为 100/60 秒，`close` 为 100/10 秒，`nondecaying` 为 100/60 秒并使用 0.001 的非衰减系数。不能把 large 说成只改变数量。四者暂态系数均为 0.002、衰减时间 60 秒。整数域为 `{0,1,2,3}²`，现金 14、价格 `(6,4)`、最低费用为 0 或 1，目标为 `(1.6,1.6)` 或 `(1.5,1.5)`。路径参与率为 0.1/0.5；`market-up` 把最后外部价格改为 10.5；`feedback` 改变声明的策略。必须明确展示这些差异。
+
+扩展延迟、流动性、冲击或初始值控制前，先提供版本化 `preset-grid.json`，逐一记录可选参数组合、完整输入、登记过的提供方调用、种子（确定性案例明确为 null）、能力要求和对应产物哈希。缺失组合禁用并解释，不能凭空算出。连续滑块只控制动画进度，不生成中间现金、成交、价格、成本、优化器状态或收益。
+
+## 10.4 轨迹、来源和哈希契约
+
+保留 `engine-method-replay.v1` 及其既有 input/config/run 摘要定义。新增 `engine-learning-manifest.v1` 和 `engine-learning-trace.v1`，模式置于 `docs/assets/learning/schemas/`；同目录的 `2026-11-09-learning-trace.schema.json` 给出具体设计初稿。清单引用原 fixture 精确字节和各场景/预设轨迹，不使用自引用哈希。
+
+manifest 字段为 `schema`、`provider_revisions`、`exporter_sources`、`fixture:{url,sha256}`、`sources:{url,sha256}`、`catalogs:{en:{url,sha256},zh-CN:{url,sha256}}`、`preset_grid:{url,sha256}` 和有序 `traces:[{scene_id,preset_id,url,sha256}]`。URL 为同站基础路径相对地址，不含私有路径。SHA 是实际提供的 UTF-8 字节的 SHA-256 小写十六进制值，不对解析后重新序列化的 JSON 校验。原提供方配置摘要继续使用原规范；传输哈希不取代语义摘要。
+
+原始运行绑定是**零个、一个或多个具名调用**，不是单个场景摘要。`bindings.run_sha256` 原样复制所选原场景的 `run_sha256` 字典，保留每个名称和摘要；`bindings.run_bindings_pointer` 指向哈希绑定 fixture 中的原字典。字典非空时 `run_bindings_status` 为 `available`、`run_bindings_reason_key` 为 null；原字典为空时必须为 `unavailable`，并提供非空原因键 `provenance.named_run_binding_not_recorded`。这里“不可用”只指具名调用摘要证据，原结果、源码、输入、配置和 fixture 证据仍然有效。意外输入模式中完全缺失 `run_sha256` 必须报错，不能默默当作已知空字典。不能挑一个调用、改名、删贡献者，也不能把字典整体再哈希成替代标量。
+
+`bindings.calls` 的键必须与 `bindings.run_sha256` 完全一致。每项为 `{input_pointer,digest_pointer,owner_id,source_ids}`，分别指向原 `inputs/runs/<name>` 调用定义和 `run_sha256/<name>` 摘要；来源 ID 标明真实、固定版本的导出器与提供方调用路径。JSON Pointer 使用 RFC 6901 转义，场景数组下标根据稳定 ID 定位，不能全局写死。保留原摘要语义：`method_fixture_common.scenario` 哈希的是序列化后的**调用定义**，不是该调用产生的财务输出；原完整 input/config 摘要也保持不变。顶层 `provider` 只是主要展示/分发身份，不能取代每个调用的真实归属和来源。一个场景可以包含多个不同调用，每个财务运行仍只有一个核算主体。
+
+事件的 `source_pointers` 为每个 `values` 键提供 `ValueSource` 记录 `{source_pointer,run_names,run_binding_status,reason_key}`。`source_pointer` 指向原 fixture 中真实展示值，不指向推测结果；`run_names` 根据固定版本导出器的调用路径，列出全部且仅有的实际贡献调用，其定义和摘要必须已经绑定，允许多个贡献者。`available` 要求至少一个名称且原因为 null；`unavailable` 要求名称为空并说明为何没有具名调用证据；`not_applicable` 要求名称为空，且解释该值确为静态元数据/输入而非财务结果。状态不能用来省略已知贡献者。校验器检查调用到结果的实际对应关系，不能只检查名称存在。
+
+每个表保留原 `source_pointer`，新增整表的 `run_names`、`run_binding_status`、`reason_key`，以及按投影单元格 JSON Pointer（例如 `/rows/0/cash`）索引的 `value_sources`，每个展示单元格都必须有 `ValueSource`。整表调用集合必须等于单元格贡献者并集；混合表中的静态单元格分别记录 `not_applicable` 原因。整表和单元格指针必须能在同一声明 fixture 中解析，单元格值须按已声明的序列化投影与原值一致。不能用整表并集掩盖单元格归属缺失或错误。即使某个视图没显示某次调用的结果，`bindings` 也保留原调用。原数值型纳秒/索引必须在任何 JavaScript-number 解析前，以任意精度整数精确转十进制字符串；保留原 `units`、明确货币/未知货币、时钟种类/时区、股数、收益分数、基点平方和无量纲比值。语义检查拒绝单位标签、缩放和时钟转换错误，不增加经济计算。
+
+必须覆盖的真实案例：`flow.roundtrip` 保留 `{}` 和空 `calls`，说明未记录具名摘要，同时保留真实 Rust 结果；`book.depth` 只保留 `matcher`；每个 `lots` 预设保留 `planning` 和全部 16 个 `grid-i-j`。规划状态的单元格关联 `planning`，网格单元格关联实际对应网格调用，常量另行标识。`risk.shared` 保留 `allocation,execution,netting`；`risk.residual` 保留 `session,wealth`；`risk.actions` 保留 `baseline,continuation`。必须审计导出器，把每个结果/单元格关联到真实产生它的调用；组合结果使用上游调用输出时，保留其传递贡献。不能无差别附上全部名称，也不能因为最后还有分析或分配调用，就抹去此前执行的贡献。
+
+可选 `bindings.projection_ref:{url,sha256}` 指向**独立**的安全客户端投影文件，SHA-256 覆盖它实际提供的 UTF-8 字节；被引用投影不包含该摘要/引用，且不能就是轨迹文件本身。这个字节契约与每个具名提供方调用摘要分开。该字段可以省略，不能生成它来填补缺失的原运行绑定。manifest 中的轨迹 SHA 仍覆盖完整轨迹字节，不自引用。本补充不引入聚合运行摘要。
+
+轨迹包含场景/预设、主要提供方/后端/版本、原具名运行/input/config/forecast/market 摘要、执行源码和依赖身份、种子、策略模式、能力和证据状态以及来源引用；包含有序 `events`、保存完整账本/网格/尝试的 `tables` 和可选 `comparison`。每个事件有稳定 `event_id`、连续 `ordinal`、`clock:{kind,value,timezone}`、`stage`、真实前置事件 `depends_on` 及 `values`。时钟种类为 `utc_ns`、`elapsed_ms`、`elapsed_s`、`session_date`、`iso_datetime`、`event_index`、`trial_index`；值为字符串，绝对时间明确使用 UTC。事件序号和交易日期不能冒充 UTC 纳秒。同刻事件保持提供方顺序。财务值使用十进制字符串或 null，布尔值保持布尔值；禁止 NaN/Infinity 和不安全的数值纳秒。缺失或不支持的证据用状态和原因表达，不填零。
+
+`project_method_trace(fixture, scene_id, preset_id)` 只投影已有数据，每个展示值记录原 JSON Pointer，不能计算成交、余额、成本、风险或优化结果。新的因果阶段和优化迭代需要真实提供方导出，不能从终值反推。`validate_learning_assets(manifest_path)` 检查模式、原零/一/多调用字典及缺失原因、完整调用身份、逐值/整表贡献者指针与并集、全部引用、预设覆盖、单位/货币及精确时钟转换/依赖顺序、指针与原值相等、公开链接、提供方身份和全部文件摘要。未知模式或哈希不符让构建失败；客户端投影验证失败则停止交互，保留静态表并显示本地化错误。测试必须证明内嵌数据与下载产物引用同一 manifest 和原值。
+
+来源类别为 `academic_background`、`documented_discussion`、`project_interpretation`、`implemented_model`、`synthetic_execution_evidence`、`real_market_calibration`。记录具有 `id,class,title,url,locator,claim,limitations,availability`，可执行证据还含版本/哈希。讨论提出假设，学术教程解释方法，二者都不自动证明财务模型已实现或市场响应已校准。相位恢复教程不能当作金融模型验证。私下讨论没有可公开来源时，只能呈现公开安全的本项目解释，不发布聊天原文、账户/订单、主机路径或个人来源位置。
+
+每个场景直接显示来源类别、`calibration: unavailable|synthetic_only|empirical`、样本范围、假设、实际提供方和不支持的能力。本任务没有实证校准产物；没有另外核验的样本/方法/覆盖证据时，校验器必须拒绝 empirical。多个预设只是敏感性集合，不是独立市场观察或市场概率分布；图中显示样本数，不能把频数图称为市场概率。
+
+能力边界：已实现的暂态冲击规划器及其声明的凸 QP 域、有限离散搜索、启发式/当前找到的最佳结果，均保留真实求解范围。`impact.nondecaying` 中执行的是合成数据非衰减敏感性假设，不能据此声称已完成经过校准的永久冲击机制；本任务没有经过校准的永久或跨资产冲击证据。跨资产冲击概念图必须标为概念说明，不附虚构执行轨迹。网站列出的主题不能直接当作算法能力完成清单。
+
+## 10.5 React 状态与同步交互
+
+每个 lab 只有一个 `ReplayWorkbench` island，内部统一管理控件、因果图、时间线、账本、图表和场景对比；不让多个独立 hydration 的组件持有竞争游标。输入为校验后的 `LearningTrace[]`、词条、语言、manifest 身份；状态为 `{presetId,eventOrdinal,playing,speed,comparisonPresetIds,reducedMotion}`。速度仅影响播放，为 `0.5|1|2`，默认 1，默认不自动播放。`reduceReplay(state, action, traceIndex)` 只接受 `SELECT_PRESET, SELECT_EVENT, NEXT, PREVIOUS, RESET, PLAY, PAUSE, SET_SPEED, SET_COMPARISON, SET_REDUCED_MOTION`。
+
+前进/后退不越界，重置回事件 0 并暂停；改变预设或对比集先暂停，再回到第一个有效对齐点。最后事件的播放按钮不隐式重头开始。手动步进/定位均暂停播放。定时器只推进真实事件，卸载或页面隐藏时取消；返回标签页不自动恢复。金额文本只在事件边界改变。0–1 的连续进度只能插值画面几何，不能让财务文字或图表看似出现新的经济状态。减少动态效果模式取消插值和定时播放；播放按钮禁用并解释，保留前后步进、重置和选择。
+
+对比使用导出器给定的 `comparison:{axis,points:[{id,label_key,events:{preset_id:event_id|null}}]}`。同一对齐点读取各自独立账户，null 表示没有对应事件。不机械配对长度不同的历史、不向前填充未知财务证据、不混用时间轴。已有 paths 按实际决策/成交阶段对齐并验证时钟兼容；四个案例不能凭空变成概率分布或随机种子。选择尝试和恢复边界使用各自标明的索引轴。
+
+已有有限整数网格可以讲解离散非凸可行域。连续非凸动画还需要真实求解器回调，导出初始值、每次迭代、目标函数、约束残差、终止原因和找到的最佳可行解，使用登记过的有限多起点网格；各起点使用同一目标和约束。浏览器只画记录，不能求目标函数曲面或优化组合。通用研究优化器仍归 Platform，作为可选导出依赖；Engine 只拥有自己的执行规划器。如果真实求解器没有迭代接口，只展示真实起点/终点并标明中间轨迹不可用，不伪造下降路径、不声称全局最优。以后补充多起点轨迹需要新版本证据，不能因此暂停已授权财务迁移，也不能把尚未实现的动画算作完成。
+
+## 10.6 语言、可访问性与正文
+
+Astro 无语言后缀路径默认为英文，中文使用明确路径和双向切换链接。保留 `docs/assets/method/en.json`、`zh-CN.json` 为共享语义词条来源，增加 `learning.*`、`source.*`、`evidence.*` 和控件键。新增解释正文置于 `web/src/content/learn/{en,zh-CN}/`。机器 ID、摘要和财务存储值不随语言改变。缺失中文回退英文，测试报告缺失键。时间显示必须使用声明的时钟语义和时区；方便阅读的格式旁保留精确纳秒/十进制下载值。
+
+`engine.site.locale.v1` 仅保存 `en` 或 `zh-CN`，存储失败不能让页面失效。URL 优先，不自动重定向深链接和片段；已保存语言决定后续生成导航的语言，以及英文首页“继续阅读中文/英文”链接。显式切换保存偏好并跳转到对应页面/场景锚点。浏览器语言不能覆盖默认英文。旧 MkDocs 使用同一小型无框架偏好脚本和双语路由表；React 仍是唯一客户端组件框架。跨 MkDocs/Astro 采用普通页面链接，不叠加竞争的 SPA 生命周期。
+
+全部正文、来源、21 个预设的每一行、完整整数域和全部尝试均存在静态 HTML 中，不依赖 hydration。只有 hydration 成功才启用交互。原生按钮/选择/范围控件有标签、可见焦点、键盘操作和当前事件提示；箭头步进只作用于获得焦点的时间线，不抢占输入框/选择框按键。遵从减少动态效果偏好，每个图表有表格替代。测试 320px 和桌面、明暗主题、无 JS、禁用存储、hydration 失败、离开返回和场景中切语言；静态 `<details>` 无 JS 仍可打开。
+
+## 10.7 构建、发布及验收
+
+`.github/workflows/docs.yml` 保持唯一 Pages 发布归属。MkDocs 输出到 `TASK_DATA/site-mkdocs`，提取首页并验证产物，Astro 输出到 `TASK_DATA/site-astro`，`assemble_site(mkdocs_dir,astro_dir,learning_dir,route_manifest,output_dir)` 创建全新的 `TASK_DATA/site-assembled`。不能将现有生产目录当作暂存区。拼装生成 `site-build.json`、包含两边路由的唯一站点地图，并验证基础路径下全部本地链接/片段/资源。现有 MkDocs 搜索明确标为技术参考搜索；学习导航涵盖八场景，不假称已实现统一搜索。
+
+PR 构建执行完整拼装和验收但不发布；main 只上传一个 assembled artifact，由现有 deploy job 发布一次。不新增 Astro 发布工作流、Pages 分支或常驻服务器。CI 使用 `RUNNER_TEMP`，本地输出、缓存和浏览器配置使用 Engine 任务数据目录。保留锁定的 MkDocs 检查和全部经济测试；Astro 不取代它们。固定 action 和前端依赖版本，记录审计结果，未解释的生产依赖高危/严重问题阻止发布。
+
+验收要求从当时干净已合并 Engine 提供方重新导出，保留可选分析提供方真实身份；检查字节、源码、模式和 typed-call 变异、八场景 fixture、全部旧地址/锚点、固定预设和同步状态、真实构建站浏览器行为以及无 JS 精确表格。保留 MkDocs 原 DOM/replay 测试，增加 React reducer/component 和真实 Playwright 拼装站测试。Task 20 核对线上收据、HTML、fixture 下载哈希与合并版本，并检查首页片段、语言保存和两套渲染页面；不能凭工作流绿灯或截图通过。证明 PR 19 工作完整集成且无独有未保存内容后，控制者才能关闭旧 PR 并清理。
+
+实现细节：首页片段每次由当前源码生成的文章重新提取，保留在仓库外的构建目录，不提交冻结的 HTML 存档。`docs/assets/learning/**` 在暂存阶段只由 MkDocs 输出；拼装工具根据原 `learning_dir` 校验后只复制一次。Astro 读取数据，但不得另行输出 `public/assets/learning` 副本。两套渲染输入和首页提取必须对应同一干净源码版本及预期 manifest/锁文件哈希；工作目录名称不是版本身份。共享资源同样受路径冲突检查约束。
+
 ## 11. 证明可复用的验收
 
 所有独立例子从仓库外安装已构建产物运行。

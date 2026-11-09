@@ -1,0 +1,708 @@
+{
+  "$defs": {
+    "CallSource": {
+      "additionalProperties": false,
+      "properties": {
+        "digest_pointer": {
+          "pattern": "^/",
+          "type": "string"
+        },
+        "input_pointer": {
+          "pattern": "^/",
+          "type": "string"
+        },
+        "owner_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "input_pointer",
+        "digest_pointer",
+        "owner_id",
+        "source_ids"
+      ],
+      "type": "object"
+    },
+    "ValueSource": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "else": {
+            "properties": {
+              "reason_key": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "run_names": {
+                "maxItems": 0
+              }
+            }
+          },
+          "if": {
+            "properties": {
+              "run_binding_status": {
+                "const": "available"
+              }
+            },
+            "required": [
+              "run_binding_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "reason_key": {
+                "type": "null"
+              },
+              "run_names": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "reason_key": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "run_binding_status": {
+          "enum": [
+            "available",
+            "unavailable",
+            "not_applicable"
+          ]
+        },
+        "run_names": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "source_pointer": {
+          "pattern": "^/",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_pointer",
+        "run_names",
+        "run_binding_status",
+        "reason_key"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://runchengxie.github.io/quant-backtest-engine/assets/learning/schemas/trace.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "bindings": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "else": {
+            "properties": {
+              "run_bindings_reason_key": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "run_sha256": {
+                "maxProperties": 0
+              }
+            }
+          },
+          "if": {
+            "properties": {
+              "run_bindings_status": {
+                "const": "available"
+              }
+            },
+            "required": [
+              "run_bindings_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "run_bindings_reason_key": {
+                "type": "null"
+              },
+              "run_sha256": {
+                "minProperties": 1
+              }
+            }
+          }
+        },
+        {
+          "else": {
+            "properties": {
+              "calls": {
+                "minProperties": 1
+              }
+            }
+          },
+          "if": {
+            "properties": {
+              "run_bindings_status": {
+                "const": "unavailable"
+              }
+            },
+            "required": [
+              "run_bindings_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "calls": {
+                "maxProperties": 0
+              },
+              "run_bindings_reason_key": {
+                "const": "provenance.named_run_binding_not_recorded"
+              }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "calls": {
+          "additionalProperties": {
+            "$ref": "#/$defs/CallSource"
+          },
+          "description": "Exactly the same keys as run_sha256; pointer values, source identities and key equality require semantic validation.",
+          "type": "object"
+        },
+        "config_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "exporter_sha256": {
+          "additionalProperties": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "fixture_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "forecast_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "input_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "market_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "preset_grid_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "projection_ref": {
+          "additionalProperties": false,
+          "description": "Optional separately emitted client projection raw-byte hash; not the trace itself, no self reference, never replaces any original run digest.",
+          "properties": {
+            "sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "url": {
+              "pattern": "^(?!/)(?!.*://)(?!.*\\.\\.)[^?#]+$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "url",
+            "sha256"
+          ],
+          "type": "object"
+        },
+        "run_bindings_pointer": {
+          "pattern": "^/",
+          "type": "string"
+        },
+        "run_bindings_reason_key": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "run_bindings_status": {
+          "enum": [
+            "available",
+            "unavailable"
+          ]
+        },
+        "run_sha256": {
+          "additionalProperties": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "description": "Exact unchanged original scenario run_sha256 map; zero, one or many call-definition digests. Never a scalar or invented aggregate.",
+          "type": "object"
+        }
+      },
+      "required": [
+        "fixture_sha256",
+        "run_sha256",
+        "input_sha256",
+        "config_sha256",
+        "forecast_sha256",
+        "market_sha256",
+        "preset_grid_sha256",
+        "exporter_sha256",
+        "run_bindings_pointer",
+        "run_bindings_status",
+        "run_bindings_reason_key",
+        "calls"
+      ],
+      "type": "object"
+    },
+    "comparison": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "axis": {
+              "type": "string"
+            },
+            "points": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "events": {
+                    "additionalProperties": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "type": "object"
+                  },
+                  "id": {
+                    "type": "string"
+                  },
+                  "label_key": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "label_key",
+                  "events"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "axis",
+            "points"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "events": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "clock": {
+            "additionalProperties": false,
+            "properties": {
+              "kind": {
+                "enum": [
+                  "utc_ns",
+                  "elapsed_ms",
+                  "elapsed_s",
+                  "session_date",
+                  "iso_datetime",
+                  "event_index",
+                  "trial_index"
+                ]
+              },
+              "timezone": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "kind",
+              "value",
+              "timezone"
+            ],
+            "type": "object"
+          },
+          "depends_on": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "event_id": {
+            "type": "string"
+          },
+          "evidence_status": {
+            "enum": [
+              "supported",
+              "unavailable",
+              "illustrative"
+            ]
+          },
+          "ordinal": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "reason_key": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "source_pointers": {
+            "additionalProperties": {
+              "$ref": "#/$defs/ValueSource"
+            },
+            "description": "One record per values key; exact key equality, pointer/value equality and actual complete contributing-call mapping are semantic gates.",
+            "type": "object"
+          },
+          "stage": {
+            "type": "string"
+          },
+          "values": {
+            "additionalProperties": {
+              "type": [
+                "string",
+                "boolean",
+                "null"
+              ]
+            },
+            "type": "object"
+          }
+        },
+        "required": [
+          "event_id",
+          "ordinal",
+          "clock",
+          "stage",
+          "depends_on",
+          "values",
+          "source_pointers",
+          "evidence_status",
+          "reason_key"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "assumption_keys": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "calibration": {
+          "enum": [
+            "unavailable",
+            "synthetic_only",
+            "empirical"
+          ]
+        },
+        "capabilities": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "sample_scope_key": {
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "unsupported": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "calibration",
+        "sample_scope_key",
+        "capabilities",
+        "unsupported",
+        "source_ids",
+        "assumption_keys"
+      ],
+      "type": "object"
+    },
+    "policy_mode": {
+      "enum": [
+        "supplied_orders",
+        "fixed_forecast",
+        "recomputed_forecast",
+        "declared_feedback",
+        "not_applicable"
+      ]
+    },
+    "preset_id": {
+      "type": "string"
+    },
+    "provider": {
+      "additionalProperties": false,
+      "description": "Primary presentation/dispatch provider only; actual per-call ownership remains in bindings.calls and pinned source records.",
+      "properties": {
+        "backend_id": {
+          "type": "string"
+        },
+        "dependency_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "owner_id": {
+          "type": "string"
+        },
+        "revision": {
+          "pattern": "^[0-9a-f]{40}$",
+          "type": "string"
+        },
+        "source_sha256": {
+          "additionalProperties": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "source_url": {
+          "format": "uri",
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "owner_id",
+        "backend_id",
+        "version",
+        "revision",
+        "source_url",
+        "source_sha256",
+        "dependency_sha256"
+      ],
+      "type": "object"
+    },
+    "scene_id": {
+      "enum": [
+        "flow",
+        "book",
+        "impact",
+        "cost",
+        "lots",
+        "paths",
+        "selection",
+        "risk"
+      ]
+    },
+    "schema": {
+      "const": "engine-learning-trace.v1"
+    },
+    "seed": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "tables": {
+      "items": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "properties": {
+                "reason_key": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "run_names": {
+                  "maxItems": 0
+                }
+              }
+            },
+            "if": {
+              "properties": {
+                "run_binding_status": {
+                  "const": "available"
+                }
+              },
+              "required": [
+                "run_binding_status"
+              ]
+            },
+            "then": {
+              "properties": {
+                "reason_key": {
+                  "type": "null"
+                },
+                "run_names": {
+                  "minItems": 1
+                }
+              }
+            }
+          }
+        ],
+        "properties": {
+          "columns": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "id": {
+            "type": "string"
+          },
+          "reason_key": {
+            "anyOf": [
+              {
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rows": {
+            "items": {
+              "additionalProperties": {
+                "type": [
+                  "string",
+                  "boolean",
+                  "null"
+                ]
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "run_binding_status": {
+            "enum": [
+              "available",
+              "unavailable",
+              "not_applicable"
+            ]
+          },
+          "run_names": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "source_pointer": {
+            "pattern": "^/",
+            "type": "string"
+          },
+          "value_sources": {
+            "additionalProperties": {
+              "$ref": "#/$defs/ValueSource"
+            },
+            "description": "One source record for every displayed cell; table run_names is the exact union of these cell contributors.",
+            "propertyNames": {
+              "pattern": "^/rows/[0-9]+/[^/]+$"
+            },
+            "type": "object"
+          }
+        },
+        "required": [
+          "id",
+          "columns",
+          "rows",
+          "source_pointer",
+          "run_names",
+          "run_binding_status",
+          "reason_key",
+          "value_sources"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema",
+    "scene_id",
+    "preset_id",
+    "provider",
+    "bindings",
+    "seed",
+    "policy_mode",
+    "evidence",
+    "events",
+    "tables",
+    "comparison"
+  ],
+  "title": "Proposed Engine learning trace v1; design only",
+  "type": "object"
+}
