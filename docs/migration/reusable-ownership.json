@@ -9505,5 +9505,107 @@
       "quant_backtest_engine_client-0.3.0-py3-none-any.whl": "0a12c2b2d2aeeb7abdc4410ee6e698a176faf728682d808bea879a78f35639f9"
     },
     "validation": "Full installed core 3.12/3.13: 593 passed +3 subtests each, zero skips; final exact session-input follow-up 2 each. SDK 3.11:28 passed. Rust fmt/clippy/locked tests/synthetic CLI and tutorial pass. Full source/RECORD/installed equality retained externally."
+  },
+  "provider_b_task11": {
+    "status": "implemented-source-reviewed-locally-awaiting-independent-provider-review",
+    "base_revision": "4f85c35fd7b19a5162ce8f106e626e8b1d7e5c17",
+    "source_revision": "1b2f90f615961d362894e8b51fc9463e4d29c9a3",
+    "release_availability": "Provider B is not merged or published. Independent Task 11 and whole-provider review, current-target checks and exact merged artifact validation precede Platform Task 12. No consumer or production cutover.",
+    "versions": {
+      "quant-backtest-core": "0.2.0",
+      "quant-backtest-engine-client": "0.3.0",
+      "rust-package": "0.2.0",
+      "quant-microstructure-core": "0.1.0"
+    },
+    "ownership": "New Engine composition only: strict typed targets and receipts, no forecasting/risk/research model, optimizer, arithmetic rewrite or second financial owner.",
+    "sources": {
+      "core/src/quant_backtest_core/scenarios/__init__.py": "41da181eef21f05591d39f40e2a8b6533f0bbb3661185154bbd06a5a1ad7d085",
+      "core/src/quant_backtest_core/scenarios/contracts.py": "0bebf382c47c1fdae769d04c15c69d5934a76477b703ae5fcc6f53944e79d1e1",
+      "core/src/quant_backtest_core/scenarios/runner.py": "e8a5fbc0024193ed3d7f8e35b8637683aacce7364dfc779bdd4bf9a3082dd3a9"
+    },
+    "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/tree/1b2f90f615961d362894e8b51fc9463e4d29c9a3/core/src/quant_backtest_core/scenarios",
+    "public_api": [
+      "ScenarioCase",
+      "PredictionProvider.recompute",
+      "PredictionArtifacts",
+      "ScenarioAttempt",
+      "run_scenarios"
+    ],
+    "composition_profile": {
+      "backend": "python.minute",
+      "target_schema": "scenario-minute-targets.v1",
+      "input_schema": "scenario-inputs.v1",
+      "receipt_schema": "scenario-composition.v1",
+      "risk": null,
+      "policy": "target-weights/v1/target-weights-state.v1, empty config",
+      "raw_backend_guards": "unchanged",
+      "target_byte_limit": 16777216
+    },
+    "evidence_limits": [
+      "Forecast output references are excluded only from the documented prediction input view to avoid self-reference; full original/requested manifests and target bytes are separately retained.",
+      "Whole-bar consumed pointers bind exact supplied values and event timestamps; synthetic-bar-close-convention.v1 availability is declared, not independently observed arrival.",
+      "Base/transformation hashes and callback source_records are declared lineage. Measured callback class bytes do not verify hidden state/dependencies or absence of look-ahead.",
+      "One availability and information/decision/entry cut; trusted local deterministic per-case callback; no arbitrary serialized imports or commands.",
+      "Raw ProductResult and files retain executed-manifest/null-scenario/native identities. Receipt hashes exact bytes and never contains itself.",
+      "run_manifest exposes no saved checkpoint; no checkpoint request is made after failure."
+    ],
+    "acceptance": {
+      "scenario_tests_per_interpreter": 35,
+      "full_core_tests_per_interpreter": 629,
+      "full_core_subtests_per_interpreter": 3,
+      "skips": 0,
+      "python": [
+        "3.12",
+        "3.13"
+      ],
+      "sdk_python": "3.11",
+      "sdk_tests": 28,
+      "project_tool_tests": 31,
+      "independent_profiles": [
+        "base",
+        "minute",
+        "scenario",
+        "planning",
+        "cost",
+        "microstructure",
+        "daily",
+        "all"
+      ],
+      "native": "Real rebuilt optional native wheel installed and exercised; TICKNET_REQUIRE_RUST=1 in complete suites.",
+      "rust": "Actual Rust/Nautilus 0.66.0 binary exercised; no absent executable counted as a pass.",
+      "source_closure": "Wheel RECORD, package source, installed modules and native extension bytes compared; original numerical owners unchanged.",
+      "original_task10": "Original test file remains byte-for-byte prefix; contingent 99.99999999999999 candidate and raw gross 1005.0000000000001 preserved.",
+      "supplementary_cash_gate": "Only A sale blocked, B tradable and capacious; actual B buy appears only in the independently funded control."
+    },
+    "wheel_sha256": {
+      "quant_backtest_core-0.2.0-py3-none-any.whl": "837a053ce0903585d16f350acba3b81038a493482b6a596f5c4d992b686e73bf",
+      "quant_backtest_engine_client-0.3.0-py3-none-any.whl": "0fe9cc2dd39818ea443285d51480124a9e56b9173be8beab0be9c98f1790bc7e"
+    },
+    "native_wheel_sha256": {
+      "quant_microstructure_core-0.1.0-cp312-abi3-linux_x86_64.whl": "cdb3825d5473f5abe6aa59e7ea03577c658932b1acbbc015bf04d24ed31d05d9"
+    },
+    "documentation": [
+      "docs/product/scenarios.md",
+      "docs/product/scenarios.zh-CN.md",
+      "docs/product/backends.md",
+      "docs/product/backends.zh-CN.md",
+      "docs/concepts/impact-planning.md",
+      "docs/concepts/impact-planning.zh-CN.md",
+      "docs/backtest/market-paths.md",
+      "docs/backtest/market-paths.zh-CN.md"
+    ],
+    "executable_examples": [
+      "examples/product/scenarios.py",
+      "docs/concepts/impact-planning.md#installed-planner-example",
+      "docs/concepts/impact-planning.zh-CN.md"
+    ],
+    "compatibility": "No existing aliases removed; original source/checkpoint identities remain strict. Old checkpoints retain their complete original provider/runtime/executable environments.",
+    "remaining_gates": [
+      "Independent Task 11 review",
+      "Independent whole-provider B review",
+      "Current combined target validation and provider B integration",
+      "Exact merged-artifact validation before Platform Task 12",
+      "Daily-owner variants remain Tasks 14/15"
+    ]
   }
 }
