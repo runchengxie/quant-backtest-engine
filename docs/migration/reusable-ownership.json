@@ -8524,8 +8524,8 @@
       "old_module": "ticknet.simulator.matching",
       "new_module": "quant_backtest_core.microstructure.matching",
       "provider_version": "0.2.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "97436df3c2474c9bfa6d1dcd1439c386a29a3642",
+      "status": "implemented",
       "wave": "M4",
       "gate": "B",
       "old_urls": [
@@ -8570,19 +8570,25 @@
       ],
       "compatibility_path": "ticknet.simulator.matching",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_microstructure.py -q",
+      "acceptance_test": "uv run --project core --locked pytest core/tests/test_microstructure_matching.py -q",
       "provider_sources": [
         "core/src/quant_backtest_core/microstructure/matching.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/microstructure/matching.md",
+        "docs/microstructure/matching.zh-CN.md"
+      ],
+      "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/97436df3c2474c9bfa6d1dcd1439c386a29a3642/core/src/quant_backtest_core/microstructure/matching.py",
+      "implementation_note": "Task 8 provider B source is implemented. Gate B version 0.2.0 is reserved for Task 11; current core remains 0.1.0. No merged release, consumer cutover, ProductManifest LOB backend or calibrated learned market is claimed. Historical source and consumer aliases remain on pinned Platform until the authorized consumer gate."
     },
     {
       "symbol": "ticknet.simulator.pack",
       "old_module": "ticknet.simulator.pack",
       "new_module": "quant_backtest_core.microstructure.pack",
       "provider_version": "0.2.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "97436df3c2474c9bfa6d1dcd1439c386a29a3642",
+      "status": "implemented",
       "wave": "M4",
       "gate": "B",
       "old_urls": [
@@ -8627,19 +8633,25 @@
       ],
       "compatibility_path": "ticknet.simulator.pack",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_microstructure.py -q",
+      "acceptance_test": "uv run --project core --locked pytest core/tests/test_microstructure_pack.py -q",
       "provider_sources": [
         "core/src/quant_backtest_core/microstructure/pack.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/microstructure/matching.md",
+        "docs/microstructure/matching.zh-CN.md"
+      ],
+      "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/97436df3c2474c9bfa6d1dcd1439c386a29a3642/core/src/quant_backtest_core/microstructure/pack.py",
+      "implementation_note": "Task 8 provider B source is implemented. Gate B version 0.2.0 is reserved for Task 11; current core remains 0.1.0. No merged release, consumer cutover, ProductManifest LOB backend or calibrated learned market is claimed. Historical source and consumer aliases remain on pinned Platform until the authorized consumer gate."
     },
     {
       "symbol": "ticknet.simulator.ordering",
       "old_module": "ticknet.simulator.ordering",
       "new_module": "quant_backtest_core.microstructure.ordering",
       "provider_version": "0.2.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "97436df3c2474c9bfa6d1dcd1439c386a29a3642",
+      "status": "implemented",
       "wave": "M4",
       "gate": "B",
       "old_urls": [
@@ -8684,19 +8696,25 @@
       ],
       "compatibility_path": "ticknet.simulator.ordering",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_microstructure.py -q",
+      "acceptance_test": "uv run --project core --locked pytest core/tests/test_microstructure_ordering.py -q",
       "provider_sources": [
         "core/src/quant_backtest_core/microstructure/ordering.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/microstructure/matching.md",
+        "docs/microstructure/matching.zh-CN.md"
+      ],
+      "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/97436df3c2474c9bfa6d1dcd1439c386a29a3642/core/src/quant_backtest_core/microstructure/ordering.py",
+      "implementation_note": "Task 8 provider B source is implemented. Gate B version 0.2.0 is reserved for Task 11; current core remains 0.1.0. No merged release, consumer cutover, ProductManifest LOB backend or calibrated learned market is claimed. Historical source and consumer aliases remain on pinned Platform until the authorized consumer gate."
     },
     {
       "symbol": "ticknet.simulator.replay",
       "old_module": "ticknet.simulator.replay",
       "new_module": "quant_backtest_core.microstructure.replay",
       "provider_version": "0.2.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "97436df3c2474c9bfa6d1dcd1439c386a29a3642",
+      "status": "implemented",
       "wave": "M4",
       "gate": "B",
       "old_urls": [
@@ -8741,19 +8759,25 @@
       ],
       "compatibility_path": "ticknet.simulator.replay",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_microstructure.py -q",
+      "acceptance_test": "uv run --project core --locked pytest core/tests/test_microstructure_replay.py -q",
       "provider_sources": [
         "core/src/quant_backtest_core/microstructure/replay.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/microstructure/replay.md",
+        "docs/microstructure/replay.zh-CN.md"
+      ],
+      "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/97436df3c2474c9bfa6d1dcd1439c386a29a3642/core/src/quant_backtest_core/microstructure/replay.py",
+      "implementation_note": "Task 8 provider B source is implemented. Gate B version 0.2.0 is reserved for Task 11; current core remains 0.1.0. No merged release, consumer cutover, ProductManifest LOB backend or calibrated learned market is claimed. Historical source and consumer aliases remain on pinned Platform until the authorized consumer gate."
     },
     {
       "symbol": "ticknet.simulator.correctness",
       "old_module": "ticknet.simulator.correctness",
       "new_module": "quant_backtest_core.microstructure.correctness",
       "provider_version": "0.2.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "97436df3c2474c9bfa6d1dcd1439c386a29a3642",
+      "status": "implemented",
       "wave": "M4",
       "gate": "B",
       "old_urls": [
@@ -8798,11 +8822,17 @@
       ],
       "compatibility_path": "ticknet.simulator.correctness",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_microstructure.py -q",
+      "acceptance_test": "uv run --project core --locked pytest core/tests/test_microstructure_correctness.py -q",
       "provider_sources": [
         "core/src/quant_backtest_core/microstructure/correctness.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/microstructure/matching.md",
+        "docs/microstructure/matching.zh-CN.md"
+      ],
+      "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/97436df3c2474c9bfa6d1dcd1439c386a29a3642/core/src/quant_backtest_core/microstructure/correctness.py",
+      "implementation_note": "Task 8 provider B source is implemented. Gate B version 0.2.0 is reserved for Task 11; current core remains 0.1.0. No merged release, consumer cutover, ProductManifest LOB backend or calibrated learned market is claimed. Historical source and consumer aliases remain on pinned Platform until the authorized consumer gate."
     },
     {
       "symbol": "quant_backtest_engine.product",
@@ -8904,6 +8934,78 @@
         "docs/product/recovery.md",
         "docs/product/recovery.zh-CN.md"
       ]
+    },
+    {
+      "symbol": "_microstructure_rs",
+      "old_module": "_microstructure_rs",
+      "new_module": "_microstructure_rs",
+      "provider_version": "0.1.0",
+      "source_revision": "97436df3c2474c9bfa6d1dcd1439c386a29a3642",
+      "status": "implemented",
+      "wave": "M4",
+      "gate": "B",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/development/microstructure-rust.en/",
+          "anchors": [
+            "rust-microstructure-kernel",
+            "build-and-use",
+            "correctness-and-measurement",
+            "fill-evidence-and-impact-estimation-limits"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-platform/development/microstructure-rust/",
+          "anchors": [
+            "rust",
+            "_1",
+            "_2",
+            "_3"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/development/microstructure-rust/",
+          "anchors": [
+            "rust-microstructure-kernel",
+            "build-and-use",
+            "correctness-and-measurement",
+            "fill-evidence-and-impact-estimation-limits"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/development/microstructure-rust.zh-CN/",
+          "anchors": [
+            "rust",
+            "_1",
+            "_2",
+            "_3"
+          ]
+        }
+      ],
+      "compatibility_path": "_microstructure_rs",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "uv run --project core --locked pytest core/tests/test_microstructure_native.py -q",
+      "provider_sources": [
+        "core-native/src/lib.rs",
+        "core-native/Cargo.toml",
+        "core-native/Cargo.lock",
+        "core-native/pyproject.toml",
+        "core-native/_microstructure_rs.pyi",
+        "core-native/LICENSE",
+        "core-native/THIRD_PARTY_NOTICES.md"
+      ],
+      "leaf_documentation": [
+        "docs/development/microstructure-rust.md",
+        "docs/development/microstructure-rust.zh-CN.md"
+      ],
+      "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/tree/97436df3c2474c9bfa6d1dcd1439c386a29a3642/core-native",
+      "implementation_note": "Optional native source transferred with original Apache-2.0 terms. Distribution remains quant-microstructure-core 0.1.0, module _microstructure_rs, abi3 Python >=3.12; real installed parity checked on core-supported Python 3.12/3.13. Full legacy native outputs are aggregate trades and ticks; per-fill evidence remains unavailable. Gate B merge and wheel availability are pending, separately from source implementation. Required native CI sets TICKNET_REQUIRE_RUST=1 after explicitly installing the built wheel."
     }
   ],
   "public_import_namespaces": [
@@ -9070,5 +9172,15 @@
     "status": "local implementation; independent task and whole-provider review pending",
     "scope": "Moved leaf primitives and complete minute owner/session wrapper only; daily, advanced planning, execution optimization and reconciliation cohorts remain planned.",
     "release_availability": "Not published or merged by this metadata record; controller records merged release evidence separately."
+  },
+  "provider_b_task8": {
+    "implementation_revision": "97436df3c2474c9bfa6d1dcd1439c386a29a3642",
+    "base_revision": "9aeaf346decf62071460f9020d002ada322b648d",
+    "original_platform_revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+    "current_platform_comparison": "712854c",
+    "public_original_source": "https://github.com/runchengxie/quant-platform/tree/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/packages/microstructure",
+    "release_availability": "Not merged or released by this source metadata; provider B cohort continues through Task 11.",
+    "native_contract": "Original aggregate trades and book ticks; per-fill unavailable, not zero. No native-to-Python fallback.",
+    "source_changes": "Python namespace/package boundary, two replay union type annotations and style; unchanged arithmetic. Native implementation, Cargo.lock and stub byte-identical; added original license and package metadata."
   }
 }
