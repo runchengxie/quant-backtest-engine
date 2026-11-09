@@ -72,6 +72,8 @@ def check(site: Path) -> None:
         "backtest/transaction-cost-evidence",
         "backtest/execution-integrity",
         "backtest/cost-evidence",
+        "backtest/minute-session",
+        "guides/minute-execution",
     ]:
         for chinese in [False, True]:
             suffix = ".zh-CN" if chinese else ""

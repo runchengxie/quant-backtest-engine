@@ -30,3 +30,8 @@ preserved; the Engine package license does not replace them. Changes relocate
 modules/helpers and imports, format source, and add typed quote transport;
 financial arithmetic is unchanged. Paired leaf documentation preserves the
 source scope and limitations with Engine namespace/examples.
+
+The complete minute financial dependency closure retains the same Apache-2.0
+origin and per-file source hashes. Its owner schema is now `minute-session.v3`;
+old Platform v2 checkpoints remain bound to their original pinned environment.
+No financial formula or rounding rule changes in this ownership transfer.

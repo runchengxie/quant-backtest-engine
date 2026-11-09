@@ -57,10 +57,17 @@ done
 选择请求前请阅读[后端限制](backends.zh-CN.md)。
 
 
-安装包叶子模块验收须安装带 `[cost,scenario]` 的 core wheel 及 pytest，
+安装包叶子模块验收须安装带 `[minute,cost,scenario]` 的 core wheel 及 pytest，
 数值依赖使用锁定基线。运行
 `python -I -B -m pytest core/tests -q -p no:cacheprovider`，并将
 `QUANT_ENGINE_BINARY` 指向已验证内容摘要的 Rust 可执行文件，以运行适配器回归。
 测试导入已安装 wheel，不使用源码树 `PYTHONPATH`。
 提取代码保留旧签名，mypy 仍检查函数体，仅对缺少 pandas/SciPy 类型桩及
-三处字典类型推断诊断作窄范围豁免；新增报价与协议的类型检查保持启用。
+六处字典类型推断诊断作窄范围豁免；新增报价与协议的类型检查保持启用。
+
+`minute` extra 现已提供直接[分钟会话及财务内核](../backtest/minute-session.zh-CN.md)。
+最小分钟验收只安装 `[minute]` 和 pytest，执行
+`python -I -B -m pytest core/tests/test_minute*.py core/tests/test_quantity_locks.py -q`
+及 `python -I -B examples/product/minute_session.py`。
+它依赖 pandas 及其 NumPy 依赖，不需要 SciPy、Platform、Runtime 或机器学习框架。
+类型检查保留函数体检查；六处旧字典推断问题仅在各自模块内放宽：交易审计三处、分钟内核三处。

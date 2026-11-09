@@ -59,6 +59,16 @@ follow_untyped_imports = true
 # Retain extracted legacy signatures while checking their function bodies.
 [[tool.mypy.overrides]]
 module = [
+    "quant_backtest_core.backtest.minute",
+    "quant_backtest_core.backtest.minute_session",
+    "quant_backtest_core.backtest._minute_checkpoint",
+    "quant_backtest_core.backtest.quantity_locks",
+    "quant_backtest_core._minute.minute_execution",
+    "quant_backtest_core._minute._minute_state",
+    "quant_backtest_core._minute._minute_validation",
+    "quant_backtest_core._minute.capital_flows",
+    "quant_backtest_core._minute.corporate_actions",
+    "quant_backtest_core._minute.valuation_events",
     "quant_backtest_core.backtest.market_paths",
     "quant_backtest_core.backtest.stress",
     "quant_backtest_core.backtest.costs",
@@ -85,4 +95,22 @@ disable_error_code = ["import-untyped"]
 # Retain the original audit dictionary inference without rewriting its signatures.
 [[tool.mypy.overrides]]
 module = "quant_backtest_core.evidence.transaction_costs"
+disable_error_code = ["import-untyped", "var-annotated"]
+
+# Preserved minute legacy modules: pandas has no installed stubs; bodies stay checked.
+[[tool.mypy.overrides]]
+module = [
+    "quant_backtest_core._minute._minute_state",
+    "quant_backtest_core._minute._minute_validation",
+    "quant_backtest_core._minute.valuation_events",
+    "quant_backtest_core._minute.corporate_actions",
+    "quant_backtest_core._minute.capital_flows",
+    "quant_backtest_core.backtest._minute_checkpoint",
+    "quant_backtest_core.backtest.minute_session",
+]
+disable_error_code = ["import-untyped"]
+
+# Preserve original decisions/scheduled/groups dictionary inference during transfer.
+[[tool.mypy.overrides]]
+module = "quant_backtest_core._minute.minute_execution"
 disable_error_code = ["import-untyped", "var-annotated"]

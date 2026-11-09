@@ -23,3 +23,25 @@ contracts are retained. Source consumer bindings remain on their old owner.
 - packages/platform/src/quant_platform/analytics/capital_returns.py → core/src/quant_backtest_core/evidence/capital_returns.py (SHA256 0a437b112a1beef1b228dbb99f07524c7b7324cbc13d8d99278298f4554d98f4)
 
 Tests originate in tests/test_market_paths.py, test_transaction_costs.py, test_cost_scope.py, test_execution_integrity.py, test_impact_state.py, test_impact_optimization_scenarios.py, test_joint_stress.py (bars fixture: test_minute_execution.py), test_cost_evidence.py and test_capital_reconciliation.py at that same revision. Mixed planner/account integration tests remain at the source until their owner transfers.
+
+## Complete minute financial owner (Task 5)
+
+The following Apache-2.0 source bodies transfer together. Changes are namespace,
+provenance, import/formatting and checkpoint schema `minute-session.v2` to
+`minute-session.v3`. Original checkpoints remain on the pinned Platform owner.
+
+- packages/platform/src/quant_platform/backtest/minute.py → core/src/quant_backtest_core/backtest/minute.py (SHA256 82e0041c16c53b4f7a3f181fcb3e07233a15da39e4c1869597f205a712728814)
+- packages/platform/src/quant_platform/backtest/minute_session.py → core/src/quant_backtest_core/backtest/minute_session.py (SHA256 0872227f551639c1b75ef84119691e4c92171c7c3af16ff55a95c45452ee7039)
+- packages/platform/src/quant_platform/backtest/_minute_checkpoint.py → core/src/quant_backtest_core/backtest/_minute_checkpoint.py (SHA256 f75937e47a26eacc2d0ec3ef228669580a0e6cdb156af0c4841aa0212dd43542)
+- packages/platform/src/quant_platform/backtest/quantity_locks.py → core/src/quant_backtest_core/backtest/quantity_locks.py (SHA256 743767b66958def9b0b424747058906039a9da4e6126e06f25a340d19ca66435)
+- packages/platform/src/quant_platform/_portfolio/minute_execution.py → core/src/quant_backtest_core/_minute/minute_execution.py (SHA256 ea4e3d1db80b90647185942d2de6935f57f29db569ab9e4b4070d210b3654bb9)
+- packages/platform/src/quant_platform/_portfolio/_minute_state.py → core/src/quant_backtest_core/_minute/_minute_state.py (SHA256 a14428a9ea216697a77dee31bd35389988afcde73442976e3eb58973114f777b)
+- packages/platform/src/quant_platform/_portfolio/_minute_validation.py → core/src/quant_backtest_core/_minute/_minute_validation.py (SHA256 a7c6f3784db7e22b7ec424d912c5eeaadcb9522f8da2a92d5a767ca30662b471)
+- packages/platform/src/quant_platform/_portfolio/capital_flows.py → core/src/quant_backtest_core/_minute/capital_flows.py (SHA256 403eb8714b07141609a879b276f3b1aa171838a088e111c2a3f1095f26051664)
+- packages/platform/src/quant_platform/_portfolio/corporate_actions.py → core/src/quant_backtest_core/_minute/corporate_actions.py (SHA256 2c6fd0e45636c15c37bebee7b5037f0607b8a4cf169d6cf20fe5da54e1b64eaa)
+- packages/platform/src/quant_platform/_portfolio/valuation_events.py → core/src/quant_backtest_core/_minute/valuation_events.py (SHA256 57feba201db8f16b6397e7e9ad1051b9f2b112a50afc28aa8e9bd3f629edaab9)
+
+Transferred test oracles: test_minute_execution.py, test_minute_execution_feedback.py,
+test_minute_execution_hardening.py, test_minute_execution_mark_provenance.py,
+test_minute_execution_valuation_events.py, test_minute_session.py,
+test_minute_session_actions.py and test_quantity_locks.py, all from the same revision.

@@ -5460,7 +5460,23 @@
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/minute.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/backtest/minute-session.md",
+        "docs/backtest/minute-session.zh-CN.md"
+      ],
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/backtest/minute.py",
+            "source_sha256": "82e0041c16c53b4f7a3f181fcb3e07233a15da39e4c1869597f205a712728814"
+          }
+        ]
+      },
+      "implementation_note": "Complete minute source/tests/docs present for provider review; schema minute-session.v3 rejects old v2. Keep planned until independently reviewed Engine revision is recorded. Product wrapper and consumer type/impact/alias cutover remain separate; retain historical route commitments."
     },
     {
       "symbol": "quant_platform.backtest.minute_session",
@@ -5529,7 +5545,23 @@
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/minute_session.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/backtest/minute-session.md",
+        "docs/backtest/minute-session.zh-CN.md"
+      ],
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/backtest/minute_session.py",
+            "source_sha256": "0872227f551639c1b75ef84119691e4c92171c7c3af16ff55a95c45452ee7039"
+          }
+        ]
+      },
+      "implementation_note": "Complete minute source/tests/docs present for provider review; schema minute-session.v3 rejects old v2. Keep planned until independently reviewed Engine revision is recorded. Product wrapper and consumer type/impact/alias cutover remain separate; retain historical route commitments."
     },
     {
       "symbol": "quant_platform.backtest._minute_checkpoint",
@@ -5598,7 +5630,23 @@
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/_minute_checkpoint.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/backtest/minute-session.md",
+        "docs/backtest/minute-session.zh-CN.md"
+      ],
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/backtest/_minute_checkpoint.py",
+            "source_sha256": "f75937e47a26eacc2d0ec3ef228669580a0e6cdb156af0c4841aa0212dd43542"
+          }
+        ]
+      },
+      "implementation_note": "Complete minute source/tests/docs present for provider review; schema minute-session.v3 rejects old v2. Keep planned until independently reviewed Engine revision is recorded. Product wrapper and consumer type/impact/alias cutover remain separate; retain historical route commitments."
     },
     {
       "symbol": "quant_platform.backtest.quantity_locks",
@@ -5667,7 +5715,23 @@
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/quantity_locks.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/backtest/minute-session.md",
+        "docs/backtest/minute-session.zh-CN.md"
+      ],
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/backtest/quantity_locks.py",
+            "source_sha256": "743767b66958def9b0b424747058906039a9da4e6126e06f25a340d19ca66435"
+          }
+        ]
+      },
+      "implementation_note": "Complete minute source/tests/docs present for provider review; schema minute-session.v3 rejects old v2. Keep planned until independently reviewed Engine revision is recorded. Product wrapper and consumer type/impact/alias cutover remain separate; retain historical route commitments."
     },
     {
       "symbol": "quant_platform._portfolio.minute_execution",
@@ -5724,7 +5788,23 @@
       "provider_sources": [
         "core/src/quant_backtest_core/_minute/minute_execution.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/guides/minute-execution.md",
+        "docs/guides/minute-execution.zh-CN.md"
+      ],
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/minute_execution.py",
+            "source_sha256": "ea4e3d1db80b90647185942d2de6935f57f29db569ab9e4b4070d210b3654bb9"
+          }
+        ]
+      },
+      "implementation_note": "Complete minute source/tests/docs present for provider review; schema minute-session.v3 rejects old v2. Keep planned until independently reviewed Engine revision is recorded. Product wrapper and consumer type/impact/alias cutover remain separate; retain historical route commitments."
     },
     {
       "symbol": "quant_platform._portfolio._minute_state",
@@ -5781,7 +5861,23 @@
       "provider_sources": [
         "core/src/quant_backtest_core/_minute/_minute_state.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/guides/minute-execution.md",
+        "docs/guides/minute-execution.zh-CN.md"
+      ],
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/_minute_state.py",
+            "source_sha256": "a14428a9ea216697a77dee31bd35389988afcde73442976e3eb58973114f777b"
+          }
+        ]
+      },
+      "implementation_note": "Complete minute source/tests/docs present for provider review; schema minute-session.v3 rejects old v2. Keep planned until independently reviewed Engine revision is recorded. Product wrapper and consumer type/impact/alias cutover remain separate; retain historical route commitments."
     },
     {
       "symbol": "quant_platform._portfolio._minute_validation",
@@ -5838,7 +5934,23 @@
       "provider_sources": [
         "core/src/quant_backtest_core/_minute/_minute_validation.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/guides/minute-execution.md",
+        "docs/guides/minute-execution.zh-CN.md"
+      ],
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/_minute_validation.py",
+            "source_sha256": "a7c6f3784db7e22b7ec424d912c5eeaadcb9522f8da2a92d5a767ca30662b471"
+          }
+        ]
+      },
+      "implementation_note": "Complete minute source/tests/docs present for provider review; schema minute-session.v3 rejects old v2. Keep planned until independently reviewed Engine revision is recorded. Product wrapper and consumer type/impact/alias cutover remain separate; retain historical route commitments."
     },
     {
       "symbol": "quant_platform._portfolio.capital_flows",
@@ -5895,7 +6007,23 @@
       "provider_sources": [
         "core/src/quant_backtest_core/_minute/capital_flows.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/guides/minute-execution.md",
+        "docs/guides/minute-execution.zh-CN.md"
+      ],
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/capital_flows.py",
+            "source_sha256": "403eb8714b07141609a879b276f3b1aa171838a088e111c2a3f1095f26051664"
+          }
+        ]
+      },
+      "implementation_note": "Complete minute source/tests/docs present for provider review; schema minute-session.v3 rejects old v2. Keep planned until independently reviewed Engine revision is recorded. Product wrapper and consumer type/impact/alias cutover remain separate; retain historical route commitments."
     },
     {
       "symbol": "quant_platform._portfolio.corporate_actions",
@@ -5952,7 +6080,23 @@
       "provider_sources": [
         "core/src/quant_backtest_core/_minute/corporate_actions.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/guides/minute-execution.md",
+        "docs/guides/minute-execution.zh-CN.md"
+      ],
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/corporate_actions.py",
+            "source_sha256": "2c6fd0e45636c15c37bebee7b5037f0607b8a4cf169d6cf20fe5da54e1b64eaa"
+          }
+        ]
+      },
+      "implementation_note": "Complete minute source/tests/docs present for provider review; schema minute-session.v3 rejects old v2. Keep planned until independently reviewed Engine revision is recorded. Product wrapper and consumer type/impact/alias cutover remain separate; retain historical route commitments."
     },
     {
       "symbol": "quant_platform._portfolio.valuation_events",
@@ -6009,7 +6153,23 @@
       "provider_sources": [
         "core/src/quant_backtest_core/_minute/valuation_events.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/guides/minute-execution.md",
+        "docs/guides/minute-execution.zh-CN.md"
+      ],
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/valuation_events.py",
+            "source_sha256": "57feba201db8f16b6397e7e9ad1051b9f2b112a50afc28aa8e9bd3f629edaab9"
+          }
+        ]
+      },
+      "implementation_note": "Complete minute source/tests/docs present for provider review; schema minute-session.v3 rejects old v2. Keep planned until independently reviewed Engine revision is recorded. Product wrapper and consumer type/impact/alias cutover remain separate; retain historical route commitments."
     },
     {
       "symbol": "quant_platform.backtest.paper_account",

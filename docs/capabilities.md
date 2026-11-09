@@ -63,3 +63,8 @@ Core 0.1.0 includes [synthetic paths/stress/impact](backtest/market-paths.md),
 belong to the optional Python library, not the Rust backend. They do not register
 a Python minute/daily owner or validate legacy checkpoint transfer. Source is
 under review until the provider gate; release availability is tracked separately.
+
+The optional library also provides the complete [minute session](backtest/minute-session.md)
+and [synchronous execution API](guides/minute-execution.md), with actions, valuation,
+capital flows, locks and delayed account visibility. This is a direct Python API;
+the product runner’s minute backend remains unavailable until its adapter transfer.

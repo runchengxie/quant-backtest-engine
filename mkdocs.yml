@@ -69,6 +69,8 @@ nav:
       - Transaction cost evidence: backtest/transaction-cost-evidence.md
       - Recorded-fill integrity: backtest/execution-integrity.md
       - Cost evidence: backtest/cost-evidence.md
+      - Minute sessions: backtest/minute-session.md
+      - Minute execution: guides/minute-execution.md
       - Python client: python-client.md
       - Runtime integration: runtime.md
       - Development: development.md
@@ -94,6 +96,8 @@ nav:
       - 交易成本证据: backtest/transaction-cost-evidence.zh-CN.md
       - 成交记录核验: backtest/execution-integrity.zh-CN.md
       - 成本证据: backtest/cost-evidence.zh-CN.md
+      - 分钟会话: backtest/minute-session.zh-CN.md
+      - 分钟执行: guides/minute-execution.zh-CN.md
       - Python 客户端: python-client.zh-CN.md
       - Runtime 接入: runtime.zh-CN.md
       - 开发与验证: development.zh-CN.md

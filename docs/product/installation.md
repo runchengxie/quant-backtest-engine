@@ -56,18 +56,24 @@ Development checks use the locked dev group: `ruff check core`, `ruff format
 
 The `scenario` extra supports [market paths and stress](../backtest/market-paths.md);
 `cost` supports [transaction cost evidence](../backtest/transaction-cost-evidence.md)
-and scoped fitting. These are independent leaf APIs. Other extras reserve dependency
+and scoped fitting. These are independent leaf APIs. The `minute` extra now provides the direct
+[minute session and financial kernels](../backtest/minute-session.md). Other extras reserve dependency
 groups for later transfers. Installing one does
 not implement or register a Python backend in core 0.1.0. `python.minute` and
 `python.daily` fail explicitly as unavailable; unknown keys are rejected.
 See [backend limits](backends.md) before choosing a manifest.
 
 
-For installed leaf acceptance, install the core wheel with `[cost,scenario]`
+For installed leaf acceptance, install the core wheel with `[minute,cost,scenario]`
 and pytest, resolving numerical packages from the locked baseline. Run
 `python -I -B -m pytest core/tests -q -p no:cacheprovider` with
 `QUANT_ENGINE_BINARY` pointing to the content-verified Rust binary for adapter
 regressions. Tests import installed wheels, never source-tree `PYTHONPATH`.
 Extracted legacy signatures remain unchanged: mypy still checks their bodies,
-with narrowly scoped allowances for absent pandas/SciPy stubs and three
-dictionary-inference diagnostics. New typed quote/protocol code is checked.
+with narrowly scoped allowances for absent pandas/SciPy stubs and six
+dictionary-inference diagnostics (three transaction-audit locals and three minute-kernel locals). New typed quote/protocol code is checked.
+
+For minimal minute acceptance, install `[minute]` alone plus pytest and run
+`python -I -B -m pytest core/tests/test_minute*.py core/tests/test_quantity_locks.py -q`
+and `python -I -B examples/product/minute_session.py`. This install needs pandas
+and its NumPy dependency, but no SciPy, Platform, Runtime or ML framework.
