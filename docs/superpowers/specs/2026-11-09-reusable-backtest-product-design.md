@@ -2,6 +2,8 @@
 
 Status: proposed design for owner review, 2026-11-09. The owner selected the direction: Engine becomes the independently reusable backtesting product, with an optional Python implementation and the existing Rust execution backend. This document makes the interfaces, migration boundaries and acceptance gates concrete. No implementation migration is authorized by this document's publication.
 
+Owner approval: the owner instructed execution of this concrete design on 2026-11-09. The proposed status above is the historical review state. Implementation is now authorized through the staged plan and its compatibility/review gates; production/broker boundaries remain unchanged.
+
 [简体中文](2026-11-09-reusable-backtest-product-design.zh-CN.md)
 
 ## 1. Outcome and chosen approach
