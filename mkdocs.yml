@@ -63,6 +63,8 @@ nav:
       - Reusable product ownership: migration/reusable-product.md
       - Migration limits: migration/corporate-action-conformance.md
       - Product contracts: product/contracts.md
+      - Product installation: product/installation.md
+      - Product backends: product/backends.md
       - Python client: python-client.md
       - Runtime integration: runtime.md
       - Development: development.md
@@ -82,6 +84,8 @@ nav:
       - 可复用产品归属: migration/reusable-product.zh-CN.md
       - 迁移边界: migration/corporate-action-conformance.zh-CN.md
       - 产品契约: product/contracts.zh-CN.md
+      - 产品安装: product/installation.zh-CN.md
+      - 产品后端: product/backends.zh-CN.md
       - Python 客户端: python-client.zh-CN.md
       - Runtime 接入: runtime.zh-CN.md
       - 开发与验证: development.zh-CN.md

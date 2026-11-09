@@ -105,9 +105,9 @@ does not establish financial semantics. A `cash: CNY` unit declaration is explic
 and compared with the selected provider's declared units. Currency, share basis,
 calendar and timezone remain separate fields.
 
-Native v1/v2 integer clocks are unchanged. The future adapter must convert string
+Native v1/v2 integer clocks are unchanged. The [optional adapter](backends.md) converts string
 nanoseconds directly to Python integers, never through floats or JavaScript
-numbers, and validate the resulting native request.
+numbers, and validates the resulting native request.
 
 ## rust-session.v1 input profile
 
@@ -210,7 +210,7 @@ provenance. Runtime v9 later needs stronger exact provider/dependency closure.
 | `quant_backtest_engine.product` | Immutable DTOs, strict codecs, input profile checks, capability comparison |
 | Existing `EngineClient` | Pinned native process transport and unchanged native evidence validation |
 | Explicit financial backend | Execution, accounting, loaded artifact validation and provider-specific semantics |
-| Consumer / future runner | Trusted artifact roots, persistence and registered policy/backend selection |
+| Consumer / optional runner | Trusted artifact roots, persistence and registered policy/backend selection |
 
 The [ownership registry](../migration/reusable-ownership.json) keeps this addition
 planned until a reviewed source revision is recorded. Existing migration rows

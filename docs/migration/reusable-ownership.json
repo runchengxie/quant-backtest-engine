@@ -8597,6 +8597,49 @@
         "python/src/quant_backtest_engine/product/capabilities.py"
       ],
       "anchor_policy": "Additive SDK contracts; retain native client route and API. Mark implemented only after independent review records a real source commit."
+    },
+    {
+      "symbol": "quant_backtest_core.runner",
+      "old_module": "quant_backtest_engine",
+      "new_module": "quant_backtest_core.runner",
+      "provider_version": "0.1.0",
+      "source_revision": null,
+      "status": "planned",
+      "wave": "M1",
+      "gate": "A",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/sessions/",
+          "anchors": []
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/sessions.zh-CN/",
+          "anchors": []
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/product/backends/",
+          "anchors": []
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/product/backends.zh-CN/",
+          "anchors": []
+        }
+      ],
+      "compatibility_path": "quant_backtest_engine",
+      "removal_gate": "retain",
+      "acceptance_test": "python -I -m unittest discover -s core/tests -v",
+      "provider_sources": [
+        "core/src/quant_backtest_core/runner.py",
+        "core/src/quant_backtest_core/backends/rust.py",
+        "core/src/quant_backtest_core/artifacts.py"
+      ],
+      "anchor_policy": "Additive optional runner retains native sessions documentation and API. Mark implemented after independent review records its real source commit; release availability is separate."
     }
   ],
   "public_import_namespaces": [

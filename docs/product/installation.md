@@ -1,0 +1,58 @@
+# Install the optional product
+
+[简体中文](installation.zh-CN.md)
+
+Core 0.1.0 provides the explicit Rust session runner. Install the SDK 0.3.0 wheel
+and core wheel built from the same reviewed Engine revision into a Python 3.12 or
+3.13 environment (`>=3.12,<3.14`). Python 3.14 needs a separate numerical
+baseline upgrade: pandas 3.0.6 requires NumPy >=2.3.3 on that interpreter. The SDK itself still supports Python 3.11. No PyPI release is
+required or implied; record exact source revisions and wheel SHA256 hashes.
+
+```sh
+python -m venv "$ENV"
+"$ENV/bin/python" -m pip install --no-index --no-deps \
+  "$WHEELS/quant_backtest_engine_client-0.3.0-py3-none-any.whl" \
+  "$WHEELS/quant_backtest_core-0.1.0-py3-none-any.whl"
+"$ENV/bin/quant-backtest" capabilities rust.nautilus.sessions
+```
+
+Base core imports only the standard library and SDK. Its wheel owns only
+`quant_backtest_core`; SDK continues to own `quant_backtest_engine`. Linux hosts
+need the system IANA timezone database. Neither install needs Platform, Runtime,
+pandas, NumPy, SciPy, Torch or model-training packages.
+
+## Build and verify
+
+Use external directories for environments, wheels, caches and generated results.
+`core/uv.lock` fixes tested development and optional dependency resolutions.
+The numerical baseline is constrained to NumPy 2.2.6, pandas 3.0.6 and SciPy 1.18.1
+for later extraction parity; public extra ranges remain as declared below.
+Its `../python` source is a monorepo development convenience, not a release pin.
+Build SDK and core independently with `uv build --wheel --project python` and
+`uv build --wheel --project core`, each with an external `--out-dir`. Installed
+acceptance uses wheel paths, `python -I` and no editable install or `PYTHONPATH`.
+Consumers must pin the exact merged revision or verified wheel hashes before cutover.
+
+```sh
+"$ENV/bin/python" -I -B project_tools/verify_installed_product.py --mode base
+"$ENV/bin/python" -I -B -m unittest discover -s core/tests -v
+```
+
+Development checks use the locked dev group: `ruff check core`, `ruff format
+--check core`, and `mypy --config-file core/pyproject.toml core/src`. Set external
+`UV_PROJECT_ENVIRONMENT`, `UV_CACHE_DIR`, `RUFF_CACHE_DIR`, `MYPY_CACHE_DIR`,
+`PYTHONPYCACHEPREFIX`, `TMPDIR` and `CARGO_TARGET_DIR` before local validation.
+
+## Optional dependencies
+
+| Extra | Dependency bounds |
+| --- | --- |
+| minute, scenario | pandas >=3.0.5,<3.1 |
+| planning, cost | pandas >=3.0.5,<3.1; NumPy >=1.23; SciPy >=1.14 |
+| microstructure, daily | pandas >=3.0.5,<3.1; NumPy >=1.23 |
+| all | Union of the above; no Torch, Qlib or OSQP |
+
+These extras reserve dependency groups for later transfers. Installing one does
+not implement or register a Python backend in core 0.1.0. `python.minute` and
+`python.daily` fail explicitly as unavailable; unknown keys are rejected.
+See [backend limits](backends.md) before choosing a manifest.

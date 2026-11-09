@@ -1,0 +1,57 @@
+[build-system]
+requires = ["hatchling==1.33.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "quant-backtest-core"
+version = "0.1.0"
+description = "Explicit optional backtest product runner and Rust session adapter"
+requires-python = ">=3.12,<3.14"
+license = "LGPL-3.0-only"
+license-files = ["LICENSE", "COPYING"]
+dependencies = ["quant-backtest-engine-client>=0.3.0,<0.4"]
+
+[project.scripts]
+quant-backtest = "quant_backtest_core.cli:main"
+
+[project.optional-dependencies]
+minute = ["pandas>=3.0.5,<3.1"]
+scenario = ["pandas>=3.0.5,<3.1"]
+planning = ["numpy>=1.23", "pandas>=3.0.5,<3.1", "scipy>=1.14"]
+cost = ["pandas>=3.0.5,<3.1", "numpy>=1.23", "scipy>=1.14"]
+microstructure = ["pandas>=3.0.5,<3.1", "numpy>=1.23"]
+daily = ["pandas>=3.0.5,<3.1", "numpy>=1.23"]
+all = ["pandas>=3.0.5,<3.1", "numpy>=1.23", "scipy>=1.14"]
+
+[dependency-groups]
+dev = ["pytest>=8,<10", "ruff>=0.14,<1", "mypy>=1.18,<2"]
+
+# Preserve the numerical extraction baseline; dependency upgrades require separate parity evidence.
+[tool.uv]
+constraint-dependencies = ["numpy==2.2.6", "pandas==3.0.6", "scipy==1.18.1"]
+
+[tool.uv.sources]
+quant-backtest-engine-client = { path = "../python" }
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/quant_backtest_core"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["quant_backtest_core"]
+
+[tool.mypy]
+python_version = "3.12"
+check_untyped_defs = true
+disallow_untyped_defs = true
+warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = "quant_backtest_engine.*"
+follow_untyped_imports = true

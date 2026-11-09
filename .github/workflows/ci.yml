@@ -37,10 +37,57 @@ jobs:
       - run: '"$RUNNER_TEMP/sdk-env/bin/pip" install --no-deps "$RUNNER_TEMP"/wheels/*.whl'
       - name: Test installed SDK without platform packages
         working-directory: /tmp
-        run: '"$RUNNER_TEMP/sdk-env/bin/python" -I -m unittest discover -s "$GITHUB_WORKSPACE/python/tests"'
+        run: '"$RUNNER_TEMP/sdk-env/bin/python" -I -B -m unittest discover -s "$GITHUB_WORKSPACE/python/tests"'
+      - run: '"$RUNNER_TEMP/sdk-env/bin/python" -I -B project_tools/verify_installed_product.py --mode sdk'
       - run: cargo build --locked
       - name: Test installed SDK against real engine
         working-directory: /tmp
         env:
           QUANT_ENGINE_BINARY: ${{ github.workspace }}/target/debug/quant-backtest-engine
-        run: '"$RUNNER_TEMP/sdk-env/bin/python" -I -m unittest discover -s "$GITHUB_WORKSPACE/python/tests"'
+        run: '"$RUNNER_TEMP/sdk-env/bin/python" -I -B -m unittest discover -s "$GITHUB_WORKSPACE/python/tests"'
+
+  python-core:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.12', '3.13']
+    env:
+      UV_PROJECT_ENVIRONMENT: ${{ runner.temp }}/core-dev
+      UV_CACHE_DIR: ${{ runner.temp }}/uv-cache
+      RUFF_CACHE_DIR: ${{ runner.temp }}/ruff-cache
+      MYPY_CACHE_DIR: ${{ runner.temp }}/mypy-cache
+      PYTHONPYCACHEPREFIX: ${{ runner.temp }}/pycache
+      CARGO_TARGET_DIR: ${{ runner.temp }}/target
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+      - uses: dtolnay/rust-toolchain@1.99.1
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
+      - run: uv python install "${{ matrix.python }}"
+      - run: uv sync --project core --locked --no-editable --python "${{ matrix.python }}"
+      - run: '"$UV_PROJECT_ENVIRONMENT/bin/ruff" check core'
+      - run: '"$UV_PROJECT_ENVIRONMENT/bin/ruff" format --check core'
+      - run: '"$UV_PROJECT_ENVIRONMENT/bin/mypy" --config-file core/pyproject.toml core/src'
+      - run: uv build --wheel --project python --out-dir "$RUNNER_TEMP/wheels"
+      - run: uv build --wheel --project core --out-dir "$RUNNER_TEMP/wheels"
+      - run: uv venv --python "${{ matrix.python }}" "$RUNNER_TEMP/core-base"
+      - run: uv pip install --python "$RUNNER_TEMP/core-base/bin/python" --no-deps "$RUNNER_TEMP"/wheels/*.whl
+      - run: '"$RUNNER_TEMP/core-base/bin/python" -I -B project_tools/verify_installed_product.py --mode base'
+      - run: cargo build --locked
+      - name: Installed Rust adapter and regression suite
+        env:
+          QUANT_ENGINE_BINARY: ${{ runner.temp }}/target/debug/quant-backtest-engine
+        run: |
+          "$RUNNER_TEMP/core-base/bin/python" -I -B -m unittest discover -s core/tests -v
+          "$RUNNER_TEMP/core-base/bin/python" -I -B -m unittest discover -s python/tests -v
+      - name: Installed CLI acceptance
+        run: |
+          ENGINE="$CARGO_TARGET_DIR/debug/quant-backtest-engine"
+          DIGEST=$(sha256sum "$ENGINE" | cut -d ' ' -f 1)
+          "$RUNNER_TEMP/core-base/bin/python" -I -B project_tools/verify_installed_product.py --mode rust --manifest fixtures/product/rust-session.json --artifact-root fixtures/product --output-root "$RUNNER_TEMP/product-output" --rust-executable "$ENGINE" --rust-sha256 "$DIGEST"
+          "$RUNNER_TEMP/core-base/bin/quant-backtest" capabilities rust.nautilus.sessions
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: product-wheels-python-${{ matrix.python }}
+          path: ${{ runner.temp }}/wheels/*.whl
+          if-no-files-found: error

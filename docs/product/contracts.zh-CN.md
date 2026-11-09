@@ -97,7 +97,7 @@ null 只省略对应的不可用关系。effective、report、valuation 可能�
 例如 `cash: CNY` 是显式单位声明，会与所选提供方声明的单位比较。
 货币、股份口径、日历和时区各自独立表达。
 
-原生 v1/v2 整数时钟不变。后续适配器必须直接把纳秒字符串转换为 Python
+原生 v1/v2 整数时钟不变。[可选适配器](backends.zh-CN.md) 直接把纳秒字符串转换为 Python
 整数，不能经由浮点数或 JavaScript 数字，并须校验转换后的原生请求。
 
 ## rust-session.v1 输入配置
