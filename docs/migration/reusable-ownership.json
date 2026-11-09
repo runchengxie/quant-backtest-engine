@@ -6316,8 +6316,8 @@
       "old_module": "quant_platform.backtest._account_event_types",
       "new_module": "quant_backtest_core.backtest._account_event_types",
       "provider_version": "0.2.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "d6319dfe71b060eb2c01a659dd56d6256a849f39",
+      "status": "implemented",
       "wave": "M4",
       "gate": "B",
       "old_urls": [
@@ -6345,11 +6345,23 @@
       ],
       "compatibility_path": "quant_platform.backtest._account_event_types",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_account_events.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/test_account_events.py core/tests/test_composite_checkpoint.py -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/_account_event_types.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/d6319dfe71b060eb2c01a659dd56d6256a849f39/core/src/quant_backtest_core/backtest/_account_event_types.py",
+      "leaf_documentation": [
+        "docs/contracts/paper-account-events.md",
+        "docs/contracts/paper-account-events.zh-CN.md"
+      ],
+      "release_availability": "Task 9 source implemented; Core source is now 0.2.0. Whole-provider B review, merge and verified release artifacts precede Task 12 consumer aliases.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0"
+      },
+      "implementation_note": "Reconciled stale planned/null metadata with actual Task 9 source; no code ownership transfer or consumer cutover is newly claimed here."
     },
     {
       "symbol": "quant_platform.backtest.checkpoints",
@@ -6573,7 +6585,7 @@
         "docs/concepts/impact-planning.md",
         "docs/concepts/impact-planning.zh-CN.md"
       ],
-      "release_availability": "Unreleased provider B implementation; Core stays 0.1.0 until Task 11 whole-provider gate. No consumer cutover; Task 12 aliases follow provider integration.",
+      "release_availability": "Unreleased provider B implementation; Core source is 0.2.0; whole-provider review, integration and exact merged artifacts remain pending. No consumer cutover; Task 12 aliases follow provider integration.",
       "implementation_note": "Complete pinned Platform 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355 body retained with namespace/provenance changes only. All original assertions retained. Conditional continuous signed plan cash is not delivered cash; finite inventory/sleeves require prefunding. Forecasts/risk are supplied; generic optimizers and estimators stay Platform.",
       "installed_acceptance": {
         "python": [
@@ -6653,7 +6665,7 @@
         "docs/concepts/impact-planning.md",
         "docs/concepts/impact-planning.zh-CN.md"
       ],
-      "release_availability": "Unreleased provider B implementation; Core stays 0.1.0 until Task 11 whole-provider gate. No consumer cutover; Task 12 aliases follow provider integration.",
+      "release_availability": "Unreleased provider B implementation; Core source is 0.2.0; whole-provider review, integration and exact merged artifacts remain pending. No consumer cutover; Task 12 aliases follow provider integration.",
       "implementation_note": "Complete pinned Platform 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355 body retained with namespace/provenance changes only. All original assertions retained. Conditional continuous signed plan cash is not delivered cash; finite inventory/sleeves require prefunding. Forecasts/risk are supplied; generic optimizers and estimators stay Platform.",
       "installed_acceptance": {
         "python": [
@@ -6737,7 +6749,7 @@
         "docs/concepts/discrete-inventory.md",
         "docs/concepts/discrete-inventory.zh-CN.md"
       ],
-      "release_availability": "Unreleased provider B implementation; Core stays 0.1.0 until Task 11 whole-provider gate. No consumer cutover; Task 12 aliases follow provider integration.",
+      "release_availability": "Unreleased provider B implementation; Core source is 0.2.0; whole-provider review, integration and exact merged artifacts remain pending. No consumer cutover; Task 12 aliases follow provider integration.",
       "implementation_note": "Complete pinned Platform 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355 body retained with namespace/provenance changes only. All original assertions retained. Conditional continuous signed plan cash is not delivered cash; finite inventory/sleeves require prefunding. Forecasts/risk are supplied; generic optimizers and estimators stay Platform.",
       "installed_acceptance": {
         "python": [
@@ -6807,7 +6819,7 @@
         "docs/concepts/impact-optimization-scenarios.md",
         "docs/concepts/impact-optimization-scenarios.zh-CN.md"
       ],
-      "release_availability": "Unreleased provider B implementation; Core stays 0.1.0 until Task 11 whole-provider gate. No consumer cutover; Task 12 aliases follow provider integration.",
+      "release_availability": "Unreleased provider B implementation; Core source is 0.2.0; whole-provider review, integration and exact merged artifacts remain pending. No consumer cutover; Task 12 aliases follow provider integration.",
       "implementation_note": "Complete pinned Platform 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355 body retained with namespace/provenance changes only. All original assertions retained. Conditional continuous signed plan cash is not delivered cash; finite inventory/sleeves require prefunding. Forecasts/risk are supplied; generic optimizers and estimators stay Platform.",
       "installed_acceptance": {
         "python": [
@@ -6935,7 +6947,7 @@
         "docs/backtest/sleeve-allocation.md",
         "docs/backtest/sleeve-allocation.zh-CN.md"
       ],
-      "release_availability": "Unreleased provider B implementation; Core stays 0.1.0 until Task 11 whole-provider gate. No consumer cutover; Task 12 aliases follow provider integration.",
+      "release_availability": "Unreleased provider B implementation; Core source is 0.2.0; whole-provider review, integration and exact merged artifacts remain pending. No consumer cutover; Task 12 aliases follow provider integration.",
       "implementation_note": "Complete pinned Platform 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355 body retained with namespace/provenance changes only. All original assertions retained. Conditional continuous signed plan cash is not delivered cash; finite inventory/sleeves require prefunding. Forecasts/risk are supplied; generic optimizers and estimators stay Platform.",
       "installed_acceptance": {
         "python": [
@@ -8786,7 +8798,7 @@
         "docs/microstructure/matching.zh-CN.md"
       ],
       "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/97436df3c2474c9bfa6d1dcd1439c386a29a3642/core/src/quant_backtest_core/microstructure/matching.py",
-      "implementation_note": "Task 8 provider B source is implemented. Gate B version 0.2.0 is reserved for Task 11; current core remains 0.1.0. No merged release, consumer cutover, ProductManifest LOB backend or calibrated learned market is claimed. Historical source and consumer aliases remain on pinned Platform until the authorized consumer gate."
+      "implementation_note": "Task 8 provider B source is implemented. Core source is 0.2.0; this does not establish a merged gate B release. No merged release, consumer cutover, ProductManifest LOB backend or calibrated learned market is claimed. Historical source and consumer aliases remain on pinned Platform until the authorized consumer gate."
     },
     {
       "symbol": "ticknet.simulator.pack",
@@ -8849,7 +8861,7 @@
         "docs/microstructure/matching.zh-CN.md"
       ],
       "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/97436df3c2474c9bfa6d1dcd1439c386a29a3642/core/src/quant_backtest_core/microstructure/pack.py",
-      "implementation_note": "Task 8 provider B source is implemented. Gate B version 0.2.0 is reserved for Task 11; current core remains 0.1.0. No merged release, consumer cutover, ProductManifest LOB backend or calibrated learned market is claimed. Historical source and consumer aliases remain on pinned Platform until the authorized consumer gate."
+      "implementation_note": "Task 8 provider B source is implemented. Core source is 0.2.0; this does not establish a merged gate B release. No merged release, consumer cutover, ProductManifest LOB backend or calibrated learned market is claimed. Historical source and consumer aliases remain on pinned Platform until the authorized consumer gate."
     },
     {
       "symbol": "ticknet.simulator.ordering",
@@ -8912,7 +8924,7 @@
         "docs/microstructure/matching.zh-CN.md"
       ],
       "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/97436df3c2474c9bfa6d1dcd1439c386a29a3642/core/src/quant_backtest_core/microstructure/ordering.py",
-      "implementation_note": "Task 8 provider B source is implemented. Gate B version 0.2.0 is reserved for Task 11; current core remains 0.1.0. No merged release, consumer cutover, ProductManifest LOB backend or calibrated learned market is claimed. Historical source and consumer aliases remain on pinned Platform until the authorized consumer gate."
+      "implementation_note": "Task 8 provider B source is implemented. Core source is 0.2.0; this does not establish a merged gate B release. No merged release, consumer cutover, ProductManifest LOB backend or calibrated learned market is claimed. Historical source and consumer aliases remain on pinned Platform until the authorized consumer gate."
     },
     {
       "symbol": "ticknet.simulator.replay",
@@ -8975,7 +8987,7 @@
         "docs/microstructure/replay.zh-CN.md"
       ],
       "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/97436df3c2474c9bfa6d1dcd1439c386a29a3642/core/src/quant_backtest_core/microstructure/replay.py",
-      "implementation_note": "Task 8 provider B source is implemented. Gate B version 0.2.0 is reserved for Task 11; current core remains 0.1.0. No merged release, consumer cutover, ProductManifest LOB backend or calibrated learned market is claimed. Historical source and consumer aliases remain on pinned Platform until the authorized consumer gate."
+      "implementation_note": "Task 8 provider B source is implemented. Core source is 0.2.0; this does not establish a merged gate B release. No merged release, consumer cutover, ProductManifest LOB backend or calibrated learned market is claimed. Historical source and consumer aliases remain on pinned Platform until the authorized consumer gate."
     },
     {
       "symbol": "ticknet.simulator.correctness",
@@ -9038,7 +9050,7 @@
         "docs/microstructure/matching.zh-CN.md"
       ],
       "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/97436df3c2474c9bfa6d1dcd1439c386a29a3642/core/src/quant_backtest_core/microstructure/correctness.py",
-      "implementation_note": "Task 8 provider B source is implemented. Gate B version 0.2.0 is reserved for Task 11; current core remains 0.1.0. No merged release, consumer cutover, ProductManifest LOB backend or calibrated learned market is claimed. Historical source and consumer aliases remain on pinned Platform until the authorized consumer gate."
+      "implementation_note": "Task 8 provider B source is implemented. Core source is 0.2.0; this does not establish a merged gate B release. No merged release, consumer cutover, ProductManifest LOB backend or calibrated learned market is claimed. Historical source and consumer aliases remain on pinned Platform until the authorized consumer gate."
     },
     {
       "symbol": "quant_backtest_engine.product",
@@ -9256,7 +9268,7 @@
       "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/d6319dfe71b060eb2c01a659dd56d6256a849f39/core/src/quant_backtest_core/microstructure/impact.py",
       "historical_reference_kind": "code permalink, not an invented documentation route",
       "anchor_policy": "No original dedicated impact-estimation page existed. Preserve actual source reference; canonical paired Engine pages added with transfer.",
-      "release_availability": "Unreleased provider B implementation; no provider merge or consumer cutover yet. Core remains 0.1.0 until Task 11.",
+      "release_availability": "Unreleased provider B implementation; no provider merge or consumer cutover yet. Core source is 0.2.0; whole-provider integration remains pending.",
       "implementation_note": "Original impact.py is byte-identical, including _mid and empty-book raw sentinels. Exact Task 8 replay/fill classes reused. Complete 11 impact + 2 admission + 1 real native rejection tests transferred, with new empty-book characterization (15 tests). Actual installed Python 3.12/3.13 native rejection, stdlib-only behavior and original/new output parity verified. Native lacks per-fill evidence and rejects before mutation; no aggregate substitution, fallback, cash debit or calibration claim.",
       "acceptance_environment": {
         "TICKNET_REQUIRE_RUST": "1"

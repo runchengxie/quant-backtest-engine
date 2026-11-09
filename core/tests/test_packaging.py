@@ -29,7 +29,7 @@ class PackagingTests(unittest.TestCase):
 
     def test_namespace_and_distribution_version(self):
         dist = importlib.metadata.distribution("quant-backtest-core")
-        self.assertEqual(dist.version, "0.1.0")
+        self.assertEqual(dist.version, "0.2.0")
         for file in dist.files:
             if str(file).endswith(".py"):
                 self.assertTrue(str(file).startswith("quant_backtest_core/"), str(file))

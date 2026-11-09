@@ -1,5 +1,7 @@
 # Capability and compatibility matrix
 
+[简体中文](capabilities.zh-CN.md)
+
 Package 0.2.0 is experimental and uses NautilusTrader 0.66.0.
 Linux is the validated execution environment. Support below means synthetic cases
 are exercised, not that all exchange rules or real-world data have been validated.
@@ -56,12 +58,12 @@ fallbacks until the specific caller's required semantics and outputs are verifie
 
 ## Optional Python leaf APIs
 
-Core 0.1.0 includes [synthetic paths/stress/impact](backtest/market-paths.md),
+Core 0.2.0 includes [synthetic paths/stress/impact](backtest/market-paths.md),
 [neutral cost evidence](backtest/cost-evidence.md),
 [transaction audits and scoped fits](backtest/transaction-cost-evidence.md), and
 [recorded-fill/capital evidence](backtest/execution-integrity.md). These capabilities
 belong to the optional Python library, not the Rust backend. They do not register
-a Python minute/daily owner or validate legacy checkpoint transfer. Source is
+a Python daily owner or validate legacy checkpoint transfer. Source is
 under review until the provider gate; release availability is tracked separately.
 
 The optional library also provides the complete [minute session](backtest/minute-session.md)
@@ -82,5 +84,15 @@ Use the `[planning]` optional core dependencies for pandas-based accounts and
 reservations. Replay/impact is standard-library-only; the optional native wheel
 still rejects impact estimation because per-fill evidence is unsupported. A supplied
 optimizer owns full research validation; Engine supplies no OSQP optimizer.
-Core stays 0.1.0 until Task 11 gate B, with no consumer switch or released 0.2.0
-claim. Old checkpoints retain their full pinned legacy environment.
+Core source is 0.2.0; whole-provider review, integration and exact merged artifacts precede consumer cutover. Old checkpoints retain their full pinned legacy environment.
+
+## Independent scenario composition
+
+`run_scenarios` supports the bounded `python.minute` / `scenario-minute-targets.v1`
+composition profile through `[scenario]`: actual external targets, independent
+accounts/policies/impact and exact input/target/projection receipts. Risk must be null;
+the policy is the existing empty-config target-weights identity. Availability is a
+declared synthetic bar-close convention, not observed arrival. Raw minute and Rust
+guards remain unchanged; no backend inherits the union of Python leaf capabilities.
+See the [complete backend matrix](product/backends.md#provider-b-capability-matrix),
+[scenario example](product/scenarios.md) and [planner example](concepts/impact-planning.md#installed-planner-example).

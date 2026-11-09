@@ -2,7 +2,7 @@
 
 [English](pending-allocation.md)
 
-已在提供方 B 工作树实现，B 门合并前未发布。迁移阶段 Core 仍为 0.1.0。[原始文档](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/contracts/pending-allocation.md)。
+已在提供方 B 工作树实现，B 门合并前未发布。Core 当前源码为 0.2.0；合并发布和消费者切换仍是独立步骤。[原始文档](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/contracts/pending-allocation.md)。
 
 `quant_backtest_core.planning.pending_allocation` 为未完成订单预留资源，再交由调用者提供的 `PendingOptimizer` 计算新增交易。完整请求和结果仍由调用者拥有。接口只用已送达持仓、剩余订单与已知资源，构造保守的单周期条件端点包络，示例均为合成数据。
 

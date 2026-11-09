@@ -68,7 +68,7 @@ python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/core/tests/test_d
 
 通用风险优化器测试仍在[固定 Platform 测试](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/tests/test_impact_optimization_scenarios.py)。
 两个纯辅助模块本身只需标准库，planning 数值 extra 服务于另外的连续规划接口。
-当前是未发布的 provider B 代码，Task 11 前 Core 保持 0.1.0，消费者迁移另行受控。
+当前是未发布的 provider B 代码，Core 当前源码为 0.2.0，整体审查、合并和消费者迁移另行受控。
 本页依据上述 Apache-2.0 固定原文翻译改编。
 
 相关原始研究仅供背景阅读，不表示实现等价：

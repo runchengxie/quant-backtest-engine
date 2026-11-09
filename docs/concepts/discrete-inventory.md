@@ -118,4 +118,4 @@ Install the built SDK and Core wheels with the explicit `planning` extra and the
 python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/core/tests/test_discrete_inventory.py" -q -p no:cacheprovider
 ```
 
-Adapted from [pinned Apache-2.0 source](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/concepts/discrete-inventory.md). Implemented on the unreleased provider B branch; Core remains 0.1.0 until Task 11. Consumer cutover is separate.
+Adapted from [pinned Apache-2.0 source](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/concepts/discrete-inventory.md). Implemented on the unreleased provider B branch; Core source is 0.2.0; whole-provider review and integration remain pending. Consumer cutover is separate.

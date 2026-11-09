@@ -125,7 +125,7 @@ Install the built SDK and Core wheels with the explicit `planning` extra and the
 python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/core/tests/test_impact_planning.py" -q -p no:cacheprovider
 ```
 
-Adapted from [pinned Apache-2.0 source](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/concepts/impact-planning.md). Implemented on the unreleased provider B branch; Core remains 0.1.0 until Task 11. Consumer cutover is separate.
+Adapted from [pinned Apache-2.0 source](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/concepts/impact-planning.md). Implemented on the unreleased provider B branch; Core source is 0.2.0; whole-provider review and integration remain pending. Consumer cutover is separate.
 
 ## Conditional cash and full-session replanning
 
@@ -161,3 +161,38 @@ SLSQP uses ftol 1e-12/maxiter 2000; failed/nonfinite or residual >1e-7 results r
 This bounded research interface offers no independent numerical optimum certificate.
 Run the installed `core/tests/test_multiperiod.py` and `core/tests/test_planning_session.py`
 alongside the impact suite. Generic risk estimation and signed optimizers remain Platform.
+
+## Independent scenario composition
+
+Use the executable [typed-target scenario example](../product/scenarios.md) for independent minute accounts. Forecast and risk estimation remain external; the initial scenario adapter accepts only null risk and the existing target-weights policy. Planned sales do not finance buys: the supplementary actual-owner test blocks only A sales while B remains tradable, and a separately funded B control demonstrates the cash gate. The continuous candidate `99.99999999999999` remains contingent and is not rounded or submitted. Daily-owner variants remain later migration work.
+
+## Installed planner example
+
+Install `[planning]` with the documented extraction pins, then run this synthetic
+example. These arrays use the unchanged numerical leaf API; public scenario money
+and nanosecond wire values remain strings. The first action is exactly integral
+in this fixture. Its cash is conditional on execution, not actual delivered cash.
+No order is submitted and no live owner is mutated.
+
+```sh
+python -I -B - <<'PY'
+import numpy as np
+from quant_backtest_core.planning.impact_planning import ImpactPlanningRequest, plan_with_impact
+
+clock = int("1767576540000000000")
+request = ImpactPlanningRequest(
+    initial_holdings=np.array([0.0]), initial_cash=10000.0,
+    unaffected_prices=np.array([10.0]), expected_returns=np.array([[0.1]]),
+    covariances=np.array([[[1.0]]]), step_seconds=np.array([]),
+    initial_transient=np.array([0.0]), transient=np.array([0.001]),
+    decay_seconds=np.array([10.0]), capacity=np.array([[100.0]]),
+    risk_aversion=0, decision_ns=clock, forecast_available_ns=clock,
+    risk_available_ns=clock, state_available_ns=clock,
+)
+plan = plan_with_impact(request)
+assert plan.first_action == (100.0,)
+assert plan.cash == (8995.0,)
+print({"first_action": plan.first_action, "conditional_cash": plan.cash,
+       "request_digest": plan.request_digest})
+PY
+```

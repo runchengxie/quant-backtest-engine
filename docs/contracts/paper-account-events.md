@@ -2,7 +2,7 @@
 
 [简体中文](paper-account-events.zh-CN.md)
 
-Implemented in the provider B worktree; unreleased until gate B merge. Core remains version 0.1.0 during transfer. [Pinned original documentation](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/contracts/paper-account-events.md).
+Implemented in the provider B worktree; unreleased until gate B merge. Core source is 0.2.0; merged release availability and consumer cutover remain separate. [Pinned original documentation](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/contracts/paper-account-events.md).
 
 `quant_backtest_core.backtest.account_events.AccountEventAdapter` adds raw integer-share
 orders, financial report delays, corporate actions and checkpoint/resume to

@@ -2,7 +2,7 @@
 
 [English](account-feedback.md)
 
-已在提供方 B 工作树实现，须等 B 门合并后才发布。迁移阶段 Core 仍为 0.1.0。[原始固定版本文档](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/backtest/account-feedback.md)。
+已在提供方 B 工作树实现，须等 B 门合并后才发布。Core 当前源码为 0.2.0；合并发布和消费者切换仍是独立步骤。[原始固定版本文档](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/backtest/account-feedback.md)。
 
 显式从 `quant_backtest_core.backtest.minute` 导入分钟执行。`decision_policy(state, proposed_weights)` 在每个决策时钟、该时钟结束的 K 线之前运行。只读快照包含实际现金、持仓、原始价格及时间、待处理父订单与应收款。完整目标权重冻结到入场时，遗漏的已有持仓目标为零；空映射清仓；返回 `None` 保留待处理订单而不重复提交。
 

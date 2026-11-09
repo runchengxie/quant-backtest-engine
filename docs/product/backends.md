@@ -2,7 +2,7 @@
 
 [简体中文](backends.zh-CN.md)
 
-Core 0.1.0 registers `rust.nautilus.sessions` and `python.minute`.
+Core 0.2.0 registers `rust.nautilus.sessions` and `python.minute`.
 For the minute profile, explicit capabilities and resumable API, see [financial recovery](recovery.md).
 The following sections describe the Rust backend.
 It calls the existing `EngineClient.run_sessions` once. NautilusTrader 0.66.0 owns
@@ -95,3 +95,16 @@ inspection without a binary has null executable identity. Exact release/source
 receipts and later Runtime dependency closure remain separate requirements.
 
 Deterministic LOB matching/replay is implemented in provider B source, pending merged release. [LOB Python / optional PyO3 modes](../development/microstructure-rust.md).
+
+## Provider B capability matrix
+
+| Entry point | Supported scope | Explicit limits |
+| --- | --- | --- |
+| `run_manifest`, `rust.nautilus.sessions` | Native session ledger, configured T+1, buy lots, quote permissions/liquidity | No scenario, forecast/risk, Python policy or checkpoints |
+| `run_manifest` / `open_session`, `python.minute` | Declared minute capabilities and exact recovery | Raw runner rejects scenario/forecast/risk transformations |
+| `run_scenarios`, `scenario-minute-targets.v1` | External typed target projection into independent minute owners | One availability/decision cut, null risk, exact target-weights policy; trusted callback, declared synthetic availability |
+| Planning/cost/market-path/microstructure leaf APIs | Their individually documented scope | No union-of-leaves capability claim for any raw backend |
+| `python.daily` | Unavailable | Installing `[daily]` does not implement it |
+
+See [scenario contracts and exact receipts](scenarios.md), including declared lineage
+and hidden-state limits. Core 0.2.0 source does not by itself imply merged release availability.

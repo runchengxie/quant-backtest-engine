@@ -2,7 +2,7 @@
 
 [简体中文](capital-and-reconciliation.zh-CN.md)
 
-Implemented in the provider B worktree; unreleased until gate B merge. Core remains version 0.1.0 during transfer. [Pinned original documentation](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/backtest/capital-and-reconciliation.md).
+Implemented in the provider B worktree; unreleased until gate B merge. Core source is 0.2.0; merged release availability and consumer cutover remain separate. [Pinned original documentation](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/backtest/capital-and-reconciliation.md).
 
 `quant_backtest_core.evidence.capital_returns` links returns from complete capital
 observations. Supply initial NAV/start UTC nanoseconds and `CapitalObservation`

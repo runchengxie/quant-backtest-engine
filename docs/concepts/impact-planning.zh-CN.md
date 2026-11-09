@@ -106,7 +106,7 @@ QP 通过绝对值辅助变量约束 `cash_lower[t] >= reserved_cash`，所有�
 python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/core/tests/test_impact_planning.py" -q -p no:cacheprovider
 ```
 
-改编自 [Apache-2.0 固定原文](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/concepts/impact-planning.zh-CN.md)。当前实现位于尚未发布的 provider B 分支；Core 在 Task 11 前仍为 0.1.0，消费者切换另行进行。
+改编自 [Apache-2.0 固定原文](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/concepts/impact-planning.zh-CN.md)。当前实现位于尚未发布的 provider B 分支；Core 当前源码为 0.2.0，整体审查和合并仍待完成，消费者切换另行进行。
 
 ## 条件现金与完整会话恢复
 
@@ -136,3 +136,36 @@ SLSQP 使用 ftol 1e-12、maxiter 2000；失败、非有限解或残差超过 1e
 这个有限研究接口不提供独立数值最优证书。使用已安装解释器同时运行
 `core/tests/test_multiperiod.py`、`core/tests/test_planning_session.py` 和冲击规划测试。
 通用风险估计及带符号优化器仍属于 Platform。
+
+## 独立场景组合
+
+可运行[类型化目标场景示例](../product/scenarios.zh-CN.md)，检查分钟账户相互独立。预测与风险估计仍在外部，初版适配器只接受 null risk 和既有目标权重策略。计划卖出所得不能资助买入：补充实际所有者测试仅阻止 A 卖出、保持 B 可交易，再用另一个确有现金的 B 对照证明现金约束。连续候选 `99.99999999999999` 仍是条件候选，不做舍入或提交。日频所有者变体仍待后续迁移。
+
+## 安装后的规划示例
+
+按文档固定数值依赖版本并安装 `[planning]` 后，可直接执行以下合成示例。数组使用既有数值叶子 API；
+公开场景的金额和纳秒传输字段仍为字符串。本案例的首步数量恰为整数，但计划现金仍以成交为条件，
+不是已送达现金。示例不提交订单，也不修改实时所有者。
+
+```sh
+python -I -B - <<'PY'
+import numpy as np
+from quant_backtest_core.planning.impact_planning import ImpactPlanningRequest, plan_with_impact
+
+clock = int("1767576540000000000")
+request = ImpactPlanningRequest(
+    initial_holdings=np.array([0.0]), initial_cash=10000.0,
+    unaffected_prices=np.array([10.0]), expected_returns=np.array([[0.1]]),
+    covariances=np.array([[[1.0]]]), step_seconds=np.array([]),
+    initial_transient=np.array([0.0]), transient=np.array([0.001]),
+    decay_seconds=np.array([10.0]), capacity=np.array([[100.0]]),
+    risk_aversion=0, decision_ns=clock, forecast_available_ns=clock,
+    risk_available_ns=clock, state_available_ns=clock,
+)
+plan = plan_with_impact(request)
+assert plan.first_action == (100.0,)
+assert plan.cash == (8995.0,)
+print({"first_action": plan.first_action, "conditional_cash": plan.cash,
+       "request_digest": plan.request_digest})
+PY
+```

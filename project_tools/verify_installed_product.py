@@ -55,6 +55,7 @@ def main() -> None:
         assert direct.get("url", "").endswith(".whl"), "acceptance requires independent wheels"
     if args.mode != "sdk":
         import quant_backtest_core.sessions
+        import quant_backtest_core.scenarios
         assert "pandas" not in sys.modules, "session protocol must stay lazy"
         sdk_files = {str(f) for f in importlib.metadata.files(packages[0]) or ()}
         core_files = {str(f) for f in importlib.metadata.files(packages[1]) or ()}

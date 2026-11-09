@@ -2,7 +2,7 @@
 
 [English](paper-account.md)
 
-已在提供方 B 工作树实现，须等 B 门合并后才发布。迁移阶段 Core 仍为 0.1.0。[原始固定版本文档](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/backtest/paper-account.md)。
+已在提供方 B 工作树实现，须等 B 门合并后才发布。Core 当前源码为 0.2.0；合并发布和消费者切换仍是独立步骤。[原始固定版本文档](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/backtest/paper-account.md)。
 
 `quant_backtest_core.backtest.paper_account.project_paper_account` 从期初 `PaperState` 出发，按显式费用和调用者提供的期末成交更新账户，再按原始价格估值。返回的 `state` 可供下一步记账，`weights` 可供下一次组合决策；它不生成成交，不认证可执行价格，也不推断券商条款。
 

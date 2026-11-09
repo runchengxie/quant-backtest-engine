@@ -165,3 +165,7 @@ The Engine leaf has its own module identity. Existing Platform minute owners,
 source-hashed impact bindings and pinned legacy environments stay unchanged
 until their consumer gate. A source/model hash alone does not authorize restore
 into another financial owner. See [source notices](../third-party-notices.md).
+
+## Execute independent target scenarios
+
+The [scenario runner](../product/scenarios.md) consumes external execution-ready target artifacts through a fixed minute profile. It preserves explicit tradability, limits, calendars and tapes; a generated path does not supply these missing semantics automatically. Fixed and recomputed modes are explicit. Bar-close availability is a declared synthetic convention, base/transformation hashes are declared lineage, and repeated paths are not independent observations.

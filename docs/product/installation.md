@@ -2,7 +2,7 @@
 
 [简体中文](installation.zh-CN.md)
 
-Core 0.1.0 provides explicit Rust and resumable Python minute runners. Install the SDK 0.3.0 wheel
+Core 0.2.0 provides explicit Rust and resumable Python minute runners. Install the SDK 0.3.0 wheel
 and core wheel built from the same reviewed Engine revision into a Python 3.12 or
 3.13 environment (`>=3.12,<3.14`). Python 3.14 needs a separate numerical
 baseline upgrade: pandas 3.0.6 requires NumPy >=2.3.3 on that interpreter. The SDK itself still supports Python 3.11. No PyPI release is
@@ -12,7 +12,7 @@ required or implied; record exact source revisions and wheel SHA256 hashes.
 python -m venv "$ENV"
 "$ENV/bin/python" -m pip install --no-index --no-deps \
   "$WHEELS/quant_backtest_engine_client-0.3.0-py3-none-any.whl" \
-  "$WHEELS/quant_backtest_core-0.1.0-py3-none-any.whl"
+  "$WHEELS/quant_backtest_core-0.2.0-py3-none-any.whl"
 "$ENV/bin/quant-backtest" capabilities rust.nautilus.sessions
 ```
 
@@ -58,7 +58,7 @@ The `scenario` extra supports [market paths and stress](../backtest/market-paths
 `cost` supports [transaction cost evidence](../backtest/transaction-cost-evidence.md)
 and scoped fitting. These are independent leaf APIs. The `minute` extra now provides the direct
 [minute session and financial kernels](../backtest/minute-session.md). The minute extra enables `python.minute`; see [recovery and exact input codec](recovery.md).
-Other extras reserve dependency groups for later transfers. `python.daily` remains unavailable;
+Planning and microstructure extras enable their documented leaf APIs. The daily group reserves dependencies for a later transfer. `python.daily` remains unavailable;
 unknown keys are rejected.
 See [backend limits](backends.md) before choosing a manifest.
 
@@ -90,8 +90,7 @@ Use the `[planning]` optional core dependencies for pandas-based accounts and
 reservations. Replay/impact is standard-library-only; the optional native wheel
 still rejects impact estimation because per-fill evidence is unsupported. A supplied
 optimizer owns full research validation; Engine supplies no OSQP optimizer.
-Core stays 0.1.0 until Task 11 gate B, with no consumer switch or released 0.2.0
-claim. Old checkpoints retain their full pinned legacy environment.
+Core source is now 0.2.0; whole-provider review and integration still precede release availability and consumer cutover. Old checkpoints retain their full pinned legacy environment.
 
 ## Bounded planning
 
@@ -102,7 +101,12 @@ explicit `[planning]` extra with NumPy 2.2.6, pandas 3.0.6 and SciPy 1.18.1 for 
 continuous APIs. Finite inventory/oracle and sleeve attribution use only the
 standard library. Importing the planning package stays lazy. No Platform, Runtime,
 Torch or OSQP is required; generic optimizers and risk estimators remain external.
-Core stays 0.1.0 until Task 11; a source implementation is not a release or consumer cutover.
+Core source is 0.2.0; a source implementation is not a merged release or consumer cutover.
 See [impact planning](../concepts/impact-planning.md),
 [finite inventory](../concepts/discrete-inventory.md), and
 [sleeve allocation](../backtest/sleeve-allocation.md).
+
+The `[scenario]` extra also supports [independent typed-target composition](scenarios.md).
+Validate every extra separately with `project_tools/verify_installed_scenarios.py --profile EXTRA`,
+using independently installed wheels, and validate the union with `--profile all`.
+The `daily` extra does not enable `python.daily`.

@@ -144,3 +144,62 @@ def test_contingent_signed_cash_never_funds_a_blocked_actual_sale():
     )
     assert replanned.first_action == (0.0, 0.0)
     assert replanned.cash == (0.0,)
+
+
+def test_only_a_sale_blocked_b_remains_tradable_and_funded_control_buys():
+    """Supplementary whole-B cash gate; retain the original shared-zero-volume fixture."""
+    import pandas as pd
+    from test_minute_execution import bars
+    from test_minute_session import Policy
+
+    from quant_backtest_core.backtest.minute import MinuteExecutionConfig
+    from quant_backtest_core.backtest.minute_session import MinuteSession
+
+    results = []
+    for initial_cash in (100, 200):
+        # Both accounts first own 10 A; only the control retains CNY 100 cash.
+        weights = ((100 / initial_cash, 0), (0, 100 / initial_cash))
+        targets = pd.DataFrame(
+            [
+                {
+                    "decision_time": pd.Timestamp(day + " 09:29", tz="Asia/Shanghai"),
+                    "entry_time": pd.Timestamp(day + " 09:30", tz="Asia/Shanghai"),
+                    "symbol": symbol,
+                    "weight": weight,
+                }
+                for day, group in zip(("2026-01-05", "2026-01-06"), weights, strict=True)
+                for symbol, weight in zip(("AAA", "BBB"), group, strict=True)
+            ]
+        )
+        frames = []
+        for day in ("2026-01-05", "2026-01-06"):
+            for symbol in ("AAA", "BBB"):
+                frame = bars((day + " 09:29", day + " 09:32"), price=10, volume=1000)
+                frame["symbol"] = symbol
+                if day == "2026-01-06" and symbol == "AAA":
+                    frame["tradable"] = False
+                frames.append(frame)
+        market = pd.concat(frames, ignore_index=True)
+        active_b = market[
+            (market.symbol == "BBB") & (market.time.dt.date.astype(str) == "2026-01-06")
+        ]
+        assert active_b.tradable.all() and (active_b.volume == 1000).all()
+        result = MinuteSession(
+            targets,
+            market,
+            MinuteExecutionConfig(initial_cash, 1, 0, 0, lot_size=1),
+            policy=Policy(),
+        ).run()
+        results.append(result)
+    blocked, funded = results
+    assert blocked.fills.symbol.tolist() == ["AAA"]
+    assert blocked.fills.quantity.tolist() == [10]
+    assert blocked.daily.iloc[-1].cash == 0
+    assert blocked.daily.iloc[-1].positions_value == 100
+    assert not ((blocked.fills.symbol == "BBB") & (blocked.fills.side == "buy")).any()
+    assert funded.fills.symbol.tolist() == ["AAA", "BBB"]
+    assert funded.fills.side.tolist() == ["buy", "buy"]
+    assert funded.fills.quantity.tolist() == [10, 10]
+    assert funded.daily.iloc[-1].cash == 0
+    assert funded.daily.iloc[-1].positions_value == 200
+    assert not (funded.fills.side == "sell").any()

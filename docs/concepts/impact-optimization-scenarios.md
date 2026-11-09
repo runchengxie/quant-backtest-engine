@@ -99,7 +99,7 @@ python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/core/tests/test_d
 The retained general risk optimizer test belongs to [pinned Platform tests](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/tests/test_impact_optimization_scenarios.py).
 All fixtures are synthetic. The two pure helpers themselves use the standard library;
 planning's numerical extra supports the separate continuous interfaces. This is
-unreleased provider B code, Core 0.1.0 until Task 11; consumer migration is separate.
+unreleased provider B code, Core source 0.2.0; whole-provider review, integration and consumer migration remain separate.
 Adapted from the pinned Platform Apache-2.0 source above. The Chinese counterpart is
 new; there was no historical Chinese scenario route.
 

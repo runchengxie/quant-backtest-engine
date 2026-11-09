@@ -2,7 +2,7 @@
 
 [English](capital-and-reconciliation.md)
 
-已在提供方 B 工作树实现，须等 B 门合并后才发布。迁移阶段 Core 仍为 0.1.0。[原始固定版本文档](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/backtest/capital-and-reconciliation.md)。
+已在提供方 B 工作树实现，须等 B 门合并后才发布。Core 当前源码为 0.2.0；合并发布和消费者切换仍是独立步骤。[原始固定版本文档](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/backtest/capital-and-reconciliation.md)。
 
 `quant_backtest_core.evidence.capital_returns` 从完整资本观测链接收益。输入初始净值、UTC 纳秒起点，以及严格递增时钟的 `CapitalObservation`：外部流入前净值、有符号外部流量、流入后净值。前后必须在浮点 ULP 精度内满足现金恒等式。净值须保持为正；全额赎回或破产前停止，不为重启账户虚构份额。
 

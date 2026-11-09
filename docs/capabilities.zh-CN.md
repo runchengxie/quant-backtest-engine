@@ -1,5 +1,7 @@
 # 能力与兼容性矩阵
 
+[English](capabilities.md)
+
 当前状态为实验阶段，包版本 0.2.0，上游 NautilusTrader 固定为 0.66.0。
 已验证的运行环境为 Linux。下表的支持表示合成案例通过测试，不代表完整交易所规则或真实数据验证。
 
@@ -50,7 +52,7 @@ SHA-256 用于检查二进制文件的字节是否一致。部署时还要记录
 
 ## 可选 Python 叶子 API
 
-Core 0.1.0 包含[合成路径、压力与冲击](backtest/market-paths.zh-CN.md)、
+Core 0.2.0 包含[合成路径、压力与冲击](backtest/market-paths.zh-CN.md)、
 [中立成本证据](backtest/cost-evidence.zh-CN.md)、
 [交易审计与适用范围拟合](backtest/transaction-cost-evidence.zh-CN.md)，以及
 [成交与资金流证据](backtest/execution-integrity.zh-CN.md)。这些能力属于可选 Python 库，
@@ -65,4 +67,13 @@ Core 0.1.0 包含[合成路径、压力与冲击](backtest/market-paths.zh-CN.md
 
 ## Task 9 执行归属（未发布）
 
-提供方 B 已实现[纸面账户](backtest/paper-account.zh-CN.md)、[账户事件与完整检查点](contracts/paper-account-events.zh-CN.md)、[外部对账](backtest/capital-and-reconciliation.zh-CN.md)、[中立待成交预留](contracts/pending-allocation.zh-CN.md)和[执行冲击估计](microstructure/impact-estimation.zh-CN.md)。pandas 账户和预留使用 core 的 `[planning]` 可选依赖；回放/冲击只需标准库。可选原生 wheel 尚无逐笔证据，仍拒绝冲击估计。调用者优化器负责完整研究验证，Engine 不提供 OSQP 优化器。Core 在 Task 11 的 B 门前仍为 0.1.0，不切换消费者或宣称已发布 0.2.0；旧检查点保留完整固定旧环境。
+提供方 B 已实现[纸面账户](backtest/paper-account.zh-CN.md)、[账户事件与完整检查点](contracts/paper-account-events.zh-CN.md)、[外部对账](backtest/capital-and-reconciliation.zh-CN.md)、[中立待成交预留](contracts/pending-allocation.zh-CN.md)和[执行冲击估计](microstructure/impact-estimation.zh-CN.md)。pandas 账户和预留使用 core 的 `[planning]` 可选依赖；回放/冲击只需标准库。可选原生 wheel 尚无逐笔证据，仍拒绝冲击估计。调用者优化器负责完整研究验证，Engine 不提供 OSQP 优化器。Core 当前源码为 0.2.0；整体审查、合并和精确产物验证先于消费者切换；旧检查点保留完整固定旧环境。
+
+## 独立场景组合
+
+`[scenario]` 中的 `run_scenarios` 仅支持 `python.minute` / `scenario-minute-targets.v1`
+组合配置：消费外部实际目标，每次使用独立账户、策略和冲击实例，保留精确输入、目标与投影收据。
+risk 必须为 null，策略必须是已有的空配置目标权重身份。可用性是声明的合成收盘约定，并非观测到达时间。
+原始 minute 与 Rust 守卫保持不变，任一后端都不继承 Python 叶子能力的并集。
+见[完整后端矩阵](product/backends.zh-CN.md)、[场景示例](product/scenarios.zh-CN.md)和
+[规划示例](concepts/impact-planning.zh-CN.md)。

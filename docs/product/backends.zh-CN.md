@@ -2,7 +2,7 @@
 
 [English](backends.md)
 
-Core 0.1.0 注册 `rust.nautilus.sessions` 和 `python.minute`。
+Core 0.2.0 注册 `rust.nautilus.sessions` 和 `python.minute`。
 分钟输入、能力和可恢复接口见[财务恢复](recovery.zh-CN.md)。下文说明 Rust 后端。
 它只调用一次现有 `EngineClient.run_sessions`。NautilusTrader 0.66.0
 负责成交与会计，不增加 Python 现金账本，也不自动切换后端。
@@ -78,3 +78,16 @@ SDK 版本来自已安装包元数据。`required-*` 依赖键描述要求的原
 准确的发布与源码回执，以及后续 Runtime 的完整依赖闭包，仍需分别记录。
 
 确定性订单簿撮合与回放已在提供方 B 源码实现，尚待合并发布。[订单簿 Python 与可选 PyO3 模式](../development/microstructure-rust.zh-CN.md).
+
+## B 阶段能力矩阵
+
+| 入口 | 支持范围 | 明确限制 |
+| --- | --- | --- |
+| `run_manifest`、`rust.nautilus.sessions` | 原生会话账本、配置的 T+1、买入整手和行情许可/容量 | 不支持场景、forecast/risk、Python 策略或检查点 |
+| `run_manifest` / `open_session`、`python.minute` | 声明的分钟能力与精确恢复 | 原始入口拒绝 scenario/forecast/risk 转换 |
+| `run_scenarios`、`scenario-minute-targets.v1` | 外部目标投影到各自独立的分钟所有者 | 单个可用性/决策切点、null risk、精确目标权重策略；回调受信任，可用性为合成声明 |
+| 规划/费用/市场路径/微观结构叶子 API | 各自文档列明的范围 | 叶子能力并集不属于任一原始后端 |
+| `python.daily` | 不可用 | 安装 `[daily]` 不等于实现后端 |
+
+见[场景合同与精确收据](scenarios.zh-CN.md)，包括声明谱系和隐藏状态限制。
+Core 0.2.0 源码版本本身不代表已经合并发布。
