@@ -41,8 +41,10 @@ before using it for a new scenario.
 The engine runs a backtest. [quant-backtest-runtime](https://github.com/runchengxie/quant-backtest-runtime)
 adds queues, job status, cancellation, resource limits and saved results.
 [quant-platform](https://github.com/runchengxie/quant-platform) retains the Python
-backends used for compatibility and unsupported scenarios. You can use this engine
-without either repository.
+backends currently used for compatibility and unsupported scenarios. The approved
+[reusable product migration](docs/migration/reusable-product.md) will transfer optional
+Python financial mechanisms in gated stages; no core package is available yet.
+You can use this engine without either repository.
 
 ## Next steps
 

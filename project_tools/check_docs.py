@@ -63,6 +63,7 @@ def check(site: Path) -> None:
         "sizing",
         "sessions",
         "migration/corporate-action-conformance",
+        "migration/reusable-product",
     ]:
         for chinese in [False, True]:
             suffix = ".zh-CN" if chinese else ""

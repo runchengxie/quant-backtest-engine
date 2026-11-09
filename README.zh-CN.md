@@ -35,7 +35,8 @@ cargo run --locked -- run fixtures/roundtrip.json
 
 引擎负责运行回测。[quant-backtest-runtime](https://github.com/runchengxie/quant-backtest-runtime)
 增加队列、任务状态、取消、资源限制和结果保存。
-[quant-platform](https://github.com/runchengxie/quant-platform)保留 Python 后端，作为兼容对照并处理暂不支持的场景。
+[quant-platform](https://github.com/runchengxie/quant-platform)目前保留 Python 后端，作为兼容对照并处理暂不支持的场景。
+已批准的[可复用产品迁移](docs/migration/reusable-product.zh-CN.md)将分阶段迁入可选 Python 财务机制；core 包尚不可用。
 本引擎可以独立使用，不需要安装这两个项目。
 
 ## 接下来
