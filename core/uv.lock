@@ -263,6 +263,7 @@ cost = [
 daily = [
     { name = "numpy" },
     { name = "pandas" },
+    { name = "tzdata" },
 ]
 microstructure = [
     { name = "numpy" },
@@ -305,6 +306,7 @@ requires-dist = [
     { name = "scipy", marker = "extra == 'all'", specifier = ">=1.14" },
     { name = "scipy", marker = "extra == 'cost'", specifier = ">=1.14" },
     { name = "scipy", marker = "extra == 'planning'", specifier = ">=1.14" },
+    { name = "tzdata", marker = "extra == 'daily'", specifier = ">=2025.2" },
 ]
 provides-extras = ["minute", "scenario", "planning", "cost", "microstructure", "daily", "all"]
 

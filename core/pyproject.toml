@@ -20,7 +20,8 @@ scenario = ["pandas>=3.0.5,<3.1"]
 planning = ["numpy>=1.23", "pandas>=3.0.5,<3.1", "scipy>=1.14"]
 cost = ["pandas>=3.0.5,<3.1", "numpy>=1.23", "scipy>=1.14"]
 microstructure = ["pandas>=3.0.5,<3.1", "numpy>=1.23"]
-daily = ["pandas>=3.0.5,<3.1", "numpy>=1.23"]
+# Daily leaf contracts require installed IANA timezone data; executable profile is pending.
+daily = ["pandas>=3.0.5,<3.1", "numpy>=1.23", "tzdata>=2025.2"]
 all = ["pandas>=3.0.5,<3.1", "numpy>=1.23", "scipy>=1.14"]
 
 [dependency-groups]
@@ -162,3 +163,8 @@ disable_error_code = ["import-untyped", "operator"]
 [[tool.mypy.overrides]]
 module = "quant_backtest_core.planning.sleeve_allocation"
 disable_error_code = ["var-annotated"]
+
+# Transferred pure config and daily pandas contracts retain body checking.
+[[tool.mypy.overrides]]
+module = ["quant_backtest_core.daily.contracts", "quant_backtest_core.daily.summary"]
+disable_error_code = ["import-untyped"]

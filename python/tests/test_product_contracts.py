@@ -29,6 +29,17 @@ def receipt():
 
 
 class ProductContractsTests(unittest.TestCase):
+    def test_daily_seam_declared_but_not_admitted_by_advertising_descriptor(self):
+        from quant_backtest_engine.product.capabilities import PENDING_INPUT_SCHEMAS, VALIDATED_INPUT_SCHEMAS
+        self.assertIn("daily-input.v1", PENDING_INPUT_SCHEMAS)
+        self.assertNotIn("daily-input.v1", VALIDATED_INPUT_SCHEMAS)
+        # Construct a syntactically valid future envelope; descriptor alone cannot admit it.
+        manifest = replace(parse_manifest(self.wire()), input_schema="daily-input.v1")
+        descriptor = self.descriptor(input_schemas=("daily-input.v1",))
+        with self.assertRaisesRegex(ValueError, "lacks SDK profile validation"):
+            require_capabilities(manifest, descriptor)
+
+
     def wire(self):
         return json.loads(FIXTURE.read_text())
 

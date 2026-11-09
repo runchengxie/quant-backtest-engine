@@ -1,6 +1,9 @@
 """Capability checks compare one explicit provider, never a backend union."""
 from .types import BackendDescriptor, ProductManifest
 
+# Task 13 declares leaf metadata only; Task 14 must implement SDK admission.
+PENDING_INPUT_SCHEMAS = frozenset({"daily-input.v1"})
+
 VALIDATED_INPUT_SCHEMAS = frozenset({"rust-session.v1", "minute-input.v1"})
 
 

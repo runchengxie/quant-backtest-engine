@@ -102,3 +102,18 @@ Arithmetic, solver, rounding, statuses and original economic assertions retained
 - `tests/test_discrete_inventory.py`; original SHA256 `5f45ba0cd9aeb845c274d0728492a3566b2ce097c222e1894ac1e6d896b4cf01`; complete suite transferred.
 - `tests/test_sleeve_allocation.py`; original SHA256 `ec6025a7ca294861a23427f0a89826f16e83d206e302f51ee7c8a741f3086989`; complete suite transferred.
 - `tests/test_impact_optimization_scenarios.py`; original SHA256 `b5a970b71f410d735ee2a5b53f908d1442317a84f3519f5969866f49890fc586`; five finite-oracle functions only; permanent checks already owned and general risk optimizer remains Platform.
+
+## Task 13 daily metadata and pure configuration
+
+Copyright 2026 runchengxie. Apache-2.0 source at quant-platform
+`7a618bddd8fdeee5dbe37fe5b54a9698e0de5355`; license retained above.
+
+- `packages/platform/src/quant_platform/_portfolio/execution_sim/config.py`
+  is transferred to `daily/execution_sim/config.py` unchanged except provenance comments.
+  Its exact original SHA256 is recorded in the destination header.
+- `packages/platform/src/quant_platform/_portfolio/execution_calendar.py`
+  supplies inclusive filtering and <=0/positive shift arithmetic. The new
+  `daily/calendar.py` uses only explicit sessions, without provider/future fallbacks.
+- `_portfolio/_metrics_period.py` supplies the product-minus-one return convention.
+  `daily/summary.py` requires complete explicit valuation/zero-flow evidence and
+  preserves unknown rows; broad research statistics remain Platform.
