@@ -8553,6 +8553,50 @@
         "core/src/quant_backtest_core/microstructure/correctness.py"
       ],
       "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+    },
+    {
+      "symbol": "quant_backtest_engine.product",
+      "old_module": "quant_backtest_engine",
+      "new_module": "quant_backtest_engine.product",
+      "provider_version": "0.3.0",
+      "source_revision": null,
+      "status": "planned",
+      "wave": "M1",
+      "gate": "A",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/python-client/",
+          "anchors": []
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/python-client.zh-CN/",
+          "anchors": []
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/product/contracts/",
+          "anchors": []
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/product/contracts.zh-CN/",
+          "anchors": []
+        }
+      ],
+      "compatibility_path": "quant_backtest_engine",
+      "removal_gate": "retain",
+      "acceptance_test": "python -m unittest discover -s python/tests -p test_product_contracts.py",
+      "provider_sources": [
+        "python/src/quant_backtest_engine/product/__init__.py",
+        "python/src/quant_backtest_engine/product/types.py",
+        "python/src/quant_backtest_engine/product/validation.py",
+        "python/src/quant_backtest_engine/product/capabilities.py"
+      ],
+      "anchor_policy": "Additive SDK contracts; retain native client route and API. Mark implemented only after independent review records a real source commit."
     }
   ],
   "public_import_namespaces": [

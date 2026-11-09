@@ -1,0 +1,8 @@
+{
+  "schema": "synthetic-calendar.v1",
+  "timezone": "Asia/Shanghai",
+  "sessions": [
+    "2025-01-02",
+    "2025-01-03"
+  ]
+}

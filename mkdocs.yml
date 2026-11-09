@@ -62,6 +62,7 @@ nav:
       - Session ledger and rules: sessions.md
       - Reusable product ownership: migration/reusable-product.md
       - Migration limits: migration/corporate-action-conformance.md
+      - Product contracts: product/contracts.md
       - Python client: python-client.md
       - Runtime integration: runtime.md
       - Development: development.md
@@ -80,6 +81,7 @@ nav:
       - 逐日账本与规则: sessions.zh-CN.md
       - 可复用产品归属: migration/reusable-product.zh-CN.md
       - 迁移边界: migration/corporate-action-conformance.zh-CN.md
+      - 产品契约: product/contracts.zh-CN.md
       - Python 客户端: python-client.zh-CN.md
       - Runtime 接入: runtime.zh-CN.md
       - 开发与验证: development.zh-CN.md

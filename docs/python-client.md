@@ -1,5 +1,9 @@
 # Python wire client
 
+[简体中文](python-client.zh-CN.md)
+
+SDK 0.3.0 adds standard-library product DTOs, strict JSON codecs and explicit capability checks; see [Product contracts](product/contracts.md). Native client methods and integer clocks remain unchanged. This addition does not provide a financial execution backend.
+
 The `quant-backtest-engine-client` distribution provides a standard-library-only Python 3.11+ client. It does not require quant-platform, pandas, NumPy, or the runtime service. Install from an engine source checkout.
 
 ```sh
@@ -39,6 +43,5 @@ The SDK owns transport and wire validation. Consumers own conversion to their ta
 
 Run synthetic SDK tests using an installed wheel from outside the checkout. Set `QUANT_ENGINE_BINARY` to additionally run the release-binary integration test. CI builds a wheel, installs it without dependencies in a clean environment, runs the suite, and then exercises the Rust-built CLI.
 
-[简体中文](python-client.zh-CN.md)
 
 CNY session validation requires the host timezone database to include `Asia/Shanghai` (normally supplied by system tzdata). Minimal containers and Windows hosts must provide that database. Missing zones raise `EngineProtocolError` with an installation hint.

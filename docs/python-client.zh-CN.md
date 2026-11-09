@@ -1,5 +1,9 @@
 # Python 客户端
 
+[English](python-client.md)
+
+SDK 0.3.0 新增标准库产品 DTO、严格 JSON 编解码和显式能力检查，详见[产品契约](product/contracts.zh-CN.md)。原生客户端接口和整数时钟保持不变；此新增内容不提供财务执行后端。
+
 `quant-backtest-engine-client` 支持 Python 3.11 及以上版本，运行时只使用标准库，无需 quant-platform、pandas、NumPy 或 runtime 服务。在引擎源码目录运行下面的安装命令。
 
 ```sh
