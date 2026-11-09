@@ -212,9 +212,9 @@ provenance. Runtime v9 later needs stronger exact provider/dependency closure.
 | Explicit financial backend | Execution, accounting, loaded artifact validation and provider-specific semantics |
 | Consumer / optional runner | Trusted artifact roots, persistence and registered policy/backend selection |
 
-The [ownership registry](../migration/reusable-ownership.json) keeps this addition
-planned until a reviewed source revision is recorded. Existing migration rows
-remain planned. No core/Platform/Runtime import, matching engine or extra cash
+The [ownership registry](../migration/reusable-ownership.json) records the real provider A
+implementation commit. Release availability and consumer cutover remain separate;
+later migration cohorts remain planned. No core/Platform/Runtime import, matching engine or extra cash
 ledger is added by the SDK.
 
 

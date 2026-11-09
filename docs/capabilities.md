@@ -67,4 +67,4 @@ under review until the provider gate; release availability is tracked separately
 The optional library also provides the complete [minute session](backtest/minute-session.md)
 and [synchronous execution API](guides/minute-execution.md), with actions, valuation,
 capital flows, locks and delayed account visibility. This is a direct Python API;
-the product runner’s minute backend remains unavailable until its adapter transfer.
+the product runner exposes `python.minute` with [source-bound recovery](product/recovery.md).

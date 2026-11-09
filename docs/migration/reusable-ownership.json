@@ -4822,8 +4822,8 @@
       "old_module": "quant_platform.backtest.market_paths",
       "new_module": "quant_backtest_core.backtest.market_paths",
       "provider_version": "0.1.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "c76d4320f41be5b9c8581c6d892e26a2944fb810",
+      "status": "implemented",
       "wave": "M2",
       "gate": "A",
       "old_urls": [
@@ -4876,7 +4876,7 @@
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/market_paths.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover. Current provider A destination pages and anchors exist; shared hubs identify advanced scope still owned by Platform. Implemented records code presence, not release or consumer migration.",
       "leaf_documentation": [
         "docs/backtest/market-paths.md",
         "docs/backtest/market-paths.zh-CN.md"
@@ -4886,15 +4886,15 @@
         "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
         "license": "Apache-2.0"
       },
-      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
+      "implementation_note": "Provider A implementation is present at the recorded Engine commit with paired current-scope docs. Shared hubs preserve future-route promises and explicitly link advanced algorithms still in pinned Platform. Independent whole-provider review, merge/release availability and consumer cutover remain separate."
     },
     {
       "symbol": "quant_platform.backtest.stress",
       "old_module": "quant_platform.backtest.stress",
       "new_module": "quant_backtest_core.backtest.stress",
       "provider_version": "0.1.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "c76d4320f41be5b9c8581c6d892e26a2944fb810",
+      "status": "implemented",
       "wave": "M2",
       "gate": "A",
       "old_urls": [
@@ -4947,7 +4947,7 @@
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/stress.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover. Current provider A destination pages and anchors exist; shared hubs identify advanced scope still owned by Platform. Implemented records code presence, not release or consumer migration.",
       "leaf_documentation": [
         "docs/backtest/market-paths.md",
         "docs/backtest/market-paths.zh-CN.md"
@@ -4957,15 +4957,15 @@
         "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
         "license": "Apache-2.0"
       },
-      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
+      "implementation_note": "Provider A implementation is present at the recorded Engine commit with paired current-scope docs. Shared hubs preserve future-route promises and explicitly link advanced algorithms still in pinned Platform. Independent whole-provider review, merge/release availability and consumer cutover remain separate."
     },
     {
       "symbol": "quant_platform.backtest.costs",
       "old_module": "quant_platform.backtest.costs",
       "new_module": "quant_backtest_core.backtest.costs",
       "provider_version": "0.1.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "c76d4320f41be5b9c8581c6d892e26a2944fb810",
+      "status": "implemented",
       "wave": "M2",
       "gate": "A",
       "old_urls": [
@@ -5018,7 +5018,7 @@
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/costs.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover. Current provider A destination pages and anchors exist; shared hubs identify advanced scope still owned by Platform. Implemented records code presence, not release or consumer migration.",
       "leaf_documentation": [
         "docs/backtest/cost-evidence.md",
         "docs/backtest/cost-evidence.zh-CN.md"
@@ -5028,15 +5028,15 @@
         "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
         "license": "Apache-2.0"
       },
-      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
+      "implementation_note": "Provider A implementation is present at the recorded Engine commit with paired current-scope docs. Shared hubs preserve future-route promises and explicitly link advanced algorithms still in pinned Platform. Independent whole-provider review, merge/release availability and consumer cutover remain separate."
     },
     {
       "symbol": "quant_platform.backtest.impact",
       "old_module": "quant_platform.backtest.impact",
       "new_module": "quant_backtest_core.backtest.impact",
       "provider_version": "0.1.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "c76d4320f41be5b9c8581c6d892e26a2944fb810",
+      "status": "implemented",
       "wave": "M2",
       "gate": "A",
       "old_urls": [
@@ -5089,7 +5089,7 @@
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/impact.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover. Current provider A destination pages and anchors exist; shared hubs identify advanced scope still owned by Platform. Implemented records code presence, not release or consumer migration.",
       "leaf_documentation": [
         "docs/backtest/market-paths.md",
         "docs/backtest/market-paths.zh-CN.md"
@@ -5099,15 +5099,15 @@
         "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
         "license": "Apache-2.0"
       },
-      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
+      "implementation_note": "Provider A implementation is present at the recorded Engine commit with paired current-scope docs. Shared hubs preserve future-route promises and explicitly link advanced algorithms still in pinned Platform. Independent whole-provider review, merge/release availability and consumer cutover remain separate."
     },
     {
       "symbol": "quant_platform.backtest.impact_scenarios",
       "old_module": "quant_platform.backtest.impact_scenarios",
       "new_module": "quant_backtest_core.backtest.impact_scenarios",
       "provider_version": "0.1.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "c76d4320f41be5b9c8581c6d892e26a2944fb810",
+      "status": "implemented",
       "wave": "M2",
       "gate": "A",
       "old_urls": [
@@ -5160,7 +5160,7 @@
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/impact_scenarios.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover. Current provider A destination pages and anchors exist; shared hubs identify advanced scope still owned by Platform. Implemented records code presence, not release or consumer migration.",
       "leaf_documentation": [
         "docs/backtest/market-paths.md",
         "docs/backtest/market-paths.zh-CN.md"
@@ -5170,15 +5170,15 @@
         "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
         "license": "Apache-2.0"
       },
-      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
+      "implementation_note": "Provider A implementation is present at the recorded Engine commit with paired current-scope docs. Shared hubs preserve future-route promises and explicitly link advanced algorithms still in pinned Platform. Independent whole-provider review, merge/release availability and consumer cutover remain separate."
     },
     {
       "symbol": "quant_platform.analytics.execution_integrity",
       "old_module": "quant_platform.analytics.execution_integrity",
       "new_module": "quant_backtest_core.evidence.execution_integrity",
       "provider_version": "0.1.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "c76d4320f41be5b9c8581c6d892e26a2944fb810",
+      "status": "implemented",
       "wave": "M2",
       "gate": "A",
       "old_urls": [
@@ -5210,7 +5210,7 @@
       "provider_sources": [
         "core/src/quant_backtest_core/evidence/execution_integrity.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover. Current provider A destination pages and anchors exist; shared hubs identify advanced scope still owned by Platform. Implemented records code presence, not release or consumer migration.",
       "leaf_documentation": [
         "docs/backtest/execution-integrity.md",
         "docs/backtest/execution-integrity.zh-CN.md"
@@ -5220,15 +5220,15 @@
         "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
         "license": "Apache-2.0"
       },
-      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
+      "implementation_note": "Provider A implementation is present at the recorded Engine commit with paired current-scope docs. Shared hubs preserve future-route promises and explicitly link advanced algorithms still in pinned Platform. Independent whole-provider review, merge/release availability and consumer cutover remain separate."
     },
     {
       "symbol": "quant_platform.analytics.transaction_costs",
       "old_module": "quant_platform.analytics.transaction_costs",
       "new_module": "quant_backtest_core.evidence.transaction_costs",
       "provider_version": "0.1.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "c76d4320f41be5b9c8581c6d892e26a2944fb810",
+      "status": "implemented",
       "wave": "M2",
       "gate": "A",
       "old_urls": [
@@ -5281,7 +5281,7 @@
       "provider_sources": [
         "core/src/quant_backtest_core/evidence/transaction_costs.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover. Current provider A destination pages and anchors exist; shared hubs identify advanced scope still owned by Platform. Implemented records code presence, not release or consumer migration.",
       "leaf_documentation": [
         "docs/backtest/transaction-cost-evidence.md",
         "docs/backtest/transaction-cost-evidence.zh-CN.md"
@@ -5291,15 +5291,15 @@
         "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
         "license": "Apache-2.0"
       },
-      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
+      "implementation_note": "Provider A implementation is present at the recorded Engine commit with paired current-scope docs. Shared hubs preserve future-route promises and explicitly link advanced algorithms still in pinned Platform. Independent whole-provider review, merge/release availability and consumer cutover remain separate."
     },
     {
       "symbol": "quant_platform.analytics.cost_scope",
       "old_module": "quant_platform.analytics.cost_scope",
       "new_module": "quant_backtest_core.evidence.cost_scope",
       "provider_version": "0.1.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "c76d4320f41be5b9c8581c6d892e26a2944fb810",
+      "status": "implemented",
       "wave": "M2",
       "gate": "A",
       "old_urls": [
@@ -5331,7 +5331,7 @@
       "provider_sources": [
         "core/src/quant_backtest_core/evidence/cost_scope.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover. Current provider A destination pages and anchors exist; shared hubs identify advanced scope still owned by Platform. Implemented records code presence, not release or consumer migration.",
       "leaf_documentation": [
         "docs/backtest/transaction-cost-evidence.md",
         "docs/backtest/transaction-cost-evidence.zh-CN.md"
@@ -5341,15 +5341,15 @@
         "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
         "license": "Apache-2.0"
       },
-      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
+      "implementation_note": "Provider A implementation is present at the recorded Engine commit with paired current-scope docs. Shared hubs preserve future-route promises and explicitly link advanced algorithms still in pinned Platform. Independent whole-provider review, merge/release availability and consumer cutover remain separate."
     },
     {
       "symbol": "quant_platform.analytics.capital_returns",
       "old_module": "quant_platform.analytics.capital_returns",
       "new_module": "quant_backtest_core.evidence.capital_returns",
       "provider_version": "0.1.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "c76d4320f41be5b9c8581c6d892e26a2944fb810",
+      "status": "implemented",
       "wave": "M2",
       "gate": "A",
       "old_urls": [
@@ -5381,7 +5381,7 @@
       "provider_sources": [
         "core/src/quant_backtest_core/evidence/capital_returns.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover. Current provider A destination pages and anchors exist; shared hubs identify advanced scope still owned by Platform. Implemented records code presence, not release or consumer migration.",
       "leaf_documentation": [
         "docs/backtest/execution-integrity.md",
         "docs/backtest/execution-integrity.zh-CN.md"
@@ -5391,15 +5391,15 @@
         "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
         "license": "Apache-2.0"
       },
-      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
+      "implementation_note": "Provider A implementation is present at the recorded Engine commit with paired current-scope docs. Shared hubs preserve future-route promises and explicitly link advanced algorithms still in pinned Platform. Independent whole-provider review, merge/release availability and consumer cutover remain separate."
     },
     {
       "symbol": "quant_platform.backtest.minute",
       "old_module": "quant_platform.backtest.minute",
       "new_module": "quant_backtest_core.backtest.minute",
       "provider_version": "0.1.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "c76d4320f41be5b9c8581c6d892e26a2944fb810",
+      "status": "implemented",
       "wave": "M3",
       "gate": "A",
       "old_urls": [
@@ -5460,7 +5460,7 @@
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/minute.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover. Current provider A destination pages and anchors exist; shared hubs identify advanced scope still owned by Platform. Implemented records code presence, not release or consumer migration.",
       "leaf_documentation": [
         "docs/backtest/minute-session.md",
         "docs/backtest/minute-session.zh-CN.md"
@@ -5476,15 +5476,15 @@
           }
         ]
       },
-      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
+      "implementation_note": "Provider A implementation is present at the recorded Engine commit with paired current-scope docs. Shared hubs preserve future-route promises and explicitly link advanced algorithms still in pinned Platform. Independent whole-provider review, merge/release availability and consumer cutover remain separate."
     },
     {
       "symbol": "quant_platform.backtest.minute_session",
       "old_module": "quant_platform.backtest.minute_session",
       "new_module": "quant_backtest_core.backtest.minute_session",
       "provider_version": "0.1.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "c76d4320f41be5b9c8581c6d892e26a2944fb810",
+      "status": "implemented",
       "wave": "M3",
       "gate": "A",
       "old_urls": [
@@ -5545,7 +5545,7 @@
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/minute_session.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover. Current provider A destination pages and anchors exist; shared hubs identify advanced scope still owned by Platform. Implemented records code presence, not release or consumer migration.",
       "leaf_documentation": [
         "docs/backtest/minute-session.md",
         "docs/backtest/minute-session.zh-CN.md"
@@ -5561,15 +5561,15 @@
           }
         ]
       },
-      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
+      "implementation_note": "Provider A implementation is present at the recorded Engine commit with paired current-scope docs. Shared hubs preserve future-route promises and explicitly link advanced algorithms still in pinned Platform. Independent whole-provider review, merge/release availability and consumer cutover remain separate."
     },
     {
       "symbol": "quant_platform.backtest._minute_checkpoint",
       "old_module": "quant_platform.backtest._minute_checkpoint",
       "new_module": "quant_backtest_core.backtest._minute_checkpoint",
       "provider_version": "0.1.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "c76d4320f41be5b9c8581c6d892e26a2944fb810",
+      "status": "implemented",
       "wave": "M3",
       "gate": "A",
       "old_urls": [
@@ -5630,7 +5630,7 @@
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/_minute_checkpoint.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover. Current provider A destination pages and anchors exist; shared hubs identify advanced scope still owned by Platform. Implemented records code presence, not release or consumer migration.",
       "leaf_documentation": [
         "docs/backtest/minute-session.md",
         "docs/backtest/minute-session.zh-CN.md"
@@ -5646,15 +5646,15 @@
           }
         ]
       },
-      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
+      "implementation_note": "Provider A implementation is present at the recorded Engine commit with paired current-scope docs. Shared hubs preserve future-route promises and explicitly link advanced algorithms still in pinned Platform. Independent whole-provider review, merge/release availability and consumer cutover remain separate."
     },
     {
       "symbol": "quant_platform.backtest.quantity_locks",
       "old_module": "quant_platform.backtest.quantity_locks",
       "new_module": "quant_backtest_core.backtest.quantity_locks",
       "provider_version": "0.1.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "c76d4320f41be5b9c8581c6d892e26a2944fb810",
+      "status": "implemented",
       "wave": "M3",
       "gate": "A",
       "old_urls": [
@@ -5715,7 +5715,7 @@
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/quantity_locks.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover. Current provider A destination pages and anchors exist; shared hubs identify advanced scope still owned by Platform. Implemented records code presence, not release or consumer migration.",
       "leaf_documentation": [
         "docs/backtest/minute-session.md",
         "docs/backtest/minute-session.zh-CN.md"
@@ -5731,15 +5731,15 @@
           }
         ]
       },
-      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
+      "implementation_note": "Provider A implementation is present at the recorded Engine commit with paired current-scope docs. Shared hubs preserve future-route promises and explicitly link advanced algorithms still in pinned Platform. Independent whole-provider review, merge/release availability and consumer cutover remain separate."
     },
     {
       "symbol": "quant_platform._portfolio.minute_execution",
       "old_module": "quant_platform._portfolio.minute_execution",
       "new_module": "quant_backtest_core._minute.minute_execution",
       "provider_version": "0.1.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "c76d4320f41be5b9c8581c6d892e26a2944fb810",
+      "status": "implemented",
       "wave": "M3",
       "gate": "A",
       "old_urls": [
@@ -5788,7 +5788,7 @@
       "provider_sources": [
         "core/src/quant_backtest_core/_minute/minute_execution.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover. Current provider A destination pages and anchors exist; shared hubs identify advanced scope still owned by Platform. Implemented records code presence, not release or consumer migration.",
       "leaf_documentation": [
         "docs/guides/minute-execution.md",
         "docs/guides/minute-execution.zh-CN.md"
@@ -5804,15 +5804,15 @@
           }
         ]
       },
-      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
+      "implementation_note": "Provider A implementation is present at the recorded Engine commit with paired current-scope docs. Shared hubs preserve future-route promises and explicitly link advanced algorithms still in pinned Platform. Independent whole-provider review, merge/release availability and consumer cutover remain separate."
     },
     {
       "symbol": "quant_platform._portfolio._minute_state",
       "old_module": "quant_platform._portfolio._minute_state",
       "new_module": "quant_backtest_core._minute._minute_state",
       "provider_version": "0.1.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "c76d4320f41be5b9c8581c6d892e26a2944fb810",
+      "status": "implemented",
       "wave": "M3",
       "gate": "A",
       "old_urls": [
@@ -5861,7 +5861,7 @@
       "provider_sources": [
         "core/src/quant_backtest_core/_minute/_minute_state.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover. Current provider A destination pages and anchors exist; shared hubs identify advanced scope still owned by Platform. Implemented records code presence, not release or consumer migration.",
       "leaf_documentation": [
         "docs/guides/minute-execution.md",
         "docs/guides/minute-execution.zh-CN.md"
@@ -5877,15 +5877,15 @@
           }
         ]
       },
-      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
+      "implementation_note": "Provider A implementation is present at the recorded Engine commit with paired current-scope docs. Shared hubs preserve future-route promises and explicitly link advanced algorithms still in pinned Platform. Independent whole-provider review, merge/release availability and consumer cutover remain separate."
     },
     {
       "symbol": "quant_platform._portfolio._minute_validation",
       "old_module": "quant_platform._portfolio._minute_validation",
       "new_module": "quant_backtest_core._minute._minute_validation",
       "provider_version": "0.1.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "c76d4320f41be5b9c8581c6d892e26a2944fb810",
+      "status": "implemented",
       "wave": "M3",
       "gate": "A",
       "old_urls": [
@@ -5934,7 +5934,7 @@
       "provider_sources": [
         "core/src/quant_backtest_core/_minute/_minute_validation.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover. Current provider A destination pages and anchors exist; shared hubs identify advanced scope still owned by Platform. Implemented records code presence, not release or consumer migration.",
       "leaf_documentation": [
         "docs/guides/minute-execution.md",
         "docs/guides/minute-execution.zh-CN.md"
@@ -5950,15 +5950,15 @@
           }
         ]
       },
-      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
+      "implementation_note": "Provider A implementation is present at the recorded Engine commit with paired current-scope docs. Shared hubs preserve future-route promises and explicitly link advanced algorithms still in pinned Platform. Independent whole-provider review, merge/release availability and consumer cutover remain separate."
     },
     {
       "symbol": "quant_platform._portfolio.capital_flows",
       "old_module": "quant_platform._portfolio.capital_flows",
       "new_module": "quant_backtest_core._minute.capital_flows",
       "provider_version": "0.1.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "c76d4320f41be5b9c8581c6d892e26a2944fb810",
+      "status": "implemented",
       "wave": "M3",
       "gate": "A",
       "old_urls": [
@@ -6007,7 +6007,7 @@
       "provider_sources": [
         "core/src/quant_backtest_core/_minute/capital_flows.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover. Current provider A destination pages and anchors exist; shared hubs identify advanced scope still owned by Platform. Implemented records code presence, not release or consumer migration.",
       "leaf_documentation": [
         "docs/guides/minute-execution.md",
         "docs/guides/minute-execution.zh-CN.md"
@@ -6023,15 +6023,15 @@
           }
         ]
       },
-      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
+      "implementation_note": "Provider A implementation is present at the recorded Engine commit with paired current-scope docs. Shared hubs preserve future-route promises and explicitly link advanced algorithms still in pinned Platform. Independent whole-provider review, merge/release availability and consumer cutover remain separate."
     },
     {
       "symbol": "quant_platform._portfolio.corporate_actions",
       "old_module": "quant_platform._portfolio.corporate_actions",
       "new_module": "quant_backtest_core._minute.corporate_actions",
       "provider_version": "0.1.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "c76d4320f41be5b9c8581c6d892e26a2944fb810",
+      "status": "implemented",
       "wave": "M3",
       "gate": "A",
       "old_urls": [
@@ -6080,7 +6080,7 @@
       "provider_sources": [
         "core/src/quant_backtest_core/_minute/corporate_actions.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover. Current provider A destination pages and anchors exist; shared hubs identify advanced scope still owned by Platform. Implemented records code presence, not release or consumer migration.",
       "leaf_documentation": [
         "docs/guides/minute-execution.md",
         "docs/guides/minute-execution.zh-CN.md"
@@ -6096,15 +6096,15 @@
           }
         ]
       },
-      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
+      "implementation_note": "Provider A implementation is present at the recorded Engine commit with paired current-scope docs. Shared hubs preserve future-route promises and explicitly link advanced algorithms still in pinned Platform. Independent whole-provider review, merge/release availability and consumer cutover remain separate."
     },
     {
       "symbol": "quant_platform._portfolio.valuation_events",
       "old_module": "quant_platform._portfolio.valuation_events",
       "new_module": "quant_backtest_core._minute.valuation_events",
       "provider_version": "0.1.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "c76d4320f41be5b9c8581c6d892e26a2944fb810",
+      "status": "implemented",
       "wave": "M3",
       "gate": "A",
       "old_urls": [
@@ -6153,7 +6153,7 @@
       "provider_sources": [
         "core/src/quant_backtest_core/_minute/valuation_events.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover. Current provider A destination pages and anchors exist; shared hubs identify advanced scope still owned by Platform. Implemented records code presence, not release or consumer migration.",
       "leaf_documentation": [
         "docs/guides/minute-execution.md",
         "docs/guides/minute-execution.zh-CN.md"
@@ -6169,7 +6169,7 @@
           }
         ]
       },
-      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
+      "implementation_note": "Provider A implementation is present at the recorded Engine commit with paired current-scope docs. Shared hubs preserve future-route promises and explicitly link advanced algorithms still in pinned Platform. Independent whole-provider review, merge/release availability and consumer cutover remain separate."
     },
     {
       "symbol": "quant_platform.backtest.paper_account",
@@ -8809,8 +8809,8 @@
       "old_module": "quant_backtest_engine",
       "new_module": "quant_backtest_engine.product",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "c76d4320f41be5b9c8581c6d892e26a2944fb810",
+      "status": "implemented",
       "wave": "M1",
       "gate": "A",
       "old_urls": [
@@ -8847,16 +8847,16 @@
         "python/src/quant_backtest_engine/product/capabilities.py",
         "python/src/quant_backtest_engine/product/minute.py"
       ],
-      "anchor_policy": "Additive SDK contracts; retain native client route and API. Mark implemented only after independent review records a real source commit.",
-      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover. Current provider A destination pages and anchors exist; shared hubs identify advanced scope still owned by Platform. Implemented records code presence, not release or consumer migration.",
+      "implementation_note": "Provider A implementation is present at the recorded Engine commit with paired current-scope docs. Shared hubs preserve future-route promises and explicitly link advanced algorithms still in pinned Platform. Independent whole-provider review, merge/release availability and consumer cutover remain separate."
     },
     {
       "symbol": "quant_backtest_core.runner",
       "old_module": "quant_backtest_engine",
       "new_module": "quant_backtest_core.runner",
       "provider_version": "0.1.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "c76d4320f41be5b9c8581c6d892e26a2944fb810",
+      "status": "implemented",
       "wave": "M1",
       "gate": "A",
       "old_urls": [
@@ -8898,8 +8898,8 @@
         "core/src/quant_backtest_core/sessions/protocol.py",
         "core/src/quant_backtest_core/sessions/results.py"
       ],
-      "anchor_policy": "Additive optional runner retains native sessions documentation and API. Mark implemented after independent review records its real source commit; release availability is separate.",
-      "implementation_note": "Provider A code/tests and paired current-scope documentation are present. Shared hubs explicitly distinguish current leaf APIs from advanced Platform algorithms. Real committed source identity is recorded after the code commit; release and consumer cutover require separate controller review.",
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover. Current provider A destination pages and anchors exist; shared hubs identify advanced scope still owned by Platform. Implemented records code presence, not release or consumer migration.",
+      "implementation_note": "Provider A implementation is present at the recorded Engine commit with paired current-scope docs. Shared hubs preserve future-route promises and explicitly link advanced algorithms still in pinned Platform. Independent whole-provider review, merge/release availability and consumer cutover remain separate.",
       "leaf_documentation": [
         "docs/product/recovery.md",
         "docs/product/recovery.zh-CN.md"
@@ -9060,5 +9060,15 @@
       },
       "retained_boundary": "Financial factory/normalization glue may become an Engine consumer only through additive provider binding; durable admission and operations remain Runtime. Existing v1-v8 identities and goldens remain unchanged."
     }
+  },
+  "provider_a_implementation": {
+    "source_revision": "c76d4320f41be5b9c8581c6d892e26a2944fb810",
+    "core_version": "0.1.0",
+    "sdk_version": "0.3.0",
+    "core_wheel_sha256": "a9e574ee605da4e53422c5be1496ea234721ab00ba0d1c99d231459b731f974c",
+    "sdk_wheel_sha256": "477098794aabfdfa7eca8a1b7ba4df4f5f7e6ef27399bbc2e6fb450b88f3b3ce",
+    "status": "local implementation; independent task and whole-provider review pending",
+    "scope": "Moved leaf primitives and complete minute owner/session wrapper only; daily, advanced planning, execution optimization and reconciliation cohorts remain planned.",
+    "release_availability": "Not published or merged by this metadata record; controller records merged release evidence separately."
   }
 }

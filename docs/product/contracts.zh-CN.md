@@ -200,8 +200,8 @@ source_sha256, dependencies, artifact_sha256`。
 | 显式财务后端 | 执行、记账、已加载文件校验和后端专属语义 |
 | 消费方或后续执行器 | 可信文件根目录、持久化及已注册策略/后端选择 |
 
-[归属注册表](../migration/reusable-ownership.json) 在记录已审查的源提交前，
-仍将这项新增标为 planned，其他迁移项也保持 planned。
+[归属注册表](../migration/reusable-ownership.json) 已记录提供方 A 实现的真实提交。
+发布可用性和消费者切换另行验证；后续迁移批次仍保持 planned。
 SDK 不新增 core、Platform 或 Runtime 导入，不新增撮合引擎或额外现金账本。
 
 

@@ -70,8 +70,7 @@ Omitting both columns preserves legacy behavior.
 Install `quant-backtest-core[minute]` explicitly. Core defines the financial types.
 Platform remains on its original provider until the complete type, `LinearImpact`
 and compatibility-alias cohort switches in the consumer wave. No Platform, Runtime
-or model-training dependency is imported. The product runner minute backend is
-not registered by this source transfer.
+or model-training dependency is imported. The product runner registers `python.minute`; see [financial recovery](../product/recovery.md).
 
 Run the repository’s synthetic CNY example against installed wheels:
 

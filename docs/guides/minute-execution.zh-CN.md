@@ -56,7 +56,7 @@ OHLC 无法确定高低价出现顺序，不能据此推断止损与限价触发
 
 此接口由 `quant-backtest-core[minute]` 显式提供，财务类型仅在 core 中定义。
 Platform 当前仍保留原提供方；其类型、`LinearImpact` 与兼容别名在后续消费者切换时整体迁移。
-不导入 Platform、Runtime 或模型训练依赖。此处尚未注册产品运行器的分钟后端。
+不导入 Platform、Runtime 或模型训练依赖。产品运行器现已注册 `python.minute`，见[财务恢复](../product/recovery.zh-CN.md)。
 
 从已安装 wheel 运行仓库中的合成 CNY 示例：
 
