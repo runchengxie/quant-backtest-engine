@@ -62,3 +62,7 @@ Core 0.1.0 包含[合成路径、压力与冲击](backtest/market-paths.zh-CN.md
 直接 Python 接口及产品运行器的 `python.minute` 均已提供，后者支持[来源绑定的恢复](product/recovery.zh-CN.md)。
 
 确定性订单簿撮合与回放已在提供方 B 源码实现，尚待合并发布。[订单簿 Python 与可选 PyO3 模式](development/microstructure-rust.zh-CN.md).
+
+## Task 9 执行归属（未发布）
+
+提供方 B 已实现[纸面账户](backtest/paper-account.zh-CN.md)、[账户事件与完整检查点](contracts/paper-account-events.zh-CN.md)、[外部对账](backtest/capital-and-reconciliation.zh-CN.md)、[中立待成交预留](contracts/pending-allocation.zh-CN.md)和[执行冲击估计](microstructure/impact-estimation.zh-CN.md)。pandas 账户和预留使用 core 的 `[planning]` 可选依赖；回放/冲击只需标准库。可选原生 wheel 尚无逐笔证据，仍拒绝冲击估计。调用者优化器负责完整研究验证，Engine 不提供 OSQP 优化器。Core 在 Task 11 的 B 门前仍为 0.1.0，不切换消费者或宣称已发布 0.2.0；旧检查点保留完整固定旧环境。

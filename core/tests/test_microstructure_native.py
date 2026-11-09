@@ -266,3 +266,14 @@ def test_duplicate_ids_retain_explicit_legacy_backend_difference():
         assert not engine.has_order("duplicate")
     assert python_engine.lob.best_bid() is None
     assert native_engine.lob.best_bid() == (100, 7)
+
+
+def test_native_impact_estimation_rejects_missing_fill_evidence():
+    _native()
+    from quant_backtest_core.microstructure.impact import ExecutionSchedule, ImpactEstimator
+
+    session = ReplaySession(MatchingEngine(backend="rust"), (100, 50), (101, 40))
+    with pytest.raises(NotImplementedError, match="per-fill execution evidence"):
+        ImpactEstimator(session).estimate(ExecutionSchedule(1, 10))
+    assert session.engine.lob.best_ask() == (101, 40)
+    assert len(session.ticks) == 1

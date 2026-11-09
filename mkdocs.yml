@@ -76,6 +76,11 @@ nav:
       - Minute execution: guides/minute-execution.md
       - LOB matching: microstructure/matching.md
       - LOB replay: microstructure/replay.md
+      - Execution impact: microstructure/impact-estimation.md
+      - Paper account: backtest/paper-account.md
+      - Account feedback: backtest/account-feedback.md
+      - Account event contract: contracts/paper-account-events.md
+      - Pending reservations: contracts/pending-allocation.md
       - Optional LOB Rust: development/microstructure-rust.md
       - Python client: python-client.md
       - Runtime integration: runtime.md
@@ -109,6 +114,11 @@ nav:
       - 分钟执行: guides/minute-execution.zh-CN.md
       - 订单簿撮合: microstructure/matching.zh-CN.md
       - 订单簿回放: microstructure/replay.zh-CN.md
+      - 执行冲击: microstructure/impact-estimation.zh-CN.md
+      - 纸面账户: backtest/paper-account.zh-CN.md
+      - 账户反馈: backtest/account-feedback.zh-CN.md
+      - 账户事件契约: contracts/paper-account-events.zh-CN.md
+      - 待成交预留: contracts/pending-allocation.zh-CN.md
       - 可选订单簿 Rust: development/microstructure-rust.zh-CN.md
       - Python 客户端: python-client.zh-CN.md
       - Runtime 接入: runtime.zh-CN.md

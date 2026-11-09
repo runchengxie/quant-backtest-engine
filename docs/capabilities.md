@@ -70,3 +70,17 @@ capital flows, locks and delayed account visibility. This is a direct Python API
 the product runner exposes `python.minute` with [source-bound recovery](product/recovery.md).
 
 Deterministic LOB matching/replay is implemented in provider B source, pending merged release. [LOB Python / optional PyO3 modes](development/microstructure-rust.md).
+
+## Task 9 execution ownership (unreleased)
+
+Provider B now implements [paper accounts](backtest/paper-account.md),
+[account events and full checkpoints](contracts/paper-account-events.md),
+[external reconciliation](backtest/capital-and-reconciliation.md),
+[neutral pending reservations](contracts/pending-allocation.md), and
+[execution-impact estimation](microstructure/impact-estimation.md).
+Use the `[planning]` optional core dependencies for pandas-based accounts and
+reservations. Replay/impact is standard-library-only; the optional native wheel
+still rejects impact estimation because per-fill evidence is unsupported. A supplied
+optimizer owns full research validation; Engine supplies no OSQP optimizer.
+Core stays 0.1.0 until Task 11 gate B, with no consumer switch or released 0.2.0
+claim. Old checkpoints retain their full pinned legacy environment.

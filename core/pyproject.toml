@@ -118,3 +118,23 @@ disable_error_code = ["import-untyped", "var-annotated"]
 [[tool.mypy.overrides]]
 module = "_microstructure_rs"
 ignore_missing_imports = true
+
+# Task 9 retains original untyped account/reservation signatures; bodies stay checked.
+[[tool.mypy.overrides]]
+module = [
+    "quant_backtest_core.backtest.paper_account",
+    "quant_backtest_core.backtest.account_events",
+    "quant_backtest_core.backtest.checkpoints",
+    "quant_backtest_core.backtest.reconciliation",
+    "quant_backtest_core.planning.pending_allocation",
+]
+disallow_untyped_defs = false
+
+[[tool.mypy.overrides]]
+module = [
+    "quant_backtest_core.backtest.paper_account",
+    "quant_backtest_core.backtest.account_events",
+    "quant_backtest_core.planning.pending_allocation",
+    "quant_backtest_core.planning.pending_protocol",
+]
+disable_error_code = ["import-untyped"]

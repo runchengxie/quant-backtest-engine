@@ -64,3 +64,22 @@ use the new namespace. Learned generators and training remain in Platform.
 - packages/microstructure/src/ticknet/simulator/ordering.py → core/src/quant_backtest_core/microstructure/ordering.py (SHA256 d5744eba37df981d3af9bd7fabc5dffb0d3afa095b2ca76eb109fe927f13db84)
 - packages/microstructure/src/ticknet/simulator/replay.py → core/src/quant_backtest_core/microstructure/replay.py (SHA256 10c4228a88dfca9d2962af4c7326bfc8cf2253866027da9ae3f787504694cc2b)
 - packages/microstructure/src/ticknet/simulator/correctness.py → core/src/quant_backtest_core/microstructure/correctness.py (SHA256 a738a674124f82390d40e15c438092edd8c3c70ca3bfaf08f2192da7668d9a3d)
+
+## Account feedback, reservations and execution impact (Task 9)
+
+Original source revision: 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355, Apache-2.0.
+The license above remains applicable. No original NOTICE file exists. Account
+and impact bodies are preserved; account/composite checkpoint schema identities
+change to 2 / execution-state.v2. Pending changes replace concrete research
+optimizer coupling with a structural caller-owned protocol and execution-only
+validation. No OSQP, generic optimization or learned-model code transfers.
+
+- packages/platform/src/quant_platform/backtest/paper_account.py → core/src/quant_backtest_core/backtest/paper_account.py (SHA256 244cb0e51d41aefb555adf106c3967ab731cac7f02911303bb460e5f0b7df4c9)
+- packages/platform/src/quant_platform/backtest/account_events.py → core/src/quant_backtest_core/backtest/account_events.py (SHA256 806730fe7f9905842731dbd8d6f18cfec136b7bef5c42739851e7802e3a3e399)
+- packages/platform/src/quant_platform/backtest/_account_event_types.py → core/src/quant_backtest_core/backtest/_account_event_types.py (SHA256 fdc4f4519bc900dcd08d5388d2f3d4ed3bdc5a42315079599f4e16f783093bf2)
+- packages/platform/src/quant_platform/backtest/checkpoints.py → core/src/quant_backtest_core/backtest/checkpoints.py (SHA256 f7ea03dd0d9e96e6348525bb9cc6c9f91eb0800fd65efa6a8b1da9553c424d2b)
+- packages/platform/src/quant_platform/backtest/reconciliation.py → core/src/quant_backtest_core/backtest/reconciliation.py (SHA256 0065757d0ca45de40836a787686daef413806689c00f49e21dd24280ddd038f8)
+- packages/platform/src/quant_platform/portfolio/pending_allocation.py → core/src/quant_backtest_core/planning/pending_allocation.py (SHA256 a3af30230f2b1d84681782d43faa5c2b061c4ec7941496bb164718843e8538a0)
+- packages/microstructure/src/ticknet/simulator/impact.py → core/src/quant_backtest_core/microstructure/impact.py (SHA256 afce487bad76d2db22e8520c56f9589aab3621be860bc3c5283d4fe150551fdd)
+
+Tests: original test_account_events.py, test_paper_account.py, test_capital_reconciliation.py, test_composite_checkpoint.py, test_pending_allocation.py; all eleven microstructure/test_impact.py cases, two test_replay_clock.py impact admission cases and test_rust_parity.py native impact rejection. Pending tests replace only research coupling with literal execution-only fixtures; original optimizer parity runs separately against its frozen environment.
