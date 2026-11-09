@@ -2,25 +2,34 @@
 
 [English](reusable-product.md)
 
-Engine 已获准逐步成为可独立安装的回测产品，并提供可选的 Python 财务实现。
-本页是 M0 归属记录：**Python 财务实现尚未迁入 Engine**。
-当前使用方式仍以[能力矩阵](../capabilities.zh-CN.md)和[安装说明](../quickstart.zh-CN.md)为准。
-登记表中的计划模块和文档地址表示未来目标，不代表已有可用的导入、命令、软件包或发布页面。
+当前源码已实现提供方 A：SDK 0.3.0 提供仅依赖标准库的产品契约；可选 core 0.1.0
+提供显式 Rust 适配器、已迁入的财务叶子 API，以及可独立恢复的 Python 分钟会话。
+请按[产品安装说明](../product/installation.zh-CN.md)、[后端范围](../product/backends.zh-CN.md)
+和[恢复示例](../product/recovery.zh-CN.md)使用确切的已审查源码和 wheel 身份。
 
-## 当前来源与未来软件包
+提供方 A 的集成与发布验证，以及 Platform/Runtime 消费者切换仍待完成。
+源码标为 implemented 不证明已形成合并后的发布版本、已发布到 PyPI 或已完成消费者迁移；
+登记表单独记录发布可用性。未来 planned 模块和 URL 仍是迁移承诺，不代表当前可用的导入或能力。
 
-| 组件 | 已观察的基线 | 获准的后续归属 |
+## 当前实现与待切换消费者
+
+| 组件 | 当前实现 | 发布与后续归属关卡 |
 | --- | --- | --- |
-| Engine Rust | 0.2.0，NautilusTrader 0.66.0 | 保持现有报价、逐日与命令行语义；成交和记账仍由上游负责 |
-| Engine 传输 SDK | `quant-backtest-engine-client` 0.2.0；导入 `quant_backtest_engine`；Python ≥3.11 | SDK 0.3.0 增加仅依赖标准库的产品契约；原命名空间仍属于该发行包 |
-| Platform | 0.0.1；Python ≥3.12 | 按完整依赖闭包迁出财务机制；研究、训练、因子风险和成果发布仍归 Platform |
-| 可选 Engine core | 尚未实现或发布 | `quant-backtest-core`，命名空间 `quant_backtest_core`；分别验证 Python 3.12/3.13；A/B/C 关卡版本为 0.1.0/0.2.0/0.3.0 |
-| Runtime | 0.1.0，现有 v1–v8 路径 | 可选的运行管理调用方；Engine 提供方合并后增加 v9/0.2.0 |
+| Engine Rust | 0.2.0，NautilusTrader 0.66.0；原生报价、会话与 CLI 语义不变 | Python 能力不扩展 Rust；成交与记账仍以上游为准 |
+| Engine SDK | `quant-backtest-engine-client` 0.3.0；`quant_backtest_engine`；Python ≥3.11；标准库产品契约 | 固定确切已审查源码及已验证 wheel；SDK 基础导入不依赖 core |
+| 可选 Engine core | `quant-backtest-core` 0.1.0；`quant_backtest_core`；Python 3.12/3.13；叶子 API 与可恢复分钟 owner | A 集成与发布验证待完成；B 的高级规划/撮合（0.2.0）及 C 的日频图（0.3.0）仍为计划 |
+| Platform | 保留既有 0.0.1 消费者路径 | A 切换待完成；研究、训练、因子风险与发布仍归 Platform；后续消费者 0.1.0/0.2.0/0.3.0 跟随提供方关卡 |
+| Runtime | 保留既有 0.1.0 及 v1–v8 路径 | 可选新增 v9/0.2.0 消费者须等待提供方合并及运行管理验收 |
 
-Core 基础包将依赖 SDK `>=0.3.0,<0.4`；仓库构建与调用方必须解析到确切的已合并
-VCS 修订或已验证 wheel 哈希。SDK 基础导入不得依赖 core，本地调用必须显式选择。
-Rust 保持 0.2.0；Python 的能力不自动属于 Rust。Platform 在对应关卡发布
-0.1.0、0.2.0、0.3.0。不要求发布到 PyPI。包版本不能替代源码、可执行文件、依赖、契约与检查点身份。
+Core 基础包依赖 SDK `>=0.3.0,<0.4`；仓库构建与消费者固定确切的已合并 VCS 修订
+或已验证 wheel 哈希。本地调用必须显式选择。不要求发布到 PyPI；包版本不能替代源码、
+可执行文件、依赖、契约和检查点身份。
+
+## 历史 M0 基线 — 2026-11-09
+
+M0 时，Engine Rust 为 0.2.0，SDK 为 0.2.0，Platform 为 0.0.1，Runtime 为 0.1.0。
+当时尚未迁入 Python 财务实现，可选 core 尚未实现或发布。这份注明日期的基线解释原始
+清单，不代表上文所述的当前提供方 A 实现状态。
 
 清点的源码修订为 Engine
 [`c65548a`](https://github.com/runchengxie/quant-backtest-engine/tree/c65548a4ee1e938125cce1edbcc282c760c4c8f2)、
@@ -28,12 +37,12 @@ Platform [`7a618bd`](https://github.com/runchengxie/quant-platform/tree/7a618bdd
 和 Runtime [`01ed4c3`](https://github.com/runchengxie/quant-backtest-runtime/tree/01ed4c34f955ef6cd39d13aa073b6d61b610d321)。
 设计 PR 20 已合并为
 [`c5cbb88`](https://github.com/runchengxie/quant-backtest-engine/commit/c5cbb885a6abb90b7cc6b41e111be71bd8b41069)。
-这些是源码观察记录，不是未来 core 或线上部署的认证。
+这些是历史源码观察记录，不是当前发布版本或线上部署的认证。
 
 ## 每次运行只有一个财务归属方
 
 每次运行只有一个财务归属方，不同场景使用独立账户和状态。
-Rust 继续使用 Nautilus 上游记账；可选 Python 提供方将负责迁入的财务状态。
+Rust 继续使用 Nautilus 上游记账；可选 Python 分钟提供方负责已经迁入的财务状态。
 完成后的 Engine 运行时不导入 Platform、Runtime 或私有研究代码。
 临时兼容提供方必须由调用方显式传入、登记移除关卡，不能通过独立运行验收。
 

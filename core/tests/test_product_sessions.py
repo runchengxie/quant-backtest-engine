@@ -24,12 +24,20 @@ def test_public_session_interface_exists():
     assert importlib.util.find_spec("quant_backtest_core.sessions") is not None
 
 
-@pytest.mark.parametrize("variant", ["baseline", "zero-delay", "valuation", "unknown"])
+@pytest.mark.parametrize(
+    "variant", ["baseline", "zero-delay", "valuation", "unknown", "small-weight", "small-fee"]
+)
 def test_every_boundary_restores_complete_financial_payload(tmp_path, variant):
     sessions, manifest, context = setup(tmp_path)
     from quant_backtest_engine.product import manifest_to_json, parse_manifest
 
     wire = manifest_to_json(manifest)
+    if variant == "small-weight":
+        for row in wire["inline_inputs"]["targets"]:
+            row["weight"] = "0.00001"
+    if variant == "small-fee":
+        wire["settings"]["config"]["commission_minimum_cny"] = "0"
+        wire["settings"]["config"]["buy_fee_bp"] = "0.0000001"
     if variant == "zero-delay":
         wire["settings"]["report_delay_seconds"] = "0"
     if variant == "valuation":
@@ -52,6 +60,15 @@ def test_every_boundary_restores_complete_financial_payload(tmp_path, variant):
         wire["inline_inputs"]["bars"] = wire["inline_inputs"]["bars"][:6]
     manifest = parse_manifest(wire)
     expected = result_to_json(sessions.open_session(manifest, context=context).finish())
+    fills = next(table for table in expected["tables"] if table["name"] == "fills")["rows"]
+    if variant == "small-weight":
+        assert fills == []  # This target is below the native buy-lot threshold.
+    if variant == "small-fee":
+        assert [row["commission"] for row in fills] == [
+            "0.000000010005000000000001",
+            "0.000000010014999999999999",
+        ]
+        assert [row["quantity"] for row in fills] == ["100", "100"]
     if variant == "unknown":
         assert (
             next(t for t in expected["tables"] if t["name"] == "daily")["rows"][-1]["nav"] is None
@@ -186,3 +203,58 @@ def test_normalization_unknown_remains_null():
         "return_basis": None,
         "quantity": "0",
     }
+
+
+@pytest.mark.parametrize(
+    "value, expected",
+    [
+        (0.00001, "0.00001"),
+        (1e-8, "0.00000001"),
+        (1e20, "100000000000000000000"),
+        (-1e-8, "-0.00000001"),
+        (0.0, "0.0"),
+        (-0.0, "-0.0"),
+        (1.2345678901234567e-20, "0.000000000000000000012345678901234567"),
+    ],
+)
+def test_decimal_transport_scale_boundaries(value, expected):
+    from quant_backtest_engine.product import EvidenceTable
+
+    from quant_backtest_core.sessions.results import transport
+
+    encoded = transport({"cash": value})
+    assert encoded["cash"] == expected
+    assert EvidenceTable("daily", "available", (encoded,), None).rows[0]["cash"] == expected
+    assert float(encoded["cash"]).hex() == value.hex()
+
+
+@pytest.mark.parametrize(
+    "value",
+    [
+        float.fromhex("0x1.fffffffffffffp+1023"),
+        float.fromhex("-0x1.fffffffffffffp+1023"),
+        float.fromhex("0x1.0000000000000p-1022"),
+        float.fromhex("0x0.0000000000001p-1022"),
+        float.fromhex("-0x0.0000000000001p-1022"),
+    ],
+)
+def test_extreme_finite_float_transport_roundtrips_without_zero_or_exponent(value):
+    from quant_backtest_engine.product import EvidenceTable
+
+    from quant_backtest_core.sessions.results import transport
+
+    encoded = transport({"cash": value})
+    assert "e" not in encoded["cash"].lower()
+    assert float(encoded["cash"]).hex() == value.hex()
+    assert EvidenceTable("daily", "available", (encoded,), None).rows[0]["cash"] == encoded["cash"]
+
+
+def test_transport_unknown_and_nanosecond_clocks_remain_distinct():
+    import pandas as pd
+
+    from quant_backtest_core.sessions.results import transport
+
+    assert transport(
+        {"nan": float("nan"), "positive": float("inf"), "negative": float("-inf")}
+    ) == {"nan": None, "positive": None, "negative": None}
+    assert transport(pd.Timestamp(1767576720000000001, tz="UTC")) == "1767576720000000001"

@@ -6,6 +6,7 @@ import math
 from collections.abc import Mapping
 from dataclasses import asdict
 from datetime import date
+from decimal import Decimal
 from typing import Any
 
 from quant_backtest_engine.product import (
@@ -44,7 +45,9 @@ def transport(value: Any) -> Any:
     if isinstance(value, (tuple, list)):
         return [transport(v) for v in value]
     if isinstance(value, float):
-        return str(value) if math.isfinite(value) else None
+        # Expand Python's shortest round-trip decimal without exponent notation.
+        # Decimal construction/formatting does not quantize or use context precision.
+        return format(Decimal(str(value)), "f") if math.isfinite(value) else None
     if type(value) is int:
         return str(value)
     if value is None or isinstance(value, (str, bool)):

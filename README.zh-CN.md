@@ -8,6 +8,12 @@
 
 如果你已经确定要测试哪些订单，可以从这里开始。仓库中的合成示例无需行情数据、策略代码或任务服务。
 
+当前源码已实现提供方 A：可选 Python core 0.1.0 提供独立分钟会话、来源绑定的恢复以及
+已迁入的财务叶子 API；SDK 0.3.0 保留既有客户端命名空间。请从
+[可选产品安装](docs/product/installation.zh-CN.md)和[恢复示例](docs/product/recovery.zh-CN.md)开始，
+使用确切的已审查源码和 wheel 摘要。提供方 A 的集成、发布验证，以及 Platform/Runtime
+消费者切换仍待完成；这不表示已经在 PyPI 发布或完成消费者版本发布。
+
 ## 先跑一个小回测
 
 在 Linux 的源码仓库根目录运行，需要 Rust 1.99.0 或更新版本。
@@ -31,12 +37,13 @@ cargo run --locked -- run fixtures/roundtrip.json
 这是实验版本，面向简化现金股票账户和 L1 报价，也就是最优买卖价。
 输入是预先生成的市价单，选股和组合构造由调用方负责。
 逐日接口提供人民币或美元账户记录，并支持显式配置的 T+1、买入整手等规则。
-公司行为、退市和完整市场规则仍不支持。用于新场景前，请先看[能力矩阵](docs/capabilities.zh-CN.md)。
+Rust 后端仍不支持公司行为、退市和完整市场规则；单独的 Python 分钟后端在文档规定的范围内支持显式公司行为输入带。用于新场景前，请先看[能力矩阵](docs/capabilities.zh-CN.md)。
 
 引擎负责运行回测。[quant-backtest-runtime](https://github.com/runchengxie/quant-backtest-runtime)
 增加队列、任务状态、取消、资源限制和结果保存。
 [quant-platform](https://github.com/runchengxie/quant-platform)目前保留 Python 后端，作为兼容对照并处理暂不支持的场景。
-已批准的[可复用产品迁移](docs/migration/reusable-product.zh-CN.md)将分阶段迁入可选 Python 财务机制；core 包尚不可用。
+[可复用产品迁移](docs/migration/reusable-product.zh-CN.md)记录了已实现的提供方 A 范围和后续关卡；
+高级规划、日频执行及消费者兼容切换仍属于后续工作。
 本引擎可以独立使用，不需要安装这两个项目。
 
 ## 接下来
