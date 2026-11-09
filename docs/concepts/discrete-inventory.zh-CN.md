@@ -4,7 +4,7 @@
 
 `quant_backtest_core.planning.discrete_inventory` 为小规模、明确限定的只做多持仓问题，
 提供确定性的可行启发式方案和有界穷举参考。这些是合成条件下的规划结果。
-现有[仅买入的参考求解器](impact-optimization-scenarios.md)保留原有行为。
+现有[仅买入的参考求解器](impact-optimization-scenarios.zh-CN.md)保留原有行为。
 
 ## 预先备足现金的优化范围
 

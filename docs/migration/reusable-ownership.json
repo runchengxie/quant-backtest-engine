@@ -1209,14 +1209,16 @@
       "old_url": "https://runchengxie.github.io/quant-platform/backtest/sleeve-allocation/",
       "disposition": "transfer",
       "planned_url": "https://runchengxie.github.io/quant-backtest-engine/backtest/sleeve-allocation/",
-      "status": "planned",
+      "status": "implemented",
       "source_revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
       "anchors": [
         "shared-sleeve-allocation-and-unfinished-exits",
         "declare-a-batch",
         "internal-crossing-and-external-attribution",
         "hand-cases-and-finite-horizons"
-      ]
+      ],
+      "provider_source_revision": "cbe0d9816342a0c04204845a1a287fa5b653203d",
+      "release_availability": "Canonical provider page implemented; historical source remains at pinned Platform revision; consumer redirects/release are separate."
     },
     {
       "source": "docs/backtest/sleeve-allocation.zh-CN.md",
@@ -1224,14 +1226,16 @@
       "old_url": "https://runchengxie.github.io/quant-platform/backtest/sleeve-allocation.zh-CN/",
       "disposition": "transfer",
       "planned_url": "https://runchengxie.github.io/quant-backtest-engine/backtest/sleeve-allocation.zh-CN/",
-      "status": "planned",
+      "status": "implemented",
       "source_revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
       "anchors": [
         "_1",
         "_2",
         "_3",
         "_4"
-      ]
+      ],
+      "provider_source_revision": "cbe0d9816342a0c04204845a1a287fa5b653203d",
+      "release_availability": "Canonical provider page implemented; historical source remains at pinned Platform revision; consumer redirects/release are separate."
     },
     {
       "source": "docs/backtest/transaction-cost-evidence.md",
@@ -1269,14 +1273,16 @@
       "old_url": "https://runchengxie.github.io/quant-platform/concepts/impact-planning/",
       "disposition": "transfer",
       "planned_url": "https://runchengxie.github.io/quant-backtest-engine/concepts/impact-planning/",
-      "status": "planned",
+      "status": "implemented",
       "source_revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
       "anchors": [
         "impact-aware-rolling-planning",
         "request-and-objective",
         "affine-cash-envelope-and-execution-checks",
         "reproduction-and-limits"
-      ]
+      ],
+      "provider_source_revision": "cbe0d9816342a0c04204845a1a287fa5b653203d",
+      "release_availability": "Canonical provider page implemented; historical source remains at pinned Platform revision; consumer redirects/release are separate."
     },
     {
       "source": "docs/concepts/impact-planning.zh-CN.md",
@@ -1284,14 +1290,16 @@
       "old_url": "https://runchengxie.github.io/quant-platform/concepts/impact-planning.zh-CN/",
       "disposition": "transfer",
       "planned_url": "https://runchengxie.github.io/quant-backtest-engine/concepts/impact-planning.zh-CN/",
-      "status": "planned",
+      "status": "implemented",
       "source_revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
       "anchors": [
         "_1",
         "_2",
         "_3",
         "_4"
-      ]
+      ],
+      "provider_source_revision": "cbe0d9816342a0c04204845a1a287fa5b653203d",
+      "release_availability": "Canonical provider page implemented; historical source remains at pinned Platform revision; consumer redirects/release are separate."
     },
     {
       "source": "docs/concepts/discrete-inventory.md",
@@ -1299,7 +1307,7 @@
       "old_url": "https://runchengxie.github.io/quant-platform/concepts/discrete-inventory/",
       "disposition": "transfer",
       "planned_url": "https://runchengxie.github.io/quant-backtest-engine/concepts/discrete-inventory/",
-      "status": "planned",
+      "status": "implemented",
       "source_revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
       "anchors": [
         "finite-inventory-and-lot-comparison",
@@ -1307,7 +1315,9 @@
         "inputs-objective-and-quantities",
         "search-results-and-certificates",
         "independent-checks-and-execution-ownership"
-      ]
+      ],
+      "provider_source_revision": "cbe0d9816342a0c04204845a1a287fa5b653203d",
+      "release_availability": "Canonical provider page implemented; historical source remains at pinned Platform revision; consumer redirects/release are separate."
     },
     {
       "source": "docs/concepts/discrete-inventory.zh-CN.md",
@@ -1315,7 +1325,7 @@
       "old_url": "https://runchengxie.github.io/quant-platform/concepts/discrete-inventory.zh-CN/",
       "disposition": "transfer",
       "planned_url": "https://runchengxie.github.io/quant-backtest-engine/concepts/discrete-inventory.zh-CN/",
-      "status": "planned",
+      "status": "implemented",
       "source_revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
       "anchors": [
         "_1",
@@ -1323,7 +1333,9 @@
         "_3",
         "_4",
         "_5"
-      ]
+      ],
+      "provider_source_revision": "cbe0d9816342a0c04204845a1a287fa5b653203d",
+      "release_availability": "Canonical provider page implemented; historical source remains at pinned Platform revision; consumer redirects/release are separate."
     },
     {
       "source": "docs/dated-execution-fees.md",
@@ -1457,14 +1469,16 @@
       "old_url": "https://runchengxie.github.io/quant-platform/concepts/impact-optimization-scenarios/",
       "disposition": "transfer",
       "planned_url": "https://runchengxie.github.io/quant-backtest-engine/concepts/impact-optimization-scenarios/",
-      "status": "planned",
+      "status": "implemented",
       "source_revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
       "anchors": [
         "impact-and-discrete-optimization-synthetic-checks",
         "permanent-impact-sensitivity",
         "existing-cost-accounting-audit",
         "continuous-baseline-and-discrete-oracle"
-      ]
+      ],
+      "provider_source_revision": "cbe0d9816342a0c04204845a1a287fa5b653203d",
+      "release_availability": "Canonical provider page implemented; historical source remains at pinned Platform revision; consumer redirects/release are separate."
     },
     {
       "source": "docs/guides/minute-execution.en.md",
@@ -6499,8 +6513,8 @@
       "old_module": "quant_platform.portfolio.impact_planning",
       "new_module": "quant_backtest_core.planning.impact_planning",
       "provider_version": "0.2.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "cbe0d9816342a0c04204845a1a287fa5b653203d",
+      "status": "implemented",
       "wave": "M4",
       "gate": "B",
       "old_urls": [
@@ -6549,19 +6563,38 @@
       ],
       "compatibility_path": "quant_platform.portfolio.impact_planning",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_impact_planning.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/test_impact_planning.py core/tests/test_multiperiod.py core/tests/test_discrete_inventory.py core/tests/test_sleeve_allocation.py core/tests/test_discrete_oracle.py core/tests/test_planning_session.py -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/planning/impact_planning.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Historical rendered anchors retained; new Chinese scenario page has no historical Chinese route. Implemented source is separate from release and consumer migration.",
+      "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/cbe0d9816342a0c04204845a1a287fa5b653203d/core/src/quant_backtest_core/planning/impact_planning.py",
+      "leaf_documentation": [
+        "docs/concepts/impact-planning.md",
+        "docs/concepts/impact-planning.zh-CN.md"
+      ],
+      "release_availability": "Unreleased provider B implementation; Core stays 0.1.0 until Task 11 whole-provider gate. No consumer cutover; Task 12 aliases follow provider integration.",
+      "implementation_note": "Complete pinned Platform 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355 body retained with namespace/provenance changes only. All original assertions retained. Conditional continuous signed plan cash is not delivered cash; finite inventory/sleeves require prefunding. Forecasts/risk are supplied; generic optimizers and estimators stay Platform.",
+      "installed_acceptance": {
+        "python": [
+          "3.12.13",
+          "3.13.14"
+        ],
+        "extra": "planning",
+        "numpy": "2.2.6",
+        "pandas": "3.0.6",
+        "scipy": "1.18.1",
+        "suite_result": "107 passed on both; full core 593 passed and 3 subtests on both, zero skips",
+        "execution": "Regular final wheel installs; isolated Python from outside repository; no Platform/Runtime/Torch/OSQP"
+      }
     },
     {
       "symbol": "quant_platform.portfolio.multiperiod",
       "old_module": "quant_platform.portfolio.multiperiod",
       "new_module": "quant_backtest_core.planning.multiperiod",
       "provider_version": "0.2.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "cbe0d9816342a0c04204845a1a287fa5b653203d",
+      "status": "implemented",
       "wave": "M4",
       "gate": "B",
       "old_urls": [
@@ -6610,19 +6643,38 @@
       ],
       "compatibility_path": "quant_platform.portfolio.multiperiod",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_multiperiod.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/test_impact_planning.py core/tests/test_multiperiod.py core/tests/test_discrete_inventory.py core/tests/test_sleeve_allocation.py core/tests/test_discrete_oracle.py core/tests/test_planning_session.py -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/planning/multiperiod.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Historical rendered anchors retained; new Chinese scenario page has no historical Chinese route. Implemented source is separate from release and consumer migration.",
+      "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/cbe0d9816342a0c04204845a1a287fa5b653203d/core/src/quant_backtest_core/planning/multiperiod.py",
+      "leaf_documentation": [
+        "docs/concepts/impact-planning.md",
+        "docs/concepts/impact-planning.zh-CN.md"
+      ],
+      "release_availability": "Unreleased provider B implementation; Core stays 0.1.0 until Task 11 whole-provider gate. No consumer cutover; Task 12 aliases follow provider integration.",
+      "implementation_note": "Complete pinned Platform 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355 body retained with namespace/provenance changes only. All original assertions retained. Conditional continuous signed plan cash is not delivered cash; finite inventory/sleeves require prefunding. Forecasts/risk are supplied; generic optimizers and estimators stay Platform.",
+      "installed_acceptance": {
+        "python": [
+          "3.12.13",
+          "3.13.14"
+        ],
+        "extra": "planning",
+        "numpy": "2.2.6",
+        "pandas": "3.0.6",
+        "scipy": "1.18.1",
+        "suite_result": "107 passed on both; full core 593 passed and 3 subtests on both, zero skips",
+        "execution": "Regular final wheel installs; isolated Python from outside repository; no Platform/Runtime/Torch/OSQP"
+      }
     },
     {
       "symbol": "quant_platform.portfolio.discrete_inventory",
       "old_module": "quant_platform.portfolio.discrete_inventory",
       "new_module": "quant_backtest_core.planning.discrete_inventory",
       "provider_version": "0.2.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "cbe0d9816342a0c04204845a1a287fa5b653203d",
+      "status": "implemented",
       "wave": "M4",
       "gate": "B",
       "old_urls": [
@@ -6675,22 +6727,101 @@
       ],
       "compatibility_path": "quant_platform.portfolio.discrete_inventory",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_discrete_inventory.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/test_impact_planning.py core/tests/test_multiperiod.py core/tests/test_discrete_inventory.py core/tests/test_sleeve_allocation.py core/tests/test_discrete_oracle.py core/tests/test_planning_session.py -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/planning/discrete_inventory.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Historical rendered anchors retained; new Chinese scenario page has no historical Chinese route. Implemented source is separate from release and consumer migration.",
+      "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/cbe0d9816342a0c04204845a1a287fa5b653203d/core/src/quant_backtest_core/planning/discrete_inventory.py",
+      "leaf_documentation": [
+        "docs/concepts/discrete-inventory.md",
+        "docs/concepts/discrete-inventory.zh-CN.md"
+      ],
+      "release_availability": "Unreleased provider B implementation; Core stays 0.1.0 until Task 11 whole-provider gate. No consumer cutover; Task 12 aliases follow provider integration.",
+      "implementation_note": "Complete pinned Platform 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355 body retained with namespace/provenance changes only. All original assertions retained. Conditional continuous signed plan cash is not delivered cash; finite inventory/sleeves require prefunding. Forecasts/risk are supplied; generic optimizers and estimators stay Platform.",
+      "installed_acceptance": {
+        "python": [
+          "3.12.13",
+          "3.13.14"
+        ],
+        "extra": "planning",
+        "numpy": "2.2.6",
+        "pandas": "3.0.6",
+        "scipy": "1.18.1",
+        "suite_result": "107 passed on both; full core 593 passed and 3 subtests on both, zero skips",
+        "execution": "Regular final wheel installs; isolated Python from outside repository; no Platform/Runtime/Torch/OSQP"
+      }
     },
     {
       "symbol": "quant_platform.portfolio.discrete_oracle",
       "old_module": "quant_platform.portfolio.discrete_oracle",
       "new_module": "quant_backtest_core.planning.discrete_oracle",
       "provider_version": "0.2.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "cbe0d9816342a0c04204845a1a287fa5b653203d",
+      "status": "implemented",
       "wave": "M4",
       "gate": "B",
       "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/concepts/impact-optimization-scenarios/",
+          "anchors": [
+            "impact-and-discrete-optimization-synthetic-checks",
+            "permanent-impact-sensitivity",
+            "existing-cost-accounting-audit",
+            "continuous-baseline-and-discrete-oracle"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/concepts/impact-optimization-scenarios/",
+          "anchors": [
+            "impact-and-discrete-optimization-synthetic-checks",
+            "permanent-impact-sensitivity",
+            "existing-cost-accounting-audit",
+            "continuous-baseline-and-discrete-oracle"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/concepts/impact-optimization-scenarios.zh-CN/",
+          "anchors": [
+            "_1",
+            "_2",
+            "_3",
+            "_4"
+          ]
+        }
+      ],
+      "compatibility_path": "quant_platform.portfolio.discrete_oracle",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -B -m pytest core/tests/test_impact_planning.py core/tests/test_multiperiod.py core/tests/test_discrete_inventory.py core/tests/test_sleeve_allocation.py core/tests/test_discrete_oracle.py core/tests/test_planning_session.py -q -p no:cacheprovider",
+      "provider_sources": [
+        "core/src/quant_backtest_core/planning/discrete_oracle.py"
+      ],
+      "anchor_policy": "Historical rendered anchors retained; new Chinese scenario page has no historical Chinese route. Implemented source is separate from release and consumer migration.",
+      "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/cbe0d9816342a0c04204845a1a287fa5b653203d/core/src/quant_backtest_core/planning/discrete_oracle.py",
+      "leaf_documentation": [
+        "docs/concepts/impact-optimization-scenarios.md",
+        "docs/concepts/impact-optimization-scenarios.zh-CN.md"
+      ],
+      "release_availability": "Unreleased provider B implementation; Core stays 0.1.0 until Task 11 whole-provider gate. No consumer cutover; Task 12 aliases follow provider integration.",
+      "implementation_note": "Complete pinned Platform 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355 body retained with namespace/provenance changes only. All original assertions retained. Conditional continuous signed plan cash is not delivered cash; finite inventory/sleeves require prefunding. Forecasts/risk are supplied; generic optimizers and estimators stay Platform.",
+      "installed_acceptance": {
+        "python": [
+          "3.12.13",
+          "3.13.14"
+        ],
+        "extra": "planning",
+        "numpy": "2.2.6",
+        "pandas": "3.0.6",
+        "scipy": "1.18.1",
+        "suite_result": "107 passed on both; full core 593 passed and 3 subtests on both, zero skips",
+        "execution": "Regular final wheel installs; isolated Python from outside repository; no Platform/Runtime/Torch/OSQP"
+      },
+      "supporting_old_urls": [
         {
           "locale": "en",
           "url": "https://runchengxie.github.io/quant-platform/concepts/discrete-inventory/",
@@ -6714,7 +6845,7 @@
           ]
         }
       ],
-      "new_urls": [
+      "supporting_new_urls": [
         {
           "locale": "en",
           "url": "https://runchengxie.github.io/quant-backtest-engine/concepts/discrete-inventory/",
@@ -6737,22 +6868,15 @@
             "_5"
           ]
         }
-      ],
-      "compatibility_path": "quant_platform.portfolio.discrete_oracle",
-      "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_discrete_inventory.py -q",
-      "provider_sources": [
-        "core/src/quant_backtest_core/planning/discrete_oracle.py"
-      ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      ]
     },
     {
       "symbol": "quant_platform.portfolio.sleeve_allocation",
       "old_module": "quant_platform.portfolio.sleeve_allocation",
       "new_module": "quant_backtest_core.planning.sleeve_allocation",
       "provider_version": "0.2.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "cbe0d9816342a0c04204845a1a287fa5b653203d",
+      "status": "implemented",
       "wave": "M4",
       "gate": "B",
       "old_urls": [
@@ -6801,11 +6925,30 @@
       ],
       "compatibility_path": "quant_platform.portfolio.sleeve_allocation",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_sleeve_allocation.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/test_impact_planning.py core/tests/test_multiperiod.py core/tests/test_discrete_inventory.py core/tests/test_sleeve_allocation.py core/tests/test_discrete_oracle.py core/tests/test_planning_session.py -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/planning/sleeve_allocation.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Historical rendered anchors retained; new Chinese scenario page has no historical Chinese route. Implemented source is separate from release and consumer migration.",
+      "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/cbe0d9816342a0c04204845a1a287fa5b653203d/core/src/quant_backtest_core/planning/sleeve_allocation.py",
+      "leaf_documentation": [
+        "docs/backtest/sleeve-allocation.md",
+        "docs/backtest/sleeve-allocation.zh-CN.md"
+      ],
+      "release_availability": "Unreleased provider B implementation; Core stays 0.1.0 until Task 11 whole-provider gate. No consumer cutover; Task 12 aliases follow provider integration.",
+      "implementation_note": "Complete pinned Platform 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355 body retained with namespace/provenance changes only. All original assertions retained. Conditional continuous signed plan cash is not delivered cash; finite inventory/sleeves require prefunding. Forecasts/risk are supplied; generic optimizers and estimators stay Platform.",
+      "installed_acceptance": {
+        "python": [
+          "3.12.13",
+          "3.13.14"
+        ],
+        "extra": "planning",
+        "numpy": "2.2.6",
+        "pandas": "3.0.6",
+        "scipy": "1.18.1",
+        "suite_result": "107 passed on both; full core 593 passed and 3 subtests on both, zero skips",
+        "execution": "Regular final wheel installs; isolated Python from outside repository; no Platform/Runtime/Torch/OSQP"
+      }
     },
     {
       "symbol": "quant_platform._portfolio.execution_sim",
@@ -9310,5 +9453,45 @@
     "checkpoint_provenance": "Raw config source/input strings are caller-attested, not measured code hashes. Exact configuration/source/input equality and digest validation remain. No converter; unmodified original checkpoints are rejected and retain the full pinned original Platform/Runtime/Go environment. Actual source/wheel provenance is separate.",
     "pending_boundary": "Read-only structural request/result fields accept original frozen dataclasses. Engine owns execution-only envelope validation and preserved receipt arithmetic; supplied optimizer validates full request before solve and receives the unchanged object. Actual structural base_result is retained. No OSQP/generic risk estimation import.",
     "impact_boundary": "Six deterministic simulator modules plus lazy __init__ are now owned; generator remains research and sqrt_law remains a learned-generator consumer diagnostic. Native per-fill unavailable, explicit-ID caller uniqueness and characterized legacy duplicate divergence remain."
+  },
+  "provider_b_task10": {
+    "implementation_revision": "cbe0d9816342a0c04204845a1a287fa5b653203d",
+    "base_revision": "8cbd7c59a6ea34f8bfcdf1873fd33366fe688ee8",
+    "original_platform_revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+    "release_availability": "Unreleased; no package version change, provider B merge or consumer migration in Task 10. Task 11 gate remains required.",
+    "source_preservation": "All five full kernel bodies byte-identical after provenance/namespace changes. 49 original test functions/105 executed cases preserved; every assertion in two approved fixture ports retained.",
+    "exact_comparison": "255 full planning/owner results and exceptions match pinned original exactly, with no dropped fields or tolerances. Two daily-owner fixtures use approved MinuteSession plumbing, not claimed daily parity.",
+    "public_session_oracle": {
+      "fill_clock_ns": "1767576720000000000",
+      "quantity": 100,
+      "price": "10.05",
+      "decimal_hand_gross": "1005",
+      "raw_binary_gross": "1005.0000000000001",
+      "delivered_cash": "8995.0",
+      "transient": "0.1",
+      "replanned_raw_quantity": "99.99999999999999",
+      "replanned_price": "10.15",
+      "replanned_cash": "7980.0",
+      "restoration": "Full public open_session/checkpoint/restore_session; exact whole checkpoint/observation/final result equality. Replan changes no live financial state."
+    },
+    "daily_parity_obligations": [
+      {
+        "task": "14/15",
+        "original_source": "tests/test_discrete_inventory.py",
+        "functions": [
+          "test_both_plans_use_public_owner_fills_fees_cash_and_residual_tracking[heuristic]",
+          "test_both_plans_use_public_owner_fills_fees_cash_and_residual_tracking[incumbent]",
+          "test_actual_public_owner_sale_controls_later_buy_funding[False]",
+          "test_actual_public_owner_sale_controls_later_buy_funding[True]"
+        ],
+        "scope": "Preserve original daily and dated-fee owner variants at pinned source. Minute fixture equality does not establish their ownership."
+      }
+    ],
+    "planning_dependency_boundary": "Optional numerical leaves use pinned NumPy/SciPy; finite kernels use stdlib and owned evidence._exact. No Platform, Runtime, Torch, OSQP or estimators.",
+    "wheel_sha256": {
+      "quant_backtest_core-0.1.0-py3-none-any.whl": "9a3b1d4bb755743cf894d38edda00ea3dfc5de861b2c0a0fa884e9b152414911",
+      "quant_backtest_engine_client-0.3.0-py3-none-any.whl": "0a12c2b2d2aeeb7abdc4410ee6e698a176faf728682d808bea879a78f35639f9"
+    },
+    "validation": "Full installed core 3.12/3.13: 593 passed +3 subtests each, zero skips; final exact session-input follow-up 2 each. SDK 3.11:28 passed. Rust fmt/clippy/locked tests/synthetic CLI and tutorial pass. Full source/RECORD/installed equality retained externally."
   }
 }
