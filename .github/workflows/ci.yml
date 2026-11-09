@@ -113,11 +113,12 @@ jobs:
     strategy:
       matrix:
         python: ['3.12', '3.13']
-    env:
-      UV_CACHE_DIR: ${{ runner.temp }}/microstructure-uv-cache
-      CARGO_TARGET_DIR: ${{ runner.temp }}/microstructure-target
-      PYTHONPYCACHEPREFIX: ${{ runner.temp }}/microstructure-pycache
     steps:
+      - name: Set external microstructure build and cache paths
+        run: |
+          echo "UV_CACHE_DIR=$RUNNER_TEMP/microstructure-uv-cache" >> "$GITHUB_ENV"
+          echo "CARGO_TARGET_DIR=$RUNNER_TEMP/microstructure-target" >> "$GITHUB_ENV"
+          echo "PYTHONPYCACHEPREFIX=$RUNNER_TEMP/microstructure-pycache" >> "$GITHUB_ENV"
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
       - uses: dtolnay/rust-toolchain@1.99.1
