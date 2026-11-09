@@ -138,3 +138,27 @@ module = [
     "quant_backtest_core.planning.pending_protocol",
 ]
 disable_error_code = ["import-untyped"]
+
+# Task 10 preserves original planning signatures and checks their function bodies.
+[[tool.mypy.overrides]]
+module = [
+    "quant_backtest_core.planning.impact_planning",
+    "quant_backtest_core.planning.multiperiod",
+    "quant_backtest_core.planning.discrete_inventory",
+    "quant_backtest_core.planning.discrete_oracle",
+    "quant_backtest_core.planning.sleeve_allocation",
+]
+disallow_untyped_defs = false
+
+[[tool.mypy.overrides]]
+module = "quant_backtest_core.planning.multiperiod"
+disable_error_code = ["import-untyped"]
+
+# Preserve the existing NumPy norm/max expression and untyped dictionary inference.
+[[tool.mypy.overrides]]
+module = "quant_backtest_core.planning.impact_planning"
+disable_error_code = ["import-untyped", "operator"]
+
+[[tool.mypy.overrides]]
+module = "quant_backtest_core.planning.sleeve_allocation"
+disable_error_code = ["var-annotated"]

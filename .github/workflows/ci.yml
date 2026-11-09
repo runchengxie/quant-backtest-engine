@@ -65,7 +65,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@1.99.1
       - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
       - run: uv python install "${{ matrix.python }}"
-      - run: uv sync --project core --locked --no-editable --extra minute --extra cost --extra scenario --python "${{ matrix.python }}"
+      - run: uv sync --project core --locked --no-editable --extra minute --extra cost --extra scenario --extra planning --python "${{ matrix.python }}"
       - run: '"$UV_PROJECT_ENVIRONMENT/bin/ruff" check core'
       - run: '"$UV_PROJECT_ENVIRONMENT/bin/ruff" format --check core'
       - run: '"$UV_PROJECT_ENVIRONMENT/bin/mypy" --config-file core/pyproject.toml core/src'
@@ -83,12 +83,19 @@ jobs:
             "$RUNNER_TEMP/core-base/bin/python" -I -B -m unittest discover -s core/tests -p "test_$suite.py" -v
           done
           "$RUNNER_TEMP/core-base/bin/python" -I -B -m unittest discover -s python/tests -v
-      - name: Installed minute, cost and scenario suites
+      - name: Installed minute, cost, scenario and planning suites
         env:
           QUANT_ENGINE_BINARY: ${{ runner.temp }}/target/debug/quant-backtest-engine
         run: |
           uv pip install --python "$UV_PROJECT_ENVIRONMENT/bin/python" --reinstall --no-deps "$RUNNER_TEMP"/wheels/*.whl
           "$UV_PROJECT_ENVIRONMENT/bin/python" -I -B -m pytest core/tests -q -p no:cacheprovider
+      - name: Installed optional planning closure
+        run: |
+          "$RUNNER_TEMP/core-base/bin/python" -I -B project_tools/verify_installed_planning.py --base
+          uv venv --python "${{ matrix.python }}" "$RUNNER_TEMP/core-planning"
+          uv pip install --python "$RUNNER_TEMP/core-planning/bin/python" "$RUNNER_TEMP/wheels/quant_backtest_core-0.1.0-py3-none-any.whl[planning]" "$RUNNER_TEMP/wheels/quant_backtest_engine_client-0.3.0-py3-none-any.whl" numpy==2.2.6 pandas==3.0.6 scipy==1.18.1 'pytest>=8,<10'
+          "$RUNNER_TEMP/core-planning/bin/python" -I -B project_tools/verify_installed_planning.py
+          "$RUNNER_TEMP/core-planning/bin/python" -I -B -m pytest core/tests/test_impact_planning.py core/tests/test_multiperiod.py core/tests/test_discrete_inventory.py core/tests/test_discrete_oracle.py core/tests/test_sleeve_allocation.py core/tests/test_planning_session.py -q -p no:cacheprovider
       - name: Minimal installed minute recovery acceptance
         run: |
           uv venv --python "${{ matrix.python }}" "$RUNNER_TEMP/core-minute"

@@ -66,7 +66,10 @@ nav:
       - Product installation: product/installation.md
       - Product backends: product/backends.md
       - Financial recovery: product/recovery.md
-      - Impact and planning boundary: concepts/impact-planning.md
+      - Impact-aware planning: concepts/impact-planning.md
+      - Finite inventory: concepts/discrete-inventory.md
+      - Impact and discrete scenarios: concepts/impact-optimization-scenarios.md
+      - Shared sleeve allocation: backtest/sleeve-allocation.md
       - Capital and reconciliation boundary: backtest/capital-and-reconciliation.md
       - Synthetic market paths: backtest/market-paths.md
       - Transaction cost evidence: backtest/transaction-cost-evidence.md
@@ -104,7 +107,10 @@ nav:
       - 产品安装: product/installation.zh-CN.md
       - 产品后端: product/backends.zh-CN.md
       - 财务会话恢复: product/recovery.zh-CN.md
-      - 冲击与规划边界: concepts/impact-planning.zh-CN.md
+      - 冲击与滚动规划: concepts/impact-planning.zh-CN.md
+      - 有限持仓: concepts/discrete-inventory.zh-CN.md
+      - 冲击与离散场景: concepts/impact-optimization-scenarios.zh-CN.md
+      - 共用账户策略分配: backtest/sleeve-allocation.zh-CN.md
       - 资本与对账边界: backtest/capital-and-reconciliation.zh-CN.md
       - 合成市场路径: backtest/market-paths.zh-CN.md
       - 交易成本证据: backtest/transaction-cost-evidence.zh-CN.md

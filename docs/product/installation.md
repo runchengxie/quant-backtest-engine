@@ -92,3 +92,17 @@ still rejects impact estimation because per-fill evidence is unsupported. A supp
 optimizer owns full research validation; Engine supplies no OSQP optimizer.
 Core stays 0.1.0 until Task 11 gate B, with no consumer switch or released 0.2.0
 claim. Old checkpoints retain their full pinned legacy environment.
+
+## Bounded planning
+
+The unreleased provider B implementation includes optional leaf APIs under
+`quant_backtest_core.planning`: impact planning, multiperiod weights, finite
+inventory/oracle comparison and actual sleeve-fill attribution. Install Core's
+explicit `[planning]` extra with NumPy 2.2.6, pandas 3.0.6 and SciPy 1.18.1 for the
+continuous APIs. Finite inventory/oracle and sleeve attribution use only the
+standard library. Importing the planning package stays lazy. No Platform, Runtime,
+Torch or OSQP is required; generic optimizers and risk estimators remain external.
+Core stays 0.1.0 until Task 11; a source implementation is not a release or consumer cutover.
+See [impact planning](../concepts/impact-planning.md),
+[finite inventory](../concepts/discrete-inventory.md), and
+[sleeve allocation](../backtest/sleeve-allocation.md).

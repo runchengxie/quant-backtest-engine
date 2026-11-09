@@ -83,3 +83,22 @@ validation. No OSQP, generic optimization or learned-model code transfers.
 - packages/microstructure/src/ticknet/simulator/impact.py → core/src/quant_backtest_core/microstructure/impact.py (SHA256 afce487bad76d2db22e8520c56f9589aab3621be860bc3c5283d4fe150551fdd)
 
 Tests: original test_account_events.py, test_paper_account.py, test_capital_reconciliation.py, test_composite_checkpoint.py, test_pending_allocation.py; all eleven microstructure/test_impact.py cases, two test_replay_clock.py impact admission cases and test_rust_parity.py native impact rejection. Pending tests replace only research coupling with literal execution-only fixtures; original optimizer parity runs separately against its frozen environment.
+
+## Task 10 bounded planning and actual fill allocation
+
+Copyright 2026 runchengxie. Apache-2.0 source from quant-platform
+`7a618bddd8fdeee5dbe37fe5b54a9698e0de5355`; original license retained in
+`licenses/quant-platform-Apache-2.0.txt`. Changes: namespace/provenance only for
+the five kernels; test imports/formatting and two approved minute fixture ports.
+Arithmetic, solver, rounding, statuses and original economic assertions retained.
+
+- `packages/platform/src/quant_platform/portfolio/impact_planning.py` → `src/quant_backtest_core/planning/impact_planning.py`; original SHA256 `f7aaf8cd7b778fcd394ef08fb66e34245c78976543d7b9493f1c303eaa7e6359`.
+- `packages/platform/src/quant_platform/portfolio/multiperiod.py` → `src/quant_backtest_core/planning/multiperiod.py`; original SHA256 `1ea34f11c9dbab02ea6560f983918ae1f418c5f40025f7faaafe14527ff94845`.
+- `packages/platform/src/quant_platform/portfolio/discrete_inventory.py` → `src/quant_backtest_core/planning/discrete_inventory.py`; original SHA256 `3238ecae91588ae6818f718af8938ecefc506ae2e357c5627644f07ed982bd58`.
+- `packages/platform/src/quant_platform/portfolio/discrete_oracle.py` → `src/quant_backtest_core/planning/discrete_oracle.py`; original SHA256 `98aac895872f1f86536f7739852a02110c8ffd40532157d26009f81c3139a7b0`.
+- `packages/platform/src/quant_platform/portfolio/sleeve_allocation.py` → `src/quant_backtest_core/planning/sleeve_allocation.py`; original SHA256 `6916287aed000cc3a6d349c8ce83ae2c4ee6d43158333eddbf68b56eb7d83577`.
+- `tests/test_impact_planning.py`; original SHA256 `c5dd8869e88561383a26e6dafacd68fba58ca752fc2cc1e60ccccad7ffe7ef21`; complete suite transferred.
+- `tests/test_multiperiod.py`; original SHA256 `f0316583b6c097642cd281a500ddd08d25c94a32ad571ad502002d12a51de712`; complete suite transferred.
+- `tests/test_discrete_inventory.py`; original SHA256 `5f45ba0cd9aeb845c274d0728492a3566b2ce097c222e1894ac1e6d896b4cf01`; complete suite transferred.
+- `tests/test_sleeve_allocation.py`; original SHA256 `ec6025a7ca294861a23427f0a89826f16e83d206e302f51ee7c8a741f3086989`; complete suite transferred.
+- `tests/test_impact_optimization_scenarios.py`; original SHA256 `b5a970b71f410d735ee2a5b53f908d1442317a84f3519f5969866f49890fc586`; five finite-oracle functions only; permanent checks already owned and general risk optimizer remains Platform.
