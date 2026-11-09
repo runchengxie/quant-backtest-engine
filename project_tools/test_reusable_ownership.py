@@ -87,6 +87,29 @@ class OwnershipTests(unittest.TestCase):
         self.row["new_urls"][1]["url"] = self.row["new_urls"][0]["url"]
         self.assertTrue(any("destination locales share one page" in e for e in self.check()))
 
+    def test_swapped_destination_languages_are_rejected_for_planned_routes(self):
+        self.assertEqual(self.check(), [])
+        for route in self.row["new_urls"]:
+            route["locale"] = "zh-CN" if route["locale"] == "en" else "en"
+        errors = self.check()
+        self.assertTrue(any("destination route language disagrees with locale" in e for e in errors), errors)
+
+    def test_malformed_url_returns_contextual_errors_and_continues(self):
+        later = copy.deepcopy(self.row)
+        later.update(symbol="LaterSession", acceptance_test="")
+        self.data["rows"].append(later)
+        for field in ["old_urls", "new_urls"]:
+            with self.subTest(field=field):
+                original = self.row[field][0]["url"]
+                self.row[field][0]["url"] = "https://[broken/"
+                try:
+                    errors = self.check()
+                    self.assertIsInstance(errors, list)
+                    self.assertTrue(any(f"row 0: invalid {field} URL" in e for e in errors), errors)
+                    self.assertTrue(any("row 1: acceptance_test" in e for e in errors), errors)
+                finally:
+                    self.row[field][0]["url"] = original
+
     def test_malformed_fields_return_errors_without_crashing(self):
         for field in ["wave", "gate", "status", "removal_gate"]:
             with self.subTest(field=field):
@@ -113,6 +136,12 @@ class OwnershipTests(unittest.TestCase):
         for route in self.row["new_urls"]:
             route["url"] = route["url"].replace("example.test/", "runchengxie.github.io/quant-backtest-engine/")
         self.assertEqual(self.check(), [])
+        for route in self.row["new_urls"]:
+            route["locale"] = "zh-CN" if route["locale"] == "en" else "en"
+        errors = self.check()
+        self.assertTrue(any("destination route language disagrees with locale" in e for e in errors), errors)
+        for route in self.row["new_urls"]:
+            route["locale"] = "zh-CN" if route["locale"] == "en" else "en"
         (self.root / self.row["provider_sources"][0]).unlink()
         self.assertTrue(any("provider source missing" in e for e in self.check()))
 

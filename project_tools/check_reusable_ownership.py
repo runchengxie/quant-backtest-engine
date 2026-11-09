@@ -119,7 +119,15 @@ def check_ownership(path: Path) -> list[str]:
                 if locale not in LOCALES or not isinstance(url, str):
                     errors.append(f"{prefix}: invalid {field} locale/url")
                     continue
-                parsed = urlsplit(url)
+                try:
+                    parsed = urlsplit(url)
+                except ValueError as exc:
+                    errors.append(f"{prefix}: invalid {field} URL {url!r}: {exc}")
+                    continue
+                if field == "new_urls":
+                    canonical_locale = "zh-CN" if parsed.path.rstrip("/").endswith(".zh-CN") else "en"
+                    if locale != canonical_locale:
+                        errors.append(f"{prefix}: destination route language disagrees with locale {locale}: {url}")
                 if parsed.scheme != "https" or not parsed.netloc or parsed.fragment:
                     errors.append(f"{prefix}: {field} needs an absolute HTTPS page URL without fragment")
                 if not isinstance(anchors, list) or not all(isinstance(a, str) and a and not a.startswith("#") for a in anchors):
