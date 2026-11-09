@@ -53,3 +53,13 @@ than silently degrade. Pin the provider, run [correctness cases](correctness.md)
 and consumer integration tests before upgrading it. Experimental package versions
 may change Rust APIs. There is no stable Rust API guarantee yet. Keep Python
 fallbacks until the specific caller's required semantics and outputs are verified.
+
+## Optional Python leaf APIs
+
+Core 0.1.0 includes [synthetic paths/stress/impact](backtest/market-paths.md),
+[neutral cost evidence](backtest/cost-evidence.md),
+[transaction audits and scoped fits](backtest/transaction-cost-evidence.md), and
+[recorded-fill/capital evidence](backtest/execution-integrity.md). These capabilities
+belong to the optional Python library, not the Rust backend. They do not register
+a Python minute/daily owner or validate legacy checkpoint transfer. Source is
+under review until the provider gate; release availability is tracked separately.

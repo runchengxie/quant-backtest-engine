@@ -47,3 +47,12 @@ SHA-256 用于检查二进制文件的字节是否一致。部署时还要记录
 同一协议版本保持输入输出兼容。不支持的语义明确失败，不静默降级。
 升级时固定引擎提交，执行[正确性案例](correctness.zh-CN.md)和调用方集成测试。
 实验阶段不承诺 Rust API 稳定。只有具体调用方所需的语义和输出验证通过后，才考虑移除对应 Python 兼容路径。
+
+## 可选 Python 叶子 API
+
+Core 0.1.0 包含[合成路径、压力与冲击](backtest/market-paths.zh-CN.md)、
+[中立成本证据](backtest/cost-evidence.zh-CN.md)、
+[交易审计与适用范围拟合](backtest/transaction-cost-evidence.zh-CN.md)，以及
+[成交与资金流证据](backtest/execution-integrity.zh-CN.md)。这些能力属于可选 Python 库，
+不属于 Rust 后端；不会注册 Python 分钟/日频账户，也不证明旧检查点可以迁移。
+提供者关卡前代码仍待审核，发布可用性单独记录。

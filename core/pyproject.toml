@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Explicit optional backtest product runner and Rust session adapter"
 requires-python = ">=3.12,<3.14"
 license = "LGPL-3.0-only"
-license-files = ["LICENSE", "COPYING"]
+license-files = ["LICENSE", "COPYING", "THIRD_PARTY_NOTICES.md", "licenses/quant-platform-Apache-2.0.txt"]
 dependencies = ["quant-backtest-engine-client>=0.3.0,<0.4"]
 
 [project.scripts]
@@ -55,3 +55,34 @@ warn_unused_ignores = true
 [[tool.mypy.overrides]]
 module = "quant_backtest_engine.*"
 follow_untyped_imports = true
+
+# Retain extracted legacy signatures while checking their function bodies.
+[[tool.mypy.overrides]]
+module = [
+    "quant_backtest_core.backtest.market_paths",
+    "quant_backtest_core.backtest.stress",
+    "quant_backtest_core.backtest.costs",
+    "quant_backtest_core.backtest.impact",
+    "quant_backtest_core.backtest.impact_scenarios",
+    "quant_backtest_core.evidence._exact",
+    "quant_backtest_core.evidence.execution_integrity",
+    "quant_backtest_core.evidence.transaction_costs",
+    "quant_backtest_core.evidence.cost_scope",
+    "quant_backtest_core.evidence.capital_returns",
+]
+disallow_untyped_defs = false
+
+
+# Original numerical modules lack third-party stubs; body checking remains enabled.
+[[tool.mypy.overrides]]
+module = [
+    "quant_backtest_core.backtest.market_paths",
+    "quant_backtest_core.backtest.stress",
+    "quant_backtest_core.evidence.cost_scope",
+]
+disable_error_code = ["import-untyped"]
+
+# Retain the original audit dictionary inference without rewriting its signatures.
+[[tool.mypy.overrides]]
+module = "quant_backtest_core.evidence.transaction_costs"
+disable_error_code = ["import-untyped", "var-annotated"]

@@ -35,7 +35,9 @@ Consumers must pin the exact merged revision or verified wheel hashes before cut
 
 ```sh
 "$ENV/bin/python" -I -B project_tools/verify_installed_product.py --mode base
-"$ENV/bin/python" -I -B -m unittest discover -s core/tests -v
+for suite in packaging runner rust_adapter; do
+  "$ENV/bin/python" -I -B -m unittest discover -s core/tests -p "test_$suite.py" -v
+done
 ```
 
 Development checks use the locked dev group: `ruff check core`, `ruff format
@@ -52,7 +54,20 @@ Development checks use the locked dev group: `ruff check core`, `ruff format
 | microstructure, daily | pandas >=3.0.5,<3.1; NumPy >=1.23 |
 | all | Union of the above; no Torch, Qlib or OSQP |
 
-These extras reserve dependency groups for later transfers. Installing one does
+The `scenario` extra supports [market paths and stress](../backtest/market-paths.md);
+`cost` supports [transaction cost evidence](../backtest/transaction-cost-evidence.md)
+and scoped fitting. These are independent leaf APIs. Other extras reserve dependency
+groups for later transfers. Installing one does
 not implement or register a Python backend in core 0.1.0. `python.minute` and
 `python.daily` fail explicitly as unavailable; unknown keys are rejected.
 See [backend limits](backends.md) before choosing a manifest.
+
+
+For installed leaf acceptance, install the core wheel with `[cost,scenario]`
+and pytest, resolving numerical packages from the locked baseline. Run
+`python -I -B -m pytest core/tests -q -p no:cacheprovider` with
+`QUANT_ENGINE_BINARY` pointing to the content-verified Rust binary for adapter
+regressions. Tests import installed wheels, never source-tree `PYTHONPATH`.
+Extracted legacy signatures remain unchanged: mypy still checks their bodies,
+with narrowly scoped allowances for absent pandas/SciPy stubs and three
+dictionary-inference diagnostics. New typed quote/protocol code is checked.

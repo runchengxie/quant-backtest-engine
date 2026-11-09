@@ -64,7 +64,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@1.99.1
       - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
       - run: uv python install "${{ matrix.python }}"
-      - run: uv sync --project core --locked --no-editable --python "${{ matrix.python }}"
+      - run: uv sync --project core --locked --no-editable --extra cost --extra scenario --python "${{ matrix.python }}"
       - run: '"$UV_PROJECT_ENVIRONMENT/bin/ruff" check core'
       - run: '"$UV_PROJECT_ENVIRONMENT/bin/ruff" format --check core'
       - run: '"$UV_PROJECT_ENVIRONMENT/bin/mypy" --config-file core/pyproject.toml core/src'
@@ -78,8 +78,16 @@ jobs:
         env:
           QUANT_ENGINE_BINARY: ${{ runner.temp }}/target/debug/quant-backtest-engine
         run: |
-          "$RUNNER_TEMP/core-base/bin/python" -I -B -m unittest discover -s core/tests -v
+          for suite in packaging runner rust_adapter; do
+            "$RUNNER_TEMP/core-base/bin/python" -I -B -m unittest discover -s core/tests -p "test_$suite.py" -v
+          done
           "$RUNNER_TEMP/core-base/bin/python" -I -B -m unittest discover -s python/tests -v
+      - name: Installed cost and scenario leaf suites
+        env:
+          QUANT_ENGINE_BINARY: ${{ runner.temp }}/target/debug/quant-backtest-engine
+        run: |
+          uv pip install --python "$UV_PROJECT_ENVIRONMENT/bin/python" --reinstall --no-deps "$RUNNER_TEMP"/wheels/*.whl
+          "$UV_PROJECT_ENVIRONMENT/bin/python" -I -B -m pytest core/tests -q -p no:cacheprovider
       - name: Installed CLI acceptance
         run: |
           ENGINE="$CARGO_TARGET_DIR/debug/quant-backtest-engine"

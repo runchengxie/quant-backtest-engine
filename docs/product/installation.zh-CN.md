@@ -31,7 +31,9 @@ SciPy 1.18.1；公开 extra 的范围仍如下表所列。其中 `../python` 仅
 
 ```sh
 "$ENV/bin/python" -I -B project_tools/verify_installed_product.py --mode base
-"$ENV/bin/python" -I -B -m unittest discover -s core/tests -v
+for suite in packaging runner rust_adapter; do
+  "$ENV/bin/python" -I -B -m unittest discover -s core/tests -p "test_$suite.py" -v
+done
 ```
 
 开发检查使用锁定的 dev 依赖组：`ruff check core`、`ruff format --check core` 和
@@ -48,6 +50,17 @@ SciPy 1.18.1；公开 extra 的范围仍如下表所列。其中 `../python` 仅
 | microstructure、daily | pandas >=3.0.5,<3.1；NumPy >=1.23 |
 | all | 上述依赖的并集，不含 Torch、Qlib 或 OSQP |
 
-这些 extra 为后续迁移预留依赖组。安装 extra 不会在 core 0.1.0 中实现或注册 Python 后端。
+`scenario` 支持[市场路径与压力变换](../backtest/market-paths.zh-CN.md)，
+`cost` 支持[交易成本证据](../backtest/transaction-cost-evidence.zh-CN.md)及适用范围拟合。
+这些是独立叶子 API；其他 extra 仍为后续迁移预留依赖组。安装 extra 不会在 core 0.1.0 中实现或注册 Python 后端。
 `python.minute`、`python.daily` 会明确报告不可用，未知注册键也会被拒绝。
 选择请求前请阅读[后端限制](backends.zh-CN.md)。
+
+
+安装包叶子模块验收须安装带 `[cost,scenario]` 的 core wheel 及 pytest，
+数值依赖使用锁定基线。运行
+`python -I -B -m pytest core/tests -q -p no:cacheprovider`，并将
+`QUANT_ENGINE_BINARY` 指向已验证内容摘要的 Rust 可执行文件，以运行适配器回归。
+测试导入已安装 wheel，不使用源码树 `PYTHONPATH`。
+提取代码保留旧签名，mypy 仍检查函数体，仅对缺少 pandas/SciPy 类型桩及
+三处字典类型推断诊断作窄范围豁免；新增报价与协议的类型检查保持启用。

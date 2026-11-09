@@ -102,6 +102,25 @@ def check_ownership(path: Path) -> list[str]:
                 if (not candidate.is_relative_to(root) or not candidate.is_file()
                         or not valid_revision or not _revision_exists(root, revision, source)):
                     errors.append(f"{prefix}: provider source missing at source_revision/current tree: {source}")
+        leaf_docs = row.get("leaf_documentation")
+        if "leaf_documentation" in row:
+            valid_pair = (
+                isinstance(leaf_docs, list) and len(leaf_docs) == 2
+                and all(isinstance(source, str) for source in leaf_docs)
+                and leaf_docs[0].startswith("docs/")
+                and leaf_docs[0].endswith(".md")
+                and not leaf_docs[0].endswith(".zh-CN.md")
+                and leaf_docs[1] == leaf_docs[0][:-3] + ".zh-CN.md"
+            )
+            if not valid_pair:
+                errors.append(f"{prefix}: leaf_documentation requires canonical EN/ZH local paths")
+            else:
+                for source, counterpart in zip(leaf_docs, reversed(leaf_docs)):
+                    candidate = (root / source).resolve()
+                    if not candidate.is_relative_to(root / "docs") or not candidate.is_file():
+                        errors.append(f"{prefix}: leaf_documentation missing or outside docs: {source}")
+                    elif f"]({Path(counterpart).name})" not in candidate.read_text(encoding="utf-8"):
+                        errors.append(f"{prefix}: leaf_documentation missing counterpart link: {source}")
         routes = {}
         for field in ("old_urls", "new_urls"):
             values = row.get(field)

@@ -65,6 +65,10 @@ nav:
       - Product contracts: product/contracts.md
       - Product installation: product/installation.md
       - Product backends: product/backends.md
+      - Synthetic market paths: backtest/market-paths.md
+      - Transaction cost evidence: backtest/transaction-cost-evidence.md
+      - Recorded-fill integrity: backtest/execution-integrity.md
+      - Cost evidence: backtest/cost-evidence.md
       - Python client: python-client.md
       - Runtime integration: runtime.md
       - Development: development.md
@@ -86,6 +90,10 @@ nav:
       - 产品契约: product/contracts.zh-CN.md
       - 产品安装: product/installation.zh-CN.md
       - 产品后端: product/backends.zh-CN.md
+      - 合成市场路径: backtest/market-paths.zh-CN.md
+      - 交易成本证据: backtest/transaction-cost-evidence.zh-CN.md
+      - 成交记录核验: backtest/execution-integrity.zh-CN.md
+      - 成本证据: backtest/cost-evidence.zh-CN.md
       - Python 客户端: python-client.zh-CN.md
       - Runtime 接入: runtime.zh-CN.md
       - 开发与验证: development.zh-CN.md

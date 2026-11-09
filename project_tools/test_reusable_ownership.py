@@ -169,6 +169,25 @@ class OwnershipTests(unittest.TestCase):
         self.data["historical_routes"] = None
         self.assertTrue(self.check())
 
+    def test_leaf_documentation_requires_existing_paired_local_pages(self):
+        self.row["leaf_documentation"] = ["docs/backtest/leaf.md", "docs/backtest/leaf.zh-CN.md"]
+        self.assertTrue(any("leaf_documentation" in error for error in self.check()))
+        folder = self.root / "docs/backtest"
+        folder.mkdir(parents=True)
+        (folder / "leaf.md").write_text("# Leaf\n[简体中文](leaf.zh-CN.md)\n")
+        (folder / "leaf.zh-CN.md").write_text("# 叶子模块\n[English](leaf.md)\n")
+        self.assertEqual(self.check(), [])
+        for value in [
+            ["docs/backtest/leaf.md"],
+            ["docs/backtest/leaf.md", "docs/backtest/leaf.md"],
+            ["../outside.md", "docs/backtest/leaf.zh-CN.md"],
+            [None, 5],
+            "docs/backtest/leaf.md",
+        ]:
+            with self.subTest(value=value):
+                self.row["leaf_documentation"] = value
+                self.assertTrue(any("leaf_documentation" in error for error in self.check()))
+
     def test_repository_registry_passes(self):
         spec = importlib.util.find_spec("project_tools.check_reusable_ownership")
         self.assertIsNotNone(spec, "ownership checker is not implemented")

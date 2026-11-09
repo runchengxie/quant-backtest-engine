@@ -4872,11 +4872,21 @@
       ],
       "compatibility_path": "quant_platform.backtest.market_paths",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_market_paths.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/test_market_paths.py -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/market_paths.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/backtest/market-paths.md",
+        "docs/backtest/market-paths.zh-CN.md"
+      ],
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0"
+      },
+      "implementation_note": "Leaf code/tests/docs present for provider review. Keep planned until a real independently reviewed Engine source commit is recorded; release availability and consumer cutover remain separate. Historical shared route commitments are retained for later complete-owner pages."
     },
     {
       "symbol": "quant_platform.backtest.stress",
@@ -4933,11 +4943,21 @@
       ],
       "compatibility_path": "quant_platform.backtest.stress",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_market_paths.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/test_joint_stress.py -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/stress.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/backtest/market-paths.md",
+        "docs/backtest/market-paths.zh-CN.md"
+      ],
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0"
+      },
+      "implementation_note": "Leaf code/tests/docs present for provider review. Keep planned until a real independently reviewed Engine source commit is recorded; release availability and consumer cutover remain separate. Historical shared route commitments are retained for later complete-owner pages."
     },
     {
       "symbol": "quant_platform.backtest.costs",
@@ -4994,11 +5014,21 @@
       ],
       "compatibility_path": "quant_platform.backtest.costs",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_transaction_costs.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/test_cost_evidence.py -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/costs.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/backtest/cost-evidence.md",
+        "docs/backtest/cost-evidence.zh-CN.md"
+      ],
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0"
+      },
+      "implementation_note": "Leaf code/tests/docs present for provider review. Keep planned until a real independently reviewed Engine source commit is recorded; release availability and consumer cutover remain separate. Historical shared route commitments are retained for later complete-owner pages."
     },
     {
       "symbol": "quant_platform.backtest.impact",
@@ -5055,11 +5085,21 @@
       ],
       "compatibility_path": "quant_platform.backtest.impact",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_impact.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/test_impact.py -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/impact.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/backtest/market-paths.md",
+        "docs/backtest/market-paths.zh-CN.md"
+      ],
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0"
+      },
+      "implementation_note": "Leaf code/tests/docs present for provider review. Keep planned until a real independently reviewed Engine source commit is recorded; release availability and consumer cutover remain separate. Historical shared route commitments are retained for later complete-owner pages."
     },
     {
       "symbol": "quant_platform.backtest.impact_scenarios",
@@ -5116,11 +5156,21 @@
       ],
       "compatibility_path": "quant_platform.backtest.impact_scenarios",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_impact.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/test_impact_scenarios.py -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/impact_scenarios.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/backtest/market-paths.md",
+        "docs/backtest/market-paths.zh-CN.md"
+      ],
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0"
+      },
+      "implementation_note": "Leaf code/tests/docs present for provider review. Keep planned until a real independently reviewed Engine source commit is recorded; release availability and consumer cutover remain separate. Historical shared route commitments are retained for later complete-owner pages."
     },
     {
       "symbol": "quant_platform.analytics.execution_integrity",
@@ -5156,11 +5206,21 @@
       ],
       "compatibility_path": "quant_platform.analytics.execution_integrity",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_execution_integrity.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/test_execution_integrity.py -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/evidence/execution_integrity.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/backtest/execution-integrity.md",
+        "docs/backtest/execution-integrity.zh-CN.md"
+      ],
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0"
+      },
+      "implementation_note": "Leaf code/tests/docs present for provider review. Keep planned until a real independently reviewed Engine source commit is recorded; release availability and consumer cutover remain separate. Historical shared route commitments are retained for later complete-owner pages."
     },
     {
       "symbol": "quant_platform.analytics.transaction_costs",
@@ -5217,11 +5277,21 @@
       ],
       "compatibility_path": "quant_platform.analytics.transaction_costs",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_transaction_costs.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/test_transaction_costs.py -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/evidence/transaction_costs.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/backtest/transaction-cost-evidence.md",
+        "docs/backtest/transaction-cost-evidence.zh-CN.md"
+      ],
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0"
+      },
+      "implementation_note": "Leaf code/tests/docs present for provider review. Keep planned until a real independently reviewed Engine source commit is recorded; release availability and consumer cutover remain separate. Historical shared route commitments are retained for later complete-owner pages."
     },
     {
       "symbol": "quant_platform.analytics.cost_scope",
@@ -5257,11 +5327,21 @@
       ],
       "compatibility_path": "quant_platform.analytics.cost_scope",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_cost_scope.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/test_cost_scope.py -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/evidence/cost_scope.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/backtest/transaction-cost-evidence.md",
+        "docs/backtest/transaction-cost-evidence.zh-CN.md"
+      ],
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0"
+      },
+      "implementation_note": "Leaf code/tests/docs present for provider review. Keep planned until a real independently reviewed Engine source commit is recorded; release availability and consumer cutover remain separate. Historical shared route commitments are retained for later complete-owner pages."
     },
     {
       "symbol": "quant_platform.analytics.capital_returns",
@@ -5297,11 +5377,21 @@
       ],
       "compatibility_path": "quant_platform.analytics.capital_returns",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_capital_reconciliation.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/test_capital_returns.py -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/evidence/capital_returns.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented.",
+      "leaf_documentation": [
+        "docs/backtest/execution-integrity.md",
+        "docs/backtest/execution-integrity.zh-CN.md"
+      ],
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0"
+      },
+      "implementation_note": "Leaf code/tests/docs present for provider review. Keep planned until a real independently reviewed Engine source commit is recorded; release availability and consumer cutover remain separate. Historical shared route commitments are retained for later complete-owner pages."
     },
     {
       "symbol": "quant_platform.backtest.minute",
