@@ -111,3 +111,39 @@ def test_alignment_and_status_contradictions():
         summarize_execution(daily, fills, evidence=evidence(fills="unavailable"))
     with pytest.raises(ValueError):
         DailySummaryEvidence("available", "available", (1,), (True,))
+
+
+def test_unavailable_daily_rejects_zero_column_rows():
+    daily = pd.DataFrame(index=[0])
+    proof = DailySummaryEvidence("unavailable", "unavailable", (None,), (None,))
+    with pytest.raises(ValueError, match="unavailable daily evidence contradicts supplied rows"):
+        summarize_execution(daily, pd.DataFrame(), evidence=proof)
+
+
+def test_unavailable_fills_rejects_zero_column_rows():
+    fills = pd.DataFrame(index=[0])
+    proof = DailySummaryEvidence("unavailable", "unavailable", (), ())
+    with pytest.raises(ValueError, match="unavailable fills evidence contradicts supplied rows"):
+        summarize_execution(pd.DataFrame(), fills, evidence=proof)
+
+
+@pytest.mark.parametrize("status", ["available", "unavailable"])
+def test_zero_rows_with_declared_columns_follow_evidence_status(status):
+    daily = pd.DataFrame(columns=["executed_return"])
+    fills = pd.DataFrame(columns=["cost_commission", "cost_stamp_tax", "cost_transfer_fee"])
+    proof = DailySummaryEvidence(status, status, (), ())
+    result = summarize_execution(daily, fills, evidence=proof)
+    assert result.daily_return == ()
+    assert result.turnover is None
+    if status == "available":
+        assert (result.cumulative_return, result.total_fees, result.valuation_complete) == (
+            0.0,
+            0.0,
+            True,
+        )
+    else:
+        assert (result.cumulative_return, result.total_fees, result.valuation_complete) == (
+            None,
+            None,
+            False,
+        )

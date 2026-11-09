@@ -26,9 +26,9 @@ def summarize_execution(
     marks, flows = evidence.valuation_complete_by_row, evidence.external_flow_zero_by_row
     if len(marks) != count or len(flows) != count:
         raise ValueError("summary evidence must align exactly with daily row order")
-    if evidence.daily_status == "unavailable" and not daily.empty:
+    if evidence.daily_status == "unavailable" and count > 0:
         raise ValueError("unavailable daily evidence contradicts supplied rows")
-    if evidence.fills_status == "unavailable" and not fills.empty:
+    if evidence.fills_status == "unavailable" and len(fills) > 0:
         raise ValueError("unavailable fills evidence contradicts supplied rows")
     available = evidence.daily_status == "available"
     values = daily["executed_return"] if "executed_return" in daily else (None,) * count
