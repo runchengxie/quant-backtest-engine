@@ -45,3 +45,22 @@ Transferred test oracles: test_minute_execution.py, test_minute_execution_feedba
 test_minute_execution_hardening.py, test_minute_execution_mark_provenance.py,
 test_minute_execution_valuation_events.py, test_minute_session.py,
 test_minute_session_actions.py and test_quantity_locks.py, all from the same revision.
+
+# Deterministic simulator extraction (Task 8)
+
+Original source: [quant-platform](https://github.com/runchengxie/quant-platform/tree/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/packages/microstructure).
+Pinned source revision: `7a618bddd8fdeee5dbe37fe5b54a9698e0de5355`.
+Original license: Apache-2.0; original LICENSE is reproduced without modification.
+No source NOTICE file exists. Native `src/lib.rs`, Cargo.lock and the Python stub
+retain their original bytes and arithmetic. Only package license metadata changes.
+Distribution `quant-microstructure-core` and module `_microstructure_rs` remain unchanged.
+Python simulator arithmetic and event contracts retain their original bodies; replay
+adds two union type annotations and formatting to satisfy Engine type/style checks.
+Imports of transferred tests
+use the new namespace. Learned generators and training remain in Platform.
+
+- packages/microstructure/src/ticknet/simulator/matching.py → core/src/quant_backtest_core/microstructure/matching.py (SHA256 920adb6b3f5196512cbf23692ab6dbfd7f980b5a80e965a2854d7cf60c216e2a)
+- packages/microstructure/src/ticknet/simulator/pack.py → core/src/quant_backtest_core/microstructure/pack.py (SHA256 d9b049c508d005fac34c0d70505de8932b8548eb44a570847f820c0435a01f2b)
+- packages/microstructure/src/ticknet/simulator/ordering.py → core/src/quant_backtest_core/microstructure/ordering.py (SHA256 d5744eba37df981d3af9bd7fabc5dffb0d3afa095b2ca76eb109fe927f13db84)
+- packages/microstructure/src/ticknet/simulator/replay.py → core/src/quant_backtest_core/microstructure/replay.py (SHA256 10c4228a88dfca9d2962af4c7326bfc8cf2253866027da9ae3f787504694cc2b)
+- packages/microstructure/src/ticknet/simulator/correctness.py → core/src/quant_backtest_core/microstructure/correctness.py (SHA256 a738a674124f82390d40e15c438092edd8c3c70ca3bfaf08f2192da7668d9a3d)

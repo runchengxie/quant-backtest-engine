@@ -93,3 +93,5 @@ Rust package versions. The native result validates the Nautilus identity; an
 arbitrary executable hash cannot establish a Rust package version. Capability
 inspection without a binary has null executable identity. Exact release/source
 receipts and later Runtime dependency closure remain separate requirements.
+
+Deterministic LOB matching/replay is implemented in provider B source, pending merged release. [LOB Python / optional PyO3 modes](../development/microstructure-rust.md).

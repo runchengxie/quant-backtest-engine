@@ -76,3 +76,5 @@ For minimal minute acceptance, install `[minute]` alone plus pytest and run
 `python -I -B -m pytest core/tests/test_minute*.py core/tests/test_quantity_locks.py -q`
 and `python -I -B examples/product/minute_session.py`. This install needs pandas
 and its NumPy dependency, but no SciPy, Platform, Runtime or ML framework.
+
+Deterministic LOB matching/replay is implemented in provider B source, pending merged release. [LOB Python / optional PyO3 modes](../development/microstructure-rust.md).

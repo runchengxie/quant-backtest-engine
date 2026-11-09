@@ -114,3 +114,7 @@ disable_error_code = ["import-untyped"]
 [[tool.mypy.overrides]]
 module = "quant_backtest_core._minute.minute_execution"
 disable_error_code = ["import-untyped", "var-annotated"]
+
+[[tool.mypy.overrides]]
+module = "_microstructure_rs"
+ignore_missing_imports = true

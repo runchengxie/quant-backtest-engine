@@ -60,3 +60,5 @@ Core 0.1.0 包含[合成路径、压力与冲击](backtest/market-paths.zh-CN.md
 可选 Python 库还提供完整的[分钟会话](backtest/minute-session.zh-CN.md)与
 [同步执行接口](guides/minute-execution.zh-CN.md)，包含公司行动、估值、资金流、数量锁和延迟账户视图。
 直接 Python 接口及产品运行器的 `python.minute` 均已提供，后者支持[来源绑定的恢复](product/recovery.zh-CN.md)。
+
+确定性订单簿撮合与回放已在提供方 B 源码实现，尚待合并发布。[订单簿 Python 与可选 PyO3 模式](development/microstructure-rust.zh-CN.md).

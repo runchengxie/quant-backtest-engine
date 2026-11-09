@@ -107,3 +107,37 @@ jobs:
           name: product-wheels-python-${{ matrix.python }}
           path: ${{ runner.temp }}/wheels/*.whl
           if-no-files-found: error
+
+  microstructure-native:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.12', '3.13']
+    env:
+      UV_CACHE_DIR: ${{ runner.temp }}/microstructure-uv-cache
+      CARGO_TARGET_DIR: ${{ runner.temp }}/microstructure-target
+      PYTHONPYCACHEPREFIX: ${{ runner.temp }}/microstructure-pycache
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+      - uses: dtolnay/rust-toolchain@1.99.1
+      - run: uv python install "${{ matrix.python }}"
+      - run: cargo fmt --manifest-path core-native/Cargo.toml --all --check
+      - run: cargo clippy --manifest-path core-native/Cargo.toml --locked --all-targets -- -D warnings
+      - run: cargo test --manifest-path core-native/Cargo.toml --locked
+      - run: uv build --wheel --out-dir "$RUNNER_TEMP/microstructure-wheels" python
+      - run: uv build --wheel --out-dir "$RUNNER_TEMP/microstructure-wheels" core
+      - run: uv build --wheel --out-dir "$RUNNER_TEMP/microstructure-native-wheels" core-native
+      - run: uv venv --python "${{ matrix.python }}" "$RUNNER_TEMP/microstructure-env"
+      - name: Installed no-native, no-training profile
+        run: |
+          uv pip install --python "$RUNNER_TEMP/microstructure-env/bin/python" "$RUNNER_TEMP"/microstructure-wheels/*.whl 'pytest>=8,<10'
+          "$RUNNER_TEMP/microstructure-env/bin/python" -I -B project_tools/verify_installed_microstructure.py --native absent
+          "$RUNNER_TEMP/microstructure-env/bin/python" -I -B -m pytest core/tests/test_microstructure*.py -q -p no:cacheprovider
+      - name: Installed real native parity
+        env:
+          TICKNET_REQUIRE_RUST: '1'
+        run: |
+          uv pip install --python "$RUNNER_TEMP/microstructure-env/bin/python" "$RUNNER_TEMP"/microstructure-native-wheels/*.whl
+          "$RUNNER_TEMP/microstructure-env/bin/python" -I -B project_tools/verify_installed_microstructure.py --native present
+          "$RUNNER_TEMP/microstructure-env/bin/python" -I -B -m pytest core/tests/test_microstructure*.py -q -p no:cacheprovider

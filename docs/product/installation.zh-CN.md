@@ -71,3 +71,5 @@ done
 及 `python -I -B examples/product/minute_session.py`。
 它依赖 pandas 及其 NumPy 依赖，不需要 SciPy、Platform、Runtime 或机器学习框架。
 类型检查保留函数体检查；六处旧字典推断问题仅在各自模块内放宽：交易审计三处、分钟内核三处。
+
+确定性订单簿撮合与回放已在提供方 B 源码实现，尚待合并发布。[订单簿 Python 与可选 PyO3 模式](../development/microstructure-rust.zh-CN.md).

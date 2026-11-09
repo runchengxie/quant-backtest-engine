@@ -74,6 +74,9 @@ nav:
       - Cost evidence: backtest/cost-evidence.md
       - Minute sessions: backtest/minute-session.md
       - Minute execution: guides/minute-execution.md
+      - LOB matching: microstructure/matching.md
+      - LOB replay: microstructure/replay.md
+      - Optional LOB Rust: development/microstructure-rust.md
       - Python client: python-client.md
       - Runtime integration: runtime.md
       - Development: development.md
@@ -104,6 +107,9 @@ nav:
       - 成本证据: backtest/cost-evidence.zh-CN.md
       - 分钟会话: backtest/minute-session.zh-CN.md
       - 分钟执行: guides/minute-execution.zh-CN.md
+      - 订单簿撮合: microstructure/matching.zh-CN.md
+      - 订单簿回放: microstructure/replay.zh-CN.md
+      - 可选订单簿 Rust: development/microstructure-rust.zh-CN.md
       - Python 客户端: python-client.zh-CN.md
       - Runtime 接入: runtime.zh-CN.md
       - 开发与验证: development.zh-CN.md

@@ -76,3 +76,5 @@ SDK 版本来自已安装包元数据。`required-*` 依赖键描述要求的原
 并非实测的 Rust 包版本。原生结果校验 Nautilus 身份，但任意可执行文件摘要不能证明 Rust 包版本。
 不提供可执行文件时，能力查询中的 executable 身份为 null。
 准确的发布与源码回执，以及后续 Runtime 的完整依赖闭包，仍需分别记录。
+
+确定性订单簿撮合与回放已在提供方 B 源码实现，尚待合并发布。[订单簿 Python 与可选 PyO3 模式](../development/microstructure-rust.zh-CN.md).

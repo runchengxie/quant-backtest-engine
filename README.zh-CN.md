@@ -58,3 +58,5 @@ Rust 后端仍不支持公司行为、退市和完整市场规则；单独的 Py
 
 LGPL-3.0-only。原文见 [LICENSE](LICENSE)、[COPYING](COPYING)，
 依赖声明见[第三方说明](docs/third-party-notices.zh-CN.md)。上游依赖保留各自的版权与许可要求。
+
+确定性订单簿撮合与回放已在提供方 B 源码实现，尚待合并发布。[订单簿 Python 与可选 PyO3 模式](docs/development/microstructure-rust.zh-CN.md).

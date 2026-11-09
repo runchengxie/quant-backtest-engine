@@ -1,0 +1,13 @@
+[package]
+name = "quant-microstructure-core"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+repository = "https://github.com/runchengxie/quant-backtest-engine"
+
+[lib]
+name = "_microstructure_rs"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+pyo3 = { version = "0.30", features = ["abi3-py312"] }

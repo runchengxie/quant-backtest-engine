@@ -68,3 +68,5 @@ You can use this engine without either repository.
 LGPL-3.0-only. See [LICENSE](LICENSE), [COPYING](COPYING) and
 [third-party notices](docs/third-party-notices.md). Upstream dependencies retain
 their own copyright and licensing obligations.
+
+Deterministic LOB matching/replay is implemented in provider B source, pending merged release. [LOB Python / optional PyO3 modes](docs/development/microstructure-rust.md).
