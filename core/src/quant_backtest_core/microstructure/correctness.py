@@ -1,7 +1,9 @@
-"""撮合引擎正确性验证。
+"""Legacy empty-start, best-quote-only matching diagnostic.
 
-从指定 snapshot 初始化撮合引擎，回放其后的订单/成交事件，
-将重建盘口与目标 snapshot 对比。用于确认 simulator 的物理结算正确性。
+The initial snapshot supplies only the start clock, not the initial book.
+Replay interval events and compare the resulting best quotes with the target;
+this does not certify arbitrary snapshot-to-snapshot feed reconstruction.
+ReplaySession separately seeds its supplied initial bid and ask.
 """
 
 from __future__ import annotations
@@ -41,7 +43,13 @@ def replay_and_compare(
     init_snapshot_idx: int = 0,
     target_snapshot_idx: int = 1,
 ) -> CorrectnessResult:
-    """从 init_snapshot 初始化，回放中间事件，对比 target_snapshot 盘口。"""
+    """Compare target best quotes after replaying from an empty book.
+
+    The initial snapshot sets only the start clock. Replay events strictly between
+    the selected clocks; do not seed its bid/ask state as ReplaySession does.
+    Identical nonempty snapshots without interval events remain a comparable
+    mismatch, with both quote errors equal to one.
+    """
     if not (0 <= init_snapshot_idx < len(pack.snapshots)):
         return CorrectnessResult(False, -1, -1, "init_snapshot 越界")
     if not (0 <= target_snapshot_idx < len(pack.snapshots)):
@@ -53,12 +61,10 @@ def replay_and_compare(
     t_target = target.time_ms
 
     engine = MatchingEngine()
-    # 用 init snapshot 的买卖盘注入初始盘口
-    # 注：snapshot 结构体当前仅含 time_ms/price，真实数据由 pack 补全 bid/ask
-    # 合成场景下用 build_simulator_pack 的 snapshot 字段；此处从事件重建更稳妥
-    # 见下方：直接用事件流回放，最后对比 target 的盘口期望值
+    # Legacy diagnostic: init supplies only the clock; its book is not seeded.
+    # ReplaySession separately initializes its supplied bid/ask state.
 
-    # 回放 [t_init, t_target) 之间的订单/成交/撤单
+    # Replay only events strictly inside (t_init, t_target).
     for ev in pack.events:
         if ev.time_ms <= t_init:
             continue

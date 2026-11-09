@@ -56,7 +56,7 @@ Core 0.2.0 包含[合成路径、压力与冲击](backtest/market-paths.zh-CN.md
 [中立成本证据](backtest/cost-evidence.zh-CN.md)、
 [交易审计与适用范围拟合](backtest/transaction-cost-evidence.zh-CN.md)，以及
 [成交与资金流证据](backtest/execution-integrity.zh-CN.md)。这些能力属于可选 Python 库，
-不属于 Rust 后端；不会注册 Python 分钟/日频账户，也不证明旧检查点可以迁移。
+不属于 Rust 后端；不会注册 Python 日频账户，也不证明旧检查点可以迁移。
 提供者关卡前代码仍待审核，发布可用性单独记录。
 
 可选 Python 库还提供完整的[分钟会话](backtest/minute-session.zh-CN.md)与

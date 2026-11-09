@@ -1,8 +1,4 @@
-"""RED: 撮合引擎正确性验证。
-
-从 snapshot 初始化撮合引擎，回放其后的订单流，重建盘口须与
-下一个真实 snapshot 在容差内一致。无真实数据时用合成序列验证逻辑。
-"""
+"""Synthetic characterization of the legacy empty-start, best-quote diagnostic."""
 
 from __future__ import annotations
 
@@ -62,7 +58,7 @@ def _synthetic_pack():
 
 def test_replay_reconstructs_matching_snapshot():
     pack = _synthetic_pack()
-    # 用第一个 snapshot 初始化，回放订单，对比第二个 snapshot
+    # 第一个 snapshot 仅确定起始时钟；从空盘口回放后对比第二个 snapshot
     result = replay_and_compare(pack, init_snapshot_idx=0, target_snapshot_idx=1)
     assert result.matched, result.detail
     assert result.bid_error == 0
@@ -85,3 +81,18 @@ def test_replay_marks_missing_target_as_not_comparable():
 
     assert result.status == "not_comparable"
     assert result.matched is False
+
+
+def test_unchanged_nonempty_snapshots_remain_comparable_mismatch():
+    snapshots = [
+        {"time_ms": time_ms, "bid": [(100, 5)], "ask": [(101, 7)]} for time_ms in (0, 1000)
+    ]
+    pack = build_simulator_pack([], [], snapshots)
+
+    result = replay_and_compare(pack)
+
+    assert result.status == "mismatched"
+    assert result.matched is False
+    assert result.comparable is True
+    assert result.bid_error == 1
+    assert result.ask_error == 1

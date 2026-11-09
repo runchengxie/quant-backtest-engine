@@ -12,8 +12,16 @@ It is a low-level LOB API, not a registered ProductManifest financial backend.
 `quant_backtest_core.microstructure.matching` owns `LimitOrderBook`, `MatchingEngine`,
 `Fill` and `Trade`; `pack` owns `SimulatorEvent`, `SimulatorPack`, and
 `build_simulator_pack`; `ordering` owns `sort_simulator_events` and provenance;
-`correctness.replay_and_compare` compares reconstructed snapshots. Missing target
-sides remain not comparable, not a successful empty book match.
+`correctness.replay_and_compare` is a legacy empty-start, best-quote-only diagnostic.
+The selected initial snapshot supplies only the start clock: its bid/ask state is
+not loaded into the book. Only events strictly between the selected snapshot clocks
+are replayed, then the resulting best bid and ask are compared with the target.
+Two identical nonempty snapshots with no interval events therefore remain
+`mismatched` and `comparable=True`, with `bid_error=1` and `ask_error=1`.
+Missing target sides remain not comparable, not a successful empty book match.
+This helper cannot certify arbitrary snapshot-to-snapshot feed reconstruction.
+In contrast, `ReplaySession` seeds the supplied initial bid and ask into its book;
+it does not share this empty-start behavior.
 
 Prices remain integer cents, quantities integer shares and simulator clocks integer
 milliseconds. These clocks are not the ProductManifest UTC nanosecond envelope.

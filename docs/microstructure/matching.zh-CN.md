@@ -11,7 +11,12 @@
 `quant_backtest_core.microstructure.matching` 提供 `LimitOrderBook`、`MatchingEngine`、
 `Fill`、`Trade`；`pack` 提供 `SimulatorEvent`、`SimulatorPack`、`build_simulator_pack`；
 `ordering` 提供 `sort_simulator_events` 及排序依据；`correctness.replay_and_compare`
-比较重建快照。目标快照缺少买卖一侧时仍标记为不可比较，不视为空盘口匹配成功。
+保留原有的空盘口起步诊断，只比较买一和卖一。选中的初始快照仅提供起始时钟，
+其中的买卖盘口不会载入；只回放时钟严格位于初始快照和目标快照之间的事件，再与目标的买一、卖一比较。
+因此，两个完全相同的非空快照之间没有事件时，结果仍为 `mismatched`、`comparable=True`，
+且 `bid_error=1`、`ask_error=1`。目标快照缺少买卖一侧时仍标记为不可比较，不视为空盘口匹配成功。
+这个辅助函数不能证明任意快照之间的行情重建正确。`ReplaySession` 则会把传入的初始买卖盘口载入，
+与这里的空盘口起步行为不同。
 
 价格单位为整数分、数量为整数股、模拟器时钟为整数毫秒，不是 ProductManifest 的 UTC 纳秒时钟。
 价格优先、同价 FIFO、逐笔成交价、部分撤单和原有重复 ID 行为均保留；汇总成交价格仍为最后一笔成交价。

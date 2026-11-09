@@ -6246,7 +6246,7 @@
         "docs/backtest/paper-account.md",
         "docs/backtest/paper-account.zh-CN.md"
       ],
-      "release_availability": "Unreleased provider B worktree implementation; not merged. Core stays 0.1.0 until Task 11 gate B; consumer aliases/cutover follow in Task 12.",
+      "release_availability": "Unreleased provider B worktree implementation; not merged. Core source is 0.2.0; provider B integration and exact merged artifact verification precede Task 12 consumer aliases/cutover.",
       "implementation_note": "Pinned Platform 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355 transfer. Economic calculations unchanged. Account schema 2 and execution-state.v2 reject original Platform checkpoints; keep their full pinned environment. Source/input strings remain caller-attested, with actual provenance recorded separately. Full-request validation and optimizer result ownership stay with the supplied optimizer; Engine owns execution-only envelope/residual checks."
     },
     {
@@ -6304,7 +6304,7 @@
         "docs/contracts/paper-account-events.md",
         "docs/contracts/paper-account-events.zh-CN.md"
       ],
-      "release_availability": "Unreleased provider B worktree implementation; not merged. Core stays 0.1.0 until Task 11 gate B; consumer aliases/cutover follow in Task 12.",
+      "release_availability": "Unreleased provider B worktree implementation; not merged. Core source is 0.2.0; provider B integration and exact merged artifact verification precede Task 12 consumer aliases/cutover.",
       "implementation_note": "Pinned Platform 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355 transfer. Economic calculations unchanged. Account schema 2 and execution-state.v2 reject original Platform checkpoints; keep their full pinned environment. Source/input strings remain caller-attested, with actual provenance recorded separately. Full-request validation and optimizer result ownership stay with the supplied optimizer; Engine owns execution-only envelope/residual checks.",
       "supporting_documentation": [
         "docs/backtest/account-feedback.md",
@@ -6407,7 +6407,7 @@
         "docs/backtest/paper-account.md",
         "docs/backtest/paper-account.zh-CN.md"
       ],
-      "release_availability": "Unreleased provider B worktree implementation; not merged. Core stays 0.1.0 until Task 11 gate B; consumer aliases/cutover follow in Task 12.",
+      "release_availability": "Unreleased provider B worktree implementation; not merged. Core source is 0.2.0; provider B integration and exact merged artifact verification precede Task 12 consumer aliases/cutover.",
       "implementation_note": "Pinned Platform 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355 transfer. Economic calculations unchanged. Account schema 2 and execution-state.v2 reject original Platform checkpoints; keep their full pinned environment. Source/input strings remain caller-attested, with actual provenance recorded separately. Full-request validation and optimizer result ownership stay with the supplied optimizer; Engine owns execution-only envelope/residual checks.",
       "supporting_documentation": [
         "docs/contracts/paper-account-events.md",
@@ -6458,7 +6458,7 @@
         "docs/backtest/capital-and-reconciliation.md",
         "docs/backtest/capital-and-reconciliation.zh-CN.md"
       ],
-      "release_availability": "Unreleased provider B worktree implementation; not merged. Core stays 0.1.0 until Task 11 gate B; consumer aliases/cutover follow in Task 12.",
+      "release_availability": "Unreleased provider B worktree implementation; not merged. Core source is 0.2.0; provider B integration and exact merged artifact verification precede Task 12 consumer aliases/cutover.",
       "implementation_note": "Pinned Platform 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355 transfer. Economic calculations unchanged. Account schema 2 and execution-state.v2 reject original Platform checkpoints; keep their full pinned environment. Source/input strings remain caller-attested, with actual provenance recorded separately. Full-request validation and optimizer result ownership stay with the supplied optimizer; Engine owns execution-only envelope/residual checks."
     },
     {
@@ -6517,7 +6517,7 @@
         "docs/contracts/pending-allocation.md",
         "docs/contracts/pending-allocation.zh-CN.md"
       ],
-      "release_availability": "Unreleased provider B worktree implementation; not merged. Core stays 0.1.0 until Task 11 gate B; consumer aliases/cutover follow in Task 12.",
+      "release_availability": "Unreleased provider B worktree implementation; not merged. Core source is 0.2.0; provider B integration and exact merged artifact verification precede Task 12 consumer aliases/cutover.",
       "implementation_note": "Pinned Platform 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355 transfer. Economic calculations unchanged. Account schema 2 and execution-state.v2 reject original Platform checkpoints; keep their full pinned environment. Source/input strings remain caller-attested, with actual provenance recorded separately. Full-request validation and optimizer result ownership stay with the supplied optimizer; Engine owns execution-only envelope/residual checks."
     },
     {
