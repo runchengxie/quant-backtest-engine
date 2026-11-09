@@ -1057,6 +1057,22 @@
       "current_owner": "Platform",
       "planned_owner": "Engine",
       "wave": "M4"
+    },
+    {
+      "cluster": "ticknet.simulator.impact",
+      "sources": [
+        "packages/microstructure/src/ticknet/simulator/impact.py"
+      ],
+      "source_revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+      "public_symbols": [
+        "ExecutionSchedule",
+        "ImpactResult",
+        "ImpactEstimator"
+      ],
+      "current_owner": "Platform",
+      "planned_owner": "Engine",
+      "wave": "M4",
+      "historical_reference_kind": "actual code permalink; no dedicated original impact-estimation documentation route"
     }
   ],
   "retained_or_split_inventory": {
@@ -1073,7 +1089,8 @@
       "ticknet.dataset",
       "ticknet.model",
       "ticknet.simulator.generator",
-      "factor/feature/training/model-selection/research-publication"
+      "factor/feature/training/model-selection/research-publication",
+      "ticknet.simulator.sqrt_law (consumer diagnostic using learned generator and execution estimator; not a calibrated square-root market law)"
     ],
     "Platform consumer/split daily orchestration": [
       "_portfolio.position_backtest",
@@ -6176,8 +6193,8 @@
       "old_module": "quant_platform.backtest.paper_account",
       "new_module": "quant_backtest_core.backtest.paper_account",
       "provider_version": "0.2.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "d6319dfe71b060eb2c01a659dd56d6256a849f39",
+      "status": "implemented",
       "wave": "M4",
       "gate": "B",
       "old_urls": [
@@ -6205,19 +6222,26 @@
       ],
       "compatibility_path": "quant_platform.backtest.paper_account",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_account_events.py -q",
+      "acceptance_test": "uv run --project core --locked --extra planning pytest core/tests/test_paper_account.py -q",
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/paper_account.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Existing historical routes/anchors retained; canonical paired destination pages now exist. Implemented means committed source, not provider release or consumer migration.",
+      "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/d6319dfe71b060eb2c01a659dd56d6256a849f39/core/src/quant_backtest_core/backtest/paper_account.py",
+      "leaf_documentation": [
+        "docs/backtest/paper-account.md",
+        "docs/backtest/paper-account.zh-CN.md"
+      ],
+      "release_availability": "Unreleased provider B worktree implementation; not merged. Core stays 0.1.0 until Task 11 gate B; consumer aliases/cutover follow in Task 12.",
+      "implementation_note": "Pinned Platform 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355 transfer. Economic calculations unchanged. Account schema 2 and execution-state.v2 reject original Platform checkpoints; keep their full pinned environment. Source/input strings remain caller-attested, with actual provenance recorded separately. Full-request validation and optimizer result ownership stay with the supplied optimizer; Engine owns execution-only envelope/residual checks."
     },
     {
       "symbol": "quant_platform.backtest.account_events",
       "old_module": "quant_platform.backtest.account_events",
       "new_module": "quant_backtest_core.backtest.account_events",
       "provider_version": "0.2.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "d6319dfe71b060eb2c01a659dd56d6256a849f39",
+      "status": "implemented",
       "wave": "M4",
       "gate": "B",
       "old_urls": [
@@ -6257,9 +6281,21 @@
       "removal_gate": "two-minors-and-all-consumers",
       "acceptance_test": "uv run --project core --locked pytest core/tests/test_account_events.py -q",
       "provider_sources": [
-        "core/src/quant_backtest_core/backtest/account_events.py"
+        "core/src/quant_backtest_core/backtest/account_events.py",
+        "core/src/quant_backtest_core/backtest/_account_event_types.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Existing historical routes/anchors retained; canonical paired destination pages now exist. Implemented means committed source, not provider release or consumer migration.",
+      "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/d6319dfe71b060eb2c01a659dd56d6256a849f39/core/src/quant_backtest_core/backtest/account_events.py",
+      "leaf_documentation": [
+        "docs/contracts/paper-account-events.md",
+        "docs/contracts/paper-account-events.zh-CN.md"
+      ],
+      "release_availability": "Unreleased provider B worktree implementation; not merged. Core stays 0.1.0 until Task 11 gate B; consumer aliases/cutover follow in Task 12.",
+      "implementation_note": "Pinned Platform 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355 transfer. Economic calculations unchanged. Account schema 2 and execution-state.v2 reject original Platform checkpoints; keep their full pinned environment. Source/input strings remain caller-attested, with actual provenance recorded separately. Full-request validation and optimizer result ownership stay with the supplied optimizer; Engine owns execution-only envelope/residual checks.",
+      "supporting_documentation": [
+        "docs/backtest/account-feedback.md",
+        "docs/backtest/account-feedback.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform.backtest._account_event_types",
@@ -6306,8 +6342,8 @@
       "old_module": "quant_platform.backtest.checkpoints",
       "new_module": "quant_backtest_core.backtest.checkpoints",
       "provider_version": "0.2.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "d6319dfe71b060eb2c01a659dd56d6256a849f39",
+      "status": "implemented",
       "wave": "M4",
       "gate": "B",
       "old_urls": [
@@ -6335,19 +6371,30 @@
       ],
       "compatibility_path": "quant_platform.backtest.checkpoints",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_account_events.py -q",
+      "acceptance_test": "uv run --project core --locked --extra planning pytest core/tests/test_composite_checkpoint.py core/tests/test_account_events.py -q",
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/checkpoints.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Existing historical routes/anchors retained; canonical paired destination pages now exist. Implemented means committed source, not provider release or consumer migration.",
+      "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/d6319dfe71b060eb2c01a659dd56d6256a849f39/core/src/quant_backtest_core/backtest/checkpoints.py",
+      "leaf_documentation": [
+        "docs/backtest/paper-account.md",
+        "docs/backtest/paper-account.zh-CN.md"
+      ],
+      "release_availability": "Unreleased provider B worktree implementation; not merged. Core stays 0.1.0 until Task 11 gate B; consumer aliases/cutover follow in Task 12.",
+      "implementation_note": "Pinned Platform 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355 transfer. Economic calculations unchanged. Account schema 2 and execution-state.v2 reject original Platform checkpoints; keep their full pinned environment. Source/input strings remain caller-attested, with actual provenance recorded separately. Full-request validation and optimizer result ownership stay with the supplied optimizer; Engine owns execution-only envelope/residual checks.",
+      "supporting_documentation": [
+        "docs/contracts/paper-account-events.md",
+        "docs/contracts/paper-account-events.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform.backtest.reconciliation",
       "old_module": "quant_platform.backtest.reconciliation",
       "new_module": "quant_backtest_core.backtest.reconciliation",
       "provider_version": "0.2.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "d6319dfe71b060eb2c01a659dd56d6256a849f39",
+      "status": "implemented",
       "wave": "M4",
       "gate": "B",
       "old_urls": [
@@ -6379,15 +6426,22 @@
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/reconciliation.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Existing historical routes/anchors retained; canonical paired destination pages now exist. Implemented means committed source, not provider release or consumer migration.",
+      "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/d6319dfe71b060eb2c01a659dd56d6256a849f39/core/src/quant_backtest_core/backtest/reconciliation.py",
+      "leaf_documentation": [
+        "docs/backtest/capital-and-reconciliation.md",
+        "docs/backtest/capital-and-reconciliation.zh-CN.md"
+      ],
+      "release_availability": "Unreleased provider B worktree implementation; not merged. Core stays 0.1.0 until Task 11 gate B; consumer aliases/cutover follow in Task 12.",
+      "implementation_note": "Pinned Platform 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355 transfer. Economic calculations unchanged. Account schema 2 and execution-state.v2 reject original Platform checkpoints; keep their full pinned environment. Source/input strings remain caller-attested, with actual provenance recorded separately. Full-request validation and optimizer result ownership stay with the supplied optimizer; Engine owns execution-only envelope/residual checks."
     },
     {
       "symbol": "quant_platform.portfolio.pending_allocation",
       "old_module": "quant_platform.portfolio.pending_allocation",
       "new_module": "quant_backtest_core.planning.pending_allocation",
       "provider_version": "0.2.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "d6319dfe71b060eb2c01a659dd56d6256a849f39",
+      "status": "implemented",
       "wave": "M4",
       "gate": "B",
       "old_urls": [
@@ -6425,11 +6479,20 @@
       ],
       "compatibility_path": "quant_platform.portfolio.pending_allocation",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/test_pending_allocation.py -q",
+      "acceptance_test": "uv run --project core --locked --extra planning pytest core/tests/test_pending_allocation.py core/tests/test_pending_protocol.py -q",
       "provider_sources": [
-        "core/src/quant_backtest_core/planning/pending_allocation.py"
+        "core/src/quant_backtest_core/planning/pending_allocation.py",
+        "core/src/quant_backtest_core/planning/pending_protocol.py",
+        "core/src/quant_backtest_core/planning/__init__.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Existing historical routes/anchors retained; canonical paired destination pages now exist. Implemented means committed source, not provider release or consumer migration.",
+      "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/d6319dfe71b060eb2c01a659dd56d6256a849f39/core/src/quant_backtest_core/planning/pending_allocation.py",
+      "leaf_documentation": [
+        "docs/contracts/pending-allocation.md",
+        "docs/contracts/pending-allocation.zh-CN.md"
+      ],
+      "release_availability": "Unreleased provider B worktree implementation; not merged. Core stays 0.1.0 until Task 11 gate B; consumer aliases/cutover follow in Task 12.",
+      "implementation_note": "Pinned Platform 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355 transfer. Economic calculations unchanged. Account schema 2 and execution-state.v2 reject original Platform checkpoints; keep their full pinned environment. Source/input strings remain caller-attested, with actual provenance recorded separately. Full-request validation and optimizer result ownership stay with the supplied optimizer; Engine owns execution-only envelope/residual checks."
     },
     {
       "symbol": "quant_platform.portfolio.impact_planning",
@@ -9006,6 +9069,56 @@
       ],
       "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/tree/97436df3c2474c9bfa6d1dcd1439c386a29a3642/core-native",
       "implementation_note": "Optional native source transferred with original Apache-2.0 terms. Distribution remains quant-microstructure-core 0.1.0, module _microstructure_rs, abi3 Python >=3.12; real installed parity checked on core-supported Python 3.12/3.13. Full legacy native outputs are aggregate trades and ticks; per-fill evidence remains unavailable. Gate B merge and wheel availability are pending, separately from source implementation. Required native CI sets TICKNET_REQUIRE_RUST=1 after explicitly installing the built wheel."
+    },
+    {
+      "symbol": "ticknet.simulator.impact",
+      "old_module": "ticknet.simulator.impact",
+      "new_module": "quant_backtest_core.microstructure.impact",
+      "provider_version": "0.2.0",
+      "source_revision": "d6319dfe71b060eb2c01a659dd56d6256a849f39",
+      "status": "implemented",
+      "wave": "M4",
+      "gate": "B",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/packages/microstructure/src/ticknet/simulator/impact.py",
+          "anchors": []
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/microstructure/impact-estimation/",
+          "anchors": [
+            "execution-impact-estimation"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/microstructure/impact-estimation.zh-CN/",
+          "anchors": []
+        }
+      ],
+      "compatibility_path": "ticknet.simulator.impact",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -m pytest \"$TASK_DATA/tests/test_microstructure_impact.py\" \"$TASK_DATA/tests/test_microstructure_native.py\" -k impact -q",
+      "provider_sources": [
+        "core/src/quant_backtest_core/microstructure/impact.py"
+      ],
+      "leaf_documentation": [
+        "docs/microstructure/impact-estimation.md",
+        "docs/microstructure/impact-estimation.zh-CN.md"
+      ],
+      "source_permalink": "https://github.com/runchengxie/quant-backtest-engine/blob/d6319dfe71b060eb2c01a659dd56d6256a849f39/core/src/quant_backtest_core/microstructure/impact.py",
+      "historical_reference_kind": "code permalink, not an invented documentation route",
+      "anchor_policy": "No original dedicated impact-estimation page existed. Preserve actual source reference; canonical paired Engine pages added with transfer.",
+      "release_availability": "Unreleased provider B implementation; no provider merge or consumer cutover yet. Core remains 0.1.0 until Task 11.",
+      "implementation_note": "Original impact.py is byte-identical, including _mid and empty-book raw sentinels. Exact Task 8 replay/fill classes reused. Complete 11 impact + 2 admission + 1 real native rejection tests transferred, with new empty-book characterization (15 tests). Actual installed Python 3.12/3.13 native rejection, stdlib-only behavior and original/new output parity verified. Native lacks per-fill evidence and rejects before mutation; no aggregate substitution, fallback, cash debit or calibration claim.",
+      "acceptance_environment": {
+        "TICKNET_REQUIRE_RUST": "1"
+      },
+      "acceptance_requirement": "Run from task data with actual installed regular core/native wheels on both Python 3.12 and 3.13; no native skips."
     }
   ],
   "public_import_namespaces": [
@@ -9183,5 +9296,19 @@
     "native_contract": "Original aggregate trades and book ticks; per-fill unavailable, not zero. No native-to-Python fallback.",
     "source_changes": "Python namespace/package boundary, two replay union type annotations and style; unchanged arithmetic. Native implementation, Cargo.lock and stub byte-identical; added original license and package metadata.",
     "duplicate_order_ids": "Preserved legacy duplicate-ID cancellation differs between Python and native; duplicate IDs are outside the parity-supported identity contract. Explicit characterization tests and paired matching guides retain and disclose the difference. SimulatorPack/build_simulator_pack and ReplaySession do not reject explicit duplicates; reserve_order_id protects generated candidates only. Unique explicit resting IDs remain caller responsibility; strict admission requires a separate behavior-changing design."
+  },
+  "provider_b_task9": {
+    "implementation_revision": "d6319dfe71b060eb2c01a659dd56d6256a849f39",
+    "base_revision": "7a6a16db93f937a4049ec4d055319eee7c688597",
+    "original_platform_revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+    "release_availability": "Unreleased; provider B full review/merge and version bump remain Task 11. Consumer adapters remain Task 12.",
+    "checkpoint_identity_changes": [
+      "AccountEventAdapter schema 1 -> 2",
+      "ExecutionState execution-state.v1 -> execution-state.v2",
+      "Only resulting content digests differ; original payload financial/state fields preserved."
+    ],
+    "checkpoint_provenance": "Raw config source/input strings are caller-attested, not measured code hashes. Exact configuration/source/input equality and digest validation remain. No converter; unmodified original checkpoints are rejected and retain the full pinned original Platform/Runtime/Go environment. Actual source/wheel provenance is separate.",
+    "pending_boundary": "Read-only structural request/result fields accept original frozen dataclasses. Engine owns execution-only envelope validation and preserved receipt arithmetic; supplied optimizer validates full request before solve and receives the unchanged object. Actual structural base_result is retained. No OSQP/generic risk estimation import.",
+    "impact_boundary": "Six deterministic simulator modules plus lazy __init__ are now owned; generator remains research and sqrt_law remains a learned-generator consumer diagnostic. Native per-fill unavailable, explicit-ID caller uniqueness and characterized legacy duplicate divergence remain."
   }
 }
