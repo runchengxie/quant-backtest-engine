@@ -26,6 +26,10 @@ last duplicate, while native cancellation selects the first matching queue entry
 For two same-price orders of 5 and 7 shares under one ID, cancelling 3 then cancelling
 the ID leaves Python empty but native with 7 shares no longer indexed by that ID.
 This historical difference is retained and tested; supply unique resting IDs.
+Neither `SimulatorPack` / `build_simulator_pack` nor `ReplaySession` rejects
+duplicate explicit IDs. `reserve_order_id` protects generated candidates only.
+Unique explicit resting IDs remain the caller’s responsibility; strict admission
+would be a separate behavior-changing design, not part of this extraction.
 
 ```python
 from quant_backtest_core.microstructure.matching import MatchingEngine

@@ -9182,6 +9182,6 @@
     "release_availability": "Not merged or released by this source metadata; provider B cohort continues through Task 11.",
     "native_contract": "Original aggregate trades and book ticks; per-fill unavailable, not zero. No native-to-Python fallback.",
     "source_changes": "Python namespace/package boundary, two replay union type annotations and style; unchanged arithmetic. Native implementation, Cargo.lock and stub byte-identical; added original license and package metadata.",
-    "duplicate_order_ids": "Preserved legacy duplicate-ID cancellation differs between Python and native; duplicate IDs are outside the parity-supported identity contract. Explicit characterization tests and paired matching guides retain and disclose the difference."
+    "duplicate_order_ids": "Preserved legacy duplicate-ID cancellation differs between Python and native; duplicate IDs are outside the parity-supported identity contract. Explicit characterization tests and paired matching guides retain and disclose the difference. SimulatorPack/build_simulator_pack and ReplaySession do not reject explicit duplicates; reserve_order_id protects generated candidates only. Unique explicit resting IDs remain caller responsibility; strict admission requires a separate behavior-changing design."
   }
 }

@@ -19,6 +19,9 @@
 重复 ID 的撤单不在后端一致性保证范围内：Python 索引指向最后一笔重复订单，原生撤单选择队列中第一笔匹配订单。
 同价 5 股和 7 股共用 ID 时，先撤 3 股再全撤该 ID，Python 盘口为空，原生仍剩 7 股且该 ID 已无索引。
 这是保留并纳入测试的历史差异；调用方须使用唯一挂单 ID。
+`SimulatorPack` / `build_simulator_pack` 和 `ReplaySession` 都不拒绝重复的显式 ID；
+`reserve_order_id` 只保护自动生成的候选 ID。显式挂单 ID 的唯一性仍由调用方负责。
+增加严格准入校验会改变行为，需要单独设计，不属于此次提取。
 
 ```python
 from quant_backtest_core.microstructure.matching import MatchingEngine
