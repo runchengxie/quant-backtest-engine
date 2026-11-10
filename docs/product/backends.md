@@ -109,4 +109,4 @@ Deterministic LOB matching/replay is implemented in provider B source, pending m
 See [scenario contracts and exact receipts](scenarios.md), including declared lineage
 and hidden-state limits. Core 0.3.0 source does not by itself imply merged release availability.
 
-[Daily input contract](daily-inputs.md) and [complete owner outputs](../reference/outputs/backtest-outputs.md) describe ideal, capacity, adjusted and sequenced limits. Capacity has no cash/fee ledger; diagnostic period replay is a separate Python API, not an executable backend capability.
+[Daily input contract](daily-inputs.md) and [complete owner outputs](../reference/outputs/backtest-outputs.md) describe ideal, capacity, adjusted and sequenced limits. Capacity accepts liquidity/participation and tradability controls, execution windows and zero-fill abort; price-limit, listing-status, T+1 and buy/sell lot enforcement are rejected. Capacity has no share/cash/fee ledger; diagnostic period replay is a separate Python API, not an executable backend capability.

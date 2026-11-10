@@ -87,6 +87,29 @@ def validate_request(request: DailyReplayRequest) -> None:
         raise ValueError("daily replay requires explicit valuation horizon")
     if max(dates) > max(local_day(v) for v in valuations if v is not None):
         raise ValueError("pricing extends past final decision valuation")
+    if request.mode == "capacity":
+        for name, supported in (
+            ("unfilled_buy_action", "keep_cash"),
+            ("unfilled_sell_action", "keep_position"),
+        ):
+            if getattr(request.config, name) != supported:
+                raise ValueError(f"capacity mode requires {name}={supported}")
+        unsupported = [
+            name
+            for name in ("enforce_price_limits", "enforce_listing_status", "enforce_t1")
+            if getattr(request.config, name)
+        ]
+        unsupported.extend(
+            name
+            for name in ("round_lot", "sell_round_lot")
+            if getattr(request.config, name) is not None
+        )
+        if unsupported:
+            raise ValueError(
+                "capacity mode does not support "
+                + ", ".join(unsupported)
+                + "; use adjusted or sequenced mode"
+            )
     for enabled, rule_column in (
         (request.config.enforce_price_limits, request.config.limit_up_col),
         (request.config.enforce_price_limits, request.config.limit_down_col),

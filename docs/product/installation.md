@@ -78,9 +78,9 @@ For minimal minute acceptance, install `[minute]` alone plus pytest and run
 and `python -I -B examples/product/minute_session.py`. This install needs pandas
 and its NumPy dependency, but no SciPy, Platform, Runtime or ML framework.
 
-Deterministic LOB matching/replay is implemented in provider B source, pending merged release. [LOB Python / optional PyO3 modes](../development/microstructure-rust.md).
+Deterministic LOB matching/replay was implemented by provider B. [LOB Python / optional PyO3 modes](../development/microstructure-rust.md).
 
-## Task 9 execution ownership (unreleased)
+## Task 9 execution ownership
 
 Provider B now implements [paper accounts](../backtest/paper-account.md),
 [account events and full checkpoints](../contracts/paper-account-events.md),
@@ -91,18 +91,18 @@ Use the `[planning]` optional core dependencies for pandas-based accounts and
 reservations. Replay/impact is standard-library-only; the optional native wheel
 still rejects impact estimation because per-fill evidence is unsupported. A supplied
 optimizer owns full research validation; Engine supplies no OSQP optimizer.
-Core source is now 0.2.0; whole-provider review and integration still precede release availability and consumer cutover. Old checkpoints retain their full pinned legacy environment.
+The current provider C candidate is Core 0.3.0; its review, integration and exact-wheel validation still precede release availability and consumer cutover. Old checkpoints retain their full pinned legacy environment.
 
 ## Bounded planning
 
-The unreleased provider B implementation includes optional leaf APIs under
+The provider B implementation includes optional leaf APIs under
 `quant_backtest_core.planning`: impact planning, multiperiod weights, finite
 inventory/oracle comparison and actual sleeve-fill attribution. Install Core's
 explicit `[planning]` extra with NumPy 2.2.6, pandas 3.0.6 and SciPy 1.18.1 for the
 continuous APIs. Finite inventory/oracle and sleeve attribution use only the
 standard library. Importing the planning package stays lazy. No Platform, Runtime,
 Torch or OSQP is required; generic optimizers and risk estimators remain external.
-Core source is 0.2.0; a source implementation is not a merged release or consumer cutover.
+The current Core 0.3.0 candidate is a source implementation, not a merged release or consumer cutover.
 See [impact planning](../concepts/impact-planning.md),
 [finite inventory](../concepts/discrete-inventory.md), and
 [sleeve allocation](../backtest/sleeve-allocation.md).

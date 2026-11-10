@@ -116,6 +116,27 @@ def validate_daily_input(manifest):
             type(config[key]) is not int or config[key] <= 0
         ):
             raise ValueError(f"{key} must be positive integer or null")
+    if settings["mode"] == "capacity":
+        for name, supported in (
+            ("unfilled_buy_action", "keep_cash"),
+            ("unfilled_sell_action", "keep_position"),
+        ):
+            if config[name] != supported:
+                raise ValueError(f"capacity mode requires {name}={supported}")
+        unsupported = [
+            key
+            for key in ("enforce_price_limits", "enforce_listing_status", "enforce_t1")
+            if config[key]
+        ]
+        unsupported.extend(
+            key for key in ("round_lot", "sell_round_lot") if config[key] is not None
+        )
+        if unsupported:
+            raise ValueError(
+                "capacity mode does not support "
+                + ", ".join(unsupported)
+                + "; use adjusted or sequenced mode"
+            )
     if type(config["buy_max_days"]) is not int:
         raise ValueError("buy_max_days must be integer")
     if config["sell_max_days"] != "until_next_rebalance" and (

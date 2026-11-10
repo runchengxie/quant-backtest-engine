@@ -2,6 +2,7 @@ import copy
 import hashlib
 import json
 from pathlib import Path
+from unittest.mock import patch
 
 import pandas as pd
 import pytest
@@ -15,6 +16,7 @@ from quant_backtest_engine.product import (
 from quant_backtest_core.backends.daily import DailyBackend
 from quant_backtest_core.backends.protocol import BackendContext
 from quant_backtest_core.daily.contracts import ExecutionCalendar
+from quant_backtest_core.daily.execution_sim import simulate_capacity_execution
 from quant_backtest_core.daily.period_replay import run_period_replay
 from quant_backtest_core.daily.position_backtest import PositionBacktestResult
 
@@ -221,3 +223,45 @@ def test_daily_wire_roundtrip_preserves_column_units_and_exact_clocks(tmp_path):
             assert isinstance(frame["columns_dtype"], str)
             assert len(frame["data"]) == len(frame["index"])
     assert set(raw["owner_unified_ledger"]) == set(raw["unified_ledger"])
+
+
+@pytest.mark.parametrize(
+    "control",
+    [
+        "enforce_price_limits",
+        "enforce_listing_status",
+        "enforce_t1",
+        "round_lot",
+        "sell_round_lot",
+        "unfilled_buy_action",
+        "unfilled_sell_action",
+    ],
+)
+def test_capacity_product_rejects_unsupported_rules_without_outputs(control, tmp_path):
+    value = wire()
+    value["settings"]["mode"] = "capacity"
+    config = value["settings"]["config"]
+    config[control] = (
+        "cancel"
+        if control.startswith("unfilled_")
+        else 100
+        if control in ("round_lot", "sell_round_lot")
+        else True
+    )
+    if control == "enforce_price_limits":
+        config.update(limit_up_col="limit_up", limit_down_col="limit_down")
+        for row in value["inline_inputs"]["pricing"]:
+            row.update(limit_up=True, limit_down=False)
+    elif control == "enforce_listing_status":
+        config["listing_status_col"] = "listing_status"
+        for row in value["inline_inputs"]["pricing"]:
+            row["listing_status"] = "delisted"
+    context = BackendContext(FIXTURES, tmp_path / "not-created")
+    with patch(
+        "quant_backtest_core.daily.runner.simulate_capacity_execution",
+        wraps=simulate_capacity_execution,
+    ) as owner:
+        with pytest.raises(ValueError, match=f"capacity.*{control}"):
+            DailyBackend(context).run(parse_manifest(value), context)
+        owner.assert_not_called()
+    assert not context.output_root.exists()

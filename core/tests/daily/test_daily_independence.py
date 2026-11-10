@@ -2,6 +2,7 @@
 
 import sys
 from dataclasses import replace
+from unittest.mock import patch
 
 import pandas as pd
 import pytest
@@ -13,7 +14,7 @@ from quant_backtest_core.daily.contracts import (
     ExecutionCalendar,
     utc_ns,
 )
-from quant_backtest_core.daily.execution_sim import ExecutionSimConfig
+from quant_backtest_core.daily.execution_sim import ExecutionSimConfig, simulate_capacity_execution
 from quant_backtest_core.daily.runner import run_daily
 
 
@@ -137,3 +138,63 @@ def test_execution_closure_has_no_research_or_provider_dependency():
         }
         for n in sys.modules
     )
+
+
+@pytest.mark.parametrize(
+    "control",
+    [
+        "enforce_price_limits",
+        "enforce_listing_status",
+        "enforce_t1",
+        "round_lot",
+        "sell_round_lot",
+        "unfilled_buy_action",
+        "unfilled_sell_action",
+    ],
+)
+def test_capacity_rejects_unsupported_rules_before_owner_dispatch(control):
+    r = request("capacity")
+    config = {
+        control: (
+            "cancel"
+            if control.startswith("unfilled_")
+            else 100
+            if control in ("round_lot", "sell_round_lot")
+            else True
+        )
+    }
+    if control == "enforce_price_limits":
+        config.update(limit_up_col="limit_up", limit_down_col="limit_down")
+        r.pricing["limit_up"], r.pricing["limit_down"] = True, False
+    elif control == "enforce_listing_status":
+        config["listing_status_col"] = "listing_status"
+        r.pricing["listing_status"] = "delisted"
+    r = replace(r, config=replace(r.config, **config))
+    before = r.pricing.copy(deep=True)
+    with patch(
+        "quant_backtest_core.daily.runner.simulate_capacity_execution",
+        wraps=simulate_capacity_execution,
+    ) as owner:
+        with pytest.raises(ValueError, match=f"capacity.*{control}"):
+            run_daily(r)
+        owner.assert_not_called()
+    pd.testing.assert_frame_equal(r.pricing, before)
+
+
+@pytest.mark.parametrize("selector", ["tradable_col", "buy_tradable_col"])
+def test_capacity_supported_liquidity_and_tradability_controls_execute(selector):
+    r = request("capacity")
+    r.pricing["amount"] = 100.0
+    r.pricing["allowed"] = r.pricing.trade_date.ne("2020-01-03")
+    r = replace(
+        r,
+        positions=r.positions.iloc[:1].copy(),
+        decision_clocks={"2020-01-02": r.decision_clocks["2020-01-02"]},
+        config=replace(r.config, participation_rate=0.1),
+        layout=replace(r.layout, sell_tradable_col=None, **{selector: "allowed"}),
+    )
+    result = run_daily(r)
+    assert result.summary["status"] == "ok"
+    assert result.fills.trade_date.tolist() == ["20200106", "20200107"]
+    assert result.fills.filled_notional.tolist() == [10.0, 10.0]
+    assert not hasattr(result, "daily")

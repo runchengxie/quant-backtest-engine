@@ -92,4 +92,4 @@ SDK 版本来自已安装包元数据。`required-*` 依赖键描述要求的原
 见[场景合同与精确收据](scenarios.zh-CN.md)，包括声明谱系和隐藏状态限制。
 Core 0.3.0 源码版本本身不代表已经合并发布。
 
-[日频输入契约](daily-inputs.zh-CN.md)与[完整输出](../reference/outputs/backtest-outputs.zh-CN.md)说明理想、容量、调整及序列执行的边界。容量诊断无现金/费用账本；期间诊断是独立 Python API，不属于可执行后端能力。
+[日频输入契约](daily-inputs.zh-CN.md)与[完整输出](../reference/outputs/backtest-outputs.zh-CN.md)说明理想、容量、调整及序列执行的边界。容量诊断支持流动性/参与率与交易许可、执行窗口及连续零成交中止；拒绝涨跌停、上市状态、T+1 和买卖整手约束。该模式没有股数/现金/费用账本；期间诊断是独立 Python API，不属于可执行后端能力。

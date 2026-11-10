@@ -96,7 +96,7 @@ class DailyBackend:
             (
                 "CNY / Asia-Shanghai explicit daily calendar; chosen long-only targets",
                 "No checkpoint/restore, policy, flow, scenario or intraday execution",
-                "Capacity is a weight diagnostic; ideal ignores market microstructure",
+                "Capacity supports liquidity/tradability, not price/listing/T+1/lot rules",
                 "Legacy audit timestamps are date labels, not observed intraday events",
                 "Reports are terminal order summaries, not lifecycle admissions",
             ),

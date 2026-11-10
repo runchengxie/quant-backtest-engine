@@ -36,6 +36,43 @@ class ProductContractsTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             replace(parse_manifest(self.wire()), input_schema="daily-input.v1")
 
+    def test_capacity_rejects_unsupported_rules(self):
+        for control in (
+            "enforce_price_limits",
+            "enforce_listing_status",
+            "enforce_t1",
+            "round_lot",
+            "sell_round_lot",
+            "unfilled_buy_action",
+            "unfilled_sell_action",
+        ):
+            with self.subTest(control=control):
+                wire = json.loads((FIXTURE.parent / "daily.json").read_text())
+                wire["settings"]["mode"] = "capacity"
+                config = wire["settings"]["config"]
+                config[control] = (
+                    "cancel"
+                    if control.startswith("unfilled_")
+                    else 100
+                    if control in ("round_lot", "sell_round_lot")
+                    else True
+                )
+                if control == "enforce_price_limits":
+                    config.update(limit_up_col="limit_up", limit_down_col="limit_down")
+                    for row in wire["inline_inputs"]["pricing"]:
+                        row.update(limit_up=True, limit_down=False)
+                elif control == "enforce_listing_status":
+                    config["listing_status_col"] = "listing_status"
+                    for row in wire["inline_inputs"]["pricing"]:
+                        row["listing_status"] = "delisted"
+                with self.assertRaisesRegex(ValueError, f"capacity.*{control}"):
+                    parse_manifest(wire)
+
+    def test_supported_capacity_profile_roundtrips(self):
+        wire = json.loads((FIXTURE.parent / "daily.json").read_text())
+        wire["settings"]["mode"] = "capacity"
+        self.assertEqual(manifest_to_json(parse_manifest(wire)), wire)
+
     def wire(self):
         return json.loads(FIXTURE.read_text())
 
