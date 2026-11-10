@@ -14,7 +14,11 @@ from quant_backtest_core.daily.contracts import (
     ExecutionCalendar,
     utc_ns,
 )
-from quant_backtest_core.daily.execution_sim import ExecutionSimConfig, simulate_capacity_execution
+from quant_backtest_core.daily.execution_sim import (
+    ExecutionSimConfig,
+    simulate_capacity_execution,
+    simulate_execution_adjusted_nav,
+)
 from quant_backtest_core.daily.runner import run_daily
 
 
@@ -198,3 +202,69 @@ def test_capacity_supported_liquidity_and_tradability_controls_execute(selector)
     assert result.fills.trade_date.tolist() == ["20200106", "20200107"]
     assert result.fills.filled_notional.tolist() == [10.0, 10.0]
     assert not hasattr(result, "daily")
+
+
+@pytest.mark.parametrize("mode", ["adjusted", "sequenced"])
+def test_summary_requires_both_interval_endpoints_and_recovers(mode):
+    r = request(mode)
+    extra = r.pricing[r.pricing.trade_date.eq("2020-01-07")].copy()
+    extra["trade_date"] = "2020-01-08"
+    extra.loc[extra.symbol.eq("A"), "close"] = 13.2
+    pricing = pd.concat([r.pricing, extra], ignore_index=True)
+    pricing.loc[pricing.symbol.eq("A") & pricing.trade_date.eq("2020-01-06"), "close"] = float(
+        "nan"
+    )
+    pricing.loc[pricing.symbol.eq("A") & pricing.trade_date.eq("2020-01-07"), "close"] = 12.0
+    r = replace(
+        r,
+        pricing=pricing,
+        calendar=ExecutionCalendar.from_dates(
+            "Asia/Shanghai", (*r.calendar.open_dates, "2020-01-08")
+        ),
+        decision_clocks={
+            day: replace(
+                clock, valuation_ns=utc_ns(pd.Timestamp("2020-01-08 16:00", tz="Asia/Shanghai"))
+            )
+            for day, clock in r.decision_clocks.items()
+        },
+    )
+    owned = simulate_execution_adjusted_nav(
+        r.positions,
+        r.pricing,
+        r.config,
+        price_col=r.layout.price_col,
+        sell_tradable_col=r.layout.sell_tradable_col,
+    )
+    result = run_daily(r)
+    for name in ("daily", "orders", "fills", "actions", "holdings"):
+        a, b = getattr(result, name), getattr(owned, name)
+        if a is None:
+            assert b is None
+        else:
+            pd.testing.assert_frame_equal(a, b, check_exact=True)
+    assert result.daily.portfolio_value.tolist() == pytest.approx([1000, 1000, 1200, 1320])
+    assert result.daily.executed_return.tolist() == pytest.approx([0, 0, 0.2, 0.1])
+    summary = result.summary["execution_summary"]
+    assert summary["daily_return"][:3] == (0.0, None, None)
+    assert summary["daily_return"][3] == pytest.approx(0.1)
+    assert summary["cumulative_return"] is None
+    assert summary["valuation_complete"] is False
+
+
+@pytest.mark.parametrize("mode", ["adjusted", "sequenced"])
+@pytest.mark.parametrize("status", ["halt", "delisted"])
+def test_listing_enforcement_rejected_on_actual_entry_before_owner(mode, status):
+    r = request(mode)
+    r.pricing["listing_status"] = "listed"
+    r.pricing.loc[r.pricing.trade_date.eq("2020-01-03"), "listing_status"] = status
+    r = replace(
+        r,
+        config=replace(r.config, enforce_listing_status=True, listing_status_col="listing_status"),
+    )
+    with patch(
+        "quant_backtest_core.daily.runner.simulate_execution_adjusted_nav",
+        wraps=simulate_execution_adjusted_nav,
+    ) as owner:
+        with pytest.raises(ValueError, match=f"{mode}.*enforce_listing_status"):
+            run_daily(r)
+        owner.assert_not_called()

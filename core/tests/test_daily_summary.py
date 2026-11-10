@@ -147,3 +147,13 @@ def test_zero_rows_with_declared_columns_follow_evidence_status(status):
             None,
             False,
         )
+
+
+def test_interval_evidence_distinguishes_recovered_close_from_supported_opening():
+    daily = pd.DataFrame({"executed_return": [0.0, 0.0, 0.2, 0.1]})
+    proof = evidence((True, False, False, True), (True,) * 4)
+    result = summarize_execution(daily, pd.DataFrame(), evidence=proof)
+    assert result.daily_return == (0.0, None, None, 0.1)
+    assert result.cumulative_return is None
+    assert not result.valuation_complete
+    assert daily.executed_return.tolist() == [0.0, 0.0, 0.2, 0.1]

@@ -73,6 +73,19 @@ class ProductContractsTests(unittest.TestCase):
         wire["settings"]["mode"] = "capacity"
         self.assertEqual(manifest_to_json(parse_manifest(wire)), wire)
 
+    def test_listing_enforcement_rejected_for_adjusted_and_sequenced(self):
+        for mode in ("adjusted", "sequenced"):
+            for status in ("halt", "delisted"):
+                with self.subTest(mode=mode, status=status):
+                    value = json.loads((FIXTURE.parent / "daily.json").read_text())
+                    value["settings"]["mode"] = mode
+                    value["settings"]["config"].update(
+                        enforce_listing_status=True, listing_status_col="listing_status")
+                    for row in value["inline_inputs"]["pricing"]:
+                        row["listing_status"] = status if row["trade_date"] == "2020-01-03" else "listed"
+                    with self.assertRaisesRegex(ValueError, f"{mode}.*enforce_listing_status"):
+                        parse_manifest(value)
+
     def wire(self):
         return json.loads(FIXTURE.read_text())
 

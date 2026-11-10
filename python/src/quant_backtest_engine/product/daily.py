@@ -116,6 +116,8 @@ def validate_daily_input(manifest):
             type(config[key]) is not int or config[key] <= 0
         ):
             raise ValueError(f"{key} must be positive integer or null")
+    if settings["mode"] in ("adjusted", "sequenced") and config["enforce_listing_status"]:
+        raise ValueError(f"{settings['mode']} mode does not support enforce_listing_status")
     if settings["mode"] == "capacity":
         for name, supported in (
             ("unfilled_buy_action", "keep_cash"),
@@ -135,7 +137,7 @@ def validate_daily_input(manifest):
             raise ValueError(
                 "capacity mode does not support "
                 + ", ".join(unsupported)
-                + "; use adjusted or sequenced mode"
+                + "; disable unsupported controls"
             )
     if type(config["buy_max_days"]) is not int:
         raise ValueError("buy_max_days must be integer")

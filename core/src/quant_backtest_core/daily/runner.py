@@ -108,8 +108,10 @@ def validate_request(request: DailyReplayRequest) -> None:
             raise ValueError(
                 "capacity mode does not support "
                 + ", ".join(unsupported)
-                + "; use adjusted or sequenced mode"
+                + "; disable unsupported controls"
             )
+    if request.mode in {"adjusted", "sequenced"} and request.config.enforce_listing_status:
+        raise ValueError(f"{request.mode} mode does not support enforce_listing_status")
     for enabled, rule_column in (
         (request.config.enforce_price_limits, request.config.limit_up_col),
         (request.config.enforce_price_limits, request.config.limit_down_col),
@@ -177,8 +179,8 @@ def run_daily(request: DailyReplayRequest) -> ExecutionAdjustedNavResult | Execu
         )
     if result.summary.get("status") != "ok":
         raise ValueError(f"daily execution failed: {result.summary.get('status')}")
-    # Conservative sufficient evidence: every target has a current finite positive
-    # mark on every ledger date. Do not infer completeness from carried-forward NAV.
+    # Conservative endpoint evidence: every target has a current finite positive
+    # mark. A carried-forward owner NAV cannot establish an interval endpoint.
     table = request.pricing.pivot(index="trade_date", columns="symbol", values=layout.price_col)
     symbols = sorted(set(request.positions.symbol))
     marks = tuple(
@@ -193,7 +195,14 @@ def run_daily(request: DailyReplayRequest) -> ExecutionAdjustedNavResult | Execu
             for day in result.daily.trade_date
         )
     )
-    evidence = DailySummaryEvidence("available", "available", marks, (True,) * len(marks))
+    # These fresh-run owners start with configured cash, no holdings or receivables;
+    # there is no restoration or external-flow input in this neutral profile.
+    initial_cash_complete = bool(np.isfinite(config.portfolio_value) and config.portfolio_value > 0)
+    intervals = tuple(
+        closing and (initial_cash_complete if index == 0 else marks[index - 1])
+        for index, closing in enumerate(marks)
+    )
+    evidence = DailySummaryEvidence("available", "available", intervals, (True,) * len(marks))
     summary = dict(result.summary)
     summary["execution_summary"] = asdict(
         summarize_execution(result.daily, result.fills, evidence=evidence)

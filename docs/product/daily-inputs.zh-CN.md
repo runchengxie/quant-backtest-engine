@@ -104,7 +104,7 @@ IC、alpha 和广泛研究统计仍归 Platform；Task 15 通过兼容封装从�
 
 Python layout.liquidity_units 仍是映射；协议将其编码为 [{"column":"amount","unit":"CNY"}]，避免动态列名与金额键冲突。拒绝重复列、未知记录字段及单位不匹配。fee_model 仅接受 null、detailed 或 dated 固定结构，不接受模块路径。portfolio_value 必须等于初始现金。产品限定 CNY、Asia/Shanghai、显式原始/复权股数单位。
 
-run_daily 不支持 policy、scenario、flow、risk 或 forecast 转换，也不支持检查点/恢复。ideal 不能带交易限制；capacity 支持流动性/参与率限制、通用或分买卖方向的交易许可、执行窗口及连续零成交中止，但在执行前拒绝 `enforce_price_limits`、`enforce_listing_status`、`enforce_t1`、非空 `round_lot`/`sell_round_lot`、公司行动及费用。capacity 要求 `unfilled_buy_action=keep_cash` 和 `unfilled_sell_action=keep_position`，拒绝其他策略；该模式没有股数/现金/费用账本；调整/顺序模式保留真实模拟股数和现金路径。按行估值完整性是保守充分条件：每个目标证券在所有账本日均有正的有限当前价格；缺失时摘要收益保持未知。
+run_daily 不支持 policy、scenario、flow、risk 或 forecast 转换，也不支持检查点/恢复。ideal 不能带交易限制；capacity 支持流动性/参与率限制、通用或分买卖方向的交易许可、执行窗口及连续零成交中止，但在执行前拒绝 `enforce_price_limits`、`enforce_listing_status`、`enforce_t1`、非空 `round_lot`/`sell_round_lot`、公司行动及费用。capacity 要求 `unfilled_buy_action=keep_cash` 和 `unfilled_sell_action=keep_position`，拒绝其他策略；该模式没有股数/现金/费用账本；调整/顺序模式保留真实模拟股数和现金路径。每个收益区间要求期初和期末估值均完整。新运行以有限正数的配置现金开始，没有持仓或应收项；后续区间要求相邻两个账本日的所有目标证券都有正的有限当前价格。缺价使当期和下一期收益均未知，两个端点再次完整后才恢复支持。原有沿用价格的净值和收益仍原样保留在原始表中。调整/顺序模式在执行前拒绝启用 `enforce_listing_status`，因为保留的买入路径未实现该约束。
 
 ## 已安装合成样例
 
@@ -115,3 +115,5 @@ quant-backtest capabilities python.daily
 quant-backtest run-manifest fixtures/product/daily.json \
   --artifact-root fixtures/product --output-root "$DAILY_OUTPUT"
 ```
+
+中立适配器保留显式流动性列及其单位声明，不采用旧解析器自动追加 `amount` 的默认行为。自定义 `turnover_cny` 列只需声明自身的 CNY 单位，无需额外的 `amount` 列。直接调用旧解析器的默认行为保持不变。

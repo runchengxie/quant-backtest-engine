@@ -32,4 +32,4 @@
 
 统一账本八表：targets、orders、fills、daily_positions、daily_cash、daily_nav、cost_breakdown、turnover_breakdown。后两者保留按买卖方向及 total 聚合的原成本/成交额；不重新扣费。公司行动的 cash_receivable、stock_receivable_value 和生命周期回执须单独检查。
 
-执行摘要只在当前估值完整且外部净流入为零的行上报告收益；全序列完整才复合。仅按成交表已知 commission/stamp/transfer 三项求总费用，换手率未知。不以日频汇总补齐缺失成交，也不将机会损失再次扣款。
+执行摘要只在期初和期末估值均完整、且已知外部净流入为零时报告收益；全序列完整才复合。首期期初以有限正数的配置现金开始，没有持仓或应收项。缺价使当期的期末和下一期的期初均不完整；当前价格恢复本身不能补齐期初证据。原有净值和收益表保持不变。仅按成交表已知 commission/stamp/transfer 三项求总费用，换手率未知。不以日频汇总补齐缺失成交，也不将机会损失再次扣款。

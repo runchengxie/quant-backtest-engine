@@ -1,6 +1,7 @@
 import copy
 import hashlib
 import json
+from dataclasses import replace
 from pathlib import Path
 from unittest.mock import patch
 
@@ -13,12 +14,16 @@ from quant_backtest_engine.product import (
     result_to_json,
 )
 
-from quant_backtest_core.backends.daily import DailyBackend
+from quant_backtest_core.backends.daily import DailyBackend, _owner_frame
 from quant_backtest_core.backends.protocol import BackendContext
 from quant_backtest_core.daily.contracts import ExecutionCalendar
-from quant_backtest_core.daily.execution_sim import simulate_capacity_execution
+from quant_backtest_core.daily.execution_sim import (
+    simulate_capacity_execution,
+    simulate_execution_adjusted_nav,
+)
 from quant_backtest_core.daily.period_replay import run_period_replay
 from quant_backtest_core.daily.position_backtest import PositionBacktestResult
+from quant_backtest_core.daily.runner import run_daily
 
 FIXTURES = Path(__file__).resolve().parents[3] / "fixtures/product"
 
@@ -262,6 +267,100 @@ def test_capacity_product_rejects_unsupported_rules_without_outputs(control, tmp
         wraps=simulate_capacity_execution,
     ) as owner:
         with pytest.raises(ValueError, match=f"capacity.*{control}"):
+            DailyBackend(context).run(parse_manifest(value), context)
+        owner.assert_not_called()
+    assert not context.output_root.exists()
+
+
+@pytest.mark.parametrize("mode", ["adjusted", "sequenced"])
+def test_product_summary_requires_opening_and_closing_marks(mode, tmp_path):
+    value = wire()
+    value["settings"]["mode"] = mode
+    rows = value["inline_inputs"]["pricing"]
+    extra = [
+        dict(row, trade_date="2020-01-08") for row in rows if row["trade_date"] == "2020-01-07"
+    ]
+    rows.extend(extra)
+    for row in rows:
+        if row["symbol"] == "A":
+            row["close"] = {"2020-01-06": None, "2020-01-07": "12.0", "2020-01-08": "13.2"}.get(
+                row["trade_date"], row["close"]
+            )
+    horizon = str(pd.Timestamp("2020-01-08 16:00", tz="Asia/Shanghai").value)
+    value["clocks"]["valuation_ns"] = horizon
+    for clock in value["settings"]["decision_clocks"].values():
+        clock["valuation_ns"] = horizon
+    calendar = json.loads((FIXTURES / "daily-calendar.json").read_text())
+    calendar["open_dates"].append("2020-01-08")
+    payload = json.dumps(calendar).encode()
+    (tmp_path / "daily-calendar.json").write_bytes(payload)
+    value["calendar"]["sha256"] = hashlib.sha256(payload).hexdigest()
+    context = BackendContext(tmp_path, tmp_path / "out")
+    result = DailyBackend(context).run(parse_manifest(value), context)
+    raw = json.loads((context.output_root / result.raw_result.uri).read_text())
+    daily = raw["tables"]["daily"]["rows"]
+    assert [float(row["portfolio_value"]) for row in daily] == pytest.approx(
+        [1000, 1000, 1200, 1320]
+    )
+    assert [float(row["executed_return"]) for row in daily] == pytest.approx([0, 0, 0.2, 0.1])
+    expected = raw["summary"]["execution_summary"]
+    assert expected["daily_return"][:3] == ["0.0", None, None]
+    assert float(expected["daily_return"][3]) == pytest.approx(0.1)
+    assert result.summary["daily_return"] == tuple(expected["daily_return"])
+    assert result.summary["cumulative_return"] is None
+
+
+@pytest.mark.parametrize("mode", ["capacity", "adjusted", "sequenced"])
+def test_explicit_custom_liquidity_product_preserves_all_native_tables(mode, tmp_path):
+    value = wire()
+    value["settings"]["mode"] = mode
+    context = BackendContext(FIXTURES, tmp_path)
+    backend = DailyBackend(context)
+    # Construct the native explicit request independently of custom wire translation.
+    original = backend._prepare(parse_manifest(value), context)
+    native = replace(
+        original,
+        pricing=original.pricing.rename(columns={"amount": "turnover_cny"}),
+        config=replace(original.config, liquidity_cols=("turnover_cny",)),
+        layout=replace(original.layout, liquidity_units={"turnover_cny": "CNY"}),
+    )
+    expected = run_daily(native)
+    value["settings"]["config"]["liquidity_cols"] = ["turnover_cny"]
+    value["settings"]["layout"]["liquidity_units"] = [{"column": "turnover_cny", "unit": "CNY"}]
+    for row in value["inline_inputs"]["pricing"]:
+        row["turnover_cny"] = row.pop("amount")
+    manifest = parse_manifest(value)
+    assert manifest_to_json(manifest) == value
+    prepared = backend._prepare(manifest, context)
+    assert prepared.config.liquidity_cols == ("turnover_cny",)
+    assert dict(prepared.layout.liquidity_units) == {"turnover_cny": "CNY"}
+    assert "amount" not in prepared.pricing
+    product = backend.run(manifest, context)
+    raw = json.loads((context.output_root / product.raw_result.uri).read_text())
+    for name in ("daily", "orders", "fills", "actions", "holdings"):
+        assert raw["owner_tables"][name] == _owner_frame(getattr(expected, name, None))
+    ledger = expected.to_unified_ledger(portfolio_value=native.config.portfolio_value)
+    assert raw["owner_unified_ledger"] == {
+        name: _owner_frame(getattr(ledger, name)) for name in ledger.__dataclass_fields__
+    }
+
+
+@pytest.mark.parametrize("mode", ["adjusted", "sequenced"])
+@pytest.mark.parametrize("status", ["halt", "delisted"])
+def test_product_listing_enforcement_rejected_on_actual_entry(mode, status, tmp_path):
+    value = wire()
+    value["settings"]["mode"] = mode
+    value["settings"]["config"].update(
+        enforce_listing_status=True, listing_status_col="listing_status"
+    )
+    for row in value["inline_inputs"]["pricing"]:
+        row["listing_status"] = status if row["trade_date"] == "2020-01-03" else "listed"
+    context = BackendContext(FIXTURES, tmp_path / "not-created")
+    with patch(
+        "quant_backtest_core.daily.runner.simulate_execution_adjusted_nav",
+        wraps=simulate_execution_adjusted_nav,
+    ) as owner:
+        with pytest.raises(ValueError, match=f"{mode}.*enforce_listing_status"):
             DailyBackend(context).run(parse_manifest(value), context)
         owner.assert_not_called()
     assert not context.output_root.exists()

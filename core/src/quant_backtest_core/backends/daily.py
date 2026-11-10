@@ -97,6 +97,7 @@ class DailyBackend:
                 "CNY / Asia-Shanghai explicit daily calendar; chosen long-only targets",
                 "No checkpoint/restore, policy, flow, scenario or intraday execution",
                 "Capacity supports liquidity/tradability, not price/listing/T+1/lot rules",
+                "Adjusted/sequenced reject listing enforcement; legacy buys do not implement it",
                 "Legacy audit timestamps are date labels, not observed intraday events",
                 "Reports are terminal order summaries, not lifecycle admissions",
             ),
@@ -155,7 +156,14 @@ class DailyBackend:
             raise ValueError("calendar timezone differs from manifest")
         settings = wire["settings"]
         config = build_execution_sim_config(
-            {k: float(v) if k in CONFIG_DECIMALS else v for k, v in settings["config"].items()}
+            {
+                **{
+                    k: float(v) if k in CONFIG_DECIMALS else v
+                    for k, v in settings["config"].items()
+                },
+                # Neutral selectors are explicit; do not append the legacy amount default.
+                "cap_daily_amount": False,
+            }
         )
         layout = DailyInputLayout(
             **{
