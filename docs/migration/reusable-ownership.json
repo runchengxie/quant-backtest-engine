@@ -10286,6 +10286,942 @@
         "docs/guides/sequenced-execution.md",
         "docs/guides/sequenced-execution.zh-CN.md"
       ]
+    },
+    {
+      "symbol": "quant_platform._portfolio.leg_helpers._next_position_state",
+      "old_module": "quant_platform._portfolio.leg_helpers",
+      "new_module": "quant_backtest_core.daily.leg_financial",
+      "provider_version": "0.3.0",
+      "source_revision": "067dd5a43c3311163bf03c44e9b6a7bbd72e8561",
+      "status": "implemented",
+      "wave": "M5",
+      "gate": "C",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay.en/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay.zh-CN/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "compatibility_path": "quant_platform._portfolio.leg_helpers._next_position_state",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily/test_period_leg_financial.py core/tests/daily/test_legacy_trade_accounting.py -q -p no:cacheprovider",
+      "provider_sources": [
+        "core/src/quant_backtest_core/daily/leg_financial.py"
+      ],
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Task 15P source committed after merged provider C PR24; follow-up review, merge and exact merged artifacts are pending. No consumer cutover or PyPI publication.",
+      "implementation_note": "Exact original pure financial body/API retained. This closes a source-closure omission discovered after PR24; selection, weight construction, research metrics/orchestration and period_turnover_fields stay Platform. Legacy trade_accounting APIs remain distinct from _period_helpers and existing backend accounting. Compatibility aliases require two minor cycles AND all supported consumers.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/leg_helpers.py",
+            "source_sha256": "21c0acfc87492341c3381f29bd71503e58ac587dd57b0e160b5e889055d38c52"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/diagnostic-close-replay.md",
+        "docs/guides/diagnostic-close-replay.zh-CN.md"
+      ]
+    },
+    {
+      "symbol": "quant_platform._portfolio.leg_helpers._build_leg_turnover_report",
+      "old_module": "quant_platform._portfolio.leg_helpers",
+      "new_module": "quant_backtest_core.daily.leg_financial",
+      "provider_version": "0.3.0",
+      "source_revision": "067dd5a43c3311163bf03c44e9b6a7bbd72e8561",
+      "status": "implemented",
+      "wave": "M5",
+      "gate": "C",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay.en/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay.zh-CN/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "compatibility_path": "quant_platform._portfolio.leg_helpers._build_leg_turnover_report",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily/test_period_leg_financial.py core/tests/daily/test_legacy_trade_accounting.py -q -p no:cacheprovider",
+      "provider_sources": [
+        "core/src/quant_backtest_core/daily/leg_financial.py"
+      ],
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Task 15P source committed after merged provider C PR24; follow-up review, merge and exact merged artifacts are pending. No consumer cutover or PyPI publication.",
+      "implementation_note": "Exact original pure financial body/API retained. This closes a source-closure omission discovered after PR24; selection, weight construction, research metrics/orchestration and period_turnover_fields stay Platform. Legacy trade_accounting APIs remain distinct from _period_helpers and existing backend accounting. Compatibility aliases require two minor cycles AND all supported consumers.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/leg_helpers.py",
+            "source_sha256": "21c0acfc87492341c3381f29bd71503e58ac587dd57b0e160b5e889055d38c52"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/diagnostic-close-replay.md",
+        "docs/guides/diagnostic-close-replay.zh-CN.md"
+      ]
+    },
+    {
+      "symbol": "quant_platform._portfolio.leg_helpers._build_backtest_leg_result",
+      "old_module": "quant_platform._portfolio.leg_helpers",
+      "new_module": "quant_backtest_core.daily.leg_financial",
+      "provider_version": "0.3.0",
+      "source_revision": "067dd5a43c3311163bf03c44e9b6a7bbd72e8561",
+      "status": "implemented",
+      "wave": "M5",
+      "gate": "C",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay.en/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay.zh-CN/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "compatibility_path": "quant_platform._portfolio.leg_helpers._build_backtest_leg_result",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily/test_period_leg_financial.py core/tests/daily/test_legacy_trade_accounting.py -q -p no:cacheprovider",
+      "provider_sources": [
+        "core/src/quant_backtest_core/daily/leg_financial.py"
+      ],
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Task 15P source committed after merged provider C PR24; follow-up review, merge and exact merged artifacts are pending. No consumer cutover or PyPI publication.",
+      "implementation_note": "Exact original pure financial body/API retained. This closes a source-closure omission discovered after PR24; selection, weight construction, research metrics/orchestration and period_turnover_fields stay Platform. Legacy trade_accounting APIs remain distinct from _period_helpers and existing backend accounting. Compatibility aliases require two minor cycles AND all supported consumers.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/leg_helpers.py",
+            "source_sha256": "21c0acfc87492341c3381f29bd71503e58ac587dd57b0e160b5e889055d38c52"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/diagnostic-close-replay.md",
+        "docs/guides/diagnostic-close-replay.zh-CN.md"
+      ]
+    },
+    {
+      "symbol": "quant_platform._portfolio.pricing.slippage_pricing_row",
+      "old_module": "quant_platform._portfolio.pricing",
+      "new_module": "quant_backtest_core.daily.pricing",
+      "provider_version": "0.3.0",
+      "source_revision": "067dd5a43c3311163bf03c44e9b6a7bbd72e8561",
+      "status": "implemented",
+      "wave": "M5",
+      "gate": "C",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay.en/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay.zh-CN/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "compatibility_path": "quant_platform._portfolio.pricing.slippage_pricing_row",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily/test_period_leg_financial.py core/tests/daily/test_legacy_trade_accounting.py -q -p no:cacheprovider",
+      "provider_sources": [
+        "core/src/quant_backtest_core/daily/pricing.py"
+      ],
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Task 15P source committed after merged provider C PR24; follow-up review, merge and exact merged artifacts are pending. No consumer cutover or PyPI publication.",
+      "implementation_note": "Exact original pure financial body/API retained. This closes a source-closure omission discovered after PR24; selection, weight construction, research metrics/orchestration and period_turnover_fields stay Platform. Legacy trade_accounting APIs remain distinct from _period_helpers and existing backend accounting. Compatibility aliases require two minor cycles AND all supported consumers.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/pricing.py",
+            "source_sha256": "141ff12e65e0bb86432e53bc4913c4dcba028730462f4f1d40a1374092cb6331"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/diagnostic-close-replay.md",
+        "docs/guides/diagnostic-close-replay.zh-CN.md"
+      ]
+    },
+    {
+      "symbol": "quant_platform._portfolio.period_turnover._optional_sum",
+      "old_module": "quant_platform._portfolio.period_turnover",
+      "new_module": "quant_backtest_core.daily.period_turnover",
+      "provider_version": "0.3.0",
+      "source_revision": "067dd5a43c3311163bf03c44e9b6a7bbd72e8561",
+      "status": "implemented",
+      "wave": "M5",
+      "gate": "C",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay.en/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay.zh-CN/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "compatibility_path": "quant_platform._portfolio.period_turnover._optional_sum",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily/test_period_leg_financial.py core/tests/daily/test_legacy_trade_accounting.py -q -p no:cacheprovider",
+      "provider_sources": [
+        "core/src/quant_backtest_core/daily/period_turnover.py"
+      ],
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Task 15P source committed after merged provider C PR24; follow-up review, merge and exact merged artifacts are pending. No consumer cutover or PyPI publication.",
+      "implementation_note": "Exact original pure financial body/API retained. This closes a source-closure omission discovered after PR24; selection, weight construction, research metrics/orchestration and period_turnover_fields stay Platform. Legacy trade_accounting APIs remain distinct from _period_helpers and existing backend accounting. Compatibility aliases require two minor cycles AND all supported consumers.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/period_turnover.py",
+            "source_sha256": "96c17043e2044e7abdb4475aa62a6bc84381d16b21785b47199b84ae71d0c81a"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/diagnostic-close-replay.md",
+        "docs/guides/diagnostic-close-replay.zh-CN.md"
+      ]
+    },
+    {
+      "symbol": "quant_platform._portfolio.period_turnover._merged_names",
+      "old_module": "quant_platform._portfolio.period_turnover",
+      "new_module": "quant_backtest_core.daily.period_turnover",
+      "provider_version": "0.3.0",
+      "source_revision": "067dd5a43c3311163bf03c44e9b6a7bbd72e8561",
+      "status": "implemented",
+      "wave": "M5",
+      "gate": "C",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay.en/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay.zh-CN/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "compatibility_path": "quant_platform._portfolio.period_turnover._merged_names",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily/test_period_leg_financial.py core/tests/daily/test_legacy_trade_accounting.py -q -p no:cacheprovider",
+      "provider_sources": [
+        "core/src/quant_backtest_core/daily/period_turnover.py"
+      ],
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Task 15P source committed after merged provider C PR24; follow-up review, merge and exact merged artifacts are pending. No consumer cutover or PyPI publication.",
+      "implementation_note": "Exact original pure financial body/API retained. This closes a source-closure omission discovered after PR24; selection, weight construction, research metrics/orchestration and period_turnover_fields stay Platform. Legacy trade_accounting APIs remain distinct from _period_helpers and existing backend accounting. Compatibility aliases require two minor cycles AND all supported consumers.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/period_turnover.py",
+            "source_sha256": "96c17043e2044e7abdb4475aa62a6bc84381d16b21785b47199b84ae71d0c81a"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/diagnostic-close-replay.md",
+        "docs/guides/diagnostic-close-replay.zh-CN.md"
+      ]
+    },
+    {
+      "symbol": "quant_platform._portfolio.period_turnover.period_result_from_leg",
+      "old_module": "quant_platform._portfolio.period_turnover",
+      "new_module": "quant_backtest_core.daily.period_turnover",
+      "provider_version": "0.3.0",
+      "source_revision": "067dd5a43c3311163bf03c44e9b6a7bbd72e8561",
+      "status": "implemented",
+      "wave": "M5",
+      "gate": "C",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay.en/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay.zh-CN/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "compatibility_path": "quant_platform._portfolio.period_turnover.period_result_from_leg",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily/test_period_leg_financial.py core/tests/daily/test_legacy_trade_accounting.py -q -p no:cacheprovider",
+      "provider_sources": [
+        "core/src/quant_backtest_core/daily/period_turnover.py"
+      ],
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Task 15P source committed after merged provider C PR24; follow-up review, merge and exact merged artifacts are pending. No consumer cutover or PyPI publication.",
+      "implementation_note": "Exact original pure financial body/API retained. This closes a source-closure omission discovered after PR24; selection, weight construction, research metrics/orchestration and period_turnover_fields stay Platform. Legacy trade_accounting APIs remain distinct from _period_helpers and existing backend accounting. Compatibility aliases require two minor cycles AND all supported consumers.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/period_turnover.py",
+            "source_sha256": "96c17043e2044e7abdb4475aa62a6bc84381d16b21785b47199b84ae71d0c81a"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/diagnostic-close-replay.md",
+        "docs/guides/diagnostic-close-replay.zh-CN.md"
+      ]
+    },
+    {
+      "symbol": "quant_platform._portfolio.period_turnover.period_result_from_legs",
+      "old_module": "quant_platform._portfolio.period_turnover",
+      "new_module": "quant_backtest_core.daily.period_turnover",
+      "provider_version": "0.3.0",
+      "source_revision": "067dd5a43c3311163bf03c44e9b6a7bbd72e8561",
+      "status": "implemented",
+      "wave": "M5",
+      "gate": "C",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay.en/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay.zh-CN/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "compatibility_path": "quant_platform._portfolio.period_turnover.period_result_from_legs",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily/test_period_leg_financial.py core/tests/daily/test_legacy_trade_accounting.py -q -p no:cacheprovider",
+      "provider_sources": [
+        "core/src/quant_backtest_core/daily/period_turnover.py"
+      ],
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Task 15P source committed after merged provider C PR24; follow-up review, merge and exact merged artifacts are pending. No consumer cutover or PyPI publication.",
+      "implementation_note": "Exact original pure financial body/API retained. This closes a source-closure omission discovered after PR24; selection, weight construction, research metrics/orchestration and period_turnover_fields stay Platform. Legacy trade_accounting APIs remain distinct from _period_helpers and existing backend accounting. Compatibility aliases require two minor cycles AND all supported consumers.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/period_turnover.py",
+            "source_sha256": "96c17043e2044e7abdb4475aa62a6bc84381d16b21785b47199b84ae71d0c81a"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/diagnostic-close-replay.md",
+        "docs/guides/diagnostic-close-replay.zh-CN.md"
+      ]
+    },
+    {
+      "symbol": "quant_platform._portfolio.types.BacktestPeriodResult",
+      "old_module": "quant_platform._portfolio.types",
+      "new_module": "quant_backtest_core.daily.types",
+      "provider_version": "0.3.0",
+      "source_revision": "067dd5a43c3311163bf03c44e9b6a7bbd72e8561",
+      "status": "implemented",
+      "wave": "M5",
+      "gate": "C",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay.en/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay.zh-CN/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "compatibility_path": "quant_platform._portfolio.types.BacktestPeriodResult",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily/test_period_leg_financial.py core/tests/daily/test_legacy_trade_accounting.py -q -p no:cacheprovider",
+      "provider_sources": [
+        "core/src/quant_backtest_core/daily/types.py"
+      ],
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Task 15P source committed after merged provider C PR24; follow-up review, merge and exact merged artifacts are pending. No consumer cutover or PyPI publication.",
+      "implementation_note": "Exact original pure financial body/API retained. This closes a source-closure omission discovered after PR24; selection, weight construction, research metrics/orchestration and period_turnover_fields stay Platform. Legacy trade_accounting APIs remain distinct from _period_helpers and existing backend accounting. Compatibility aliases require two minor cycles AND all supported consumers.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/types.py",
+            "source_sha256": "b19bd59ad3ae348c040ae20b6837f276c901d90ebb20a5e156ab51c430b49f9e"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/diagnostic-close-replay.md",
+        "docs/guides/diagnostic-close-replay.zh-CN.md"
+      ]
+    },
+    {
+      "symbol": "quant_platform._portfolio.trade_accounting.compute_trade_summary",
+      "old_module": "quant_platform._portfolio.trade_accounting",
+      "new_module": "quant_backtest_core.daily.trade_accounting",
+      "provider_version": "0.3.0",
+      "source_revision": "067dd5a43c3311163bf03c44e9b6a7bbd72e8561",
+      "status": "implemented",
+      "wave": "M5",
+      "gate": "C",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay.en/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay.zh-CN/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "compatibility_path": "quant_platform._portfolio.trade_accounting.compute_trade_summary",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily/test_period_leg_financial.py core/tests/daily/test_legacy_trade_accounting.py -q -p no:cacheprovider",
+      "provider_sources": [
+        "core/src/quant_backtest_core/daily/trade_accounting.py"
+      ],
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Task 15P source committed after merged provider C PR24; follow-up review, merge and exact merged artifacts are pending. No consumer cutover or PyPI publication.",
+      "implementation_note": "Exact original pure financial body/API retained. This closes a source-closure omission discovered after PR24; selection, weight construction, research metrics/orchestration and period_turnover_fields stay Platform. Legacy trade_accounting APIs remain distinct from _period_helpers and existing backend accounting. Compatibility aliases require two minor cycles AND all supported consumers.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/trade_accounting.py",
+            "source_sha256": "cff8b58936c7b959c218da2251a43db8529c7a2c437d75cd5088455e339484d6"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/diagnostic-close-replay.md",
+        "docs/guides/diagnostic-close-replay.zh-CN.md"
+      ]
+    },
+    {
+      "symbol": "quant_platform._portfolio.trade_accounting.drift_previous_weights",
+      "old_module": "quant_platform._portfolio.trade_accounting",
+      "new_module": "quant_backtest_core.daily.trade_accounting",
+      "provider_version": "0.3.0",
+      "source_revision": "067dd5a43c3311163bf03c44e9b6a7bbd72e8561",
+      "status": "implemented",
+      "wave": "M5",
+      "gate": "C",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay.en/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay.zh-CN/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "compatibility_path": "quant_platform._portfolio.trade_accounting.drift_previous_weights",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily/test_period_leg_financial.py core/tests/daily/test_legacy_trade_accounting.py -q -p no:cacheprovider",
+      "provider_sources": [
+        "core/src/quant_backtest_core/daily/trade_accounting.py"
+      ],
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Task 15P source committed after merged provider C PR24; follow-up review, merge and exact merged artifacts are pending. No consumer cutover or PyPI publication.",
+      "implementation_note": "Exact original pure financial body/API retained. This closes a source-closure omission discovered after PR24; selection, weight construction, research metrics/orchestration and period_turnover_fields stay Platform. Legacy trade_accounting APIs remain distinct from _period_helpers and existing backend accounting. Compatibility aliases require two minor cycles AND all supported consumers.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/trade_accounting.py",
+            "source_sha256": "cff8b58936c7b959c218da2251a43db8529c7a2c437d75cd5088455e339484d6"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/diagnostic-close-replay.md",
+        "docs/guides/diagnostic-close-replay.zh-CN.md"
+      ]
+    },
+    {
+      "symbol": "quant_platform._portfolio.trade_accounting._compute_trade_summary",
+      "old_module": "quant_platform._portfolio.trade_accounting",
+      "new_module": "quant_backtest_core.daily.trade_accounting",
+      "provider_version": "0.3.0",
+      "source_revision": "067dd5a43c3311163bf03c44e9b6a7bbd72e8561",
+      "status": "implemented",
+      "wave": "M5",
+      "gate": "C",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay.en/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay.zh-CN/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "compatibility_path": "quant_platform._portfolio.trade_accounting._compute_trade_summary",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily/test_period_leg_financial.py core/tests/daily/test_legacy_trade_accounting.py -q -p no:cacheprovider",
+      "provider_sources": [
+        "core/src/quant_backtest_core/daily/trade_accounting.py"
+      ],
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Task 15P source committed after merged provider C PR24; follow-up review, merge and exact merged artifacts are pending. No consumer cutover or PyPI publication.",
+      "implementation_note": "Exact original pure financial body/API retained. This closes a source-closure omission discovered after PR24; selection, weight construction, research metrics/orchestration and period_turnover_fields stay Platform. Legacy trade_accounting APIs remain distinct from _period_helpers and existing backend accounting. Compatibility aliases require two minor cycles AND all supported consumers.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/trade_accounting.py",
+            "source_sha256": "cff8b58936c7b959c218da2251a43db8529c7a2c437d75cd5088455e339484d6"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/diagnostic-close-replay.md",
+        "docs/guides/diagnostic-close-replay.zh-CN.md"
+      ]
+    },
+    {
+      "symbol": "quant_platform._portfolio.trade_accounting._drift_previous_weights",
+      "old_module": "quant_platform._portfolio.trade_accounting",
+      "new_module": "quant_backtest_core.daily.trade_accounting",
+      "provider_version": "0.3.0",
+      "source_revision": "067dd5a43c3311163bf03c44e9b6a7bbd72e8561",
+      "status": "implemented",
+      "wave": "M5",
+      "gate": "C",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay.en/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay.zh-CN/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "compatibility_path": "quant_platform._portfolio.trade_accounting._drift_previous_weights",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily/test_period_leg_financial.py core/tests/daily/test_legacy_trade_accounting.py -q -p no:cacheprovider",
+      "provider_sources": [
+        "core/src/quant_backtest_core/daily/trade_accounting.py"
+      ],
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Task 15P source committed after merged provider C PR24; follow-up review, merge and exact merged artifacts are pending. No consumer cutover or PyPI publication.",
+      "implementation_note": "Exact original pure financial body/API retained. This closes a source-closure omission discovered after PR24; selection, weight construction, research metrics/orchestration and period_turnover_fields stay Platform. Legacy trade_accounting APIs remain distinct from _period_helpers and existing backend accounting. Compatibility aliases require two minor cycles AND all supported consumers.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/trade_accounting.py",
+            "source_sha256": "cff8b58936c7b959c218da2251a43db8529c7a2c437d75cd5088455e339484d6"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/diagnostic-close-replay.md",
+        "docs/guides/diagnostic-close-replay.zh-CN.md"
+      ]
     }
   ],
   "public_import_namespaces": [
