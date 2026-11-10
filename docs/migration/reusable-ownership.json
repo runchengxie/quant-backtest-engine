@@ -6967,8 +6967,8 @@
       "old_module": "quant_platform._portfolio.execution_sim",
       "new_module": "quant_backtest_core.daily.execution_sim",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -7025,19 +7025,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio.execution_sim",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/execution_sim/__init__.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/__init__.py",
+            "source_sha256": "90ec8b66be3a3a45a1a14a7c47515c7f00cdd3833efbe79b2502fea0c134263f"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/execution-simulation.md",
+        "docs/guides/execution-simulation.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio.execution_sim.adjusted_nav",
       "old_module": "quant_platform._portfolio.execution_sim.adjusted_nav",
       "new_module": "quant_backtest_core.daily.execution_sim.adjusted_nav",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -7094,19 +7111,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio.execution_sim.adjusted_nav",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/execution_sim/adjusted_nav.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/adjusted_nav.py",
+            "source_sha256": "40e2871c9da64456bbc7c06ce052123c5f06e77a700709b2eb94dc491c49b391"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/execution-simulation.md",
+        "docs/guides/execution-simulation.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio.execution_sim.capacity",
       "old_module": "quant_platform._portfolio.execution_sim.capacity",
       "new_module": "quant_backtest_core.daily.execution_sim.capacity",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -7163,19 +7197,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio.execution_sim.capacity",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/execution_sim/capacity.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/capacity.py",
+            "source_sha256": "d693c1643111b9f283f14cb77f3867dd79fd03727ece431eab5e4aac58ed5622"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/execution-simulation.md",
+        "docs/guides/execution-simulation.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio.execution_sim.capacity_simulation",
       "old_module": "quant_platform._portfolio.execution_sim.capacity_simulation",
       "new_module": "quant_backtest_core.daily.execution_sim.capacity_simulation",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -7232,11 +7283,28 @@
       ],
       "compatibility_path": "quant_platform._portfolio.execution_sim.capacity_simulation",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/execution_sim/capacity_simulation.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/capacity_simulation.py",
+            "source_sha256": "72b42804270373a878c54f63020340fda4c9f52afcea2d3387a5d741c487a44f"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/execution-simulation.md",
+        "docs/guides/execution-simulation.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio.execution_sim.config",
@@ -7328,8 +7396,8 @@
       "old_module": "quant_platform._portfolio.execution_sim.core",
       "new_module": "quant_backtest_core.daily.execution_sim.core",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -7386,19 +7454,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio.execution_sim.core",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/execution_sim/core.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/core.py",
+            "source_sha256": "c8584e014c67084a1220378de24639797037a0fbfe093ff445920a55004579ab"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/execution-simulation.md",
+        "docs/guides/execution-simulation.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio.execution_sim.corporate_actions",
       "old_module": "quant_platform._portfolio.execution_sim.corporate_actions",
       "new_module": "quant_backtest_core.daily.execution_sim.corporate_actions",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -7455,19 +7540,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio.execution_sim.corporate_actions",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/execution_sim/corporate_actions.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/corporate_actions.py",
+            "source_sha256": "8206e2011847d91ba9b7c03a34468f901cc27ada62de37280a32f31e0772e098"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/execution-simulation.md",
+        "docs/guides/execution-simulation.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio.execution_sim.cost_evidence",
       "old_module": "quant_platform._portfolio.execution_sim.cost_evidence",
       "new_module": "quant_backtest_core.daily.execution_sim.cost_evidence",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -7524,19 +7626,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio.execution_sim.cost_evidence",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/execution_sim/cost_evidence.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/cost_evidence.py",
+            "source_sha256": "1eefd915b59fc5ea30e52cef144019478c66d42173f3af9a6a3b3b49a3c54dee"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/execution-simulation.md",
+        "docs/guides/execution-simulation.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio.execution_sim.delisting",
       "old_module": "quant_platform._portfolio.execution_sim.delisting",
       "new_module": "quant_backtest_core.daily.execution_sim.delisting",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -7593,19 +7712,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio.execution_sim.delisting",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/execution_sim/delisting.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/delisting.py",
+            "source_sha256": "e5ccba226b93860a12e4d35d44a8ea391f72f7e80e5fb8ffad0e865e2e1c205c"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/execution-simulation.md",
+        "docs/guides/execution-simulation.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio.execution_sim.ideal_nav",
       "old_module": "quant_platform._portfolio.execution_sim.ideal_nav",
       "new_module": "quant_backtest_core.daily.execution_sim.ideal_nav",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -7662,19 +7798,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio.execution_sim.ideal_nav",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/execution_sim/ideal_nav.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/ideal_nav.py",
+            "source_sha256": "b0ef7bc059905b36139bb48c933e9ce8683dd9f7925ff98767c7fb887c590ed6"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/execution-simulation.md",
+        "docs/guides/execution-simulation.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio.execution_sim.models",
       "old_module": "quant_platform._portfolio.execution_sim.models",
       "new_module": "quant_backtest_core.daily.execution_sim.models",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -7731,19 +7884,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio.execution_sim.models",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/execution_sim/models.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/models.py",
+            "source_sha256": "d1d81afa8b0dd7eacf36efe8c75b95a38f4714069bfbbd982692a6ab3e67edb0"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/execution-simulation.md",
+        "docs/guides/execution-simulation.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio.execution_sim.orders",
       "old_module": "quant_platform._portfolio.execution_sim.orders",
       "new_module": "quant_backtest_core.daily.execution_sim.orders",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -7800,19 +7970,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio.execution_sim.orders",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/execution_sim/orders.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/orders.py",
+            "source_sha256": "39d48581f0de61f7ba65e2a5421cd85706ff7537725ef34e77b6bd9b74630b66"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/execution-simulation.md",
+        "docs/guides/execution-simulation.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio.execution_sim.orders_ideal",
       "old_module": "quant_platform._portfolio.execution_sim.orders_ideal",
       "new_module": "quant_backtest_core.daily.execution_sim.orders_ideal",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -7869,19 +8056,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio.execution_sim.orders_ideal",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/execution_sim/orders_ideal.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/orders_ideal.py",
+            "source_sha256": "ca5f237ee87bfa3266b8127f4d6d689743092a4ed3eed7bf260fcf566b2962c6"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/execution-simulation.md",
+        "docs/guides/execution-simulation.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio.execution_sim.orders_nav",
       "old_module": "quant_platform._portfolio.execution_sim.orders_nav",
       "new_module": "quant_backtest_core.daily.execution_sim.orders_nav",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -7938,19 +8142,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio.execution_sim.orders_nav",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/execution_sim/orders_nav.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/orders_nav.py",
+            "source_sha256": "524cbc6ced909e617976b2ddb0086c39edc8ed55831c34541554583be8837b8d"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/execution-simulation.md",
+        "docs/guides/execution-simulation.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio.execution_sim.orders_nav_fees",
       "old_module": "quant_platform._portfolio.execution_sim.orders_nav_fees",
       "new_module": "quant_backtest_core.daily.execution_sim.orders_nav_fees",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -8007,19 +8228,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio.execution_sim.orders_nav_fees",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/execution_sim/orders_nav_fees.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/orders_nav_fees.py",
+            "source_sha256": "014cc21abff0bbdcc66cd5c0bbdbd2a47afb071526e5d4553ca7bf514540d1b9"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/execution-simulation.md",
+        "docs/guides/execution-simulation.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio.execution_sim.orders_nav_quantities",
       "old_module": "quant_platform._portfolio.execution_sim.orders_nav_quantities",
       "new_module": "quant_backtest_core.daily.execution_sim.orders_nav_quantities",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -8076,19 +8314,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio.execution_sim.orders_nav_quantities",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/execution_sim/orders_nav_quantities.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/orders_nav_quantities.py",
+            "source_sha256": "19515ea818e424bd83ac9dc172fc3db80a5ddb638a2406086eeef949bd0eead0"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/execution-simulation.md",
+        "docs/guides/execution-simulation.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio.execution_sim.orders_nav_states",
       "old_module": "quant_platform._portfolio.execution_sim.orders_nav_states",
       "new_module": "quant_backtest_core.daily.execution_sim.orders_nav_states",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -8145,19 +8400,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio.execution_sim.orders_nav_states",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/execution_sim/orders_nav_states.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/orders_nav_states.py",
+            "source_sha256": "1f7fdb9d9068aa89f2d5da837b0c226db3b2c4ade0121f6b988768c40a099703"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/execution-simulation.md",
+        "docs/guides/execution-simulation.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio.execution_sim.orders_targets",
       "old_module": "quant_platform._portfolio.execution_sim.orders_targets",
       "new_module": "quant_backtest_core.daily.execution_sim.orders_targets",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -8214,19 +8486,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio.execution_sim.orders_targets",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/execution_sim/orders_targets.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/orders_targets.py",
+            "source_sha256": "8461f81ec5f54a31eaa5105428927dbbc6230929b073558ab5760cf6b8ebea1b"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/execution-simulation.md",
+        "docs/guides/execution-simulation.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio.execution_sim.reporting",
       "old_module": "quant_platform._portfolio.execution_sim.reporting",
       "new_module": "quant_backtest_core.daily.execution_sim.reporting",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -8283,19 +8572,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio.execution_sim.reporting",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/execution_sim/reporting.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/reporting.py",
+            "source_sha256": "2adf4c0040a2a78fa158964baddd4cd19fac93a036f73df714323acb3a3eedc5"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/execution-simulation.md",
+        "docs/guides/execution-simulation.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio.execution_sim.results",
       "old_module": "quant_platform._portfolio.execution_sim.results",
       "new_module": "quant_backtest_core.daily.execution_sim.results",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -8352,19 +8658,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio.execution_sim.results",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/execution_sim/results.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/results.py",
+            "source_sha256": "ca82988311f276c785a23a78f4022e0438face2e19e5db3edec29e6ba944fa46"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/execution-simulation.md",
+        "docs/guides/execution-simulation.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio.execution_sim.table_preparation",
       "old_module": "quant_platform._portfolio.execution_sim.table_preparation",
       "new_module": "quant_backtest_core.daily.execution_sim.table_preparation",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -8421,19 +8744,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio.execution_sim.table_preparation",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/execution_sim/table_preparation.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/table_preparation.py",
+            "source_sha256": "fa666fdbf7c7714150720f329e33a616a9c4150df7b9098aaefbee2a09e1c886"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/execution-simulation.md",
+        "docs/guides/execution-simulation.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio._execution_models",
       "old_module": "quant_platform._portfolio._execution_models",
       "new_module": "quant_backtest_core.daily._execution_models",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -8470,19 +8810,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio._execution_models",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/_execution_models.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/_execution_models.py",
+            "source_sha256": "c5965d67642589c01690b82b278f493fecfb07b67c6ca8c39aec4318bd187e86"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/sequenced-execution.md",
+        "docs/guides/sequenced-execution.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio._execution_build",
       "old_module": "quant_platform._portfolio._execution_build",
       "new_module": "quant_backtest_core.daily._execution_build",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -8519,19 +8876,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio._execution_build",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/_execution_build.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/_execution_build.py",
+            "source_sha256": "15f46e950d78a999404f7a3499467861e64213f5238200df24824b4f99a9d0cf"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/sequenced-execution.md",
+        "docs/guides/sequenced-execution.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio.dated_fees",
       "old_module": "quant_platform._portfolio.dated_fees",
       "new_module": "quant_backtest_core.daily.dated_fees",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -8584,19 +8958,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio.dated_fees",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/dated_fees.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/dated_fees.py",
+            "source_sha256": "1c1e54bf8adaf096eeb91a72d413ddea8efbb7768f35dde2ad684ddab9062611"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/dated-execution-fees.md",
+        "docs/dated-execution-fees.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio.turnover",
       "old_module": "quant_platform._portfolio.turnover",
       "new_module": "quant_backtest_core.daily.turnover",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -8633,19 +9024,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio.turnover",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/turnover.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/turnover.py",
+            "source_sha256": "03a8bd8a5ee9dba5af305dc5d43d61d71bc62170ffc0bd433a92decfc423cc4d"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/sequenced-execution.md",
+        "docs/guides/sequenced-execution.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform._portfolio.types",
       "old_module": "quant_platform._portfolio.types",
       "new_module": "quant_backtest_core.daily.types",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -8682,19 +9090,36 @@
       ],
       "compatibility_path": "quant_platform._portfolio.types",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/daily/types.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer. Only CostBreakdown, BacktestLegResult and BacktestPositionState move; StrategySpec and research planning/pricing contexts remain Platform.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/types.py",
+            "source_sha256": "b19bd59ad3ae348c040ae20b6837f276c901d90ebb20a5e156ab51c430b49f9e"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/sequenced-execution.md",
+        "docs/guides/sequenced-execution.zh-CN.md"
+      ]
     },
     {
       "symbol": "quant_platform.backtest.ledger",
       "old_module": "quant_platform.backtest.ledger",
       "new_module": "quant_backtest_core.backtest.ledger",
       "provider_version": "0.3.0",
-      "source_revision": null,
-      "status": "planned",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
       "wave": "M5",
       "gate": "C",
       "old_urls": [
@@ -8747,11 +9172,28 @@
       ],
       "compatibility_path": "quant_platform.backtest.ledger",
       "removal_gate": "two-minors-and-all-consumers",
-      "acceptance_test": "uv run --project core --locked pytest core/tests/daily/test_daily_independence.py -q",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
       "provider_sources": [
         "core/src/quant_backtest_core/backtest/ledger.py"
       ],
-      "anchor_policy": "Preserve declared historical anchors at consumer cutover; verify destination anchors when implemented."
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/backtest/ledger.py",
+            "source_sha256": "64e80a2067de8c729e5b55b798084dc62567f3c43fac1e6acc5e6d9aac6741ec"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/reference/outputs/backtest-outputs.md",
+        "docs/reference/outputs/backtest-outputs.zh-CN.md"
+      ]
     },
     {
       "symbol": "ticknet.simulator.matching",
@@ -9290,6 +9732,560 @@
         "TICKNET_REQUIRE_RUST": "1"
       },
       "acceptance_requirement": "Run from task data with actual installed regular core/native wheels on both Python 3.12 and 3.13; no native skips."
+    },
+    {
+      "symbol": "quant_platform._portfolio.execution",
+      "old_module": "quant_platform._portfolio.execution",
+      "new_module": "quant_backtest_core.daily.execution",
+      "provider_version": "0.3.0",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
+      "wave": "M5",
+      "gate": "C",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/guides/sequenced-execution.en/",
+          "anchors": [
+            "sequenced-execution"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-platform/guides/sequenced-execution/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/sequenced-execution/",
+          "anchors": [
+            "sequenced-execution"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/sequenced-execution.zh-CN/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "compatibility_path": "quant_platform._portfolio.execution",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
+      "provider_sources": [
+        "core/src/quant_backtest_core/daily/execution.py"
+      ],
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution.py",
+            "source_sha256": "c6a0394279f8e546b21b5fed5fdcec041b7485547fb4e4760f309a8c0730eb99"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/sequenced-execution.md",
+        "docs/guides/sequenced-execution.zh-CN.md"
+      ]
+    },
+    {
+      "symbol": "quant_platform._portfolio.backends.trade_accounting",
+      "old_module": "quant_platform._portfolio.backends.trade_accounting",
+      "new_module": "quant_backtest_core.daily.trade_accounting",
+      "provider_version": "0.3.0",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
+      "wave": "M5",
+      "gate": "C",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/guides/sequenced-execution.en/",
+          "anchors": [
+            "sequenced-execution"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-platform/guides/sequenced-execution/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/sequenced-execution/",
+          "anchors": [
+            "sequenced-execution"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/sequenced-execution.zh-CN/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "compatibility_path": "quant_platform._portfolio.backends.trade_accounting",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
+      "provider_sources": [
+        "core/src/quant_backtest_core/daily/trade_accounting.py"
+      ],
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/backends/trade_accounting.py",
+            "source_sha256": "c11393d6356292609a0ff3c2c266aede592a7e784c9cb8f2ff5b72979862e4b8"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/sequenced-execution.md",
+        "docs/guides/sequenced-execution.zh-CN.md"
+      ]
+    },
+    {
+      "symbol": "quant_platform._portfolio._position_backtest_config",
+      "old_module": "quant_platform._portfolio._position_backtest_config",
+      "new_module": "quant_backtest_core.daily._position_backtest_config",
+      "provider_version": "0.3.0",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
+      "wave": "M5",
+      "gate": "C",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay.en/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay.zh-CN/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "compatibility_path": "quant_platform._portfolio._position_backtest_config",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
+      "provider_sources": [
+        "core/src/quant_backtest_core/daily/_position_backtest_config.py"
+      ],
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/_position_backtest_config.py",
+            "source_sha256": "3fd7cb813a59ee9e0e65a30c78e82a92db8e71f05f3416decb4d4d5c68333534"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/diagnostic-close-replay.md",
+        "docs/guides/diagnostic-close-replay.zh-CN.md"
+      ]
+    },
+    {
+      "symbol": "quant_platform._portfolio._position_backtest_engine",
+      "old_module": "quant_platform._portfolio._position_backtest_engine",
+      "new_module": "quant_backtest_core.daily.position_backtest",
+      "provider_version": "0.3.0",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
+      "wave": "M5",
+      "gate": "C",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay.en/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay.zh-CN/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "compatibility_path": "quant_platform._portfolio._position_backtest_engine",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
+      "provider_sources": [
+        "core/src/quant_backtest_core/daily/_position_backtest_engine.py",
+        "core/src/quant_backtest_core/daily/position_backtest.py",
+        "core/src/quant_backtest_core/daily/period_replay.py"
+      ],
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/_position_backtest_engine.py",
+            "source_sha256": "f9bcd4a08d9222ad3719a8b229a26a58300995a1fe69da785736d54790a772af"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/diagnostic-close-replay.md",
+        "docs/guides/diagnostic-close-replay.zh-CN.md"
+      ]
+    },
+    {
+      "symbol": "quant_platform._portfolio.contracts.positions_validation",
+      "old_module": "quant_platform._portfolio.contracts.positions_validation",
+      "new_module": "quant_backtest_core.daily._position_validation",
+      "provider_version": "0.3.0",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
+      "wave": "M5",
+      "gate": "C",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay.en/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay.zh-CN/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "compatibility_path": "quant_platform._portfolio.contracts.positions_validation",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
+      "provider_sources": [
+        "core/src/quant_backtest_core/daily/_position_validation.py"
+      ],
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/contracts.py",
+            "source_sha256": "e4756d97cd169612398097c8d2de08b7954d23f01b0454624899330f8c1b8441"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/diagnostic-close-replay.md",
+        "docs/guides/diagnostic-close-replay.zh-CN.md"
+      ]
+    },
+    {
+      "symbol": "quant_platform._portfolio.portfolio_weights.execution_helpers",
+      "old_module": "quant_platform._portfolio.portfolio_weights.execution_helpers",
+      "new_module": "quant_backtest_core.daily._period_helpers",
+      "provider_version": "0.3.0",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
+      "wave": "M5",
+      "gate": "C",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay.en/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-platform/guides/diagnostic-close-replay/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay/",
+          "anchors": [
+            "next-close-diagnostic-replay",
+            "inputs-and-execution-timing",
+            "exposure-changes",
+            "audit-helpers"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/diagnostic-close-replay.zh-CN/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "compatibility_path": "quant_platform._portfolio.portfolio_weights.execution_helpers",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
+      "provider_sources": [
+        "core/src/quant_backtest_core/daily/_period_helpers.py"
+      ],
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/portfolio_weights.py",
+            "source_sha256": "55f35fa40221abbd9c55296731e91bf63573ebb93731cf6df976d7b395a8cd4b"
+          },
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/leg_helpers.py",
+            "source_sha256": "21c0acfc87492341c3381f29bd71503e58ac587dd57b0e160b5e889055d38c52"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/diagnostic-close-replay.md",
+        "docs/guides/diagnostic-close-replay.zh-CN.md"
+      ]
+    },
+    {
+      "symbol": "quant_platform._portfolio.execution_calendar.fee_values",
+      "old_module": "quant_platform._portfolio.execution_calendar.fee_values",
+      "new_module": "quant_backtest_core.daily._calendar_values",
+      "provider_version": "0.3.0",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
+      "wave": "M5",
+      "gate": "C",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/guides/sequenced-execution.en/",
+          "anchors": [
+            "sequenced-execution"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-platform/guides/sequenced-execution/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/sequenced-execution/",
+          "anchors": [
+            "sequenced-execution"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/sequenced-execution.zh-CN/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "compatibility_path": "quant_platform._portfolio.execution_calendar.fee_values",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
+      "provider_sources": [
+        "core/src/quant_backtest_core/daily/_calendar_values.py"
+      ],
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": [
+          {
+            "source": "packages/platform/src/quant_platform/_portfolio/execution_calendar.py",
+            "source_sha256": "3d7d0ea78c6ad6afe75df044641e8005d0c094d6fc91525e50e189bce7b13d10"
+          }
+        ]
+      },
+      "leaf_documentation": [
+        "docs/guides/sequenced-execution.md",
+        "docs/guides/sequenced-execution.zh-CN.md"
+      ]
+    },
+    {
+      "symbol": "quant_platform._portfolio.backends.sequenced.SequencedExecutionBackend",
+      "old_module": "quant_platform._portfolio.backends.sequenced.SequencedExecutionBackend",
+      "new_module": "quant_backtest_core.daily.runner.run_daily",
+      "provider_version": "0.3.0",
+      "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+      "status": "implemented",
+      "wave": "M5",
+      "gate": "C",
+      "old_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-platform/guides/sequenced-execution.en/",
+          "anchors": [
+            "sequenced-execution"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-platform/guides/sequenced-execution/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "new_urls": [
+        {
+          "locale": "en",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/sequenced-execution/",
+          "anchors": [
+            "sequenced-execution"
+          ]
+        },
+        {
+          "locale": "zh-CN",
+          "url": "https://runchengxie.github.io/quant-backtest-engine/guides/sequenced-execution.zh-CN/",
+          "anchors": [
+            "_1"
+          ]
+        }
+      ],
+      "compatibility_path": "quant_platform._portfolio.backends.sequenced.SequencedExecutionBackend",
+      "removal_gate": "two-minors-and-all-consumers",
+      "acceptance_test": "python -I -B -m pytest core/tests/daily -q -p no:cacheprovider",
+      "provider_sources": [
+        "core/src/quant_backtest_core/daily/runner.py",
+        "core/src/quant_backtest_core/backends/daily.py"
+      ],
+      "anchor_policy": "Declared historical and destination routes/anchors retained; paired mechanism and full output documents transferred.",
+      "release_availability": "Core 0.3.0 source implemented; provider C task/whole review, merge, exact merged artifacts and Task15 consumer migration remain pending.",
+      "implementation_note": "Original financial tables/signatures/arithmetic retained. New neutral run_daily and daily-input.v1 use Task13 metadata/summary; research selection/statistics/publication remain Platform. Compatibility aliases stay for two minor releases AND every supported consumer.",
+      "extraction_origin": {
+        "repository": "https://github.com/runchengxie/quant-platform",
+        "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+        "license": "Apache-2.0",
+        "files": []
+      },
+      "leaf_documentation": [
+        "docs/guides/sequenced-execution.md",
+        "docs/guides/sequenced-execution.zh-CN.md"
+      ]
     }
   ],
   "public_import_namespaces": [
@@ -9667,6 +10663,705 @@
       "changes": "Retain inclusive supplied-session filtering and <=0/positive arithmetic; no provider, weekday or future fallback. New exhausted keys are explicit None."
     },
     "summary_policy": "Finite owner returns require available complete daily evidence plus complete marks and zero external flow for each ordered row. No subset compounding, research metric, flow adjustment, invented turnover denominator, fee fallback or second debit.",
-    "release_availability": "Task 13 source only. Whole C review, Task 14 graph, gate C version/artifact/merge verification and Task 15 consumer migration remain pending."
+    "release_availability": "Historical Task13 leaf receipt retained. Task14 implements the graph and SDK admission; see provider_c_task14 for current source identity. C release and Task15 consumer migration remain pending."
+  },
+  "provider_c_task14": {
+    "source_revision": "80baa415fdc8ef59c4135a878c6f12ae2fb45afe",
+    "status": "implemented-unreleased",
+    "provider_version": "0.3.0",
+    "historical_source_revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+    "scope": "Complete independent ideal/capacity/adjusted/sequenced graph, explicit periods diagnostic, daily-input.v1 SDK admission, python.daily backend; exact Task13 metadata/config/calendar/summary reused.",
+    "provider_sources": [
+      "core/src/quant_backtest_core/backends/daily.py",
+      "core/src/quant_backtest_core/backtest/ledger.py",
+      "core/src/quant_backtest_core/daily/_calendar_values.py",
+      "core/src/quant_backtest_core/daily/_execution_build.py",
+      "core/src/quant_backtest_core/daily/_execution_models.py",
+      "core/src/quant_backtest_core/daily/_period_helpers.py",
+      "core/src/quant_backtest_core/daily/_position_backtest_config.py",
+      "core/src/quant_backtest_core/daily/_position_backtest_engine.py",
+      "core/src/quant_backtest_core/daily/_position_validation.py",
+      "core/src/quant_backtest_core/daily/dated_fees.py",
+      "core/src/quant_backtest_core/daily/execution.py",
+      "core/src/quant_backtest_core/daily/execution_sim/__init__.py",
+      "core/src/quant_backtest_core/daily/execution_sim/adjusted_nav.py",
+      "core/src/quant_backtest_core/daily/execution_sim/capacity.py",
+      "core/src/quant_backtest_core/daily/execution_sim/capacity_simulation.py",
+      "core/src/quant_backtest_core/daily/execution_sim/core.py",
+      "core/src/quant_backtest_core/daily/execution_sim/corporate_actions.py",
+      "core/src/quant_backtest_core/daily/execution_sim/cost_evidence.py",
+      "core/src/quant_backtest_core/daily/execution_sim/delisting.py",
+      "core/src/quant_backtest_core/daily/execution_sim/ideal_nav.py",
+      "core/src/quant_backtest_core/daily/execution_sim/models.py",
+      "core/src/quant_backtest_core/daily/execution_sim/orders.py",
+      "core/src/quant_backtest_core/daily/execution_sim/orders_ideal.py",
+      "core/src/quant_backtest_core/daily/execution_sim/orders_nav.py",
+      "core/src/quant_backtest_core/daily/execution_sim/orders_nav_fees.py",
+      "core/src/quant_backtest_core/daily/execution_sim/orders_nav_quantities.py",
+      "core/src/quant_backtest_core/daily/execution_sim/orders_nav_states.py",
+      "core/src/quant_backtest_core/daily/execution_sim/orders_targets.py",
+      "core/src/quant_backtest_core/daily/execution_sim/reporting.py",
+      "core/src/quant_backtest_core/daily/execution_sim/results.py",
+      "core/src/quant_backtest_core/daily/execution_sim/table_preparation.py",
+      "core/src/quant_backtest_core/daily/period_replay.py",
+      "core/src/quant_backtest_core/daily/position_backtest.py",
+      "core/src/quant_backtest_core/daily/runner.py",
+      "core/src/quant_backtest_core/daily/trade_accounting.py",
+      "core/src/quant_backtest_core/daily/turnover.py",
+      "core/src/quant_backtest_core/daily/types.py",
+      "python/src/quant_backtest_engine/product/daily.py"
+    ],
+    "accepted_input_schemas": [
+      "daily-input.v1"
+    ],
+    "pending_input_schemas": [],
+    "backend_capabilities": [
+      "daily_replay"
+    ],
+    "checkpoint_schemas": [],
+    "validation": {
+      "python": [
+        "3.12",
+        "3.13"
+      ],
+      "installed_union_tests_each": 936,
+      "installed_union_subtests_each": 3,
+      "native_skips": 0,
+      "installed_daily_tests_each": 306,
+      "sdk_python": "3.11",
+      "sdk_tests_real_binary": 29,
+      "old_oracle_tests": 242,
+      "oracle_cases": 81,
+      "oracle_returns": 93,
+      "oracle_tables": 959,
+      "sequenced_additional_tables": 11,
+      "period_financial_summary_supplement_tables": 36
+    },
+    "parity": {
+      "minimal_daily": "Only logically identical pandas StringDtype python/pyarrow storage differences enumerated for columns/index/cells; all cell/NA/numeric/datetime/category/order/financial-summary comparisons exact.",
+      "strict": "Original PyArrow26.0.1 and pandas3.0.6 installed on both supported Python versions; full assert_frame_equal with exact dtype/index/columns/value comparison over all959 tables plus11 sequenced tables.",
+      "summary_split": "Daily research stats replaced by Task13 conservative execution_summary; period keeps8 original financial aggregate keys plus original config/schema/skipped metadata. Task15 reconstructs full original research stats using owned result class."
+    },
+    "period_interface": "run_period_replay(*, positions, pricing, periods, calendar, config) -> PositionBacktestResult; explicit periods; original net_returns/gross_returns/periods; no invented daily/cash/orders/fills.",
+    "wire_units": "DailyInputLayout Python Mapping unchanged. daily-input.v1 liquidity_units uses column/unit records; reject duplicates/unknown columns/units and nonrepresentable numerical range. Global monetary and UTC-ns validation unchanged.",
+    "release_availability": "Task14 source only. Independent task and whole-C review, current-target CI, merge, exact merged wheels and Task15 consumer migration remain controller-owned pending gates.",
+    "next_order": "14C verified release ->15PlatformC ->19Astro ->16-17Runtime ->18private consumer ->20final compatibility.",
+    "source_bindings": [
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/core.py",
+        "destination": "core/src/quant_backtest_core/daily/execution_sim/core.py",
+        "source_sha256": "c8584e014c67084a1220378de24639797037a0fbfe093ff445920a55004579ab",
+        "source_bytes": 844,
+        "shared_definitions": [],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/models.py",
+        "destination": "core/src/quant_backtest_core/daily/execution_sim/models.py",
+        "source_sha256": "d1d81afa8b0dd7eacf36efe8c75b95a38f4714069bfbbd982692a6ab3e67edb0",
+        "source_bytes": 11917,
+        "shared_definitions": [
+          "_AdjustedNavLedger",
+          "_AdjustedNavPlan",
+          "_ExecutionTables",
+          "_MarketRules",
+          "_NavOrder",
+          "_OrderSink",
+          "_TradeFeeQuote",
+          "_add_breakdown",
+          "_quote_trade_fee",
+          "_trade_fee",
+          "_with_dated_fee_context",
+          "describe_trade_fee_model"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/capacity.py",
+        "destination": "core/src/quant_backtest_core/daily/execution_sim/capacity.py",
+        "source_sha256": "d693c1643111b9f283f14cb77f3867dd79fd03727ece431eab5e4aac58ed5622",
+        "source_bytes": 7137,
+        "shared_definitions": [
+          "_capacity_notional",
+          "_capacity_weight",
+          "_execution_window_dates",
+          "_limit_down_at",
+          "_limit_up_at",
+          "_listing_status_at",
+          "_position_values_by_symbol",
+          "_positions_value",
+          "_price_at",
+          "_refresh_last_prices",
+          "_table_bool_at",
+          "_table_float_at",
+          "_valuation_price"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/capacity_simulation.py",
+        "destination": "core/src/quant_backtest_core/daily/execution_sim/capacity_simulation.py",
+        "source_sha256": "72b42804270373a878c54f63020340fda4c9f52afcea2d3387a5d741c487a44f",
+        "source_bytes": 5873,
+        "shared_definitions": [
+          "_execute_capacity_rebalance",
+          "_run_capacity_rebalances",
+          "simulate_capacity_execution"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/adjusted_nav.py",
+        "destination": "core/src/quant_backtest_core/daily/execution_sim/adjusted_nav.py",
+        "source_sha256": "40e2871c9da64456bbc7c06ce052123c5f06e77a700709b2eb94dc491c49b391",
+        "source_bytes": 18001,
+        "shared_definitions": [
+          "_append_adjusted_nav_daily_row",
+          "_build_adjusted_nav_plan",
+          "_initial_adjusted_nav_ledger",
+          "_process_adjusted_nav_trade_day",
+          "_retain_open_adjusted_nav_orders",
+          "_run_adjusted_nav_ledger",
+          "_start_adjusted_nav_target_orders",
+          "_validate_continuous_trade_fee_model",
+          "simulate_execution_adjusted_nav"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/ideal_nav.py",
+        "destination": "core/src/quant_backtest_core/daily/execution_sim/ideal_nav.py",
+        "source_sha256": "b0ef7bc059905b36139bb48c933e9ce8683dd9f7925ff98767c7fb887c590ed6",
+        "source_bytes": 10552,
+        "shared_definitions": [
+          "_ideal_daily_nav_row",
+          "_prepare_ideal_nav_targets",
+          "_run_ideal_daily_nav_ledger",
+          "simulate_ideal_daily_nav"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/orders.py",
+        "destination": "core/src/quant_backtest_core/daily/execution_sim/orders.py",
+        "source_sha256": "39d48581f0de61f7ba65e2a5421cd85706ff7537725ef34e77b6bd9b74630b66",
+        "source_bytes": 2191,
+        "shared_definitions": [],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/orders_ideal.py",
+        "destination": "core/src/quant_backtest_core/daily/execution_sim/orders_ideal.py",
+        "source_sha256": "ca5f237ee87bfa3266b8127f4d6d689743092a4ed3eed7bf260fcf566b2962c6",
+        "source_bytes": 14253,
+        "shared_definitions": [
+          "_apply_ideal_buy_fill",
+          "_apply_ideal_sell_fill",
+          "_build_ideal_rebalance_orders",
+          "_build_nav_orders_for_target",
+          "_execute_ideal_buy_orders",
+          "_execute_ideal_sell_orders",
+          "_ideal_buy_status",
+          "_ideal_nav_order",
+          "_ideal_sell_status",
+          "_nav_sell_max_days",
+          "_rebalance_ideal_target"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/orders_nav.py",
+        "destination": "core/src/quant_backtest_core/daily/execution_sim/orders_nav.py",
+        "source_sha256": "524cbc6ced909e617976b2ddb0086c39edc8ed55831c34541554583be8837b8d",
+        "source_bytes": 26388,
+        "shared_definitions": [
+          "_affordable_nav_buy_fill",
+          "_apply_buy_day_fills",
+          "_apply_nav_buy_fill",
+          "_apply_nav_buy_fills",
+          "_apply_nav_sell_fill",
+          "_execute_buy_orders",
+          "_execute_nav_buy_orders_for_day",
+          "_execute_nav_orders_for_day",
+          "_execute_nav_sell_orders_for_day",
+          "_execute_sell_orders",
+          "_nav_buy_cash_required"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/orders_nav_fees.py",
+        "destination": "core/src/quant_backtest_core/daily/execution_sim/orders_nav_fees.py",
+        "source_sha256": "014cc21abff0bbdcc66cd5c0bbdbd2a47afb071526e5d4553ca7bf514540d1b9",
+        "source_bytes": 3158,
+        "shared_definitions": [
+          "_accrue_nav_fee_quote",
+          "_nav_fee_group_id",
+          "_nav_fee_order_id",
+          "_nav_trade_fee",
+          "_slippage_pricing_row"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/orders_nav_quantities.py",
+        "destination": "core/src/quant_backtest_core/daily/execution_sim/orders_nav_quantities.py",
+        "source_sha256": "19515ea818e424bd83ac9dc172fc3db80a5ddb638a2406086eeef949bd0eead0",
+        "source_bytes": 954,
+        "shared_definitions": [
+          "_quantize_nav_sell_quantity"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/orders_nav_states.py",
+        "destination": "core/src/quant_backtest_core/daily/execution_sim/orders_nav_states.py",
+        "source_sha256": "1f7fdb9d9068aa89f2d5da837b0c226db3b2c4ade0121f6b988768c40a099703",
+        "source_bytes": 13799,
+        "shared_definitions": [
+          "_append_nav_order_row",
+          "_append_order_rows",
+          "_audit_timestamps",
+          "_build_order_states",
+          "_finalize_open_nav_orders",
+          "_nav_order_is_complete",
+          "_nav_order_should_abort_buy",
+          "_record_fill",
+          "_record_nav_fill",
+          "_record_nav_fill_audit",
+          "_update_nav_order",
+          "_update_state"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/orders_targets.py",
+        "destination": "core/src/quant_backtest_core/daily/execution_sim/orders_targets.py",
+        "source_sha256": "8461f81ec5f54a31eaa5105428927dbbc6230929b073558ab5760cf6b8ebea1b",
+        "source_bytes": 3322,
+        "shared_definitions": [
+          "_build_targets_by_rebalance",
+          "_cash_weight_breakdown",
+          "_cost_adjusted_target_notional",
+          "_target_cash_notional"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/reporting.py",
+        "destination": "core/src/quant_backtest_core/daily/execution_sim/reporting.py",
+        "source_sha256": "2adf4c0040a2a78fa158964baddd4cd19fac93a036f73df714323acb3a3eedc5",
+        "source_bytes": 13251,
+        "shared_definitions": [
+          "_daily_period_info",
+          "_empty_adjusted_nav_result",
+          "_empty_result",
+          "_executed_daily_columns",
+          "_fill_columns",
+          "_format_date",
+          "_market_rule_warnings",
+          "_nav_fill_columns",
+          "_nav_order_columns",
+          "_nav_side_fill_ratio",
+          "_order_columns",
+          "_side_fill_ratio",
+          "_summarize_adjusted_nav",
+          "_summarize_orders"
+        ],
+        "changed_definitions": [
+          "_summarize_adjusted_nav",
+          "_empty_adjusted_nav_result"
+        ],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/results.py",
+        "destination": "core/src/quant_backtest_core/daily/execution_sim/results.py",
+        "source_sha256": "ca82988311f276c785a23a78f4022e0438face2e19e5db3edec29e6ba944fa46",
+        "source_bytes": 11918,
+        "shared_definitions": [
+          "ExecutionAdjustedNavResult",
+          "ExecutionSimResult",
+          "_add_derived_cost_columns",
+          "_add_total_cost_row",
+          "_aggregate_cost_columns",
+          "_as_frame",
+          "_build_cost_breakdown",
+          "_build_daily_series",
+          "_build_targets",
+          "_build_turnover_breakdown",
+          "_cost_breakdown_columns",
+          "_cost_breakdown_source",
+          "_cost_row",
+          "_resolve_portfolio_value",
+          "to_unified_ledger"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/table_preparation.py",
+        "destination": "core/src/quant_backtest_core/daily/execution_sim/table_preparation.py",
+        "source_sha256": "fa666fdbf7c7714150720f329e33a616a9c4150df7b9098aaefbee2a09e1c886",
+        "source_bytes": 6821,
+        "shared_definitions": [
+          "_build_execution_tables",
+          "_build_tradable_table",
+          "_prepare_execution_tables",
+          "_prepare_long_only_execution_positions",
+          "prepare_execution_tables"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/corporate_actions.py",
+        "destination": "core/src/quant_backtest_core/daily/execution_sim/corporate_actions.py",
+        "source_sha256": "8206e2011847d91ba9b7c03a34468f901cc27ada62de37280a32f31e0772e098",
+        "source_bytes": 9003,
+        "shared_definitions": [
+          "_CorporateActionLedger",
+          "_Right",
+          "_action_conventions"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/cost_evidence.py",
+        "destination": "core/src/quant_backtest_core/daily/execution_sim/cost_evidence.py",
+        "source_sha256": "1eefd915b59fc5ea30e52cef144019478c66d42173f3af9a6a3b3b49a3c54dee",
+        "source_bytes": 3154,
+        "shared_definitions": [
+          "_fill_group",
+          "_optional_text",
+          "simulator_cost_evidence"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/delisting.py",
+        "destination": "core/src/quant_backtest_core/daily/execution_sim/delisting.py",
+        "source_sha256": "e5ccba226b93860a12e4d35d44a8ea391f72f7e80e5fb8ffad0e865e2e1c205c",
+        "source_bytes": 3786,
+        "shared_definitions": [
+          "_quantity_trades",
+          "audit_delisting_exits"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/_execution_models.py",
+        "destination": "core/src/quant_backtest_core/daily/_execution_models.py",
+        "source_sha256": "c5965d67642589c01690b82b278f493fecfb07b67c6ca8c39aec4318bd187e86",
+        "source_bytes": 15856,
+        "shared_definitions": [
+          "BpsCostModel",
+          "BpsSlippageModel",
+          "CostModel",
+          "DetailedTradeFeeModel",
+          "EntryPolicy",
+          "ExecutionModel",
+          "ExitPolicy",
+          "NoCostModel",
+          "NoSlippageModel",
+          "ParticipationSlippageModel",
+          "SelectionConstraints",
+          "SideBpsCostModel",
+          "SlippageModel"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/_execution_build.py",
+        "destination": "core/src/quant_backtest_core/daily/_execution_build.py",
+        "source_sha256": "15f46e950d78a999404f7a3499467861e64213f5238200df24824b4f99a9d0cf",
+        "source_bytes": 17978,
+        "shared_definitions": [
+          "_build_detailed_trade_fee_model",
+          "_coerce_non_negative_float",
+          "_coerce_positive_float",
+          "_get_cost_alias",
+          "build_cost_model",
+          "build_entry_policy",
+          "build_execution_model",
+          "build_exit_policy",
+          "build_selection_constraints",
+          "build_slippage_model",
+          "describe_cost_model",
+          "describe_execution_model",
+          "describe_selection_constraints",
+          "describe_slippage_model",
+          "l2_price_tiered_slippage",
+          "required_pricing_columns"
+        ],
+        "changed_definitions": [
+          "build_exit_policy"
+        ],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/dated_fees.py",
+        "destination": "core/src/quant_backtest_core/daily/dated_fees.py",
+        "source_sha256": "1c1e54bf8adaf096eeb91a72d413ddea8efbb7768f35dde2ad684ddab9062611",
+        "source_bytes": 10692,
+        "shared_definitions": [
+          "DatedFeeQuote",
+          "DatedFeeSchedule",
+          "DatedTradeFeeModel",
+          "FeeQuoteContext",
+          "FeeSchedulePeriod",
+          "_as_date",
+          "_non_negative_finite"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/turnover.py",
+        "destination": "core/src/quant_backtest_core/daily/turnover.py",
+        "source_sha256": "03a8bd8a5ee9dba5af305dc5d43d61d71bc62170ffc0bd433a92decfc423cc4d",
+        "source_bytes": 10497,
+        "shared_definitions": [
+          "RebalanceTurnoverReport",
+          "TurnoverBreakdown",
+          "_aligned_weight_delta",
+          "_normalized_name_set",
+          "_target_name_changes",
+          "annualize_turnover",
+          "build_rebalance_turnover_report",
+          "name_turnover",
+          "turnover_from_trade_weights"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/execution.py",
+        "destination": "core/src/quant_backtest_core/daily/execution.py",
+        "source_sha256": "c6a0394279f8e546b21b5fed5fdcec041b7485547fb4e4760f309a8c0730eb99",
+        "source_bytes": 3722,
+        "shared_definitions": [],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/backends/trade_accounting.py",
+        "destination": "core/src/quant_backtest_core/daily/trade_accounting.py",
+        "source_sha256": "c11393d6356292609a0ff3c2c266aede592a7e784c9cb8f2ff5b72979862e4b8",
+        "source_bytes": 4969,
+        "shared_definitions": [
+          "TradeAccounting",
+          "TradeCostConfig",
+          "_clean_weights",
+          "compute_trade_accounting",
+          "compute_trade_accounting_frame",
+          "drift_weights"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/backtest/ledger.py",
+        "destination": "core/src/quant_backtest_core/backtest/ledger.py",
+        "source_sha256": "64e80a2067de8c729e5b55b798084dc62567f3c43fac1e6acc5e6d9aac6741ec",
+        "source_bytes": 3496,
+        "shared_definitions": [
+          "UnifiedLedger",
+          "_require_columns",
+          "reconcile_unified_ledger",
+          "validate_ledger_frames"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/types.py",
+        "destination": "core/src/quant_backtest_core/daily/types.py",
+        "source_sha256": "b19bd59ad3ae348c040ae20b6837f276c901d90ebb20a5e156ab51c430b49f9e",
+        "source_bytes": 8954,
+        "shared_definitions": [
+          "BacktestLegResult",
+          "BacktestPositionState",
+          "CostBreakdown"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": [
+          "BacktestExecutionContext",
+          "BacktestPeriodPlan",
+          "BacktestPeriodResult",
+          "BacktestPricingContext"
+        ]
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/execution_calendar.py",
+        "destination": "core/src/quant_backtest_core/daily/_calendar_values.py",
+        "source_sha256": "3d7d0ea78c6ad6afe75df044641e8005d0c094d6fc91525e50e189bce7b13d10",
+        "source_bytes": 9194,
+        "shared_definitions": [
+          "coerce_date_set",
+          "normalize_execution_calendar"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": [
+          "_date_range",
+          "_fetch_trading_dates",
+          "_normalize_dates",
+          "_resolve_rqdatac_module",
+          "_weekday_dates",
+          "build_execution_date_map",
+          "execution_calendar_from_config",
+          "is_execution_open",
+          "resolve_execution_date",
+          "resolve_execution_open_dates"
+        ]
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/execution_sim/__init__.py",
+        "destination": "core/src/quant_backtest_core/daily/execution_sim/__init__.py",
+        "source_sha256": "90ec8b66be3a3a45a1a14a7c47515c7f00cdd3833efbe79b2502fea0c134263f",
+        "source_bytes": 2108,
+        "shared_definitions": [],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/_position_backtest_config.py",
+        "destination": "core/src/quant_backtest_core/daily/_position_backtest_config.py",
+        "source_sha256": "3fd7cb813a59ee9e0e65a30c78e82a92db8e71f05f3416decb4d4d5c68333534",
+        "source_bytes": 5652,
+        "shared_definitions": [
+          "PositionBacktestConfig",
+          "PositionBacktestResult",
+          "_date_key",
+          "_date_series",
+          "_date_value",
+          "normalize_position_backtest_periods",
+          "normalize_position_backtest_positions",
+          "normalize_position_backtest_pricing"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/_position_backtest_engine.py",
+        "destination": "core/src/quant_backtest_core/daily/_position_backtest_engine.py",
+        "source_sha256": "f9bcd4a08d9222ad3719a8b229a26a58300995a1fe69da785736d54790a772af",
+        "source_bytes": 25167,
+        "shared_definitions": [
+          "_PositionBacktestState",
+          "_PositionPeriodPrices",
+          "_build_intraday_vwap_tables",
+          "_build_period_result_row",
+          "_clean_position_weights",
+          "_compute_cash_aware_trade_summary",
+          "_evaluate_position_periods",
+          "_format_position_backtest_outputs",
+          "_holding_days",
+          "_idx_for_price_table_date",
+          "_period_info_records",
+          "_planned_exit_idx_for_price_table",
+          "_price_table",
+          "_resolve_exit_policy_prices",
+          "_resolve_position_period_prices",
+          "_summarize_position_backtest",
+          "_tradable_table",
+          "_valid_period_policy_prices",
+          "_valid_period_prices",
+          "_weights_for_rebalance",
+          "run_position_backtest"
+        ],
+        "changed_definitions": [
+          "_summarize_position_backtest"
+        ],
+        "retained_in_platform": []
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/contracts.py",
+        "destination": "core/src/quant_backtest_core/daily/_position_validation.py",
+        "source_sha256": "e4756d97cd169612398097c8d2de08b7954d23f01b0454624899330f8c1b8441",
+        "source_bytes": 11148,
+        "shared_definitions": [
+          "_column_series",
+          "_parse_contract_dates",
+          "assert_positions_by_rebalance_frame",
+          "validate_positions_by_rebalance_frame"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": [
+          "BacktestPricingFrameContract",
+          "GroupCap",
+          "PositionsByRebalanceFrameContract",
+          "StrategySpec",
+          "StrategySpecContract",
+          "_dedupe",
+          "_non_empty",
+          "assert_backtest_pricing_frame",
+          "assert_strategy_spec",
+          "required_backtest_pricing_columns",
+          "validate_backtest_pricing_frame",
+          "validate_strategy_spec",
+          "validate_tradable_flags_frame"
+        ]
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/portfolio_weights.py",
+        "destination": "core/src/quant_backtest_core/daily/_period_helpers.py",
+        "source_sha256": "55f35fa40221abbd9c55296731e91bf63573ebb93731cf6df976d7b395a8cd4b",
+        "source_bytes": 10064,
+        "shared_definitions": [
+          "_equal_weights",
+          "clean_position_weights",
+          "normalize_position_weights"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": [
+          "_apply_target_weight_policy",
+          "_calibrated_weights",
+          "_cap_and_redistribute_positive_weights",
+          "_score_weights",
+          "_sqrt_liquidity_weights",
+          "_weights_for_mode",
+          "build_position_weights",
+          "limit_weight_turnover",
+          "normalize_weighting_mode",
+          "validate_positive_name_invariant"
+        ]
+      },
+      {
+        "source": "packages/platform/src/quant_platform/_portfolio/leg_helpers.py",
+        "destination": "core/src/quant_backtest_core/daily/_period_helpers.py",
+        "source_sha256": "21c0acfc87492341c3381f29bd71503e58ac587dd57b0e160b5e889055d38c52",
+        "source_bytes": 10995,
+        "shared_definitions": [
+          "_compute_trade_summary",
+          "_drift_previous_weights"
+        ],
+        "changed_definitions": [],
+        "retained_in_platform": [
+          "_TargetWeightsAndExit",
+          "_build_backtest_leg_result",
+          "_build_leg_turnover_report",
+          "_build_target_weights_and_exit",
+          "_next_position_state"
+        ]
+      }
+    ]
   }
 }
