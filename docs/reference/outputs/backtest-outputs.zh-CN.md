@@ -33,3 +33,8 @@
 统一账本八表：targets、orders、fills、daily_positions、daily_cash、daily_nav、cost_breakdown、turnover_breakdown。后两者保留按买卖方向及 total 聚合的原成本/成交额；不重新扣费。公司行动的 cash_receivable、stock_receivable_value 和生命周期回执须单独检查。
 
 执行摘要只在期初和期末估值均完整、且已知外部净流入为零时报告收益；全序列完整才复合。首期期初以有限正数的配置现金开始，没有持仓或应收项。缺价使当期的期末和下一期的期初均不完整；当前价格恢复本身不能补齐期初证据。原有净值和收益表保持不变。仅按成交表已知 commission/stamp/transfer 三项求总费用，换手率未知。不以日频汇总补齐缺失成交，也不将机会损失再次扣款。
+
+
+## 纯期间与分腿财务闭包（Task 15P）
+
+Task 15P 补齐提供方 C PR #24 合并后发现的纯源闭包遗漏：显式输入的分腿构建、状态滚动、参与率表查询、期间汇总及独立的旧交易核算 API 原样迁入 Core 0.3.0。全部期间字段、默认值及 Core CostBreakdown 类身份保留；未知诊断仍为未知，费用只汇总一次。筛选、权重构建、研究投影与指标、编排仍属 Platform，多空诊断期间不增加每日现金、融券或保证金能力。[精确 API、兼容语义与证据](../../guides/diagnostic-close-replay.zh-CN.md) 说明完整边界。后续提交须先复核、合并并提供精确产物，再恢复消费方 Task 15，然后执行 Astro Task 19；版本号本身不代表源身份，不涉及 PyPI 发布。

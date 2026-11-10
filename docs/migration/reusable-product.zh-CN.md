@@ -135,3 +135,8 @@ git diff --check
 校验器只读，不执行登记的验收命令。后续财务关卡见已批准的实施计划
 `docs/superpowers/plans/2026-11-09-reusable-backtest-product-implementation.md`。
 公开示例只用合成输入；本任务不包含券商连接与下单、生产配置、调度器、真实成本校准或新增数据采集。
+
+
+## 纯期间与分腿财务闭包（Task 15P）
+
+Task 15P 补齐提供方 C PR #24 合并后发现的纯源闭包遗漏：显式输入的分腿构建、状态滚动、参与率表查询、期间汇总及独立的旧交易核算 API 原样迁入 Core 0.3.0。全部期间字段、默认值及 Core CostBreakdown 类身份保留；未知诊断仍为未知，费用只汇总一次。筛选、权重构建、研究投影与指标、编排仍属 Platform，多空诊断期间不增加每日现金、融券或保证金能力。[精确 API、兼容语义与证据](../guides/diagnostic-close-replay.zh-CN.md) 说明完整边界。后续提交须先复核、合并并提供精确产物，再恢复消费方 Task 15，然后执行 Astro Task 19；版本号本身不代表源身份，不涉及 PyPI 发布。

@@ -157,3 +157,8 @@ Future financial gates live in the approved implementation plan under
 `docs/superpowers/plans/2026-11-09-reusable-backtest-product-implementation.md`.
 Public examples remain synthetic. No broker/order, production configuration,
 scheduler, real cost calibration or new data-acquisition work is included.
+
+
+## Pure period-leg financial closure (Task 15P)
+
+Task 15P closes a pure-source omission discovered after provider C PR #24. Explicit-input leg construction, state rollover, supplied participation lookup, period aggregation and the separate legacy trade accounting APIs move to Core 0.3.0 unchanged. Every period field/default and the owned CostBreakdown identity remain; unknown diagnostics stay unknown and costs aggregate once. Selection, weight construction, research projection/metrics and orchestration remain Platform. Diagnostic long/short periods add no daily cash, borrow or margin capability. [Exact APIs, compatibility semantics and evidence](../guides/diagnostic-close-replay.md) describe the boundary. Review/merge and exact follow-up artifacts precede Task 15 consumer resumption, then Astro Task 19; versions alone are not source identity. No PyPI publication.

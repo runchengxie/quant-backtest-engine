@@ -27,3 +27,46 @@ Platform 独立的 `target_close_replay.replay_close_targets` 留在原项目：
 ## 审计辅助 {#_4}
 
 持仓损益、回撤区间和匹配波动率研究诊断留在原流程。历史可见性、分红复权、退市和可执行性均须独立证据。
+
+
+## 纯期间与分腿财务闭包（Task 15P）
+
+提供方 C（PR #24）合并后的源闭包检查发现，部分纯财务 helper 仍留在 Platform。
+Task 15P 在消费方 Task 15 恢复前迁移这些原始实现；它不改写 PR #24 的历史证据，
+也不引入新的财务模型。
+
+- `daily.leg_financial._build_backtest_leg_result` 接收显式持仓、目标与实际权重、
+  入场和退出价格、前序状态、日期及费用和滑点模型，保留多空诊断收益符号、
+  全部换手层次、费用方法参数、目标与实际名称、敞口及现金字段。
+  `_build_leg_turnover_report` 保留前序已记录目标与实际持仓的区别；
+  `_next_position_state` 保留初始现金和已记录目标标志。
+- `daily.pricing.slippage_pricing_row` 仅查询调用方提供的参与率成交额表；
+  缺列或缺日期时保留原有查表异常。
+- `daily.period_turnover.period_result_from_leg/period_result_from_legs` 返回 Core
+  所有的 `daily.types.BacktestPeriodResult`，保留原字段顺序、默认值，并使用
+  同一个 Core `CostBreakdown` 类。费用和滑点各汇总一次，未知可选诊断仍为未知，
+  名称按原规则合并，较晚的分腿退出决定期间退出日期。
+- `daily.trade_accounting.compute_trade_summary/drift_previous_weights` 及其
+  `_compute_trade_summary/_drift_previous_weights` 别名保留独立的旧 API：
+  空目标返回零换手；前序为 `None` 或空组合时，完整归一化目标计为初始换手。
+  这不同于 `daily._period_helpers` 的未初始化账户、显式现金区分和敞口保留语义。
+  既有 `TradeCostConfig`、`TradeAccounting`、`drift_weights`、
+  `compute_trade_accounting` 与 `compute_trade_accounting_frame` 不变。
+
+筛选、排序、分组、目标权重构建、研究期间编排、广义指标、日历获取及
+`period_turnover_fields` 研究投影继续由 Platform 所有。多空诊断分腿不为
+`python.daily` 增加融券、保证金、成交记录或每日现金账本。每次运行只有一个
+财务所有者，调用方不得再次扣除费用、滑点或描述性执行差额。
+
+Core/SDK 保持 0.3.0，Rust 保持 0.2.0，原生扩展保持 0.1.0。Task 15P wheel 有
+独立的不可变哈希和源版本；包版本本身不能识别此次闭包。消费方迁移须等待复核、
+合并后的后续提交及其精确 VCS/wheel 固定标识，不涉及 PyPI 发布。Platform 兼容
+别名须保留两个次版本周期，**且**直到所有已记录支持的消费方完成迁移。旧检查点
+继续使用原有完整环境。
+
+验收在真实固定的旧所有者环境，以及 Python 3.12/3.13 的普通 Core wheel 安装
+环境执行合成显式调用，比较全部数据类字段和属性、Series 值及索引和 dtype、
+签名、查表异常及费用调用参数。`project_tools/verify_period_leg_parity.py`
+记录真实导入闭包；仅做静态源匹配不构成验收。
+
+严格对比环境同时安装原有 PyArrow 26.0.1、pandas 3.0.6 与 NumPy 2.2.6。精简 daily/union 环境不安装 PyArrow；实际出现的 Arrow 到 Python 的 StringDtype 存储差异按 Series 索引逐项登记，只对这一明确存储差异转换后严格比较值和 dtype，不全局关闭 dtype 检查。

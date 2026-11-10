@@ -190,3 +190,40 @@ class BacktestLegResult:
     @property
     def net(self) -> float:
         return float(self.gross - self.total_cost)
+
+
+@dataclass(frozen=True)
+class BacktestPeriodResult:
+    gross: float
+    net: float
+    turnover: float
+    fee_cost: float
+    slippage_cost: float
+    total_cost: float
+    exit_idx: int
+    exit_date: pd.Timestamp
+    target_name_turnover: float | None = None
+    target_entered_names: tuple[str, ...] = ()
+    target_exited_names: tuple[str, ...] = ()
+    target_overlap_names: tuple[str, ...] = ()
+    target_weight_full_l1: float | None = None
+    target_weight_half_l1: float | None = None
+    pretrade_demand_buy: float | None = None
+    pretrade_demand_sell: float | None = None
+    pretrade_demand_full_l1: float | None = None
+    pretrade_demand_half_l1: float | None = None
+    executed_buy: float | None = None
+    executed_sell: float | None = None
+    executed_gross: float | None = None
+    executed_full_l1: float | None = None
+    executed_half_l1: float | None = None
+    executed_cost: float | None = None
+    is_initial_build: bool = False
+    target_gross_exposure: float | None = None
+    target_cash_weight: float | None = None
+    modeled_gross_exposure: float | None = None
+    modeled_cash_weight: float | None = None
+
+    @property
+    def cost_breakdown(self) -> CostBreakdown:
+        return CostBreakdown(self.fee_cost, self.slippage_cost)

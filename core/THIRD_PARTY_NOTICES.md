@@ -157,3 +157,39 @@ Financial arithmetic, result tables and direct API signatures are retained. Cale
 - packages/platform/src/quant_platform/_portfolio/contracts.py → core/src/quant_backtest_core/daily/_position_validation.py (SHA256 e4756d97cd169612398097c8d2de08b7954d23f01b0454624899330f8c1b8441)
 - packages/platform/src/quant_platform/_portfolio/portfolio_weights.py → core/src/quant_backtest_core/daily/_period_helpers.py (SHA256 55f35fa40221abbd9c55296731e91bf63573ebb93731cf6df976d7b395a8cd4b)
 - packages/platform/src/quant_platform/_portfolio/leg_helpers.py → core/src/quant_backtest_core/daily/_period_helpers.py (SHA256 21c0acfc87492341c3381f29bd71503e58ac587dd57b0e160b5e889055d38c52)
+
+## Task 15P pure period-leg source closure (Apache-2.0)
+
+Copyright 2026 runchengxie. Original quant-platform revision
+`7a618bddd8fdeee5dbe37fe5b54a9698e0de5355`; the same files at
+`7ff3822675b6734a4e6a99a9491730bece386fa3` are byte-identical.
+Original license remains in `licenses/quant-platform-Apache-2.0.txt`.
+No original NOTICE file exists. Only namespace/imports, formatting and this
+provenance change; original signatures, arithmetic and exceptions remain.
+
+- `_portfolio/leg_helpers.py`: `_build_backtest_leg_result`,
+  `_build_leg_turnover_report`, `_next_position_state` → `daily/leg_financial.py`.
+- `_portfolio/pricing.py`: `slippage_pricing_row` → `daily/pricing.py`.
+- `_portfolio/period_turnover.py`: `period_result_from_leg`,
+  `period_result_from_legs`, `_optional_sum`, `_merged_names` →
+  `daily/period_turnover.py`. The research output projection stays Platform.
+- `_portfolio/types.py`: `BacktestPeriodResult` → `daily/types.py`;
+  `CostBreakdown` retains its existing owned identity.
+- `_portfolio/trade_accounting.py`: `compute_trade_summary`,
+  `drift_previous_weights` plus private compatibility aliases →
+  `daily/trade_accounting.py`. Existing backend accounting APIs remain intact.
+- Unchanged exact bodies in `daily/_period_helpers.py` provide normalization,
+  cleaning and the distinct period financial drift/turnover semantics.
+- The complete original `tests/test_trade_accounting.py` transfers with import
+  changes only. Existing cost/turnover tests and their original assertions stay.
+
+These definitions close an omission found after provider C PR #24. Task 15P is a
+separate follow-up, not retroactive evidence that PR #24 included them.
+
+Original complete-file SHA256 (bounded definitions above):
+
+- `packages/platform/src/quant_platform/_portfolio/leg_helpers.py`: `21c0acfc87492341c3381f29bd71503e58ac587dd57b0e160b5e889055d38c52`.
+- `packages/platform/src/quant_platform/_portfolio/period_turnover.py`: `96c17043e2044e7abdb4475aa62a6bc84381d16b21785b47199b84ae71d0c81a`.
+- `packages/platform/src/quant_platform/_portfolio/pricing.py`: `141ff12e65e0bb86432e53bc4913c4dcba028730462f4f1d40a1374092cb6331`.
+- `packages/platform/src/quant_platform/_portfolio/trade_accounting.py`: `cff8b58936c7b959c218da2251a43db8529c7a2c437d75cd5088455e339484d6`.
+- `packages/platform/src/quant_platform/_portfolio/types.py`: `b19bd59ad3ae348c040ae20b6837f276c901d90ebb20a5e156ab51c430b49f9e`.
