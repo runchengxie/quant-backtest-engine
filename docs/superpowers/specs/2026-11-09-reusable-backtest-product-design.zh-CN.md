@@ -368,3 +368,21 @@ PR 构建执行完整拼装和验收但不发布；main 只上传一个 assemble
 - Runtime 运维职责和研究登记权威继续在 Engine 外。
 
 用户批准本设计后，再编写包含精确文件、契约、测试、跨仓顺序和逐批审查门槛的实施计划。本文不声称新包、接口或任何迁移已经存在。
+
+## Task 14 诊断接口及主线顺序修订
+
+`run_period_replay(*, positions: pd.DataFrame, pricing: pd.DataFrame, periods: pd.DataFrame, calendar: ExecutionCalendar, config: Mapping[str, JsonValue]) -> PositionBacktestResult`
+必须显式传入 periods，复用原纯持仓核算实现、配置、输入规范化、净收益/毛收益/期间表、
+schema 元数据及财务汇总，不制造日级现金、订单或成交。Task 15 通过同一核算结果类
+重建原研究统计。原黄金样例净收益 0.049、毛收益 0.05，仍只表示诊断能力；
+实际日账继续保留 ExecutionAdjustedNavResult/ExecutionSimResult 的原始表。
+
+daily-input.v1 wire 以 `{column, unit}` 记录表达流动性单位；Task 13 Python
+Mapping 不变。拒绝重复或未知列及不支持的单位，金额十进制字符串和 UTC 纳秒传输
+仍严格验证。
+
+提供方 C（14）及 Platform C（15）全部合并验证后，先实施 Astro 19，再实施
+Runtime 16–17 和私有消费者 18，最终 20 在全部消费者完成后验收。实际财务核算、
+浏览器、来源、全表、双语及单一站点产物关卡均保留。Runtime 的版本和文档来源记录
+不等于财务样例核算；待完成的 Runtime/研究支持须明确标示，后续改动影响的最终
+源码和站点证据须重新核验。

@@ -117,3 +117,43 @@ Copyright 2026 runchengxie. Apache-2.0 source at quant-platform
 - `_portfolio/_metrics_period.py` supplies the product-minus-one return convention.
   `daily/summary.py` requires complete explicit valuation/zero-flow evidence and
   preserves unknown rows; broad research statistics remain Platform.
+
+## Task 14 daily financial owner (Apache-2.0)
+
+Transferred from quant-platform at 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355. Original license is retained in licenses/quant-platform-Apache-2.0.txt.
+Financial arithmetic, result tables and direct API signatures are retained. Calendar acquisition, strategy selection, weight-model construction, broad research statistics and publication remain Platform. The new neutral request, wire and summary adapter do not manufacture missing evidence.
+
+- packages/platform/src/quant_platform/_portfolio/execution_sim/core.py → core/src/quant_backtest_core/daily/execution_sim/core.py (SHA256 c8584e014c67084a1220378de24639797037a0fbfe093ff445920a55004579ab)
+- packages/platform/src/quant_platform/_portfolio/execution_sim/models.py → core/src/quant_backtest_core/daily/execution_sim/models.py (SHA256 d1d81afa8b0dd7eacf36efe8c75b95a38f4714069bfbbd982692a6ab3e67edb0)
+- packages/platform/src/quant_platform/_portfolio/execution_sim/capacity.py → core/src/quant_backtest_core/daily/execution_sim/capacity.py (SHA256 d693c1643111b9f283f14cb77f3867dd79fd03727ece431eab5e4aac58ed5622)
+- packages/platform/src/quant_platform/_portfolio/execution_sim/capacity_simulation.py → core/src/quant_backtest_core/daily/execution_sim/capacity_simulation.py (SHA256 72b42804270373a878c54f63020340fda4c9f52afcea2d3387a5d741c487a44f)
+- packages/platform/src/quant_platform/_portfolio/execution_sim/adjusted_nav.py → core/src/quant_backtest_core/daily/execution_sim/adjusted_nav.py (SHA256 40e2871c9da64456bbc7c06ce052123c5f06e77a700709b2eb94dc491c49b391)
+- packages/platform/src/quant_platform/_portfolio/execution_sim/ideal_nav.py → core/src/quant_backtest_core/daily/execution_sim/ideal_nav.py (SHA256 b0ef7bc059905b36139bb48c933e9ce8683dd9f7925ff98767c7fb887c590ed6)
+- packages/platform/src/quant_platform/_portfolio/execution_sim/orders.py → core/src/quant_backtest_core/daily/execution_sim/orders.py (SHA256 39d48581f0de61f7ba65e2a5421cd85706ff7537725ef34e77b6bd9b74630b66)
+- packages/platform/src/quant_platform/_portfolio/execution_sim/orders_ideal.py → core/src/quant_backtest_core/daily/execution_sim/orders_ideal.py (SHA256 ca5f237ee87bfa3266b8127f4d6d689743092a4ed3eed7bf260fcf566b2962c6)
+- packages/platform/src/quant_platform/_portfolio/execution_sim/orders_nav.py → core/src/quant_backtest_core/daily/execution_sim/orders_nav.py (SHA256 524cbc6ced909e617976b2ddb0086c39edc8ed55831c34541554583be8837b8d)
+- packages/platform/src/quant_platform/_portfolio/execution_sim/orders_nav_fees.py → core/src/quant_backtest_core/daily/execution_sim/orders_nav_fees.py (SHA256 014cc21abff0bbdcc66cd5c0bbdbd2a47afb071526e5d4553ca7bf514540d1b9)
+- packages/platform/src/quant_platform/_portfolio/execution_sim/orders_nav_quantities.py → core/src/quant_backtest_core/daily/execution_sim/orders_nav_quantities.py (SHA256 19515ea818e424bd83ac9dc172fc3db80a5ddb638a2406086eeef949bd0eead0)
+- packages/platform/src/quant_platform/_portfolio/execution_sim/orders_nav_states.py → core/src/quant_backtest_core/daily/execution_sim/orders_nav_states.py (SHA256 1f7fdb9d9068aa89f2d5da837b0c226db3b2c4ade0121f6b988768c40a099703)
+- packages/platform/src/quant_platform/_portfolio/execution_sim/orders_targets.py → core/src/quant_backtest_core/daily/execution_sim/orders_targets.py (SHA256 8461f81ec5f54a31eaa5105428927dbbc6230929b073558ab5760cf6b8ebea1b)
+- packages/platform/src/quant_platform/_portfolio/execution_sim/reporting.py → core/src/quant_backtest_core/daily/execution_sim/reporting.py (SHA256 2adf4c0040a2a78fa158964baddd4cd19fac93a036f73df714323acb3a3eedc5)
+- packages/platform/src/quant_platform/_portfolio/execution_sim/results.py → core/src/quant_backtest_core/daily/execution_sim/results.py (SHA256 ca82988311f276c785a23a78f4022e0438face2e19e5db3edec29e6ba944fa46)
+- packages/platform/src/quant_platform/_portfolio/execution_sim/table_preparation.py → core/src/quant_backtest_core/daily/execution_sim/table_preparation.py (SHA256 fa666fdbf7c7714150720f329e33a616a9c4150df7b9098aaefbee2a09e1c886)
+- packages/platform/src/quant_platform/_portfolio/execution_sim/corporate_actions.py → core/src/quant_backtest_core/daily/execution_sim/corporate_actions.py (SHA256 8206e2011847d91ba9b7c03a34468f901cc27ada62de37280a32f31e0772e098)
+- packages/platform/src/quant_platform/_portfolio/execution_sim/cost_evidence.py → core/src/quant_backtest_core/daily/execution_sim/cost_evidence.py (SHA256 1eefd915b59fc5ea30e52cef144019478c66d42173f3af9a6a3b3b49a3c54dee)
+- packages/platform/src/quant_platform/_portfolio/execution_sim/delisting.py → core/src/quant_backtest_core/daily/execution_sim/delisting.py (SHA256 e5ccba226b93860a12e4d35d44a8ea391f72f7e80e5fb8ffad0e865e2e1c205c)
+- packages/platform/src/quant_platform/_portfolio/_execution_models.py → core/src/quant_backtest_core/daily/_execution_models.py (SHA256 c5965d67642589c01690b82b278f493fecfb07b67c6ca8c39aec4318bd187e86)
+- packages/platform/src/quant_platform/_portfolio/_execution_build.py → core/src/quant_backtest_core/daily/_execution_build.py (SHA256 15f46e950d78a999404f7a3499467861e64213f5238200df24824b4f99a9d0cf)
+- packages/platform/src/quant_platform/_portfolio/dated_fees.py → core/src/quant_backtest_core/daily/dated_fees.py (SHA256 1c1e54bf8adaf096eeb91a72d413ddea8efbb7768f35dde2ad684ddab9062611)
+- packages/platform/src/quant_platform/_portfolio/turnover.py → core/src/quant_backtest_core/daily/turnover.py (SHA256 03a8bd8a5ee9dba5af305dc5d43d61d71bc62170ffc0bd433a92decfc423cc4d)
+- packages/platform/src/quant_platform/_portfolio/execution.py → core/src/quant_backtest_core/daily/execution.py (SHA256 c6a0394279f8e546b21b5fed5fdcec041b7485547fb4e4760f309a8c0730eb99)
+- packages/platform/src/quant_platform/_portfolio/backends/trade_accounting.py → core/src/quant_backtest_core/daily/trade_accounting.py (SHA256 c11393d6356292609a0ff3c2c266aede592a7e784c9cb8f2ff5b72979862e4b8)
+- packages/platform/src/quant_platform/backtest/ledger.py → core/src/quant_backtest_core/backtest/ledger.py (SHA256 64e80a2067de8c729e5b55b798084dc62567f3c43fac1e6acc5e6d9aac6741ec)
+- packages/platform/src/quant_platform/_portfolio/types.py → core/src/quant_backtest_core/daily/types.py (SHA256 b19bd59ad3ae348c040ae20b6837f276c901d90ebb20a5e156ab51c430b49f9e)
+- packages/platform/src/quant_platform/_portfolio/execution_calendar.py → core/src/quant_backtest_core/daily/_calendar_values.py (SHA256 3d7d0ea78c6ad6afe75df044641e8005d0c094d6fc91525e50e189bce7b13d10)
+- packages/platform/src/quant_platform/_portfolio/execution_sim/__init__.py → core/src/quant_backtest_core/daily/execution_sim/__init__.py (SHA256 90ec8b66be3a3a45a1a14a7c47515c7f00cdd3833efbe79b2502fea0c134263f)
+- packages/platform/src/quant_platform/_portfolio/_position_backtest_config.py → core/src/quant_backtest_core/daily/_position_backtest_config.py (SHA256 3fd7cb813a59ee9e0e65a30c78e82a92db8e71f05f3416decb4d4d5c68333534)
+- packages/platform/src/quant_platform/_portfolio/_position_backtest_engine.py → core/src/quant_backtest_core/daily/_position_backtest_engine.py (SHA256 f9bcd4a08d9222ad3719a8b229a26a58300995a1fe69da785736d54790a772af)
+- packages/platform/src/quant_platform/_portfolio/contracts.py → core/src/quant_backtest_core/daily/_position_validation.py (SHA256 e4756d97cd169612398097c8d2de08b7954d23f01b0454624899330f8c1b8441)
+- packages/platform/src/quant_platform/_portfolio/portfolio_weights.py → core/src/quant_backtest_core/daily/_period_helpers.py (SHA256 55f35fa40221abbd9c55296731e91bf63573ebb93731cf6df976d7b395a8cd4b)
+- packages/platform/src/quant_platform/_portfolio/leg_helpers.py → core/src/quant_backtest_core/daily/_period_helpers.py (SHA256 21c0acfc87492341c3381f29bd71503e58ac587dd57b0e160b5e889055d38c52)

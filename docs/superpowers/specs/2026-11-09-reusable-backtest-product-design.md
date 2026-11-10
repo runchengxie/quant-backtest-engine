@@ -371,3 +371,24 @@ Concrete defaults proposed for review:
 - Keep Runtime operational ownership and private research/trial authority outside Engine.
 
 After owner approval, write a task-level implementation plan with precise files, contracts, tests, provider/consumer order and per-wave review gates. This design is not that implementation plan and does not claim that any transfer, new package or API already exists.
+
+## Task 14 diagnostic and mainline amendment
+
+`run_period_replay(*, positions: pd.DataFrame, pricing: pd.DataFrame, periods: pd.DataFrame, calendar: ExecutionCalendar, config: Mapping[str, JsonValue]) -> PositionBacktestResult`
+requires explicit periods and reuses the original pure position owner, configuration,
+normalization, net/gross/period tables, schema metadata and financial aggregates.
+It does not invent daily cash, orders or fills. Task 15 reconstructs broad research
+statistics through the same owned result class. The original 0.049 net / 0.05 gross
+liquid golden retains its diagnostic-only capabilities. Real daily paths keep their
+original ExecutionAdjustedNavResult/ExecutionSimResult tables.
+
+The daily-input.v1 wire uses explicit `{column, unit}` records for liquidity units;
+the Task 13 Python Mapping is unchanged. Reject duplicate/unknown columns and
+unsupported units. Monetary decimal and UTC-ns transport remains strict.
+
+After fully merged and verified provider C (14) and Platform C (15), implement
+Astro 19 before Runtime 16–17 and private consumer 18; final 20 follows all consumers.
+All real financial-owner, browser, source, table, dual-language and one-artifact gates
+remain required. Runtime revision/docs provenance is distinct from financial fixture
+ownership. Pending Runtime/research support stays explicit; later changes refresh
+affected final source/site receipts.

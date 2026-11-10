@@ -51,8 +51,9 @@ The engine runs a backtest. [quant-backtest-runtime](https://github.com/runcheng
 adds queues, job status, cancellation, resource limits and saved results.
 [quant-platform](https://github.com/runchengxie/quant-platform) retains the Python
 backends currently used for compatibility and unsupported scenarios. The [reusable product migration](docs/migration/reusable-product.md) records the
-implemented provider A scope and the remaining gated transfers. Advanced planning,
-daily execution and consumer compatibility changes remain later work.
+implemented financial owners and remaining consumer gates. Core 0.3.0 adds the independent
+[daily execution graph](docs/product/daily-inputs.md); provider C release and consumer
+cutover remain gated by review, merge and exact artifact verification.
 You can use this engine without either repository.
 
 ## Next steps

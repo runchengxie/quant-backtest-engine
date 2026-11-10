@@ -2,17 +2,13 @@
 
 [简体中文](reusable-product.zh-CN.md)
 
-Provider A is implemented in the current source tree: SDK 0.3.0 provides standard-library
-product contracts, and optional core 0.1.0 provides the explicit Rust adapter, transferred
-financial leaf APIs and standalone resumable Python minute sessions. Use the
-[product installation instructions](../product/installation.md), [backend scope](../product/backends.md)
-and [recovery example](../product/recovery.md) with exact reviewed-source/wheel identities.
-
-Provider A integration and release verification remain pending, as do Platform/Runtime
-consumer cutovers. Implemented source rows are not evidence of a merged release, PyPI
-publication or completed consumer migration. The registry's release-availability receipts
-are separate from implementation identity. Future planned modules and URLs remain promises,
-not available imports or capabilities.
+Core 0.3.0 source now includes the complete independent daily financial graph and explicit
+python.daily backend alongside the minute, planning and scenario owners. SDK 0.3.0
+retains its standard-library namespace. Provider B and Platform B are released at the
+revisions recorded in the ownership registry; provider C review, merge, exact merged
+wheels and Platform C cutover remain pending. Use [installation](../product/installation.md),
+[backend limits](../product/backends.md) and [daily inputs](../product/daily-inputs.md).
+Source implementation is distinct from release and consumer evidence.
 
 ## Current implementation and pending consumers
 
@@ -20,8 +16,8 @@ not available imports or capabilities.
 | --- | --- | --- |
 | Engine Rust | 0.2.0, NautilusTrader 0.66.0; unchanged native quote/session/CLI behavior | Python capabilities do not extend Rust; upstream execution/accounting remain authoritative |
 | Engine SDK | `quant-backtest-engine-client` 0.3.0; `quant_backtest_engine`; Python ≥3.11; standard-library product contracts | Pin the exact reviewed source and verified wheel; base SDK never imports core |
-| Optional Engine core | `quant-backtest-core` 0.1.0; `quant_backtest_core`; Python 3.12/3.13; leaf APIs and resumable minute owner | A integration/release verification pending; advanced planning/matching at B (0.2.0), daily graph at C (0.3.0) remain planned |
-| Platform | Existing 0.0.1 consumer path retained | Consumer A cutover pending; research/training/factor risk/publication remain Platform; later consumer versions 0.1.0/0.2.0/0.3.0 follow provider gates |
+| Optional Engine core | Core 0.3.0 source; Python 3.12/3.13; independent daily, minute, planning and scenario owners | Provider C review/merge/exact merged artifacts pending |
+| Platform | Consumer B retained | Consumer C (Task 15) follows merged verified provider C; research/publication remain Platform |
 | Runtime | Existing 0.1.0 and v1–v8 paths retained | Optional additive v9/0.2.0 consumer follows merged provider and operational acceptance |
 
 Core base depends on SDK `>=0.3.0,<0.4`; repository builds and consumers pin an exact

@@ -2,10 +2,7 @@
 
 [English](daily-inputs.md)
 
-Task 13 提供日频元数据、显式交易日辅助函数、原有纯执行配置解析器和保守的财务摘要。
-安装带 `[daily]` 的核心 wheel 及精确匹配的 SDK wheel。这一步尚未提供可执行的日频后端：
-SDK 将 `daily-input.v1` 记录为待实现，即使描述符声明支持，也不能通过能力准入。
-Task 14 负责执行实现、输入校验和适配器。本摘要不替代任何财务表或原有研究统计字典。
+Core 0.3.0 已实现独立日频图、daily-input.v1 校验和 python.daily 后端；发布仍需合并提交和精确 wheel 收据。安装 [daily] 及匹配 SDK。Task13 元数据、配置和摘要原样复用；不替代旧财务表。
 
 ## 显式原生请求
 
@@ -100,3 +97,21 @@ schema 为 `daily-summary-evidence.v1`，声明两张表分别可用或不可用
 IC、alpha 和广泛研究统计仍归 Platform；Task 15 通过兼容封装从归属明确的财务结果
 重建原有研究统计，包括 H1/H2 求和，并保留结果类身份。
 此保守摘要不表示与原有研究统计字典等价。
+
+## 产品协议和示例
+
+完整合成请求见仓库 fixtures/product/daily.json，日历为 daily-calendar.json。输入必须恰好是 positions、pricing；corporate_actions 带必须显式存在。settings 包含 mode、config、layout、decision_clocks、decision_timing、fee_model，拒绝未知字段。配置十进制参数、权重、价格、流动性和费率使用十进制字符串；时钟是精确 UTC 纳秒字符串。
+
+Python layout.liquidity_units 仍是映射；协议将其编码为 [{"column":"amount","unit":"CNY"}]，避免动态列名与金额键冲突。拒绝重复列、未知记录字段及单位不匹配。fee_model 仅接受 null、detailed 或 dated 固定结构，不接受模块路径。portfolio_value 必须等于初始现金。产品限定 CNY、Asia/Shanghai、显式原始/复权股数单位。
+
+run_daily 不支持 policy、scenario、flow、risk 或 forecast 转换，也不支持检查点/恢复。ideal 不能带交易限制；capacity 不支持行动或费用账本；调整/顺序模式保留真实模拟股数和现金路径。按行估值完整性是保守充分条件：每个目标证券在所有账本日均有正的有限当前价格；缺失时摘要收益保持未知。
+
+## 已安装合成样例
+
+使用对应的普通 wheel 执行仓库中的合成样例：
+
+```sh
+quant-backtest capabilities python.daily
+quant-backtest run-manifest fixtures/product/daily.json \
+  --artifact-root fixtures/product --output-root "$DAILY_OUTPUT"
+```

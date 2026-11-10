@@ -251,6 +251,9 @@ def _validate(obj):
         elif obj.input_schema == "minute-input.v1":
             from .minute import validate_minute_input
             validate_minute_input(obj)
+        elif obj.input_schema == "daily-input.v1":
+            from .daily import validate_daily_input
+            validate_daily_input(obj)
     elif isinstance(obj, t.EvidenceTable):
         if obj.name not in TABLE_NAMES:
             raise ValueError("unknown economic table")

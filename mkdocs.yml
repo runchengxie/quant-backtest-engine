@@ -67,6 +67,11 @@ nav:
       - Product backends: product/backends.md
       - Daily inputs: product/daily-inputs.md
       - Daily execution scope: guides/execution-simulation.md
+      - Sequenced execution: guides/sequenced-execution.md
+      - Diagnostic replay: guides/diagnostic-close-replay.md
+      - Corporate-action ledger: corporate-action-ledger.md
+      - Dated execution fees: dated-execution-fees.md
+      - Backtest outputs: reference/outputs/backtest-outputs.md
       - Financial recovery: product/recovery.md
       - Independent scenarios: product/scenarios.md
       - Impact-aware planning: concepts/impact-planning.md
@@ -111,6 +116,11 @@ nav:
       - 产品后端: product/backends.zh-CN.md
       - 日频输入: product/daily-inputs.zh-CN.md
       - 日频执行范围: guides/execution-simulation.zh-CN.md
+      - 顺序执行: guides/sequenced-execution.zh-CN.md
+      - 期间诊断: guides/diagnostic-close-replay.zh-CN.md
+      - 公司行动账本: corporate-action-ledger.zh-CN.md
+      - 按日期计费: dated-execution-fees.zh-CN.md
+      - 回测输出: reference/outputs/backtest-outputs.zh-CN.md
       - 财务会话恢复: product/recovery.zh-CN.md
       - 独立场景: product/scenarios.zh-CN.md
       - 冲击与滚动规划: concepts/impact-planning.zh-CN.md

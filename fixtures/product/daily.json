@@ -1,0 +1,165 @@
+{
+  "schema": "backtest-product.v1",
+  "backend_id": "python.daily",
+  "required_capabilities": [
+    "daily_replay"
+  ],
+  "model_versions": {},
+  "input_schema": "daily-input.v1",
+  "inputs": {},
+  "inline_inputs": {
+    "positions": [
+      {
+        "rebalance_date": "2020-01-02",
+        "entry_date": "2020-01-03",
+        "symbol": "A",
+        "weight": "1.0"
+      },
+      {
+        "rebalance_date": "2020-01-06",
+        "entry_date": "2020-01-07",
+        "symbol": "B",
+        "weight": "1.0"
+      }
+    ],
+    "pricing": [
+      {
+        "trade_date": "2020-01-03",
+        "symbol": "A",
+        "close": "10.0",
+        "amount": "1000000.0",
+        "sell": true
+      },
+      {
+        "trade_date": "2020-01-03",
+        "symbol": "B",
+        "close": "10.0",
+        "amount": "1000000.0",
+        "sell": true
+      },
+      {
+        "trade_date": "2020-01-06",
+        "symbol": "A",
+        "close": "10.0",
+        "amount": "1000000.0",
+        "sell": true
+      },
+      {
+        "trade_date": "2020-01-06",
+        "symbol": "B",
+        "close": "10.0",
+        "amount": "1000000.0",
+        "sell": true
+      },
+      {
+        "trade_date": "2020-01-07",
+        "symbol": "A",
+        "close": "10.0",
+        "amount": "1000000.0",
+        "sell": false
+      },
+      {
+        "trade_date": "2020-01-07",
+        "symbol": "B",
+        "close": "10.0",
+        "amount": "1000000.0",
+        "sell": true
+      }
+    ]
+  },
+  "currency": "CNY",
+  "share_basis": "raw",
+  "calendar": {
+    "uri": "daily-calendar.json",
+    "sha256": "31e7bc111d3022bbd14adf78b80c9d2dd3dc2c3bfe8ed4b629fd49e49a34a92b",
+    "media_type": "application/json"
+  },
+  "timezone": "Asia/Shanghai",
+  "units": {
+    "cash": "CNY"
+  },
+  "clocks": {
+    "available_ns": null,
+    "information_ns": "1577959200000000000",
+    "decision_ns": "1577959260000000000",
+    "entry_ns": "1578015000000000000",
+    "effective_ns": null,
+    "report_ns": null,
+    "valuation_ns": "1578384000000000000"
+  },
+  "initial_account": {
+    "cash": "1000.0"
+  },
+  "settings": {
+    "mode": "adjusted",
+    "config": {
+      "enabled": true,
+      "portfolio_value": "1000.0",
+      "participation_rate": "1.0",
+      "liquidity_cols": [
+        "amount"
+      ],
+      "liquidity_notional_multiplier": "1.0",
+      "buy_max_days": 5,
+      "sell_max_days": 10,
+      "zero_fill_abort_days_buy": 5,
+      "unfilled_buy_action": "keep_cash",
+      "unfilled_sell_action": "keep_position",
+      "round_lot": null,
+      "enforce_t1": false,
+      "enforce_price_limits": false,
+      "enforce_listing_status": false,
+      "limit_up_col": null,
+      "limit_down_col": null,
+      "listing_status_col": null,
+      "lot_tolerance": "0.000001",
+      "sell_round_lot": null
+    },
+    "layout": {
+      "price_col": "close",
+      "mark_price_col": "close",
+      "tradable_col": null,
+      "buy_tradable_col": null,
+      "sell_tradable_col": "sell",
+      "currency": "CNY",
+      "quantity_unit": "raw_share",
+      "price_unit": "CNY/raw_share",
+      "liquidity_units": [
+        {
+          "column": "amount",
+          "unit": "CNY"
+        }
+      ]
+    },
+    "decision_clocks": {
+      "2020-01-02": {
+        "available_ns": null,
+        "information_ns": "1577959200000000000",
+        "decision_ns": "1577959260000000000",
+        "entry_ns": "1578015000000000000",
+        "effective_ns": null,
+        "report_ns": null,
+        "valuation_ns": "1578384000000000000"
+      },
+      "2020-01-06": {
+        "available_ns": null,
+        "information_ns": "1578304800000000000",
+        "decision_ns": "1578304860000000000",
+        "entry_ns": "1578360600000000000",
+        "effective_ns": null,
+        "report_ns": null,
+        "valuation_ns": "1578384000000000000"
+      }
+    },
+    "decision_timing": {},
+    "fee_model": null
+  },
+  "tapes": {
+    "corporate_actions": []
+  },
+  "policy": null,
+  "forecast": null,
+  "risk": null,
+  "scenario": null,
+  "output_uri": "daily-result.json"
+}

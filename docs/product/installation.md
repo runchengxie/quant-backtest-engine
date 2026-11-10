@@ -2,7 +2,7 @@
 
 [简体中文](installation.zh-CN.md)
 
-Core 0.2.0 provides explicit Rust and resumable Python minute runners. Install the SDK 0.3.0 wheel
+Core 0.3.0 provides explicit Rust and resumable Python minute runners. Install the SDK 0.3.0 wheel
 and core wheel built from the same reviewed Engine revision into a Python 3.12 or
 3.13 environment (`>=3.12,<3.14`). Python 3.14 needs a separate numerical
 baseline upgrade: pandas 3.0.6 requires NumPy >=2.3.3 on that interpreter. The SDK itself still supports Python 3.11. No PyPI release is
@@ -12,7 +12,7 @@ required or implied; record exact source revisions and wheel SHA256 hashes.
 python -m venv "$ENV"
 "$ENV/bin/python" -m pip install --no-index --no-deps \
   "$WHEELS/quant_backtest_engine_client-0.3.0-py3-none-any.whl" \
-  "$WHEELS/quant_backtest_core-0.2.0-py3-none-any.whl"
+  "$WHEELS/quant_backtest_core-0.3.0-py3-none-any.whl"
 "$ENV/bin/quant-backtest" capabilities rust.nautilus.sessions
 ```
 
@@ -51,14 +51,15 @@ Development checks use the locked dev group: `ruff check core`, `ruff format
 | --- | --- |
 | minute, scenario | pandas >=3.0.5,<3.1 |
 | planning, cost | pandas >=3.0.5,<3.1; NumPy >=1.23; SciPy >=1.14 |
-| microstructure, daily | pandas >=3.0.5,<3.1; NumPy >=1.23 |
+| microstructure | pandas >=3.0.5,<3.1; NumPy >=1.23 |
+| daily | pandas >=3.0.5,<3.1; NumPy >=1.23; tzdata >=2025.2 |
 | all | Union of the above; no Torch, Qlib or OSQP |
 
 The `scenario` extra supports [market paths and stress](../backtest/market-paths.md);
 `cost` supports [transaction cost evidence](../backtest/transaction-cost-evidence.md)
 and scoped fitting. These are independent leaf APIs. The `minute` extra now provides the direct
 [minute session and financial kernels](../backtest/minute-session.md). The minute extra enables `python.minute`; see [recovery and exact input codec](recovery.md).
-Planning and microstructure extras enable their documented leaf APIs. The daily group reserves dependencies for a later transfer. `python.daily` remains unavailable;
+Planning and microstructure extras enable their documented leaf APIs. The daily group enables `python.daily` in provider C source (release pending);
 unknown keys are rejected.
 See [backend limits](backends.md) before choosing a manifest.
 
@@ -109,4 +110,6 @@ See [impact planning](../concepts/impact-planning.md),
 The `[scenario]` extra also supports [independent typed-target composition](scenarios.md).
 Validate every extra separately with `project_tools/verify_installed_scenarios.py --profile EXTRA`,
 using independently installed wheels, and validate the union with `--profile all`.
-The `daily` extra does not enable `python.daily`.
+The `daily` extra enables the independent daily graph and `python.daily`.
+
+Daily acceptance: `python -I -B project_tools/verify_installed_daily.py` and `python -I -B -m pytest core/tests/daily -q -p no:cacheprovider`. Minimal daily deliberately excludes PyArrow. Pandas may choose Python rather than PyArrow string storage; this changes storage dtype only, including label indexes. Oracle parity additionally uses original PyArrow 26.0.1 and checks every dtype and table exactly. Numeric values, NA semantics, ordering and financial summaries must match in both profiles.

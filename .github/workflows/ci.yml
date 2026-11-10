@@ -93,23 +93,29 @@ jobs:
         run: |
           "$RUNNER_TEMP/core-base/bin/python" -I -B project_tools/verify_installed_planning.py --base
           uv venv --python "${{ matrix.python }}" "$RUNNER_TEMP/core-planning"
-          uv pip install --python "$RUNNER_TEMP/core-planning/bin/python" "$RUNNER_TEMP/wheels/quant_backtest_core-0.2.0-py3-none-any.whl[planning]" "$RUNNER_TEMP/wheels/quant_backtest_engine_client-0.3.0-py3-none-any.whl" numpy==2.2.6 pandas==3.0.6 scipy==1.18.1 'pytest>=8,<10'
+          uv pip install --python "$RUNNER_TEMP/core-planning/bin/python" "$RUNNER_TEMP/wheels/quant_backtest_core-0.3.0-py3-none-any.whl[planning]" "$RUNNER_TEMP/wheels/quant_backtest_engine_client-0.3.0-py3-none-any.whl" numpy==2.2.6 pandas==3.0.6 scipy==1.18.1 'pytest>=8,<10'
           "$RUNNER_TEMP/core-planning/bin/python" -I -B project_tools/verify_installed_planning.py
           "$RUNNER_TEMP/core-planning/bin/python" -I -B -m pytest core/tests/test_impact_planning.py core/tests/test_multiperiod.py core/tests/test_discrete_inventory.py core/tests/test_discrete_oracle.py core/tests/test_sleeve_allocation.py core/tests/test_planning_session.py -q -p no:cacheprovider
       - name: Minimal installed minute recovery acceptance
         run: |
           uv venv --python "${{ matrix.python }}" "$RUNNER_TEMP/core-minute"
-          uv pip install --python "$RUNNER_TEMP/core-minute/bin/python" "$RUNNER_TEMP/wheels/quant_backtest_core-0.2.0-py3-none-any.whl[minute]" "$RUNNER_TEMP/wheels/quant_backtest_engine_client-0.3.0-py3-none-any.whl" numpy==2.2.6 pandas==3.0.6
+          uv pip install --python "$RUNNER_TEMP/core-minute/bin/python" "$RUNNER_TEMP/wheels/quant_backtest_core-0.3.0-py3-none-any.whl[minute]" "$RUNNER_TEMP/wheels/quant_backtest_engine_client-0.3.0-py3-none-any.whl" numpy==2.2.6 pandas==3.0.6
           "$RUNNER_TEMP/core-minute/bin/python" -I -B project_tools/verify_installed_product.py --mode minute --manifest fixtures/product/minute-session.json --artifact-root fixtures/product --output-root "$RUNNER_TEMP/minute-output"
       - name: Independently installed extras and union
         run: |
           for extra in minute scenario planning cost microstructure daily all; do
             PROFILE="$RUNNER_TEMP/profile-$extra"
             uv venv --python "${{ matrix.python }}" "$PROFILE"
-            uv pip install --python "$PROFILE/bin/python" "$RUNNER_TEMP/wheels/quant_backtest_core-0.2.0-py3-none-any.whl[$extra]" "$RUNNER_TEMP/wheels/quant_backtest_engine_client-0.3.0-py3-none-any.whl" --constraint core/constraints.txt
+            uv pip install --python "$PROFILE/bin/python" "$RUNNER_TEMP/wheels/quant_backtest_core-0.3.0-py3-none-any.whl[$extra]" "$RUNNER_TEMP/wheels/quant_backtest_engine_client-0.3.0-py3-none-any.whl" --constraint core/constraints.txt
             "$PROFILE/bin/python" -I -B project_tools/verify_installed_scenarios.py --profile "$extra"
           done
           "$RUNNER_TEMP/profile-scenario/bin/python" -I -B examples/product/scenarios.py --output-root "$RUNNER_TEMP/scenario-example"
+      - name: Installed complete daily closure and financial suites
+        run: |
+          "$RUNNER_TEMP/profile-daily/bin/python" -I -B project_tools/verify_installed_daily.py
+          uv pip install --python "$RUNNER_TEMP/profile-daily/bin/python" 'pytest>=8,<10'
+          "$RUNNER_TEMP/profile-daily/bin/python" -I -B -m pytest core/tests/daily -q -p no:cacheprovider
+          "$RUNNER_TEMP/profile-all/bin/python" -I -B project_tools/verify_installed_daily.py --union
       - name: Installed synthetic minute example
         run: '"$UV_PROJECT_ENVIRONMENT/bin/python" -I -B examples/product/minute_session.py'
       - name: Installed CLI acceptance

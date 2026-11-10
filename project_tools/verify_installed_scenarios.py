@@ -48,7 +48,7 @@ def main():
             args.profile,
             name,
         )
-    assert metadata.version("quant-backtest-core") == "0.2.0"
+    assert metadata.version("quant-backtest-core") == "0.3.0"
     distributions = {}
     for name in ("quant-backtest-core", "quant-backtest-engine-client"):
         dist = metadata.distribution(name)
@@ -65,14 +65,8 @@ def main():
     if args.profile == "daily":
         from quant_backtest_core import BackendContext
         from quant_backtest_core.backends.registry import get_backend
-        from quant_backtest_core.errors import BackendUnavailableError
-
-        try:
-            get_backend("python.daily", BackendContext(Path("."), Path(".")))
-        except BackendUnavailableError:
-            pass
-        else:
-            raise AssertionError("daily extra must not claim an implemented backend")
+        backend = get_backend("python.daily", BackendContext(Path("."), Path(".")))
+        assert backend.descriptor().input_schemas == ("daily-input.v1",)
     print(
         json.dumps(
             {

@@ -2,13 +2,7 @@
 
 [中文](daily-inputs.zh-CN.md)
 
-Task 13 provides daily metadata, supplied-session calendar helpers, the original
-pure execution configuration parser and a conservative financial summary.
-Install the core wheel with `[daily]` and its exact matching SDK wheel. This
-is not an executable daily backend: `daily-input.v1` is declared pending in
-the SDK and cannot pass capability admission, even if a descriptor advertises it.
-Task 14 supplies the owner graph, profile validation and adapter. No financial
-table or legacy research result dictionary is replaced by this summary.
+Core 0.3.0 implements the independent daily graph, daily-input.v1 validation and python.daily backend. Release still requires merged-source and exact-wheel receipts. Install [daily] with the matching SDK. Task13 metadata, config and summary are reused unchanged; original financial tables remain.
 
 ## Explicit native request
 
@@ -124,3 +118,21 @@ statistics remain Platform; Task 15 reconstructs the original statistics,
 including H1/H2 sums, from owned results with compatible wrappers retaining
 the owned result-class identity. This conservative summary is not a claim of
 parity with that research dictionary.
+
+## Product wire and example
+
+The complete synthetic request is fixtures/product/daily.json with daily-calendar.json. Inputs are exactly positions and pricing; an explicit corporate_actions tape is required. Settings contain mode, config, layout, decision_clocks, decision_timing and fee_model; unknown fields fail. Decimal config values, weights, prices, liquidity and fee rates are decimal strings; clocks are exact UTC-nanosecond strings.
+
+Python layout.liquidity_units remains a mapping; the wire uses [{"column":"amount","unit":"CNY"}] to separate dynamic column names from monetary keys. Duplicate columns, unknown record fields and unrepresentable units fail. fee_model accepts only null, fixed detailed or dated structures, never module paths. portfolio_value equals initial cash. The product is restricted to CNY, Asia/Shanghai and explicit raw/adjusted share units.
+
+run_daily has no policy/scenario/flow/risk/forecast transformation and no checkpoint/restore. Ideal rejects trading controls; capacity has no action or fee ledger; adjusted/sequenced retain the original modeled cash/share path. Row valuation completeness uses a conservative sufficient condition: every target symbol has a positive finite current mark on every ledger date. Missing evidence keeps summary returns unknown.
+
+## Installed synthetic example
+
+Run the committed synthetic fixture using the matching ordinary wheels:
+
+```sh
+quant-backtest capabilities python.daily
+quant-backtest run-manifest fixtures/product/daily.json \
+  --artifact-root fixtures/product --output-root "$DAILY_OUTPUT"
+```

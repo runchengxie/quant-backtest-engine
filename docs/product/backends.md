@@ -2,7 +2,7 @@
 
 [简体中文](backends.zh-CN.md)
 
-Core 0.2.0 registers `rust.nautilus.sessions` and `python.minute`.
+Core 0.3.0 registers `rust.nautilus.sessions`, `python.minute` and `python.daily`.
 For the minute profile, explicit capabilities and resumable API, see [financial recovery](recovery.md).
 The following sections describe the Rust backend.
 It calls the existing `EngineClient.run_sessions` once. NautilusTrader 0.66.0 owns
@@ -104,7 +104,9 @@ Deterministic LOB matching/replay is implemented in provider B source, pending m
 | `run_manifest` / `open_session`, `python.minute` | Declared minute capabilities and exact recovery | Raw runner rejects scenario/forecast/risk transformations |
 | `run_scenarios`, `scenario-minute-targets.v1` | External typed target projection into independent minute owners | One availability/decision cut, null risk, exact target-weights policy; trusted callback, declared synthetic availability |
 | Planning/cost/market-path/microstructure leaf APIs | Their individually documented scope | No union-of-leaves capability claim for any raw backend |
-| `python.daily` | Unavailable | Installing `[daily]` does not implement it |
+| `python.daily` | Source implemented; release pending | `[daily]`; explicit CNY/Shanghai targets, calendars and units; no restore |
 
 See [scenario contracts and exact receipts](scenarios.md), including declared lineage
-and hidden-state limits. Core 0.2.0 source does not by itself imply merged release availability.
+and hidden-state limits. Core 0.3.0 source does not by itself imply merged release availability.
+
+[Daily input contract](daily-inputs.md) and [complete owner outputs](../reference/outputs/backtest-outputs.md) describe ideal, capacity, adjusted and sequenced limits. Capacity has no cash/fee ledger; diagnostic period replay is a separate Python API, not an executable backend capability.

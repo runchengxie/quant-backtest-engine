@@ -2,7 +2,7 @@
 
 [English](installation.md)
 
-Core 0.2.0 提供显式选择的 Rust 执行器和可恢复 Python 分钟执行器。在 Python 3.12 或 3.13 环境中，
+Core 0.3.0 提供显式选择的 Rust 执行器和可恢复 Python 分钟执行器。在 Python 3.12 或 3.13 环境中，
 安装从同一已审核 Engine 提交构建的 SDK 0.3.0 和 core wheel。
 core 的解释器范围为 `>=3.12,<3.14`。Python 3.14 上 pandas 3.0.6 要求
 NumPy >=2.3.3，需另行验证数值基线升级。SDK 本身仍支持 Python 3.11。这里不要求、也不表示已发布到 PyPI；
@@ -12,7 +12,7 @@ NumPy >=2.3.3，需另行验证数值基线升级。SDK 本身仍支持 Python 3
 python -m venv "$ENV"
 "$ENV/bin/python" -m pip install --no-index --no-deps \
   "$WHEELS/quant_backtest_engine_client-0.3.0-py3-none-any.whl" \
-  "$WHEELS/quant_backtest_core-0.2.0-py3-none-any.whl"
+  "$WHEELS/quant_backtest_core-0.3.0-py3-none-any.whl"
 "$ENV/bin/quant-backtest" capabilities rust.nautilus.sessions
 ```
 
@@ -47,13 +47,14 @@ done
 | --- | --- |
 | minute、scenario | pandas >=3.0.5,<3.1 |
 | planning、cost | pandas >=3.0.5,<3.1；NumPy >=1.23；SciPy >=1.14 |
-| microstructure、daily | pandas >=3.0.5,<3.1；NumPy >=1.23 |
+| microstructure | pandas >=3.0.5,<3.1；NumPy >=1.23 |
+| daily | pandas >=3.0.5,<3.1; NumPy >=1.23; tzdata >=2025.2 |
 | all | 上述依赖的并集，不含 Torch、Qlib 或 OSQP |
 
 `scenario` 支持[市场路径与压力变换](../backtest/market-paths.zh-CN.md)，
 `cost` 支持[交易成本证据](../backtest/transaction-cost-evidence.zh-CN.md)及适用范围拟合。
 这些是独立叶子 API；minute extra 启用 `python.minute`，见[恢复和输入契约](recovery.zh-CN.md)。
-其他 extra 仍为后续迁移预留依赖组；`python.daily` 仍不可用，未知注册键会被拒绝。
+daily extra 已在提供方 C 源码中启用独立日频实现及 `python.daily`，发布待完成；未知注册键会被拒绝。
 选择请求前请阅读[后端限制](backends.zh-CN.md)。
 
 
@@ -92,3 +93,5 @@ Core 当前源码版本为 0.2.0；仍须完成 B 阶段整体审查、合并及
 `[scenario]` 额外支持[独立目标场景组合](scenarios.zh-CN.md)。每个 extra 应单独安装 wheel，
 运行 `project_tools/verify_installed_scenarios.py --profile EXTRA`，并以 `--profile all` 检查并集。
 `daily` 仅预留依赖，不启用 `python.daily`。
+
+日频验收执行 `python -I -B project_tools/verify_installed_daily.py` 及 `python -I -B -m pytest core/tests/daily -q -p no:cacheprovider`。最小 daily 不依赖 PyArrow；pandas 字符串及标签索引的存储类型可能为 Python。原核算方严格对照另装 PyArrow 26.0.1，逐表逐 dtype 精确比较。两类环境均须保持数值、缺失值语义、顺序和财务汇总一致。

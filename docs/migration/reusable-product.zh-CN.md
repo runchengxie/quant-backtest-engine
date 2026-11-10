@@ -2,14 +2,11 @@
 
 [English](reusable-product.md)
 
-当前源码已实现提供方 A：SDK 0.3.0 提供仅依赖标准库的产品契约；可选 core 0.1.0
-提供显式 Rust 适配器、已迁入的财务叶子 API，以及可独立恢复的 Python 分钟会话。
-请按[产品安装说明](../product/installation.zh-CN.md)、[后端范围](../product/backends.zh-CN.md)
-和[恢复示例](../product/recovery.zh-CN.md)使用确切的已审查源码和 wheel 身份。
-
-提供方 A 的集成与发布验证，以及 Platform/Runtime 消费者切换仍待完成。
-源码标为 implemented 不证明已形成合并后的发布版本、已发布到 PyPI 或已完成消费者迁移；
-登记表单独记录发布可用性。未来 planned 模块和 URL 仍是迁移承诺，不代表当前可用的导入或能力。
+Core 0.3.0 源码新增完整独立日频财务实现及显式 python.daily 后端，分钟、规划与情景
+核算继续保留。SDK 0.3.0 保持标准库命名空间。提供方 B 和 Platform B 已按归属登记表
+记录的版本发布；提供方 C 审核、合并、确切合并版 wheel 及 Platform C 切换仍待完成。
+请阅读[安装](../product/installation.zh-CN.md)、[后端边界](../product/backends.zh-CN.md)
+和[日频输入](../product/daily-inputs.zh-CN.md)。源码实现与发布、消费者验收分别记录。
 
 ## 当前实现与待切换消费者
 
@@ -17,8 +14,8 @@
 | --- | --- | --- |
 | Engine Rust | 0.2.0，NautilusTrader 0.66.0；原生报价、会话与 CLI 语义不变 | Python 能力不扩展 Rust；成交与记账仍以上游为准 |
 | Engine SDK | `quant-backtest-engine-client` 0.3.0；`quant_backtest_engine`；Python ≥3.11；标准库产品契约 | 固定确切已审查源码及已验证 wheel；SDK 基础导入不依赖 core |
-| 可选 Engine core | `quant-backtest-core` 0.1.0；`quant_backtest_core`；Python 3.12/3.13；叶子 API 与可恢复分钟 owner | A 集成与发布验证待完成；B 的高级规划/撮合（0.2.0）及 C 的日频图（0.3.0）仍为计划 |
-| Platform | 保留既有 0.0.1 消费者路径 | A 切换待完成；研究、训练、因子风险与发布仍归 Platform；后续消费者 0.1.0/0.2.0/0.3.0 跟随提供方关卡 |
+| 可选 Engine core | Core 0.3.0 源码；Python 3.12/3.13；独立日频、分钟、规划及情景核算 | 提供方 C 审核、合并、确切合并产物待完成 |
+| Platform | 保留消费者 B | 消费者 C（Task 15）等待提供方 C 合并验证；研究及发布仍归 Platform |
 | Runtime | 保留既有 0.1.0 及 v1–v8 路径 | 可选新增 v9/0.2.0 消费者须等待提供方合并及运行管理验收 |
 
 Core 基础包依赖 SDK `>=0.3.0,<0.4`；仓库构建与消费者固定确切的已合并 VCS 修订

@@ -11,8 +11,7 @@
 当前源码已实现提供方 A：可选 Python core 0.1.0 提供独立分钟会话、来源绑定的恢复以及
 已迁入的财务叶子 API；SDK 0.3.0 保留既有客户端命名空间。请从
 [可选产品安装](docs/product/installation.zh-CN.md)和[恢复示例](docs/product/recovery.zh-CN.md)开始，
-使用确切的已审查源码和 wheel 摘要。提供方 A 的集成、发布验证，以及 Platform/Runtime
-消费者切换仍待完成；这不表示已经在 PyPI 发布或完成消费者版本发布。
+使用确切的已审查源码和 wheel 摘要。提供方 C 的集成、发布验证及其消费者切换仍待完成；这不表示已经在 PyPI 发布或完成消费者版本发布。
 
 ## 先跑一个小回测
 
@@ -42,8 +41,9 @@ Rust 后端仍不支持公司行为、退市和完整市场规则；单独的 Py
 引擎负责运行回测。[quant-backtest-runtime](https://github.com/runchengxie/quant-backtest-runtime)
 增加队列、任务状态、取消、资源限制和结果保存。
 [quant-platform](https://github.com/runchengxie/quant-platform)目前保留 Python 后端，作为兼容对照并处理暂不支持的场景。
-[可复用产品迁移](docs/migration/reusable-product.zh-CN.md)记录了已实现的提供方 A 范围和后续关卡；
-高级规划、日频执行及消费者兼容切换仍属于后续工作。
+[可复用产品迁移](docs/migration/reusable-product.zh-CN.md)记录了已实现的财务核算与后续消费者关卡。
+Core 0.3.0 增加[独立日频实现](docs/product/daily-inputs.zh-CN.md)；提供方 C 发布和
+消费者切换仍须完成审核、合并及确切产物验证。
 本引擎可以独立使用，不需要安装这两个项目。
 
 ## 接下来

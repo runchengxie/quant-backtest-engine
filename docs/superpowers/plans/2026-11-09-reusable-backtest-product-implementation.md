@@ -10,6 +10,30 @@
 
 **Spec:** [Approved architecture](../specs/2026-11-09-reusable-backtest-product-design.md) and [Chinese counterpart](../specs/2026-11-09-reusable-backtest-product-design.zh-CN.md). Owner approval is recorded in design PR 20 commit `c5cbb88`; its fresh required checks and merge must finish before implementation. The subsequent instruction to proceed authorizes this full staged execution. This plan is an execution artifact, not a claim of completed tests.
 
+## Approved Task 14 amendments
+
+The diagnostic helper requires explicit periods and returns the original PositionBacktestResult.
+Daily execution retains ExecutionAdjustedNavResult/ExecutionSimResult. The liquid golden
+remains net 0.049/gross 0.05 with no order lifecycle, partial fills or daily ledger.
+The new daily-input.v1 wire encodes liquidity units as column/unit records; Python
+DailyInputLayout keeps the Task 13 Mapping. Reject duplicates, unknown records/columns,
+unsupported units, and decimal overflow/underflow before financial execution. Global
+money/clock validation remains unchanged.
+
+Remaining execution order: fully reviewed/merged/verified 14 → 15 → Astro 19 →
+Runtime 16–17 → private consumer 18 → final compatibility 20. Task 19 uses actual
+merged financial owners and retains every browser/table/source/locale gate; pending
+Runtime/research support stays explicit. Runtime checkout is not a financial fixture
+owner. Task 20 refreshes affected receipts after later consumer changes.
+
+日频诊断接口必须显式传入 periods，并返回原 PositionBacktestResult；实际日账仍使用
+ExecutionAdjustedNavResult/ExecutionSimResult。保留原净收益 0.049、毛收益 0.05 的
+黄金样例，不制造订单生命周期、部分成交或日账。新 wire 使用 column/unit 记录表示流动性
+单位，Python Mapping 保持不变；拒绝重复、未知、不支持的单位及数值溢出或下溢。
+剩余顺序调整为完成 14、15 后执行 Astro 19，再执行 Runtime 16–17、私有消费者 18，
+最后完成 20。提供方先合并验证；所有真实财务、浏览器、双语及来源关卡保持，未完成能力
+明确标注，最终 20 重新核验后续变动影响的证据。
+
 ## Global Constraints
 
 The following requirements are copied verbatim from the approved specification:
@@ -274,7 +298,7 @@ New corporate_actions=() means no action request and maps to legacy None at the 
 
 **Files:** Create `C/daily/execution_sim/{__init__,core,config,models,capacity,capacity_simulation,adjusted_nav,ideal_nav,orders,orders_ideal,orders_nav,orders_nav_fees,orders_nav_quantities,orders_nav_states,orders_targets,reporting,results,table_preparation,corporate_actions,cost_evidence,delisting}.py`; transfer `Psrc/_portfolio/{_execution_models,_execution_build,dated_fees,turnover}.py` to corresponding `C/daily/` paths; create `C/daily/{types,period_replay,runner}.py`, `C/backtest/ledger.py`, `C/backends/daily.py`; move applicable daily backend/actions/fees/cost-accounting/market-rules/liquid-golden tests to `E/core/tests/daily/`; create `E/core/tests/daily/test_daily_independence.py`; Engine docs `guides/{execution-simulation,sequenced-execution,diagnostic-close-replay}{,.zh-CN}.md`, `corporate-action-ledger{,.zh-CN}.md`, `dated-execution-fees{,.zh-CN}.md`, `reference/outputs/backtest-outputs{,.zh-CN}.md`.
 
-**Interfaces:** Preserve `ExecutionSimConfig`, `ExecutionSimResult`, `ExecutionAdjustedNavResult`, `UnifiedLedger`, original `simulate_ideal_daily_nav`, `simulate_capacity_execution`, `simulate_execution_adjusted_nav` signatures and result tables; `run_daily(request: DailyReplayRequest) -> ExecutionAdjustedNavResult | ExecutionSimResult`; `run_period_replay(*, positions: pd.DataFrame, pricing: pd.DataFrame, calendar: ExecutionCalendar, config: Mapping[str,JsonValue]) -> ExecutionAdjustedNavResult`. Extract only execution portions of `_engine_periods/_engine_leg/leg_helpers` into `period_replay.py`; caller already supplies chosen holdings/weights. `python.daily` backend consumes `daily-input.v1`, uses task 13 summary and result envelope; daily snapshot restore remains unsupported unless separately implemented and tested. Shared execution-only types are separated from `StrategySpec`; old serialized schema identifiers remain preserved in legacy adapters.
+**Interfaces:** Preserve `ExecutionSimConfig`, `ExecutionSimResult`, `ExecutionAdjustedNavResult`, `UnifiedLedger`, original `simulate_ideal_daily_nav`, `simulate_capacity_execution`, `simulate_execution_adjusted_nav` signatures and result tables; `run_daily(request: DailyReplayRequest) -> ExecutionAdjustedNavResult | ExecutionSimResult`; `run_period_replay(*, positions: pd.DataFrame, pricing: pd.DataFrame, periods: pd.DataFrame, calendar: ExecutionCalendar, config: Mapping[str,JsonValue]) -> PositionBacktestResult`. Transfer the original pure `_position_backtest_config/_position_backtest_engine` closure and required execution helpers; caller supplies chosen holdings/weights and explicit periods. Preserve the original net_returns/gross_returns/periods tables, config/schema/skipped metadata, normalization and financial arithmetic. No daily cash, fills or NAV are fabricated; Platform Task 15 reconstructs broad research statistics through the same owned result class. `python.daily` backend consumes `daily-input.v1`, uses task 13 summary and result envelope; daily snapshot restore remains unsupported unless separately implemented and tested. Shared execution-only types are separated from `StrategySpec`; old serialized schema identifiers remain preserved in legacy adapters.
 
 - [ ] Move complete adjusted/ideal/capacity/sequenced/raw-share/delisting/dated-fee suites; add literal raw split/dividend/pay-date, minimum commission/tax effective-clock, unfilled sale funding, unknown liquidation and input immutability checks. Compare every ledger table against pinned old owner with enumerated identity-only differences; retain liquid golden bytes/results and diagnostic-only limitations.
 - [ ] Run moved suites; expect missing core modules. Do not narrow to import smoke tests.

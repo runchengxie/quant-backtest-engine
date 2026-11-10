@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "quant-backtest-core"
-version = "0.2.0"
+version = "0.3.0"
 description = "Explicit optional backtest product runner and Rust session adapter"
 requires-python = ">=3.12,<3.14"
 license = "LGPL-3.0-only"
@@ -20,9 +20,9 @@ scenario = ["pandas>=3.0.5,<3.1"]
 planning = ["numpy>=1.23", "pandas>=3.0.5,<3.1", "scipy>=1.14"]
 cost = ["pandas>=3.0.5,<3.1", "numpy>=1.23", "scipy>=1.14"]
 microstructure = ["pandas>=3.0.5,<3.1", "numpy>=1.23"]
-# Daily leaf contracts require installed IANA timezone data; executable profile is pending.
+# Daily execution uses explicit supplied sessions and installed IANA timezone data.
 daily = ["pandas>=3.0.5,<3.1", "numpy>=1.23", "tzdata>=2025.2"]
-all = ["pandas>=3.0.5,<3.1", "numpy>=1.23", "scipy>=1.14"]
+all = ["pandas>=3.0.5,<3.1", "numpy>=1.23", "scipy>=1.14", "tzdata>=2025.2"]
 
 [dependency-groups]
 dev = ["pytest>=8,<10", "ruff>=0.14,<1", "mypy>=1.18,<2"]
@@ -167,4 +167,10 @@ disable_error_code = ["var-annotated"]
 # Transferred pure config and daily pandas contracts retain body checking.
 [[tool.mypy.overrides]]
 module = ["quant_backtest_core.daily.contracts", "quant_backtest_core.daily.summary"]
+disable_error_code = ["import-untyped"]
+
+# Preserve transferred legacy financial signatures; check bodies without pandas stubs.
+[[tool.mypy.overrides]]
+module = ["quant_backtest_core.daily.*", "quant_backtest_core.backtest.ledger"]
+disallow_untyped_defs = false
 disable_error_code = ["import-untyped"]
