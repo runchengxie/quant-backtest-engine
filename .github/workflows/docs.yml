@@ -21,6 +21,15 @@ jobs:
       - run: uv pip sync --python .venv-docs/bin/python docs/requirements/docs.lock --require-hashes
       - run: .venv-docs/bin/python -m unittest project_tools.test_reusable_ownership -v
       - run: .venv-docs/bin/python project_tools/check_reusable_ownership.py
+      - run: python3 -m unittest discover -s project_tools -p "test_method_*.py"
+      - run: node --test project_tools/test_method_replay.cjs
+      - name: Install locked optional DOM test tools
+        run: |
+          mkdir -p "$RUNNER_TEMP/method-dom"
+          cp project_tools/method-tests/package*.json "$RUNNER_TEMP/method-dom/"
+          npm ci --prefix "$RUNNER_TEMP/method-dom" --ignore-scripts --no-audit --no-fund
+      - name: Test mounted controls and instant-navigation cleanup
+        run: NODE_PATH="$RUNNER_TEMP/method-dom/node_modules" node --test project_tools/test_method_dom.cjs
       - run: .venv-docs/bin/mkdocs build --strict
       - run: .venv-docs/bin/python project_tools/check_docs.py --site-dir site
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0

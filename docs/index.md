@@ -12,6 +12,8 @@ permissions. Corporate actions retain the existing Python backend. See
 [target sizing](sizing.md), [session replay](sessions.md) and
 [migration limits](migration/corporate-action-conformance.md).
 
+[Backtesting explained](backtesting-explained.md) follows a forecast through fills, costs, portfolio choices and recovery in eight interactive synthetic scenes. Every numeric state remains readable without JavaScript.
+
 ## Start here
 
 1. [Run the synthetic example](quickstart.md). Check for equity of 10019.78 and fees of 0.22.
