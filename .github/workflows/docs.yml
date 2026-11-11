@@ -12,30 +12,64 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      TASK_DATA: ${{ runner.temp }}/engine-site
+      ASTRO_CACHE_DIR: ${{ runner.temp }}/engine-site/astro-cache
+      SITE_INPUT_DIR: ${{ runner.temp }}/engine-site/reference-home
+      ASTRO_OUT_DIR: ${{ runner.temp }}/engine-site/site-astro
+      BROWSER_OUTPUT_DIR: ${{ runner.temp }}/engine-site/browser
+      PLAYWRIGHT_BROWSERS_PATH: ${{ runner.temp }}/engine-site/browsers
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
       - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
-      - run: uv venv --python 3.13 .venv-docs
-      - run: uv pip sync --python .venv-docs/bin/python docs/requirements/docs.lock --require-hashes
-      - run: .venv-docs/bin/python -m unittest project_tools.test_reusable_ownership -v
-      - run: .venv-docs/bin/python project_tools/check_reusable_ownership.py
-      - run: python3 -m unittest discover -s project_tools -p "test_method_*.py"
-      - run: node --test project_tools/test_method_replay.cjs
-      - name: Install locked optional DOM test tools
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: 26.13.0
+      - name: Install locked docs and frontend tools outside source
         run: |
-          mkdir -p "$RUNNER_TEMP/method-dom"
-          cp project_tools/method-tests/package*.json "$RUNNER_TEMP/method-dom/"
-          npm ci --prefix "$RUNNER_TEMP/method-dom" --ignore-scripts --no-audit --no-fund
-      - name: Test mounted controls and instant-navigation cleanup
-        run: NODE_PATH="$RUNNER_TEMP/method-dom/node_modules" node --test project_tools/test_method_dom.cjs
-      - run: .venv-docs/bin/mkdocs build --strict
-      - run: .venv-docs/bin/python project_tools/check_docs.py --site-dir site
+          npm install --global npm@12.2.2
+          mkdir -p "$TASK_DATA/web-deps" "$TASK_DATA/method-dom" "$TASK_DATA/web-generated"
+          uv venv --python 3.13 "$TASK_DATA/docs-env"
+          uv pip sync --python "$TASK_DATA/docs-env/bin/python" docs/requirements/docs.lock docs/requirements/learning.lock --require-hashes
+          cp web/package*.json "$TASK_DATA/web-deps/"
+          npm ci --prefix "$TASK_DATA/web-deps" --no-audit --no-fund
+          ln -s "$TASK_DATA/web-deps/node_modules" web/node_modules
+          ln -s "$TASK_DATA/web-deps/node_modules" "$TASK_DATA/node_modules"
+          ln -s "$TASK_DATA/web-generated" web/.astro
+          cp project_tools/method-tests/package*.json "$TASK_DATA/method-dom/"
+          npm ci --prefix "$TASK_DATA/method-dom" --ignore-scripts --no-audit --no-fund
+          web/node_modules/.bin/playwright install --with-deps chromium
+          test "$(npm --version)" = 12.2.2
+      - name: Preserve ownership, fixture and legacy replay gates
+        run: |
+          "$TASK_DATA/docs-env/bin/python" -m unittest project_tools.test_reusable_ownership -v
+          "$TASK_DATA/docs-env/bin/python" project_tools/check_reusable_ownership.py
+          "$TASK_DATA/docs-env/bin/python" -m unittest discover -s project_tools -p 'test_method_*.py'
+          node --test project_tools/test_method_replay.cjs
+          NODE_PATH="$TASK_DATA/method-dom/node_modules" node --test project_tools/test_method_dom.cjs
+      - name: Validate exact assets, route assembly and shared replay state
+        run: |
+          "$TASK_DATA/docs-env/bin/python" -m unittest project_tools.test_site_routes project_tools.test_reference_home project_tools.test_site_assembly project_tools.test_learning_assets -v
+          "$TASK_DATA/docs-env/bin/python" project_tools/validate_learning_assets.py --manifest docs/assets/learning/manifest.json
+          npm --prefix web run check
+          npm --prefix web run test:unit
+          npm --prefix web audit --audit-level=high
+      - name: Build both renderers and one collision-checked artifact
+        run: |
+          "$TASK_DATA/docs-env/bin/mkdocs" build --strict --site-dir "$TASK_DATA/site-mkdocs"
+          "$TASK_DATA/docs-env/bin/python" project_tools/check_docs.py --site-dir "$TASK_DATA/site-mkdocs"
+          "$TASK_DATA/docs-env/bin/python" project_tools/extract_reference_home.py --site-dir "$TASK_DATA/site-mkdocs" --output "$SITE_INPUT_DIR"
+          npm --prefix web run build
+          "$TASK_DATA/docs-env/bin/python" project_tools/assemble_site.py --mkdocs "$TASK_DATA/site-mkdocs" --astro "$ASTRO_OUT_DIR" --learning docs/assets/learning --routes docs/site/route-ownership.json --output "$TASK_DATA/site-assembled"
+          "$TASK_DATA/docs-env/bin/python" project_tools/check_assembled_site.py --site-dir "$TASK_DATA/site-assembled" --base /quant-backtest-engine/ --legacy docs/site/legacy-route-anchors.json
+      - name: Real built-site browser acceptance
+        run: SITE_DIR="$TASK_DATA/site-assembled" SITE_BASE=/quant-backtest-engine/ npm --prefix web run test:e2e
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         if: github.event_name != 'pull_request'
         with:
-          path: site
+          path: ${{ runner.temp }}/engine-site/site-assembled
   deploy:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: build

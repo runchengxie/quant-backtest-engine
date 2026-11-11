@@ -14,9 +14,9 @@ import hashlib
 import json
 from pathlib import Path
 
-PLATFORM = "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355"
+PLATFORM = "c211d36167acf7a81fd0c034beb14317e2036b7e"
 RUNTIME = "01ed4c34f955ef6cd39d13aa073b6d61b610d321"
-ENGINE = "c65548a4ee1e938125cce1edbcc282c760c4c8f2"
+ENGINE = "ad0895f1c2015eb31bd364b40741b0f7cd6e0048"
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -62,7 +62,7 @@ def digest(value):
     return hashlib.sha256(data).hexdigest()
 
 
-def scenario(ident, states, inputs, source, *, owner_name="platform", **extra):
+def scenario(ident, states, inputs, source, *, owner_name="core", **extra):
     return {
         "id": ident,
         "owner": owner_name,

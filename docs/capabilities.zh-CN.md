@@ -77,3 +77,5 @@ risk 必须为 null，策略必须是已有的空配置目标权重身份。可�
 原始 minute 与 Rust 守卫保持不变，任一后端都不继承 Python 叶子能力的并集。
 见[完整后端矩阵](product/backends.zh-CN.md)、[场景示例](product/scenarios.zh-CN.md)和
 [规划示例](concepts/impact-planning.zh-CN.md)。
+
+学习前端回放八个主题中的 21 个固定合成预设，不增加执行后端、市场校准或浏览器财务计算。求解器证据覆盖有限网格，连续求解迭代仍不可用。

@@ -5,13 +5,13 @@ def build_action_case(targets, bars, records, scenario, number, digest, policy_t
     from method_owner_calls import define_call, execute_call, restore_session
     import json
     import pandas as pd
-    from quant_platform.backtest.minute import (
+    from quant_backtest_core.backtest.minute import (
         CapitalFlow,
         CorporateAction,
         MinuteExecutionConfig,
         ValuationEvent,
     )
-    from quant_platform.backtest.quantity_locks import QuantityLock
+    from quant_backtest_core.backtest.quantity_locks import QuantityLock
 
     t = targets(("2026-01-05 09:30", "2026-01-06 09:30", "2026-01-07 09:30"), (1, 0, 0))
     b = pd.concat(
@@ -132,7 +132,7 @@ def build_action_case(targets, bars, records, scenario, number, digest, policy_t
             "runs": {"baseline": baseline_run, "continuation": continuation_run},
             "restore_boundaries": restore_boundaries,
         },
-        ["packages/platform/src/quant_platform/backtest/minute_session.py"],
+        ["core/src/quant_backtest_core/backtest/minute_session.py"],
         uninterrupted_sha256=digest(expected),
         recovered_sha256=digest(expected),
         capital_flow_ledger=records(result.capital_flow_ledger),

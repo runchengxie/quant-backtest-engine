@@ -83,7 +83,7 @@ def on_page_markdown(markdown, page, config, files):
             for source in s["source"]:
                 base = (
                     owner["url"]
-                    if source.startswith("packages/") or s["owner"] == "engine"
+                    if source.startswith(("packages/", "core/")) or s["owner"] == "engine"
                     else "https://github.com/runchengxie/quant-backtest-engine/tree/main"
                 )
                 links.append(f'<a href="{base}/{source}">{html.escape(source)}</a>')

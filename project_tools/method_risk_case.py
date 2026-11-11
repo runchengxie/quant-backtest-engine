@@ -80,6 +80,7 @@ def build_risk_cases(records, scenario, number):
             rows,
             {"runs": {"audit": audit}},
             ["packages/platform/src/quant_platform/analytics/risk_calibration.py"],
+            owner_name="platform",
             certified=report.certified,
             real_calibration=report.real_calibration,
             independence_status=report.independence_status,

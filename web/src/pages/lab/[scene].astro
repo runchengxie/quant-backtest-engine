@@ -1,0 +1,6 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';import SceneArticle from '../../components/SceneArticle.astro';import {scenes,route} from '../../lib/routes';import {catalog} from '../../lib/data';
+export function getStaticPaths(){return scenes.map(scene=>({params:{scene}}));}
+const scene=Astro.params.scene!;const locale='en';const c=catalog(locale);
+---
+<SiteLayout locale={locale} title={c['learning.title.'+scene]} counterpart={route('lab','zh-CN',scene)}><SceneArticle scene={scene} locale={locale} lab={true}/></SiteLayout>

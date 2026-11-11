@@ -9,7 +9,7 @@ from pathlib import Path
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(Path(os.environ["METHOD_PLATFORM"]) / "packages/platform/src"))
+
 
 
 class OwnerCallBinding(unittest.TestCase):
@@ -57,7 +57,7 @@ class OwnerCallBinding(unittest.TestCase):
 
     def test_every_resolved_minute_field_and_input_clock_is_bound(self):
         from dataclasses import fields
-        from quant_platform.backtest.minute import MinuteExecutionConfig
+        from quant_backtest_core.backtest.minute import MinuteExecutionConfig
         import pandas as pd
 
         run = self.definition("cost", 0, "execution")

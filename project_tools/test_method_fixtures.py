@@ -26,7 +26,7 @@ class MethodFixtures(unittest.TestCase):
         self.assertEqual(len(self.data["scenes"]), 8)
         self.assertEqual(
             self.data["owners"]["platform"]["revision"],
-            "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+            "c211d36167acf7a81fd0c034beb14317e2036b7e",
         )
         self.assertEqual(
             self.data["owners"]["runtime"]["revision"],
@@ -209,10 +209,6 @@ class MethodFixtures(unittest.TestCase):
                 [
                     os.environ.get("METHOD_PYTHON", "python3"),
                     str(ROOT / "project_tools/export_method_fixtures.py"),
-                    "--platform",
-                    os.environ["METHOD_PLATFORM"],
-                    "--runtime",
-                    os.environ["METHOD_RUNTIME"],
                     "--engine",
                     os.environ["QUANT_ENGINE_BINARY"],
                     "--output",

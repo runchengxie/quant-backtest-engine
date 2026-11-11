@@ -1,0 +1,63 @@
+{
+  "records": [
+    {
+      "availability": "available",
+      "claim": "Pinned public synthetic owner evidence",
+      "class": "synthetic_execution_evidence",
+      "id": "owner-core",
+      "limitations": "No empirical calibration",
+      "locator": "ad0895f1c2015eb31bd364b40741b0f7cd6e0048",
+      "revision": "ad0895f1c2015eb31bd364b40741b0f7cd6e0048",
+      "sha256": "bbe8cb964c334e9920ec93f6b1244e2cdf74fdf9c9c98ead510b251947e50780",
+      "title": "core",
+      "url": "https://github.com/runchengxie/quant-backtest-engine/tree/ad0895f1c2015eb31bd364b40741b0f7cd6e0048"
+    },
+    {
+      "availability": "available",
+      "claim": "Pinned public synthetic owner evidence",
+      "class": "synthetic_execution_evidence",
+      "id": "owner-engine",
+      "limitations": "No empirical calibration",
+      "locator": "ad0895f1c2015eb31bd364b40741b0f7cd6e0048",
+      "revision": "ad0895f1c2015eb31bd364b40741b0f7cd6e0048",
+      "sha256": "e168da9c9dc253fc01e0fe82935340141eb0ee70acfd372162ce2be97d1f1cf4",
+      "title": "engine",
+      "url": "https://github.com/runchengxie/quant-backtest-engine/tree/ad0895f1c2015eb31bd364b40741b0f7cd6e0048"
+    },
+    {
+      "availability": "available",
+      "claim": "Pinned public synthetic owner evidence",
+      "class": "synthetic_execution_evidence",
+      "id": "owner-platform",
+      "limitations": "No empirical calibration",
+      "locator": "c211d36167acf7a81fd0c034beb14317e2036b7e",
+      "revision": "c211d36167acf7a81fd0c034beb14317e2036b7e",
+      "sha256": "bb52e98e614a53afef3f2609ebd41475fe8c61ee6e7b32e34af89abd311e9b79",
+      "title": "platform",
+      "url": "https://github.com/runchengxie/quant-platform/tree/c211d36167acf7a81fd0c034beb14317e2036b7e"
+    },
+    {
+      "availability": "available",
+      "claim": "Historical Runtime documentation; no process execution in this tutorial",
+      "class": "documented_discussion",
+      "id": "owner-runtime",
+      "limitations": "No empirical calibration",
+      "locator": "01ed4c34f955ef6cd39d13aa073b6d61b610d321",
+      "revision": "01ed4c34f955ef6cd39d13aa073b6d61b610d321",
+      "sha256": "5aafbc286e408ff8009266589a13852ef2ad491be762a229a1d6f87dd83e9615",
+      "title": "runtime",
+      "url": "https://github.com/runchengxie/quant-backtest-runtime/tree/01ed4c34f955ef6cd39d13aa073b6d61b610d321"
+    },
+    {
+      "availability": "available",
+      "claim": "Recorded synthetic teaching transformations",
+      "class": "project_interpretation",
+      "id": "exporter",
+      "limitations": "Not independent market observations",
+      "locator": "4820af3b82940e7697cb8c92154315b1d59ee23d",
+      "title": "Preserved tutorial exporter",
+      "url": "https://github.com/runchengxie/quant-backtest-engine/pull/19"
+    }
+  ],
+  "schema": "engine-learning-sources.v1"
+}

@@ -15,26 +15,44 @@ import json
 import math
 
 _APIS = {
-    "minute": ("quant_platform.backtest.minute", "simulate_minute_execution"),
-    "session": ("quant_platform.backtest.minute_session", "MinuteSession"),
+    "minute": ("quant_backtest_core.backtest.minute", "simulate_minute_execution"),
+    "session": ("quant_backtest_core.backtest.minute_session", "MinuteSession"),
     "discrete": (
-        "quant_platform.portfolio.discrete_inventory",
+        "quant_backtest_core.planning.discrete_inventory",
         "solve_discrete_inventory",
     ),
     "risk_audit": (
         "quant_platform.analytics.risk_calibration",
         "audit_risk_calibration",
     ),
-    "net_sleeves": ("quant_platform.portfolio.sleeve_allocation", "net_sleeve_demands"),
+    "net_sleeves": (
+        "quant_backtest_core.planning.sleeve_allocation",
+        "net_sleeve_demands",
+    ),
     "allocate": (
-        "quant_platform.portfolio.sleeve_allocation",
+        "quant_backtest_core.planning.sleeve_allocation",
         "allocate_external_fills",
     ),
-    "exit_wealth": ("quant_platform.analytics.execution_integrity", "exit_wealth"),
+    "exit_wealth": ("quant_backtest_core.evidence.execution_integrity", "exit_wealth"),
     "null_scenario": ("quant_platform.scenarios", "build_scenario"),
-    "impact": ("quant_platform.backtest.impact", "LinearImpact"),
-    "matching": ("ticknet.simulator.matching", "MatchingEngine"),
+    "impact": ("quant_backtest_core.backtest.impact", "LinearImpact"),
+    "matching": ("quant_backtest_core.microstructure.matching", "MatchingEngine"),
 }
+
+
+_DATACLASSES = frozenset(
+    {
+        "quant_backtest_core._minute.minute_execution.MinuteExecutionConfig",
+        "quant_backtest_core._minute.capital_flows.CapitalFlow",
+        "quant_backtest_core._minute.corporate_actions.CorporateAction",
+        "quant_backtest_core._minute.valuation_events.ValuationEvent",
+        "quant_backtest_core.backtest.quantity_locks.QuantityLock",
+        "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
+        "quant_backtest_core.planning.sleeve_allocation.SleeveDemand",
+        "quant_backtest_core.planning.sleeve_allocation.ExternalOrder",
+        "quant_backtest_core.planning.sleeve_allocation.SleeveNetPlan",
+    }
+)
 
 
 def _api(name):
@@ -45,7 +63,7 @@ def _api(name):
 def encode(value):
     from method_fixture_common import Policy
     import pandas as pd
-    from quant_platform.backtest.impact import LinearImpact
+    from quant_backtest_core.backtest.impact import LinearImpact
 
     if isinstance(value, Policy):
         return {"type": "method-policy.v1", "state": encode(value.checkpoint())}
@@ -65,6 +83,8 @@ def encode(value):
     if isinstance(value, date):
         return {"type": "date", "value": value.isoformat()}
     if is_dataclass(value):
+        if type(value).__module__ + "." + type(value).__name__ not in _DATACLASSES:
+            raise ValueError("unregistered public owner dataclass")
         return {
             "type": "dataclass",
             "class": type(value).__module__ + "." + type(value).__name__,
@@ -129,9 +149,10 @@ def decode(value):
     if kind == "date":
         return date.fromisoformat(value["value"])
     if kind == "dataclass":
-        module, name = value["class"].rsplit(".", 1)
-        if not module.startswith("quant_platform."):
-            raise ValueError("public Platform dataclass required")
+        identity = value["class"]
+        if identity not in _DATACLASSES:
+            raise ValueError("unregistered public owner dataclass")
+        module, name = identity.rsplit(".", 1)
         cls = getattr(import_module(module), name)
         if set(value["fields"]) != {field.name for field in fields(cls) if field.init}:
             raise ValueError("all resolved dataclass fields are required")
@@ -145,6 +166,8 @@ def decode(value):
         return policy
     if kind == "linear-impact.v1":
         return _api("impact").restore(decode(value["state"]))
+    if kind is not None:
+        raise ValueError("unknown serialized owner type")
     return {key: decode(item) for key, item in value.items()}
 
 

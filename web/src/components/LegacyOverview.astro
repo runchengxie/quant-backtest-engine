@@ -1,0 +1,5 @@
+---
+import {readFileSync} from 'node:fs';import {createHash} from 'node:crypto';
+const {locale}=Astro.props;const dir=process.env.SITE_INPUT_DIR;if(!dir)throw new Error('fresh same-build reference home required');const receipt=JSON.parse(readFileSync(dir+'/receipt.json','utf8'));const entry=receipt.fragments[locale];const bytes=readFileSync(dir+'/'+entry.fragment);if(createHash('sha256').update(bytes).digest('hex')!==entry.sha256)throw new Error('fragment byte mismatch');
+---
+<div class="legacy-overview" set:html={bytes.toString()}/>

@@ -1,0 +1,6 @@
+---
+import {createHash} from 'node:crypto';
+import {catalog,traces as loadTraces,manifestHash} from '../lib/data';import {route} from '../lib/routes';import EvidenceSummary from './EvidenceSummary.astro';import ResultTables from './ResultTables.astro';import ReplayWorkbench from './replay/ReplayWorkbench';
+const {scene,locale,lab=false}=Astro.props;const c=catalog(locale);const traces=loadTraces(scene);const narratives=import.meta.glob('../content/learn/*/*.md',{eager:true});const document=narratives[`../content/learn/${locale}/${scene}.md`] as any;const Content=document.Content;const payloadHash=createHash('sha256').update(JSON.stringify(traces)).digest('hex');
+---
+<section class="learning-hero"><p class="learning-kicker">{lab?c['learning.lab']:c['learning.learn']}</p><h1 id={'product-'+scene}>{c['learning.title.'+scene]}</h1><Content/><a class="learning-button" href={route(lab?'learn':'lab',locale,scene)}>{c[lab?'learning.read':'learning.lab']}</a></section><EvidenceSummary locale={locale} trace={traces[0]}/>{lab&&<ReplayWorkbench client:load traces={traces} catalog={c} locale={locale} manifestHash={manifestHash} payloadHash={payloadHash}/>}<ResultTables locale={locale} traces={traces}/>

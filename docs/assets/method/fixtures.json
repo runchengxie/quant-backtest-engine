@@ -1,42 +1,240 @@
 {
-  "exporter_sha256": "82a46f9ce87a4677747ff6443dbd3c686c301a46576b4a0f03d5f0c50ec69acc",
+  "execution": {
+    "dependencies": {
+      "numpy": {
+        "record_sha256": "f7109cfd4e23c87a68e53dd98ec825ac86a3bfa2b841fd7fc2cd62dfc6ceb925",
+        "version": "2.2.6"
+      },
+      "pandas": {
+        "record_sha256": "98695ccf37f78ee7a4f58fbf1e328380607451ff880f0243169a889e27f8a815",
+        "version": "3.0.6"
+      },
+      "python-dateutil": {
+        "record_sha256": "e15e868a50b9c4e71df17b31369843617780146ac5adb1bbfdcced0ebe501824",
+        "version": "2.9.0.post0"
+      },
+      "quant-backtest-core": {
+        "sha256": "bbe8cb964c334e9920ec93f6b1244e2cdf74fdf9c9c98ead510b251947e50780",
+        "version": "0.3.0",
+        "wheel": "quant_backtest_core-0.3.0-py3-none-any.whl"
+      },
+      "quant-backtest-engine-client": {
+        "sha256": "bd76083d03b9d2167444f6c9ce89b4d81e874896cdfc9b71e20b7c5698aa129d",
+        "version": "0.3.0",
+        "wheel": "quant_backtest_engine_client-0.3.0-py3-none-any.whl"
+      },
+      "quant-microstructure-core": {
+        "sha256": "4a2284fd39c5ccaeed8e8399688b643948e3f14150d61faa58e5952d02884c70",
+        "version": "0.1.0",
+        "wheel": "quant_microstructure_core-0.1.0-cp312-abi3-linux_x86_64.whl"
+      },
+      "quant-platform": {
+        "sha256": "bb52e98e614a53afef3f2609ebd41475fe8c61ee6e7b32e34af89abd311e9b79",
+        "version": "0.3.0",
+        "wheel": "quant_platform-0.3.0-py3-none-any.whl"
+      },
+      "research-contracts": {
+        "sha256": "d5e24d9bdaff130be20c105314a161fec8d38c617b95484db5da341a63691b86",
+        "version": "0.1.0",
+        "wheel": "research_contracts-0.1.0-py3-none-any.whl"
+      },
+      "scipy": {
+        "record_sha256": "5e7bb60777de0efcf02c27173e3ae35eecf69eb7f840ef803d427c02592722f4",
+        "version": "1.18.1"
+      },
+      "six": {
+        "record_sha256": "d16e50f347969b1e1919fb0c88bac4b9c644f5305bcfcfb00f72b646dbd4065d",
+        "version": "1.17.0"
+      },
+      "tzdata": {
+        "record_sha256": "e439beb6cef6de137fc0cb32a6723e22bb739032813e4095350791c7d3c46807",
+        "version": "2026.2"
+      }
+    },
+    "executed_helpers": [
+      {
+        "file": "method_action_case.py",
+        "function": "<module>"
+      },
+      {
+        "file": "method_action_case.py",
+        "function": "build_action_case"
+      },
+      {
+        "file": "method_action_case.py",
+        "function": "make"
+      },
+      {
+        "file": "method_fixture_common.py",
+        "function": "__call__"
+      },
+      {
+        "file": "method_fixture_common.py",
+        "function": "__init__"
+      },
+      {
+        "file": "method_fixture_common.py",
+        "function": "bars"
+      },
+      {
+        "file": "method_fixture_common.py",
+        "function": "checkpoint"
+      },
+      {
+        "file": "method_fixture_common.py",
+        "function": "digest"
+      },
+      {
+        "file": "method_fixture_common.py",
+        "function": "number"
+      },
+      {
+        "file": "method_fixture_common.py",
+        "function": "records"
+      },
+      {
+        "file": "method_fixture_common.py",
+        "function": "scenario"
+      },
+      {
+        "file": "method_fixture_common.py",
+        "function": "targets"
+      },
+      {
+        "file": "method_fixture_common.py",
+        "function": "wire"
+      },
+      {
+        "file": "method_market_cases.py",
+        "function": "build_market_cases"
+      },
+      {
+        "file": "method_owner_calls.py",
+        "function": "<genexpr>"
+      },
+      {
+        "file": "method_owner_calls.py",
+        "function": "_api"
+      },
+      {
+        "file": "method_owner_calls.py",
+        "function": "decode"
+      },
+      {
+        "file": "method_owner_calls.py",
+        "function": "define_call"
+      },
+      {
+        "file": "method_owner_calls.py",
+        "function": "encode"
+      },
+      {
+        "file": "method_owner_calls.py",
+        "function": "execute_call"
+      },
+      {
+        "file": "method_owner_calls.py",
+        "function": "restore_session"
+      },
+      {
+        "file": "method_risk_case.py",
+        "function": "<module>"
+      },
+      {
+        "file": "method_risk_case.py",
+        "function": "build_risk_cases"
+      },
+      {
+        "file": "method_session_cases.py",
+        "function": "<genexpr>"
+      },
+      {
+        "file": "method_session_cases.py",
+        "function": "<lambda>"
+      },
+      {
+        "file": "method_session_cases.py",
+        "function": "build_session_cases"
+      },
+      {
+        "file": "method_session_cases.py",
+        "function": "make"
+      }
+    ],
+    "rust_sha256": "e168da9c9dc253fc01e0fe82935340141eb0ee70acfd372162ce2be97d1f1cf4"
+  },
+  "exporter_sha256": "7e4a4ff77dd7dd2aabd036ccaa9d635d6f42a39e3e7718a0632f80ace073d5ba",
   "exporter_sources": {
-    "project_tools/method_action_case.py": "a5f631efd9c73dd139e721cb89560d49af4506e169756872ed1479c93e241059",
-    "project_tools/method_fixture_common.py": "a9588445cdb8b7d8c2823814a786130698c10e4f256cacda97c98d3e766aeec4",
-    "project_tools/method_market_cases.py": "2d6751e8aa7a9d56d280e27e1519ebc72f3b520125503862788201f973d38ecc",
-    "project_tools/method_owner_calls.py": "86938dad95788e2c43040e816379a29ec5dc2e586808cfcbb876506a66567bfd",
-    "project_tools/method_risk_case.py": "d2b41f4a6eeac1461e8fc65be32b0e65915bfeb000f41aef6c2f9b499efa6812",
-    "project_tools/method_session_cases.py": "43bc08ffcc6e7f92ef71138f294d1593d36b2878533df9528607a6a3e502ff92"
+    "project_tools/method_action_case.py": "87dc420f939fd04f16bccfc0873cb70d99ec20b7d1b7f87f31176267b2cbcf05",
+    "project_tools/method_fixture_common.py": "2aa9362a85096a4babf316e3deea08c2edf742a9d30c64e4a105a1a4c77afe8b",
+    "project_tools/method_market_cases.py": "562c6af472439f85f83d80662c7fab051ae2a9feb4fc3817659270612235f667",
+    "project_tools/method_owner_calls.py": "3ac2e4d33cf766e6d80bc94667ea2a45efaff01233f8d088a8b29dda1ee6a659",
+    "project_tools/method_risk_case.py": "73fb513b59cced264616ae0f0dc46a8528ea4626b12edac1c87b704321ef3a09",
+    "project_tools/method_session_cases.py": "848501aff7c5b9126a703eae6e762ff8c5f45ce83f35da27d42bf8c61d87f54c"
   },
   "owners": {
+    "core": {
+      "dependency_sha256": "2cbcad4753a801aec4e8887c036fc857583e026b65534e5d1f2be3a21029206a",
+      "revision": "ad0895f1c2015eb31bd364b40741b0f7cd6e0048",
+      "source_sha256": {
+        "quant_backtest_core": "aa6ee88568755d563a7f25e7b86fc7a0dde361f5b9225282043d5d967aba73c6",
+        "quant_backtest_core._minute": "073635fe95bc0e704ba5c6d5b2f72a5e79b30c2a16f8c43716fc2a667c03de61",
+        "quant_backtest_core._minute._minute_state": "3c9c1c0ddae216bc11991c37672f4739e1a01b22c76816e83522cca45f4dcf3b",
+        "quant_backtest_core._minute._minute_validation": "82bc90766a875593c57c38912a9e4fba1f2c21b04532c494eef01fece573b246",
+        "quant_backtest_core._minute.capital_flows": "c0d668755a8f0b333c78812871487b1d57c3d74f412b3e11b57f035b0400b74a",
+        "quant_backtest_core._minute.corporate_actions": "bac108db5f43bf6efeb54320d3371de9f27101fb229e44af54e98fcd075171e8",
+        "quant_backtest_core._minute.minute_execution": "9c1f0f6a63b95c86c377fbb7b7d8951be838fc6e5771186f5cdb4f1f40ee4424",
+        "quant_backtest_core._minute.valuation_events": "d4bb0ab3800b9896cd715724b7d1659443371648f2715404c0f5d766dc0193c2",
+        "quant_backtest_core.backends": "426bf7185ba0e76c542142dda1c5651b037983f19f6d7192c81cc37c92fa8f88",
+        "quant_backtest_core.backends.protocol": "db5776a5a4b66f0fcaf9e4d76a258ab8ead885061303bd71ccb2bbafa4e08e43",
+        "quant_backtest_core.backends.registry": "2d327b6df953a1f10336fad1af8ee3a4317bdff97d6fc114d74cca1bd1ae121f",
+        "quant_backtest_core.backtest": "7ed16f2d6b9419674e77bcf541bf599f6c6dcb5c599aad6e8e4cccc6cd03da4d",
+        "quant_backtest_core.backtest._minute_checkpoint": "64e5e0315f00147d8012a4bc9dc656c41706777a3860702e55d70444852569ad",
+        "quant_backtest_core.backtest.impact": "1f60152d7941e22348a17f76d60eabfa3b9135be6c1824dd19bb73953a034bbb",
+        "quant_backtest_core.backtest.minute": "215934a20496cb4113364480da9b5808a470cb15c09910b008c127734f196f93",
+        "quant_backtest_core.backtest.minute_session": "6e823a96167d4a94862775e2aade33fbd6d36943099cdf25ee348c5757417644",
+        "quant_backtest_core.backtest.quantity_locks": "248b26e7352e9a6f675c28887086f573a75f719f0bc3b7406408f7c0b638ef16",
+        "quant_backtest_core.errors": "9c584ba8838431c501a3fe89dde9e36a1e7f44baca054b96cc0476d312f6ad38",
+        "quant_backtest_core.evidence": "7ed16f2d6b9419674e77bcf541bf599f6c6dcb5c599aad6e8e4cccc6cd03da4d",
+        "quant_backtest_core.evidence._exact": "4b76cb1857d59a3b07fb29a251715ba5956349dd7d6a0a2d9ac5b3a4b48a2bc4",
+        "quant_backtest_core.evidence.execution_integrity": "38f46b999ca032b0520cb44d80b04362d966f5b6900064854b25e99db77dc90c",
+        "quant_backtest_core.microstructure": "ff076da5840f71329e51e3146d10b9e0e57ad15bb3ca40685d519675a0168f80",
+        "quant_backtest_core.microstructure.matching": "920adb6b3f5196512cbf23692ab6dbfd7f980b5a80e965a2854d7cf60c216e2a",
+        "quant_backtest_core.microstructure.ordering": "d5744eba37df981d3af9bd7fabc5dffb0d3afa095b2ca76eb109fe927f13db84",
+        "quant_backtest_core.microstructure.pack": "d9b049c508d005fac34c0d70505de8932b8548eb44a570847f820c0435a01f2b",
+        "quant_backtest_core.planning": "32db62cebabed7154687fe57228f44cf6f6a753515cab3ba0e03124e2dfaf5e6",
+        "quant_backtest_core.planning.discrete_inventory": "df31ad2bdd9283c05649c3d06feb2744b32c0715592535f3c1e431c8e3ea4a8c",
+        "quant_backtest_core.planning.sleeve_allocation": "b6c73dd88c1f2804e3f278df8ccb069daf1f2934bda94a70d8144120f882061f",
+        "quant_backtest_core.runner": "d0c64ab0915c5a070abf30bf1f14ff32bd9716650ba28018f64e060c34488803"
+      },
+      "url": "https://github.com/runchengxie/quant-backtest-engine/tree/ad0895f1c2015eb31bd364b40741b0f7cd6e0048",
+      "version": "0.3.0"
+    },
     "engine": {
-      "revision": "c65548a4ee1e938125cce1edbcc282c760c4c8f2",
+      "dependency_sha256": "2cbcad4753a801aec4e8887c036fc857583e026b65534e5d1f2be3a21029206a",
+      "revision": "ad0895f1c2015eb31bd364b40741b0f7cd6e0048",
       "source_sha256": {
         "fixtures/roundtrip.json": "b039b17267c93943cc9704a53899585115f4bea8da4da4457d7a7d4258442a75"
       },
-      "url": "https://github.com/runchengxie/quant-backtest-engine/tree/c65548a4ee1e938125cce1edbcc282c760c4c8f2"
+      "url": "https://github.com/runchengxie/quant-backtest-engine/tree/ad0895f1c2015eb31bd364b40741b0f7cd6e0048",
+      "version": "0.2.0"
     },
     "platform": {
-      "lock_sha256": "4f14ea8260533c1517f4ff2858218df92ce99a0d4e9f8c821eedead11612199a",
-      "revision": "7a618bddd8fdeee5dbe37fe5b54a9698e0de5355",
+      "dependency_sha256": "2cbcad4753a801aec4e8887c036fc857583e026b65534e5d1f2be3a21029206a",
+      "revision": "c211d36167acf7a81fd0c034beb14317e2036b7e",
       "source_sha256": {
-        "packages/microstructure/src/ticknet/simulator/matching.py": "920adb6b3f5196512cbf23692ab6dbfd7f980b5a80e965a2854d7cf60c216e2a",
-        "packages/platform/src/quant_platform/analytics/execution_integrity.py": "7b6d1fcaa1c79de49eb6d045695f49880f66fc991411984750d813cfa6bd2097",
-        "packages/platform/src/quant_platform/analytics/risk_calibration.py": "f382e9109d41262c27cea80992764c92cf2cf562b60a6e47d409130653bcbc1d",
-        "packages/platform/src/quant_platform/backtest/impact.py": "3efcab489722e2b287b4a55cdfded617b52414458adb514ccf4789f38c85c160",
-        "packages/platform/src/quant_platform/backtest/minute.py": "82e0041c16c53b4f7a3f181fcb3e07233a15da39e4c1869597f205a712728814",
-        "packages/platform/src/quant_platform/backtest/minute_session.py": "0872227f551639c1b75ef84119691e4c92171c7c3af16ff55a95c45452ee7039",
-        "packages/platform/src/quant_platform/portfolio/discrete_inventory.py": "3238ecae91588ae6818f718af8938ecefc506ae2e357c5627644f07ed982bd58",
-        "packages/platform/src/quant_platform/portfolio/sleeve_allocation.py": "6916287aed000cc3a6d349c8ce83ae2c4ee6d43158333eddbf68b56eb7d83577",
-        "packages/platform/src/quant_platform/scenarios.py": "d2cf66162af85a37bb724746ef270a05391d3abf1b33be3776d306e0e7784399"
+        "quant_platform": "53b5a1258fddf5b3142a7d52b34559561149b046909101c18fa54f09c9f16ea0",
+        "quant_platform.analytics": "5fa87fb988a88c435f622e112fb151a26b889f3bc691b529e54ae9c3f879e660",
+        "quant_platform.analytics.risk_calibration": "f382e9109d41262c27cea80992764c92cf2cf562b60a6e47d409130653bcbc1d",
+        "quant_platform.publication": "d07a653bb1b949f8cc628cf5106e34a7cd6c9b705879820ae864df79122f2bdc",
+        "quant_platform.scenarios": "d2cf66162af85a37bb724746ef270a05391d3abf1b33be3776d306e0e7784399",
+        "quant_platform.temporal_validation": "3bc5624bab04ce7eb6b8de325efc7e5f9ecaf310eb24a21b7235dc0b10bb4a9f"
       },
-      "url": "https://github.com/runchengxie/quant-platform/tree/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355"
+      "url": "https://github.com/runchengxie/quant-platform/tree/c211d36167acf7a81fd0c034beb14317e2036b7e",
+      "version": "0.3.0"
     },
     "runtime": {
       "revision": "01ed4c34f955ef6cd39d13aa073b6d61b610d321",
-      "source_sha256": {
-        "docs/financial-sessions.md": "85648bf51720a7dea862f76234cbb52bb81d8b87f06b9e00aed856b2ea3cc6ec"
-      },
       "url": "https://github.com/runchengxie/quant-backtest-runtime/tree/01ed4c34f955ef6cd39d13aa073b6d61b610d321"
     }
   },
@@ -96,13 +294,13 @@
               }
             }
           },
-          "owner": "platform",
+          "owner": "core",
           "report_scope": "illustrative 600 ms delivery schedule; actual delayed accounting is scene risk",
           "run_sha256": {
             "matcher": "98fd4b9821fbea35d9b82ea506ff4206857ec4af1d45f1467b530a5a62e7f680"
           },
           "source": [
-            "packages/microstructure/src/ticknet/simulator/matching.py"
+            "core/src/quant_backtest_core/microstructure/matching.py"
           ],
           "states": [
             {
@@ -172,7 +370,7 @@
             "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
             "report": "receipt clock; may lag economic fill"
           },
-          "config_sha256": "1843b312b5de1251df58c8d0daafe636bc6f7cab63f31ade5bf80d6667e494cd",
+          "config_sha256": "717febeed27b107ea519ca460f688ecfba0ce8219ecca6e54831830c9a56cf9a",
           "configuration_scope": "complete synthetic inputs; typed owner-call definitions include resolved arguments and dataclass defaults",
           "evidence": "synthetic",
           "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
@@ -192,7 +390,7 @@
             }
           ],
           "id": "once",
-          "input_sha256": "1843b312b5de1251df58c8d0daafe636bc6f7cab63f31ade5bf80d6667e494cd",
+          "input_sha256": "717febeed27b107ea519ca460f688ecfba0ce8219ecca6e54831830c9a56cf9a",
           "inputs": {
             "runs": {
               "execution": {
@@ -306,7 +504,7 @@
                     "type": "tuple"
                   },
                   "config": {
-                    "class": "quant_platform._portfolio.minute_execution.MinuteExecutionConfig",
+                    "class": "quant_backtest_core._minute.minute_execution.MinuteExecutionConfig",
                     "fields": {
                       "buy_fee_bp": 0,
                       "commission_minimum_cny": 1,
@@ -392,12 +590,12 @@
               }
             }
           },
-          "owner": "platform",
+          "owner": "core",
           "run_sha256": {
-            "execution": "6f8859be4829e70b2ffcdc59736809f24c7f6b421910a6898b45f888b29ef0d0"
+            "execution": "20916ca14f81a76e42275546c6e1b193d6f1efed0cad695a71f549e4d2a491b3"
           },
           "source": [
-            "packages/platform/src/quant_platform/backtest/minute.py"
+            "core/src/quant_backtest_core/backtest/minute.py"
           ],
           "states": [
             {
@@ -659,12 +857,12 @@
             "symbol": "A",
             "unaffected_price": 10
           },
-          "owner": "platform",
+          "owner": "core",
           "run_sha256": {
             "model": "b203fc10a3ddd1d393167765c1599f6b161f8ce5e032614e94544e694d1337ca"
           },
           "source": [
-            "packages/platform/src/quant_platform/backtest/impact.py"
+            "core/src/quant_backtest_core/backtest/impact.py"
           ],
           "states": [
             {
@@ -765,12 +963,12 @@
             "symbol": "A",
             "unaffected_price": 10
           },
-          "owner": "platform",
+          "owner": "core",
           "run_sha256": {
             "model": "b203fc10a3ddd1d393167765c1599f6b161f8ce5e032614e94544e694d1337ca"
           },
           "source": [
-            "packages/platform/src/quant_platform/backtest/impact.py"
+            "core/src/quant_backtest_core/backtest/impact.py"
           ],
           "states": [
             {
@@ -874,12 +1072,12 @@
             "symbol": "A",
             "unaffected_price": 10
           },
-          "owner": "platform",
+          "owner": "core",
           "run_sha256": {
             "model": "5f3e8f3f2eb3b89478eed75611190b2a5a81e44aac9c66a2453da80ce9ab97a7"
           },
           "source": [
-            "packages/platform/src/quant_platform/backtest/impact.py"
+            "core/src/quant_backtest_core/backtest/impact.py"
           ],
           "states": [
             {
@@ -980,12 +1178,12 @@
             "symbol": "A",
             "unaffected_price": 10
           },
-          "owner": "platform",
+          "owner": "core",
           "run_sha256": {
             "model": "b203fc10a3ddd1d393167765c1599f6b161f8ce5e032614e94544e694d1337ca"
           },
           "source": [
-            "packages/platform/src/quant_platform/backtest/impact.py"
+            "core/src/quant_backtest_core/backtest/impact.py"
           ],
           "states": [
             {
@@ -1062,7 +1260,7 @@
             "event": "single decision, clock 0",
             "report": "receipt clock; may lag economic fill"
           },
-          "config_sha256": "68da240071e817c7351b8a45c856251a2fd9b5fd7b2ccdd27a391b274d369da6",
+          "config_sha256": "0869ae89c7e0575fb5c2022cd5765c9ec8a7ce9802294753f18aca5a7fa752e1",
           "configuration_scope": "complete synthetic inputs; typed owner-call definitions include resolved arguments and dataclass defaults",
           "domain_states": 16,
           "evidence": "synthetic",
@@ -1150,14 +1348,14 @@
             }
           ],
           "id": "no-minimum",
-          "input_sha256": "68da240071e817c7351b8a45c856251a2fd9b5fd7b2ccdd27a391b274d369da6",
+          "input_sha256": "0869ae89c7e0575fb5c2022cd5765c9ec8a7ce9802294753f18aca5a7fa752e1",
           "inputs": {
             "runs": {
               "grid-0-0": {
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -1233,7 +1431,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -1309,7 +1507,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -1385,7 +1583,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -1461,7 +1659,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -1537,7 +1735,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -1613,7 +1811,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -1689,7 +1887,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -1765,7 +1963,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -1841,7 +2039,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -1917,7 +2115,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -1993,7 +2191,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -2069,7 +2267,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -2145,7 +2343,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -2221,7 +2419,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -2297,7 +2495,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -2373,7 +2571,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -2447,28 +2645,28 @@
               }
             }
           },
-          "owner": "platform",
+          "owner": "core",
           "run_sha256": {
-            "grid-0-0": "b10183f81cf183acff9738fa235b30ecbc0f1a674fb486873683e67ae7595a8a",
-            "grid-0-1": "3f63d363a65430a186835baeb029b873c1835ad01ca8186f684be65e7791e741",
-            "grid-0-2": "6ce817660aaf3bf159f7534262684c1111d4261191980da570883dd9ebf4832a",
-            "grid-0-3": "069fa738a23c7bf66b5e74be3649db994a2ece374a8181511076af6926bb33dc",
-            "grid-1-0": "8c23e54ec36939261f4ae8662b58982f7f2bb2cf95e6fa5bbded89fa98057fb3",
-            "grid-1-1": "5b9b7fd9ee823e6caa7b539fcea1f62126b8ddc1e17eb6e59c36aa5f0c0a2645",
-            "grid-1-2": "24ed4fb013b0158bde676184a8735abacf0ea7209cefb1e3662493266e135839",
-            "grid-1-3": "48ceb517e44cfa789c477927efcf7216f4db18b5a8a43457ac7f88689c265e31",
-            "grid-2-0": "83736914cc4d205697a069d8ced3d5b1847aa570dde4c09390bf0648d2ec62a2",
-            "grid-2-1": "d3b8382735d8705b7d4ab3225f253bcc816f10fd80f01254d58445ca7698b2a1",
-            "grid-2-2": "08f2c49c2e61973b02273d2e80192607000723f87b4d7005ef5a273574cec61f",
-            "grid-2-3": "23a67962b6e5702e8f545a7643d487ad83b46ec2f8ed18f95e525e60e31f0874",
-            "grid-3-0": "e637e67871ccf64bd4c3b8f5deead6e8ab819d580c4051511b4c89a8e20b6aa8",
-            "grid-3-1": "4ff418ac3b944a0ba53333f9a66d8f07c7759a808355dd0d77d5854e444ff6e0",
-            "grid-3-2": "a3fb02b0b56f7396aded3ee1c62722c376dcbb50f520b92aca5c2eed7951ad2e",
-            "grid-3-3": "307857425590a7c297a7bf25833900e720bc2cfc6bc7f1a2b4e48c633629ef57",
-            "planning": "d86936a4b5d6d8b119484dea0f4b9c989d930840e854d1f42bfded271cd13b95"
+            "grid-0-0": "9c1d1030862fd346b9723dc468fb9784eba91775f37d2042395e1d3da54b993b",
+            "grid-0-1": "0e2050c4ff626d35862fd3fd42af0d2496049a6f172d99939fa450d38adcfe12",
+            "grid-0-2": "fb83b6fedca5320761b8c0a34351c55a22b2591d161dfb9724498af8335ca239",
+            "grid-0-3": "c9a47a39ec9338126cf85a0a619d8ed838a6e63c3fa742d423d919d40067437d",
+            "grid-1-0": "e6ff61c39c24f402a09cd4d04041e05657d6c73b012dfb2d9b4a41c286fbc537",
+            "grid-1-1": "f8acc3c24bc37df183581b33a3d46f543851f4a029458289ba8399acb56114ee",
+            "grid-1-2": "3d2d886b3c0f0dd1dd7dd91971f77eae810b168011efa3eb77c93c7203ce48b9",
+            "grid-1-3": "094d9b2e81ede1cd7e613ac90e6d46ab85e3717f3fc2390ce719ab238e58524a",
+            "grid-2-0": "a4ea5dba1ae3207d77689fa3c924eacba7cfa3117d7844eebb09d68934229dc4",
+            "grid-2-1": "ed52b7290aee2f641836b39154cf456058a273cbc1904bd38554ec00da7c15b1",
+            "grid-2-2": "75124873c99f6f973f234c2ba1e9753ceab6d6bc06c84adbe078ac605f7c44be",
+            "grid-2-3": "9d5a87066a5c68aa4a5051078ff59da06761682e6197c33023d00ec1c72eb736",
+            "grid-3-0": "c5b1bced82bb9ae2b688842db222f18dcbca2ed898a6ac56386a3c3b4ec28886",
+            "grid-3-1": "f8814f37df4d1a64462a6fc3a50d182f2195c6256ce3c517427e60f9504d4962",
+            "grid-3-2": "dd759add58ef75b2196867ff03a385a5520a318130e8f62340423b8f163449f8",
+            "grid-3-3": "94358488630563fc199a236c60b695cb4353b12b8e5d817a0898a8fb7dc161ef",
+            "planning": "703102fb220c82e91672fc19f841a2e24ec37b4c318a93eaf6c02da9dd2a7de9"
           },
           "source": [
-            "packages/platform/src/quant_platform/portfolio/discrete_inventory.py"
+            "core/src/quant_backtest_core/planning/discrete_inventory.py"
           ],
           "states": [
             {
@@ -2505,7 +2703,7 @@
             "event": "single decision, clock 0",
             "report": "receipt clock; may lag economic fill"
           },
-          "config_sha256": "14ab0668fee59f61f16c9b90795051f5653ebcce0a88448cc9d1500cba354d79",
+          "config_sha256": "3d2bb9d28021cefe5830a04ab5afa3202d2051ad5b8f65e0bfae939dc927976a",
           "configuration_scope": "complete synthetic inputs; typed owner-call definitions include resolved arguments and dataclass defaults",
           "domain_states": 16,
           "evidence": "synthetic",
@@ -2593,14 +2791,14 @@
             }
           ],
           "id": "minimum",
-          "input_sha256": "14ab0668fee59f61f16c9b90795051f5653ebcce0a88448cc9d1500cba354d79",
+          "input_sha256": "3d2bb9d28021cefe5830a04ab5afa3202d2051ad5b8f65e0bfae939dc927976a",
           "inputs": {
             "runs": {
               "grid-0-0": {
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -2676,7 +2874,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -2752,7 +2950,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -2828,7 +3026,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -2904,7 +3102,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -2980,7 +3178,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -3056,7 +3254,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -3132,7 +3330,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -3208,7 +3406,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -3284,7 +3482,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -3360,7 +3558,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -3436,7 +3634,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -3512,7 +3710,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -3588,7 +3786,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -3664,7 +3862,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -3740,7 +3938,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -3816,7 +4014,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -3890,28 +4088,28 @@
               }
             }
           },
-          "owner": "platform",
+          "owner": "core",
           "run_sha256": {
-            "grid-0-0": "66cedd50871ee87f8e4777b863e544cfb543b94bf67297334897f2e07085f845",
-            "grid-0-1": "ffc3bb5c6ff4243fd188a84e0fec907c5b7fc02d6f1092722291b8fe7ad01b4d",
-            "grid-0-2": "63fe4aaa15e9ae48713422b201aa984fcf4d1f7b1b872fada3f7f6166dd0c956",
-            "grid-0-3": "c0c28b4684732364f19ed2b763401e5f5d9e26d8c5a96b8bd6a7f7bde715c328",
-            "grid-1-0": "cf63854962789f17c2d1c39a785014bd98613d5788bd09f5fb0710749db1d349",
-            "grid-1-1": "83c8d37587b357565c8f604b27bd8f8b2f6a5bfe5018066333ef4dc16ceb8781",
-            "grid-1-2": "818bc2d4c3d0147b45e53c5fda84745b0fce17034e16a1a3c8fec308180d8a64",
-            "grid-1-3": "dbdb36df62f00c549d2fc18296ef04504583a3fee5d60b9402bde527f311c06c",
-            "grid-2-0": "8691997400acfabf5b76653c1e9557eb733b001b748007e0116c2f826d911207",
-            "grid-2-1": "11913b2dc002a9195ed285afbe1ff87e5fc08fa8f06d060685b7683279c90243",
-            "grid-2-2": "f6d092d0002785f10db126eb99f3dc86258c11818b5a10e00d5d2a0178341e1b",
-            "grid-2-3": "cd4d5c65efa9d34ce5dc147f89582eeb1dd86d35048d805f253432c9c074eca5",
-            "grid-3-0": "3354b8c05c1830e5d0fc8ab42b11e047023bb0f461598edabef9ab19cb43462a",
-            "grid-3-1": "aae5bc7ede825a92db0c90dbb737eaf4854aec324acc7bd619db302c473639e1",
-            "grid-3-2": "2ddb66a9ea24ae95df840e9edff414b456e712542f5b90552ca2e9fd903f9c71",
-            "grid-3-3": "a14da30bf404ab6664bbd0978c3f49b180bc4c0a1a65d0833b781c7ca6cc7c5c",
-            "planning": "a8feafb7ed25f58f5784cd60c6e0d563f535c14f03d897ea1b3d41f0c7da453f"
+            "grid-0-0": "e83956d180aea5bb3e06f2a642588b9fddfacaadbfb89bbb79c6398aa8761d9b",
+            "grid-0-1": "46163d8e29c8a9de964ecddc31bddcbbbaa94fc45c0fb5ee20211e81cdcfb775",
+            "grid-0-2": "fa3f94903d843f061e2e289b447d19387636a441a6f4fb89c9cdce1a0e9c487e",
+            "grid-0-3": "c338723ea0048f9c160c435c0a9ea922d89c0fb20ba238912c305292c2ab74fd",
+            "grid-1-0": "4428937beb125649c187fe3d4832323db584df9f6f7dda0ae79155cf7bdf7cc8",
+            "grid-1-1": "a195b97a73c021c96b648ae793c5c8c65e3b5b43b5be9e4e19f876affe39fdff",
+            "grid-1-2": "f21f2764b32537ced11e4b49634baa753992fa47a8735d3eaf4b969d8bada5e9",
+            "grid-1-3": "f7c680746d0b71ec0e3a6f9decdd380bbf198d70540deb62c6fb452f8fb6c005",
+            "grid-2-0": "2bdcd339503711d8bbc51393f90a4c9cd06a056b57365971ebeb91ec9ea302d7",
+            "grid-2-1": "ead6858b6c5c4d5421a522ba2896d6353a2dce2bdb452e91e9d92a3973e74d2f",
+            "grid-2-2": "a8d166dd7ea27bdcc8550ddd5ca7181b296f9e09608eb3fa99fd09691bed81ef",
+            "grid-2-3": "d61c8b376c9ca0065b870008fcd826e3b3ac34090f5b15821760fa55b25961aa",
+            "grid-3-0": "96f016e4a81384de659e8b72e1f73536ec38344f438ae241b96ae49029905e37",
+            "grid-3-1": "57626ed08c9c4f41872b758a04de4eda397cfcc9448099ceb1001d346054b189",
+            "grid-3-2": "b6919b1e3e9687ba3c214d3a376f9fe9f00d10f0669b2eca6da665ad563d3134",
+            "grid-3-3": "b3f8d64acba4035d16b3d6e25994764466645227c98074ab5c8f65aac5a77319",
+            "planning": "b2267271ee93f853f3391ea44393c2dff1ebf11c32a913b5016ba9e6abb46fae"
           },
           "source": [
-            "packages/platform/src/quant_platform/portfolio/discrete_inventory.py"
+            "core/src/quant_backtest_core/planning/discrete_inventory.py"
           ],
           "states": [
             {
@@ -3948,7 +4146,7 @@
             "event": "single decision, clock 0",
             "report": "receipt clock; may lag economic fill"
           },
-          "config_sha256": "d108c32700477c904f3b590f9e202d66906f655e7999c23b835a0e45d69513f6",
+          "config_sha256": "ef5c8de8a48eaec0cc3716661f7611450e66fa8759a2e83a5934f7a87efc22db",
           "configuration_scope": "complete synthetic inputs; typed owner-call definitions include resolved arguments and dataclass defaults",
           "domain_states": 16,
           "evidence": "synthetic",
@@ -4036,14 +4234,14 @@
             }
           ],
           "id": "grid",
-          "input_sha256": "d108c32700477c904f3b590f9e202d66906f655e7999c23b835a0e45d69513f6",
+          "input_sha256": "ef5c8de8a48eaec0cc3716661f7611450e66fa8759a2e83a5934f7a87efc22db",
           "inputs": {
             "runs": {
               "grid-0-0": {
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -4119,7 +4317,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -4195,7 +4393,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -4271,7 +4469,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -4347,7 +4545,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -4423,7 +4621,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -4499,7 +4697,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -4575,7 +4773,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -4651,7 +4849,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -4727,7 +4925,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -4803,7 +5001,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -4879,7 +5077,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -4955,7 +5153,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -5031,7 +5229,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -5107,7 +5305,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -5183,7 +5381,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -5259,7 +5457,7 @@
                 "api": "discrete",
                 "arguments": {
                   "request": {
-                    "class": "quant_platform.portfolio.discrete_inventory.DiscreteInventoryRequest",
+                    "class": "quant_backtest_core.planning.discrete_inventory.DiscreteInventoryRequest",
                     "fields": {
                       "allow_odd_lot_exit": true,
                       "available_sell_shares": {
@@ -5333,28 +5531,28 @@
               }
             }
           },
-          "owner": "platform",
+          "owner": "core",
           "run_sha256": {
-            "grid-0-0": "66cedd50871ee87f8e4777b863e544cfb543b94bf67297334897f2e07085f845",
-            "grid-0-1": "ffc3bb5c6ff4243fd188a84e0fec907c5b7fc02d6f1092722291b8fe7ad01b4d",
-            "grid-0-2": "63fe4aaa15e9ae48713422b201aa984fcf4d1f7b1b872fada3f7f6166dd0c956",
-            "grid-0-3": "c0c28b4684732364f19ed2b763401e5f5d9e26d8c5a96b8bd6a7f7bde715c328",
-            "grid-1-0": "cf63854962789f17c2d1c39a785014bd98613d5788bd09f5fb0710749db1d349",
-            "grid-1-1": "83c8d37587b357565c8f604b27bd8f8b2f6a5bfe5018066333ef4dc16ceb8781",
-            "grid-1-2": "818bc2d4c3d0147b45e53c5fda84745b0fce17034e16a1a3c8fec308180d8a64",
-            "grid-1-3": "dbdb36df62f00c549d2fc18296ef04504583a3fee5d60b9402bde527f311c06c",
-            "grid-2-0": "8691997400acfabf5b76653c1e9557eb733b001b748007e0116c2f826d911207",
-            "grid-2-1": "11913b2dc002a9195ed285afbe1ff87e5fc08fa8f06d060685b7683279c90243",
-            "grid-2-2": "f6d092d0002785f10db126eb99f3dc86258c11818b5a10e00d5d2a0178341e1b",
-            "grid-2-3": "cd4d5c65efa9d34ce5dc147f89582eeb1dd86d35048d805f253432c9c074eca5",
-            "grid-3-0": "3354b8c05c1830e5d0fc8ab42b11e047023bb0f461598edabef9ab19cb43462a",
-            "grid-3-1": "aae5bc7ede825a92db0c90dbb737eaf4854aec324acc7bd619db302c473639e1",
-            "grid-3-2": "2ddb66a9ea24ae95df840e9edff414b456e712542f5b90552ca2e9fd903f9c71",
-            "grid-3-3": "a14da30bf404ab6664bbd0978c3f49b180bc4c0a1a65d0833b781c7ca6cc7c5c",
-            "planning": "4e62833a144c3b7b9600ea94e4981e1d9fe7bcea397c9670e1d49d40efa94ea1"
+            "grid-0-0": "e83956d180aea5bb3e06f2a642588b9fddfacaadbfb89bbb79c6398aa8761d9b",
+            "grid-0-1": "46163d8e29c8a9de964ecddc31bddcbbbaa94fc45c0fb5ee20211e81cdcfb775",
+            "grid-0-2": "fa3f94903d843f061e2e289b447d19387636a441a6f4fb89c9cdce1a0e9c487e",
+            "grid-0-3": "c338723ea0048f9c160c435c0a9ea922d89c0fb20ba238912c305292c2ab74fd",
+            "grid-1-0": "4428937beb125649c187fe3d4832323db584df9f6f7dda0ae79155cf7bdf7cc8",
+            "grid-1-1": "a195b97a73c021c96b648ae793c5c8c65e3b5b43b5be9e4e19f876affe39fdff",
+            "grid-1-2": "f21f2764b32537ced11e4b49634baa753992fa47a8735d3eaf4b969d8bada5e9",
+            "grid-1-3": "f7c680746d0b71ec0e3a6f9decdd380bbf198d70540deb62c6fb452f8fb6c005",
+            "grid-2-0": "2bdcd339503711d8bbc51393f90a4c9cd06a056b57365971ebeb91ec9ea302d7",
+            "grid-2-1": "ead6858b6c5c4d5421a522ba2896d6353a2dce2bdb452e91e9d92a3973e74d2f",
+            "grid-2-2": "a8d166dd7ea27bdcc8550ddd5ca7181b296f9e09608eb3fa99fd09691bed81ef",
+            "grid-2-3": "d61c8b376c9ca0065b870008fcd826e3b3ac34090f5b15821760fa55b25961aa",
+            "grid-3-0": "96f016e4a81384de659e8b72e1f73536ec38344f438ae241b96ae49029905e37",
+            "grid-3-1": "57626ed08c9c4f41872b758a04de4eda397cfcc9448099ceb1001d346054b189",
+            "grid-3-2": "b6919b1e3e9687ba3c214d3a376f9fe9f00d10f0669b2eca6da665ad563d3134",
+            "grid-3-3": "b3f8d64acba4035d16b3d6e25994764466645227c98074ab5c8f65aac5a77319",
+            "planning": "fb06456c6b4df0ad6da4d3b73d0807bd6916eebaf675fd0e777940d164b3c644"
           },
           "source": [
-            "packages/platform/src/quant_platform/portfolio/discrete_inventory.py"
+            "core/src/quant_backtest_core/planning/discrete_inventory.py"
           ],
           "states": [
             {
@@ -5408,7 +5606,7 @@
             "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
             "report": "receipt clock; may lag economic fill"
           },
-          "config_sha256": "6128691596f6fa83d6d5afd66c92bce12c15758ec892f4c69552f8c0c4f4055f",
+          "config_sha256": "db8ea3e268e740c83aab3a12ff0081ab4a16921aee3d03504ca6b53d2c1bc354",
           "configuration_scope": "complete synthetic inputs; typed owner-call definitions include resolved arguments and dataclass defaults",
           "evidence": "synthetic",
           "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
@@ -5442,7 +5640,7 @@
           ],
           "forecast_sha256": "50412276572cba0a0bffc669f48dffd4ed98a61948d07852dbb78b8491275635",
           "id": "thin",
-          "input_sha256": "6128691596f6fa83d6d5afd66c92bce12c15758ec892f4c69552f8c0c4f4055f",
+          "input_sha256": "db8ea3e268e740c83aab3a12ff0081ab4a16921aee3d03504ca6b53d2c1bc354",
           "inputs": {
             "runs": {
               "execution": {
@@ -5591,7 +5789,7 @@
                     "type": "tuple"
                   },
                   "config": {
-                    "class": "quant_platform._portfolio.minute_execution.MinuteExecutionConfig",
+                    "class": "quant_backtest_core._minute.minute_execution.MinuteExecutionConfig",
                     "fields": {
                       "buy_fee_bp": 0,
                       "commission_minimum_cny": {
@@ -5699,12 +5897,12 @@
               "tax_paid": "0"
             }
           ],
-          "owner": "platform",
+          "owner": "core",
           "run_sha256": {
-            "execution": "247c089247096c83c090c62aad19f66f770e3536b115f9ad6a311a4274b63f56"
+            "execution": "9ca230611b8c3d5db0de3c02e3909df32383d238dc621a63fe617718eef45135"
           },
           "source": [
-            "packages/platform/src/quant_platform/backtest/minute.py"
+            "core/src/quant_backtest_core/backtest/minute.py"
           ],
           "states": [
             {
@@ -5747,7 +5945,7 @@
             "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
             "report": "receipt clock; may lag economic fill"
           },
-          "config_sha256": "18e45ccf357df1171e43af595234019369accb76c68086fe00cdf49dfe0c9fdd",
+          "config_sha256": "3ac8a0947ce1d08f59e4a39d7f3fc70457210ad3f4cf16e380290614a4853062",
           "configuration_scope": "complete synthetic inputs; typed owner-call definitions include resolved arguments and dataclass defaults",
           "evidence": "synthetic",
           "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
@@ -5781,7 +5979,7 @@
           ],
           "forecast_sha256": "50412276572cba0a0bffc669f48dffd4ed98a61948d07852dbb78b8491275635",
           "id": "deep",
-          "input_sha256": "18e45ccf357df1171e43af595234019369accb76c68086fe00cdf49dfe0c9fdd",
+          "input_sha256": "3ac8a0947ce1d08f59e4a39d7f3fc70457210ad3f4cf16e380290614a4853062",
           "inputs": {
             "runs": {
               "execution": {
@@ -5930,7 +6128,7 @@
                     "type": "tuple"
                   },
                   "config": {
-                    "class": "quant_platform._portfolio.minute_execution.MinuteExecutionConfig",
+                    "class": "quant_backtest_core._minute.minute_execution.MinuteExecutionConfig",
                     "fields": {
                       "buy_fee_bp": 0,
                       "commission_minimum_cny": {
@@ -6038,12 +6236,12 @@
               "tax_paid": "0"
             }
           ],
-          "owner": "platform",
+          "owner": "core",
           "run_sha256": {
-            "execution": "f267249ee9d621459247dd426c10469327b95a85cb581f1210f5706c114a26fb"
+            "execution": "3a66b14700e106e5e4b7d0890d478d10864dca35db19e25fb033c47f982b01d3"
           },
           "source": [
-            "packages/platform/src/quant_platform/backtest/minute.py"
+            "core/src/quant_backtest_core/backtest/minute.py"
           ],
           "states": [
             {
@@ -6086,7 +6284,7 @@
             "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
             "report": "receipt clock; may lag economic fill"
           },
-          "config_sha256": "b7ec73c17a7c5c55e729b4909224553dc9254efb2c4f9ab9ccecf0eb476edfd7",
+          "config_sha256": "5aed65755d9996868636b24b2707ad9eeac1aa96a9cf230b230431e4aaeb6868",
           "configuration_scope": "complete synthetic inputs; typed owner-call definitions include resolved arguments and dataclass defaults",
           "evidence": "synthetic",
           "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
@@ -6120,7 +6318,7 @@
           ],
           "forecast_sha256": "50412276572cba0a0bffc669f48dffd4ed98a61948d07852dbb78b8491275635",
           "id": "market-up",
-          "input_sha256": "b7ec73c17a7c5c55e729b4909224553dc9254efb2c4f9ab9ccecf0eb476edfd7",
+          "input_sha256": "5aed65755d9996868636b24b2707ad9eeac1aa96a9cf230b230431e4aaeb6868",
           "inputs": {
             "runs": {
               "execution": {
@@ -6269,7 +6467,7 @@
                     "type": "tuple"
                   },
                   "config": {
-                    "class": "quant_platform._portfolio.minute_execution.MinuteExecutionConfig",
+                    "class": "quant_backtest_core._minute.minute_execution.MinuteExecutionConfig",
                     "fields": {
                       "buy_fee_bp": 0,
                       "commission_minimum_cny": {
@@ -6377,12 +6575,12 @@
               "tax_paid": "0"
             }
           ],
-          "owner": "platform",
+          "owner": "core",
           "run_sha256": {
-            "execution": "5d71cddb9a50193b6141de4783e03b8970402b3f33025f916fd99a60e7832ff0"
+            "execution": "1a5c1fa6321ec0c84afcacc44f1997f8a983868f0093c47d9b830eca241bf14d"
           },
           "source": [
-            "packages/platform/src/quant_platform/backtest/minute.py"
+            "core/src/quant_backtest_core/backtest/minute.py"
           ],
           "states": [
             {
@@ -6425,7 +6623,7 @@
             "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
             "report": "receipt clock; may lag economic fill"
           },
-          "config_sha256": "5f86445c8144a1a10963110e90b88b8bfecc8ffed661586d9488ee48f3debc1a",
+          "config_sha256": "3e6553d4d3ba432bc3cda693575400dd4dd327896b84193e9d433917d97528c7",
           "configuration_scope": "complete synthetic inputs; typed owner-call definitions include resolved arguments and dataclass defaults",
           "evidence": "synthetic",
           "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
@@ -6446,7 +6644,7 @@
           ],
           "forecast_sha256": "50412276572cba0a0bffc669f48dffd4ed98a61948d07852dbb78b8491275635",
           "id": "feedback",
-          "input_sha256": "5f86445c8144a1a10963110e90b88b8bfecc8ffed661586d9488ee48f3debc1a",
+          "input_sha256": "3e6553d4d3ba432bc3cda693575400dd4dd327896b84193e9d433917d97528c7",
           "inputs": {
             "runs": {
               "execution": {
@@ -6595,7 +6793,7 @@
                     "type": "tuple"
                   },
                   "config": {
-                    "class": "quant_platform._portfolio.minute_execution.MinuteExecutionConfig",
+                    "class": "quant_backtest_core._minute.minute_execution.MinuteExecutionConfig",
                     "fields": {
                       "buy_fee_bp": 0,
                       "commission_minimum_cny": {
@@ -6703,12 +6901,12 @@
               "tax_paid": "0"
             }
           ],
-          "owner": "platform",
+          "owner": "core",
           "run_sha256": {
-            "execution": "cbc480d6a36ef54c1626ac5389bf8abd07b09444cd1c159b428cf3aeb86e598d"
+            "execution": "ec8284b64f626cf1e468d446755820fa531bbb6f936a363b0de538c458110036"
           },
           "source": [
-            "packages/platform/src/quant_platform/backtest/minute.py"
+            "core/src/quant_backtest_core/backtest/minute.py"
           ],
           "states": [
             {
@@ -6769,7 +6967,7 @@
             "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
             "report": "receipt clock; may lag economic fill"
           },
-          "config_sha256": "fd03ce8e8b4513bd765aff9baadc016a05b88ee85fd1c20f46b140d9dada10b5",
+          "config_sha256": "6914de795d681d715693d2a84bb8c2c50e10d5789b2e5656e4cd722aadd489c8",
           "configuration_scope": "complete synthetic inputs; typed owner-call definitions include resolved arguments and dataclass defaults",
           "decision_reports": [
             {
@@ -6790,7 +6988,7 @@
           "evidence": "synthetic",
           "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
           "id": "recovery",
-          "input_sha256": "fd03ce8e8b4513bd765aff9baadc016a05b88ee85fd1c20f46b140d9dada10b5",
+          "input_sha256": "6914de795d681d715693d2a84bb8c2c50e10d5789b2e5656e4cd722aadd489c8",
           "inputs": {
             "restore_boundaries": [
               0,
@@ -6948,7 +7146,7 @@
                     "type": "tuple"
                   },
                   "config": {
-                    "class": "quant_platform._portfolio.minute_execution.MinuteExecutionConfig",
+                    "class": "quant_backtest_core._minute.minute_execution.MinuteExecutionConfig",
                     "fields": {
                       "buy_fee_bp": 0,
                       "commission_minimum_cny": {
@@ -7057,13 +7255,13 @@
               }
             }
           },
-          "owner": "platform",
+          "owner": "core",
           "recovered_sha256": "f4da4dc037f3011aa80cee33ffc0628757ff499bdf953f39428ac0530107e06d",
           "run_sha256": {
-            "session": "58d522088a7da670089119cd30eabaa131eb802e65d82d440fdf2bc249d1869a"
+            "session": "904728364a3035b629e382652870221d1f393d2919035b6f085b0b027d76ef52"
           },
           "source": [
-            "packages/platform/src/quant_platform/backtest/minute_session.py"
+            "core/src/quant_backtest_core/backtest/minute_session.py"
           ],
           "states": [
             {
@@ -7176,7 +7374,7 @@
             "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
             "report": "receipt clock; may lag economic fill"
           },
-          "config_sha256": "1957ed4574511af8838f71825cd8374c2cec62c0292b6dd6906c6f827728ab7d",
+          "config_sha256": "235db7679aeb650749ace015ba492813530d332cfec5e53fa12eb75652c465ca",
           "configuration_scope": "complete synthetic inputs; typed owner-call definitions include resolved arguments and dataclass defaults",
           "evidence": "synthetic",
           "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
@@ -7189,7 +7387,7 @@
             }
           ],
           "id": "shared",
-          "input_sha256": "1957ed4574511af8838f71825cd8374c2cec62c0292b6dd6906c6f827728ab7d",
+          "input_sha256": "235db7679aeb650749ace015ba492813530d332cfec5e53fa12eb75652c465ca",
           "inputs": {
             "runs": {
               "allocation": {
@@ -7224,12 +7422,12 @@
                     }
                   ],
                   "net_plan": {
-                    "class": "quant_platform.portfolio.sleeve_allocation.SleeveNetPlan",
+                    "class": "quant_backtest_core.planning.sleeve_allocation.SleeveNetPlan",
                     "fields": {
                       "demands": {
                         "items": [
                           {
-                            "class": "quant_platform.portfolio.sleeve_allocation.SleeveDemand",
+                            "class": "quant_backtest_core.planning.sleeve_allocation.SleeveDemand",
                             "fields": {
                               "blocked": false,
                               "cash_budget": {
@@ -7255,7 +7453,7 @@
                             "type": "dataclass"
                           },
                           {
-                            "class": "quant_platform.portfolio.sleeve_allocation.SleeveDemand",
+                            "class": "quant_backtest_core.planning.sleeve_allocation.SleeveDemand",
                             "fields": {
                               "blocked": false,
                               "cash_budget": {
@@ -7293,7 +7491,7 @@
                       "external_orders": {
                         "items": [
                           {
-                            "class": "quant_platform.portfolio.sleeve_allocation.ExternalOrder",
+                            "class": "quant_backtest_core.planning.sleeve_allocation.ExternalOrder",
                             "fields": {
                               "lot_size": 100,
                               "quantity": 1000,
@@ -7444,7 +7642,7 @@
                     "type": "tuple"
                   },
                   "config": {
-                    "class": "quant_platform._portfolio.minute_execution.MinuteExecutionConfig",
+                    "class": "quant_backtest_core._minute.minute_execution.MinuteExecutionConfig",
                     "fields": {
                       "buy_fee_bp": 0,
                       "commission_minimum_cny": 1,
@@ -7533,7 +7731,7 @@
                 "arguments": {
                   "demands": [
                     {
-                      "class": "quant_platform.portfolio.sleeve_allocation.SleeveDemand",
+                      "class": "quant_backtest_core.planning.sleeve_allocation.SleeveDemand",
                       "fields": {
                         "blocked": false,
                         "cash_budget": "6000",
@@ -7550,7 +7748,7 @@
                       "type": "dataclass"
                     },
                     {
-                      "class": "quant_platform.portfolio.sleeve_allocation.SleeveDemand",
+                      "class": "quant_backtest_core.planning.sleeve_allocation.SleeveDemand",
                       "fields": {
                         "blocked": false,
                         "cash_budget": "6000",
@@ -7576,14 +7774,14 @@
               }
             }
           },
-          "owner": "platform",
+          "owner": "core",
           "run_sha256": {
-            "allocation": "b2e46848cff2e93474fadaf2328ec95eeb0531ed99c85e7cf6982dcdb189603d",
-            "execution": "6f8859be4829e70b2ffcdc59736809f24c7f6b421910a6898b45f888b29ef0d0",
-            "netting": "d70c416e46b03420e29634a9397369fa9fb61e179ac90745e5eb295ea3d15b95"
+            "allocation": "e164d392bce2ef0e33fbc07fbfa6af84a8760b611c56d1dc34e8d1298f630076",
+            "execution": "20916ca14f81a76e42275546c6e1b193d6f1efed0cad695a71f549e4d2a491b3",
+            "netting": "e25468762042d786b559e64a9959373df81123be66b8cf0d07897b4bea9e0389"
           },
           "source": [
-            "packages/platform/src/quant_platform/portfolio/sleeve_allocation.py"
+            "core/src/quant_backtest_core/planning/sleeve_allocation.py"
           ],
           "states": [
             {
@@ -7621,7 +7819,7 @@
             "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
             "report": "receipt clock; may lag economic fill"
           },
-          "config_sha256": "25a5081e10a0cf5750ef1f64b6e3d7755b4ba89a00da0f2463a9e3f6db84a2a7",
+          "config_sha256": "9b9610cfc245b2cc4b443f7def54ec9e801cc7ff2b5416ee775a313d63a995c9",
           "configuration_scope": "complete synthetic inputs; typed owner-call definitions include resolved arguments and dataclass defaults",
           "evidence": "synthetic",
           "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
@@ -7674,7 +7872,7 @@
             }
           ],
           "id": "residual",
-          "input_sha256": "25a5081e10a0cf5750ef1f64b6e3d7755b4ba89a00da0f2463a9e3f6db84a2a7",
+          "input_sha256": "9b9610cfc245b2cc4b443f7def54ec9e801cc7ff2b5416ee775a313d63a995c9",
           "inputs": {
             "runs": {
               "session": {
@@ -7910,7 +8108,7 @@
                     "type": "tuple"
                   },
                   "config": {
-                    "class": "quant_platform._portfolio.minute_execution.MinuteExecutionConfig",
+                    "class": "quant_backtest_core._minute.minute_execution.MinuteExecutionConfig",
                     "fields": {
                       "buy_fee_bp": 0,
                       "commission_minimum_cny": {
@@ -7949,7 +8147,7 @@
                   "quantity_locks": {
                     "items": [
                       {
-                        "class": "quant_platform.backtest.quantity_locks.QuantityLock",
+                        "class": "quant_backtest_core.backtest.quantity_locks.QuantityLock",
                         "fields": {
                           "available_ns": {
                             "type": "integer",
@@ -8073,14 +8271,14 @@
               }
             }
           },
-          "owner": "platform",
+          "owner": "core",
           "run_sha256": {
-            "session": "34d37a5a9471d59dffd24a03c6e69bcb3d06a5b7286bb03d78c9d94cf1b38300",
+            "session": "379a52b55b3d5d69396c1493e305b6bb6cfc93d566526722df11850de329afd0",
             "wealth": "4464aff6314d4bcb5c2acea71c7c2698ca8a38e4c5ed5a0e5aeb3e4cec50a3de"
           },
           "source": [
-            "packages/platform/src/quant_platform/analytics/execution_integrity.py",
-            "packages/platform/src/quant_platform/backtest/minute_session.py"
+            "core/src/quant_backtest_core/evidence/execution_integrity.py",
+            "core/src/quant_backtest_core/backtest/minute_session.py"
           ],
           "states": [
             {
@@ -8137,12 +8335,12 @@
             "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
             "report": "receipt clock; may lag economic fill"
           },
-          "config_sha256": "a2510bb1594805985b62b87989215abc1a6f4add0f3f7acc7ab76161744da83b",
+          "config_sha256": "1d43317daaebeed3313db24b2e227eb6be5933c1ac0dbf2cdcfe0d70cbea5dc1",
           "configuration_scope": "complete synthetic inputs; typed owner-call definitions include resolved arguments and dataclass defaults",
           "evidence": "synthetic",
           "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
           "id": "actions",
-          "input_sha256": "a2510bb1594805985b62b87989215abc1a6f4add0f3f7acc7ab76161744da83b",
+          "input_sha256": "1d43317daaebeed3313db24b2e227eb6be5933c1ac0dbf2cdcfe0d70cbea5dc1",
           "inputs": {
             "restore_boundaries": [
               0,
@@ -8446,7 +8644,7 @@
                     "type": "tuple"
                   },
                   "config": {
-                    "class": "quant_platform._portfolio.minute_execution.MinuteExecutionConfig",
+                    "class": "quant_backtest_core._minute.minute_execution.MinuteExecutionConfig",
                     "fields": {
                       "buy_fee_bp": 0,
                       "commission_minimum_cny": {
@@ -8473,7 +8671,7 @@
                   "corporate_actions": {
                     "items": [
                       {
-                        "class": "quant_platform._portfolio.corporate_actions.CorporateAction",
+                        "class": "quant_backtest_core._minute.corporate_actions.CorporateAction",
                         "fields": {
                           "available_date": {
                             "type": "timestamp",
@@ -8526,7 +8724,7 @@
                   "quantity_locks": {
                     "items": [
                       {
-                        "class": "quant_platform.backtest.quantity_locks.QuantityLock",
+                        "class": "quant_backtest_core.backtest.quantity_locks.QuantityLock",
                         "fields": {
                           "available_ns": {
                             "type": "integer",
@@ -8898,7 +9096,7 @@
                   "capital_flows": {
                     "items": [
                       {
-                        "class": "quant_platform._portfolio.capital_flows.CapitalFlow",
+                        "class": "quant_backtest_core._minute.capital_flows.CapitalFlow",
                         "fields": {
                           "amount": {
                             "hex": "0x1.f400000000000p+9",
@@ -8921,7 +9119,7 @@
                     "type": "tuple"
                   },
                   "config": {
-                    "class": "quant_platform._portfolio.minute_execution.MinuteExecutionConfig",
+                    "class": "quant_backtest_core._minute.minute_execution.MinuteExecutionConfig",
                     "fields": {
                       "buy_fee_bp": 0,
                       "commission_minimum_cny": {
@@ -8948,7 +9146,7 @@
                   "corporate_actions": {
                     "items": [
                       {
-                        "class": "quant_platform._portfolio.corporate_actions.CorporateAction",
+                        "class": "quant_backtest_core._minute.corporate_actions.CorporateAction",
                         "fields": {
                           "available_date": {
                             "type": "timestamp",
@@ -9001,7 +9199,7 @@
                   "quantity_locks": {
                     "items": [
                       {
-                        "class": "quant_platform.backtest.quantity_locks.QuantityLock",
+                        "class": "quant_backtest_core.backtest.quantity_locks.QuantityLock",
                         "fields": {
                           "available_ns": {
                             "type": "integer",
@@ -9085,7 +9283,7 @@
                   "valuation_events": {
                     "items": [
                       {
-                        "class": "quant_platform._portfolio.valuation_events.ValuationEvent",
+                        "class": "quant_backtest_core._minute.valuation_events.ValuationEvent",
                         "fields": {
                           "available_time": {
                             "type": "timestamp",
@@ -9114,14 +9312,14 @@
               }
             }
           },
-          "owner": "platform",
+          "owner": "core",
           "recovered_sha256": "6ffb9af7868c3eb5f8dea019eefd771e9b0793572012ceacf69336bdeb74f6d7",
           "run_sha256": {
-            "baseline": "b27de88e3a3c3e0f0c8416d00f5c9d79e7a110b114934496233a5fe4e5c4623e",
-            "continuation": "9814b7a3b7030558b6ef377334f9c3f48a4b6e99135497101d1ad9d05849da6d"
+            "baseline": "46a24c4e472572a756bfd40d468ec78089a35780f3217fdae98046c915ea09d2",
+            "continuation": "5845a571bd07c598b8da13c105d4911d0c9534fcabb4fe586e63af3445a8b988"
           },
           "source": [
-            "packages/platform/src/quant_platform/backtest/minute_session.py"
+            "core/src/quant_backtest_core/backtest/minute_session.py"
           ],
           "states": [
             {

@@ -51,3 +51,25 @@ Material for MkDocs [announces end of life on May 5, 2027](https://squidfunk.git
 The current locked version matches the sibling project sites. Review the upstream
 successor or another maintained MkDocs-compatible theme before that date. The source
 content remains Markdown and publication uses standard static Pages artifacts.
+
+## Learning site assembly
+
+The same sequence runs for PRs and main; only main publishes. Use a fresh external `TASK_DATA` directory, Node 26.13.0/npm 12.2.2 and the locked `web/package-lock.json`. Install frontend dependencies in an external directory and link its `node_modules` into `web/`; keep Astro generated state outside the repository too. Install the hash-locked `docs/requirements/docs.lock` and `learning.lock` into the docs environment.
+
+```sh
+python -m unittest project_tools.test_site_routes project_tools.test_reference_home project_tools.test_site_assembly project_tools.test_learning_assets -v
+python project_tools/validate_learning_assets.py --manifest docs/assets/learning/manifest.json
+npm --prefix web run check
+npm --prefix web run test:unit
+mkdocs build --strict --site-dir "$TASK_DATA/site-mkdocs"
+python project_tools/check_docs.py --site-dir "$TASK_DATA/site-mkdocs"
+python project_tools/extract_reference_home.py --site-dir "$TASK_DATA/site-mkdocs" --output "$TASK_DATA/reference-home"
+SITE_INPUT_DIR="$TASK_DATA/reference-home" ASTRO_OUT_DIR="$TASK_DATA/site-astro" ASTRO_CACHE_DIR="$TASK_DATA/astro-cache" npm --prefix web run build
+python project_tools/assemble_site.py --mkdocs "$TASK_DATA/site-mkdocs" --astro "$TASK_DATA/site-astro" --learning docs/assets/learning --routes docs/site/route-ownership.json --output "$TASK_DATA/site-assembled"
+python project_tools/check_assembled_site.py --site-dir "$TASK_DATA/site-assembled" --base /quant-backtest-engine/ --legacy docs/site/legacy-route-anchors.json
+SITE_DIR="$TASK_DATA/site-assembled" SITE_BASE=/quant-backtest-engine/ BROWSER_OUTPUT_DIR="$TASK_DATA/browser" npm --prefix web run test:e2e
+```
+
+Install the locked Playwright Chromium browser before the browser gate, or explicitly set `CHROME_EXECUTABLE` to a compatible installed Chrome. The test launcher serves the built artifact on a recorded free loopback port. Search remains scoped to MkDocs technical references. Shared locale preference never redirects a deep link.
+
+The sole deployment owner is `.github/workflows/docs.yml`; it uploads only `site-assembled`. `site-build.json` binds the source revision, source/lock/manifest inputs and delivered file hashes. Original tutorial incorporation retains [PR 19](https://github.com/runchengxie/quant-backtest-engine/pull/19) and commit `4820af3b82940e7697cb8c92154315b1d59ee23d`. No historical rendered homepage is committed.

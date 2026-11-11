@@ -54,3 +54,5 @@ Package 0.2.0, experimental. Upstream 0.66.0. Start with the
 [weight-to-ledger walkthrough](tutorial.md), then review [capabilities and tested
 consumer combinations](capabilities.md), [correctness evidence](correctness.md),
 [measured batch costs](benchmarks.md) and [release instructions](releases.md).
+
+[Learn backtesting step by step](https://runchengxie.github.io/quant-backtest-engine/learn/) · [Recorded event replay](https://runchengxie.github.io/quant-backtest-engine/lab/flow/).

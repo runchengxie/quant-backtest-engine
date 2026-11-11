@@ -1,6 +1,11 @@
 name: Method fixture owner parity
 on:
   workflow_dispatch:
+    inputs:
+      release_archive_url:
+        description: HTTPS ZIP of the exact registered wheels and Rust executable
+        type: string
+        required: true
 permissions:
   contents: read
 jobs:
@@ -8,38 +13,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          repository: runchengxie/quant-platform
-          ref: 7a618bddd8fdeee5dbe37fe5b54a9698e0de5355
-          path: fixture-platform
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          repository: runchengxie/quant-backtest-runtime
-          ref: 01ed4c34f955ef6cd39d13aa073b6d61b610d321
-          path: fixture-runtime
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          repository: runchengxie/quant-backtest-engine
-          ref: c65548a4ee1e938125cce1edbcc282c760c4c8f2
-          path: fixture-engine
       - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
-        with:
-          version: "0.13.7"
-      - uses: dtolnay/rust-toolchain@1.99.1
-      - name: Install optional owner tools from the owner's exact lock
+      - name: Verify exact public release bytes before installation
         env:
-          UV_PROJECT_ENVIRONMENT: ${{ runner.temp }}/method-owner-env
-        run: uv sync --project fixture-platform --locked --no-default-groups --extra microstructure --python 3.13
-      - name: Build recorded Engine provider
+          OWNER_ARCHIVE_URL: ${{ inputs.release_archive_url }}
+        run: |
+          case "$OWNER_ARCHIVE_URL" in https://*) ;; *) exit 2 ;; esac
+          curl --fail --location --proto '=https' --proto-redir '=https' "$OWNER_ARCHIVE_URL" --output "$RUNNER_TEMP/owners.zip"
+          python3 project_tools/unpack_method_owners.py --archive "$RUNNER_TEMP/owners.zip" --output "$RUNNER_TEMP/owners"
+          uv venv --python 3.13 "$RUNNER_TEMP/method-owner-env"
+          uv pip install --python "$RUNNER_TEMP/method-owner-env/bin/python" --no-deps "$RUNNER_TEMP"/owners/*.whl numpy==2.2.6 pandas==3.0.6 scipy==1.18.1 python-dateutil==2.9.0.post0 six==1.17.0 tzdata==2026.2
+      - name: Reexport actual installed owners and compare all fixture bytes
         env:
-          CARGO_TARGET_DIR: ${{ runner.temp }}/method-engine-target
-        run: cargo build --locked --manifest-path fixture-engine/Cargo.toml
-      - name: Reexport actual owners and compare all fixture bytes
-        env:
-          METHOD_OWNER_PARITY: "1"
-          METHOD_PLATFORM: ${{ github.workspace }}/fixture-platform
-          METHOD_RUNTIME: ${{ github.workspace }}/fixture-runtime
+          METHOD_OWNER_PARITY: '1'
           METHOD_PYTHON: ${{ runner.temp }}/method-owner-env/bin/python
-          QUANT_ENGINE_BINARY: ${{ runner.temp }}/method-engine-target/debug/quant-backtest-engine
+          QUANT_ENGINE_BINARY: ${{ runner.temp }}/owners/quant-backtest-engine
         run: python3 -m unittest discover -s project_tools -p test_method_fixtures.py

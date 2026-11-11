@@ -1,0 +1,4 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';import LearningOverview from '../components/LearningOverview.astro';import LegacyOverview from '../components/LegacyOverview.astro';import {home} from '../lib/routes';
+---
+<SiteLayout locale="zh-CN" title="quant-backtest-engine" counterpart={home('en')}><LearningOverview locale="zh-CN"/><LegacyOverview locale="zh-CN"/></SiteLayout>

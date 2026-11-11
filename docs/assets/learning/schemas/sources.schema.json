@@ -1,0 +1,75 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "engine-learning-sources.v1"
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "class": {
+            "enum": [
+              "academic_background",
+              "documented_discussion",
+              "project_interpretation",
+              "implemented_model",
+              "synthetic_execution_evidence",
+              "real_market_calibration"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https://"
+          },
+          "locator": {
+            "type": "string"
+          },
+          "claim": {
+            "type": "string"
+          },
+          "limitations": {
+            "type": "string"
+          },
+          "availability": {
+            "enum": [
+              "available",
+              "unavailable"
+            ]
+          },
+          "revision": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "id",
+          "class",
+          "title",
+          "url",
+          "locator",
+          "claim",
+          "limitations",
+          "availability"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "records"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

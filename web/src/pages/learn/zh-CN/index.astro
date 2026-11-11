@@ -1,0 +1,4 @@
+---
+import SiteLayout from '../../../layouts/SiteLayout.astro';import LearningOverview from '../../../components/LearningOverview.astro';import {route} from '../../../lib/routes';
+---
+<SiteLayout locale="zh-CN" title="学习" counterpart={route('learn','en')}><LearningOverview locale="zh-CN"/></SiteLayout>

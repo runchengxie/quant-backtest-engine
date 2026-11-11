@@ -1,0 +1,167 @@
+{
+  "catalogs": {
+    "en": {
+      "sha256": "4a34b36eb034161b47b636acd11a964ecb5b655d7f39ab8517961c089ca09fb6",
+      "url": "assets/learning/catalogs/en.json"
+    },
+    "zh-CN": {
+      "sha256": "08bb091675b7b2e3243cf37a9f636cda24d2325ab13936a6bbcfe6b52f774565",
+      "url": "assets/learning/catalogs/zh-CN.json"
+    }
+  },
+  "exporter_sources": {
+    "project_tools/method_action_case.py": "87dc420f939fd04f16bccfc0873cb70d99ec20b7d1b7f87f31176267b2cbcf05",
+    "project_tools/method_fixture_common.py": "2aa9362a85096a4babf316e3deea08c2edf742a9d30c64e4a105a1a4c77afe8b",
+    "project_tools/method_market_cases.py": "562c6af472439f85f83d80662c7fab051ae2a9feb4fc3817659270612235f667",
+    "project_tools/method_owner_calls.py": "3ac2e4d33cf766e6d80bc94667ea2a45efaff01233f8d088a8b29dda1ee6a659",
+    "project_tools/method_risk_case.py": "73fb513b59cced264616ae0f0dc46a8528ea4626b12edac1c87b704321ef3a09",
+    "project_tools/method_session_cases.py": "848501aff7c5b9126a703eae6e762ff8c5f45ce83f35da27d42bf8c61d87f54c"
+  },
+  "fixture": {
+    "sha256": "5aafbc286e408ff8009266589a13852ef2ad491be762a229a1d6f87dd83e9615",
+    "url": "assets/method/fixtures.json"
+  },
+  "preset_grid": {
+    "sha256": "f1e0460b456cdd07e6b2d41e36b88072f6d205f23ad6c64477b7c79144c480b3",
+    "url": "assets/learning/preset-grid.json"
+  },
+  "provider_revisions": {
+    "core": "ad0895f1c2015eb31bd364b40741b0f7cd6e0048",
+    "engine": "ad0895f1c2015eb31bd364b40741b0f7cd6e0048",
+    "platform": "c211d36167acf7a81fd0c034beb14317e2036b7e",
+    "runtime": "01ed4c34f955ef6cd39d13aa073b6d61b610d321"
+  },
+  "schema": "engine-learning-manifest.v1",
+  "sources": {
+    "sha256": "20ae8ba9dd8ef50089a0f455a2b5dff914c10d372e2b432d143caae8418ba1ac",
+    "url": "assets/learning/sources.json"
+  },
+  "traces": [
+    {
+      "preset_id": "roundtrip",
+      "scene_id": "flow",
+      "sha256": "03e1b02588937834d1ff84cc25154db3d1439a605823cc27bcbe64fb479d4124",
+      "url": "assets/learning/traces/flow/roundtrip.json"
+    },
+    {
+      "preset_id": "depth",
+      "scene_id": "book",
+      "sha256": "3047b8eb33cd7c3aa90d7afe5cd6f7f69347efe4d193d7fc3ff2ad3ffa61e47c",
+      "url": "assets/learning/traces/book/depth.json"
+    },
+    {
+      "preset_id": "small",
+      "scene_id": "impact",
+      "sha256": "78f361529f44638283ff2471b9c597404ac6a271a38f3bbf65b8d8911d3f7345",
+      "url": "assets/learning/traces/impact/small.json"
+    },
+    {
+      "preset_id": "large",
+      "scene_id": "impact",
+      "sha256": "298e2617bfaf0923f33105a5dd53d9d29f1f0a1259b269fd4042ec76befe3cd0",
+      "url": "assets/learning/traces/impact/large.json"
+    },
+    {
+      "preset_id": "nondecaying",
+      "scene_id": "impact",
+      "sha256": "1ecc1205c5591ea0501c4b82fadbcafd385c8a0659922741cf1df3fcb2949fb3",
+      "url": "assets/learning/traces/impact/nondecaying.json"
+    },
+    {
+      "preset_id": "close",
+      "scene_id": "impact",
+      "sha256": "7d7010613d1b0fef8252e11b7bd09a594f2d6198e35b982b78ac18550b0e857d",
+      "url": "assets/learning/traces/impact/close.json"
+    },
+    {
+      "preset_id": "once",
+      "scene_id": "cost",
+      "sha256": "53f1ba0d6cc09cb6c856ba8172c94a3920681b1f8713614fee52ae28492140cd",
+      "url": "assets/learning/traces/cost/once.json"
+    },
+    {
+      "preset_id": "no-minimum",
+      "scene_id": "lots",
+      "sha256": "3eac3dac31ec1d7900ec757d427d6ad3b701580a11c12452c622cca9d5f1906d",
+      "url": "assets/learning/traces/lots/no-minimum.json"
+    },
+    {
+      "preset_id": "minimum",
+      "scene_id": "lots",
+      "sha256": "3a8a87fb25a3f58390505563fcd5785ba54029c1852dd388feae3a10d0b212ce",
+      "url": "assets/learning/traces/lots/minimum.json"
+    },
+    {
+      "preset_id": "grid",
+      "scene_id": "lots",
+      "sha256": "fc141e652de460e1ec1746f07cd81bcdf39f4e798a1c61e25bd46de940f611ba",
+      "url": "assets/learning/traces/lots/grid.json"
+    },
+    {
+      "preset_id": "thin",
+      "scene_id": "paths",
+      "sha256": "7c065fec78292cf3491ee1218238eb90a7b6fb9f2c58517f142b2471272b4e54",
+      "url": "assets/learning/traces/paths/thin.json"
+    },
+    {
+      "preset_id": "deep",
+      "scene_id": "paths",
+      "sha256": "cdbe73ecbc2c295fd80e71cc5c1cda54c94b64d88405b6deebbc5cc01fd181b0",
+      "url": "assets/learning/traces/paths/deep.json"
+    },
+    {
+      "preset_id": "market-up",
+      "scene_id": "paths",
+      "sha256": "cf171d5e81ee6b561746d3d126f4f2627ca0dfe92b7184594b55bca929059c47",
+      "url": "assets/learning/traces/paths/market-up.json"
+    },
+    {
+      "preset_id": "feedback",
+      "scene_id": "paths",
+      "sha256": "a53f9c4f25e26dbe207fcee13af92b9b3b8a23098b9cf30eb94ae09b02c42f94",
+      "url": "assets/learning/traces/paths/feedback.json"
+    },
+    {
+      "preset_id": "null-search",
+      "scene_id": "selection",
+      "sha256": "a904c7e628f15312682a2e3249a7b71cbbd99f4ba03b42e39ac7f63e81b7146c",
+      "url": "assets/learning/traces/selection/null-search.json"
+    },
+    {
+      "preset_id": "recovery",
+      "scene_id": "risk",
+      "sha256": "4071b07b7ab27877ebd09cc18ab8a2a3951eee086e2530ad91fd0d7d2e1ea7aa",
+      "url": "assets/learning/traces/risk/recovery.json"
+    },
+    {
+      "preset_id": "shared",
+      "scene_id": "risk",
+      "sha256": "820f8c684a589cde2d68113e93cbeab87ea40c5a2192698da9565c9e75a062e4",
+      "url": "assets/learning/traces/risk/shared.json"
+    },
+    {
+      "preset_id": "residual",
+      "scene_id": "risk",
+      "sha256": "8dc4faf31b0635926e1dc1640525c0bbf9915d851a03484f5ff7a2bbe45e57eb",
+      "url": "assets/learning/traces/risk/residual.json"
+    },
+    {
+      "preset_id": "actions",
+      "scene_id": "risk",
+      "sha256": "fcaed3254c5c985ddba31787f83fb3caae65a3992b23a6ff5b5497e18ac30136",
+      "url": "assets/learning/traces/risk/actions.json"
+    },
+    {
+      "preset_id": "risk-full",
+      "scene_id": "risk",
+      "sha256": "ff5bb534b5a4e77ea90c409bce84a5687d7b186678fe3240b58f6bc5f6cca09d",
+      "url": "assets/learning/traces/risk/risk-full.json"
+    },
+    {
+      "preset_id": "risk-missing",
+      "scene_id": "risk",
+      "sha256": "de4e63715afe5dbffa55959fddb079bb1e33f73617502cd56ec0b24ce7d8cef4",
+      "url": "assets/learning/traces/risk/risk-missing.json"
+    }
+  ]
+}

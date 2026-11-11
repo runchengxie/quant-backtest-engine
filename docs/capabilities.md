@@ -96,3 +96,5 @@ declared synthetic bar-close convention, not observed arrival. Raw minute and Ru
 guards remain unchanged; no backend inherits the union of Python leaf capabilities.
 See the [complete backend matrix](product/backends.md#provider-b-capability-matrix),
 [scenario example](product/scenarios.md) and [planner example](concepts/impact-planning.md#installed-planner-example).
+
+The learning frontend replays 21 fixed synthetic presets across eight topics. It adds no execution backend, market calibration or browser financial calculation. Recorded solver evidence covers the bounded grid; continuous solver iterates remain unavailable.

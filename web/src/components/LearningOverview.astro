@@ -1,0 +1,4 @@
+---
+import {catalog,traces} from '../lib/data';import {scenes,route} from '../lib/routes';const {locale}=Astro.props;const c=catalog(locale);
+---
+<section class="learning-hero"><p class="learning-kicker">quant-backtest-engine</p><h1 id="product-learning">{c['learning.title']}</h1><p>{c['learning.intro']}</p></section><div class="learning-cards">{scenes.map(scene=><article><h2><a href={route('learn',locale,scene)}>{c['learning.title.'+scene]}</a></h2><p>{c['boundary.'+scene]}</p><p>{c['learning.sourceClass']}</p><p>{c['learning.synthetic']}</p><p>{c['learning.presetCount']}: {traces(scene).length}</p><p>{c['learning.question']}</p><a href={route('lab',locale,scene)}>{c['learning.lab']} →</a></article>)}</div>

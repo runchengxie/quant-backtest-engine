@@ -17,12 +17,12 @@ from method_fixture_common import (
 
 
 def build_session_cases(shared_case):
-    from quant_platform.backtest.impact import LinearImpact
-    from quant_platform.backtest.minute import (
+    from quant_backtest_core.backtest.impact import LinearImpact
+    from quant_backtest_core.backtest.minute import (
         MinuteExecutionConfig,
     )
-    from quant_platform.backtest.quantity_locks import QuantityLock
-    from quant_platform.portfolio.sleeve_allocation import (
+    from quant_backtest_core.backtest.quantity_locks import QuantityLock
+    from quant_backtest_core.planning.sleeve_allocation import (
         SleeveDemand,
     )
 
@@ -66,7 +66,7 @@ def build_session_cases(shared_case):
                 ident,
                 rows,
                 {"runs": {"execution": run}},
-                ["packages/platform/src/quant_platform/backtest/minute.py"],
+                ["core/src/quant_backtest_core/backtest/minute.py"],
                 forecast_sha256=digest(records(t)),
                 market_sha256=digest(records(b)),
                 fills=records(delivered.fills),
@@ -109,6 +109,7 @@ def build_session_cases(shared_case):
                     "packages/platform/src/quant_platform/scenarios.py",
                     "project_tools/method_session_cases.py",
                 ],
+                owner_name="platform",
                 truth=null.truth,
                 scope="finite teaching enumeration only; no PBO/CSCV or real out-of-sample claim",
             )
@@ -169,7 +170,7 @@ def build_session_cases(shared_case):
             "runs": {"session": session_run},
             "restore_boundaries": restore_boundaries,
         },
-        ["packages/platform/src/quant_platform/backtest/minute_session.py"],
+        ["core/src/quant_backtest_core/backtest/minute_session.py"],
         uninterrupted_sha256=digest(expected_wire),
         recovered_sha256=digest(recovered_wire),
         decision_reports=full.policy.rows,
@@ -213,7 +214,7 @@ def build_session_cases(shared_case):
                 "allocation": allocation,
             }
         },
-        ["packages/platform/src/quant_platform/portfolio/sleeve_allocation.py"],
+        ["core/src/quant_backtest_core/planning/sleeve_allocation.py"],
         allocation=wire(allocated),
         external_orders=wire(plan.external_orders),
     )
@@ -270,8 +271,8 @@ def build_session_cases(shared_case):
         exits,
         {"runs": {"session": exit_run, "wealth": wealth_run}},
         [
-            "packages/platform/src/quant_platform/analytics/execution_integrity.py",
-            "packages/platform/src/quant_platform/backtest/minute_session.py",
+            "core/src/quant_backtest_core/evidence/execution_integrity.py",
+            "core/src/quant_backtest_core/backtest/minute_session.py",
         ],
         exit_wealth=wire(wealth),
         fills=records(exit_result.fills),

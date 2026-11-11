@@ -1,0 +1,944 @@
+{
+  "bindings": {
+    "calls": {
+      "audit": {
+        "digest_pointer": "/scenes/risk/scenarios/5/run_sha256/audit",
+        "input_pointer": "/scenes/risk/scenarios/5/inputs/runs/audit",
+        "owner_id": "platform",
+        "source_ids": [
+          "owner-platform",
+          "exporter"
+        ]
+      }
+    },
+    "config_sha256": "f0ea3556fb60b249cebeab4763462ca3f941e2fb926e7b1c6de264c70618aed3",
+    "input_sha256": "f0ea3556fb60b249cebeab4763462ca3f941e2fb926e7b1c6de264c70618aed3",
+    "run_bindings_pointer": "/scenes/risk/scenarios/5/run_sha256",
+    "run_bindings_reason_key": null,
+    "run_bindings_status": "available",
+    "run_sha256": {
+      "audit": "47ef4d7f32462f99be0cf719f5e31883a7bb6a351ba9501b52e35dcce267dacb"
+    }
+  },
+  "calibration": "synthetic_only",
+  "clock_semantics": {
+    "decision": "strictly prior eligible information",
+    "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
+    "report": "receipt clock; may lag economic fill"
+  },
+  "currency": "CNY",
+  "events": [
+    {
+      "clock": {
+        "kind": "iso_datetime",
+        "timezone": "UTC",
+        "value": "2026-01-01T00:00:00+00:00"
+      },
+      "depends_on": [],
+      "event_id": "risk.risk-missing.0",
+      "ordinal": 0,
+      "source_pointers": {
+        "clock": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/risk/scenarios/5/states/0/clock"
+        },
+        "paired": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/states/0/paired"
+        },
+        "phase": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/risk/scenarios/5/states/0/phase"
+        },
+        "predicted_variance": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/states/0/predicted_variance"
+        },
+        "realized_squared_residual": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/states/0/realized_squared_residual"
+        }
+      },
+      "stage": "risk",
+      "values": {
+        "clock": "2026-01-01T00:00:00+00:00",
+        "paired": true,
+        "phase": "risk",
+        "predicted_variance": "1",
+        "realized_squared_residual": "1"
+      }
+    },
+    {
+      "clock": {
+        "kind": "iso_datetime",
+        "timezone": "UTC",
+        "value": "2026-01-02T00:00:00+00:00"
+      },
+      "depends_on": [],
+      "event_id": "risk.risk-missing.1",
+      "ordinal": 1,
+      "source_pointers": {
+        "clock": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/risk/scenarios/5/states/1/clock"
+        },
+        "paired": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/states/1/paired"
+        },
+        "phase": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/risk/scenarios/5/states/1/phase"
+        },
+        "predicted_variance": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/states/1/predicted_variance"
+        },
+        "realized_squared_residual": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/states/1/realized_squared_residual"
+        }
+      },
+      "stage": "risk",
+      "values": {
+        "clock": "2026-01-02T00:00:00+00:00",
+        "paired": true,
+        "phase": "risk",
+        "predicted_variance": "1",
+        "realized_squared_residual": "9"
+      }
+    },
+    {
+      "clock": {
+        "kind": "iso_datetime",
+        "timezone": "UTC",
+        "value": "2026-01-03T00:00:00+00:00"
+      },
+      "depends_on": [],
+      "event_id": "risk.risk-missing.2",
+      "ordinal": 2,
+      "source_pointers": {
+        "clock": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/risk/scenarios/5/states/2/clock"
+        },
+        "paired": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/states/2/paired"
+        },
+        "phase": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/risk/scenarios/5/states/2/phase"
+        },
+        "predicted_variance": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/states/2/predicted_variance"
+        },
+        "realized_squared_residual": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/states/2/realized_squared_residual"
+        }
+      },
+      "stage": "risk",
+      "values": {
+        "clock": "2026-01-03T00:00:00+00:00",
+        "paired": false,
+        "phase": "risk",
+        "predicted_variance": "4",
+        "realized_squared_residual": null
+      }
+    },
+    {
+      "clock": {
+        "kind": "iso_datetime",
+        "timezone": "UTC",
+        "value": "2026-01-04T00:00:00+00:00"
+      },
+      "depends_on": [],
+      "event_id": "risk.risk-missing.3",
+      "ordinal": 3,
+      "source_pointers": {
+        "clock": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/risk/scenarios/5/states/3/clock"
+        },
+        "paired": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/states/3/paired"
+        },
+        "phase": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/risk/scenarios/5/states/3/phase"
+        },
+        "predicted_variance": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/states/3/predicted_variance"
+        },
+        "realized_squared_residual": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/states/3/realized_squared_residual"
+        }
+      },
+      "stage": "risk",
+      "values": {
+        "clock": "2026-01-04T00:00:00+00:00",
+        "paired": false,
+        "phase": "risk",
+        "predicted_variance": "4",
+        "realized_squared_residual": null
+      }
+    },
+    {
+      "clock": {
+        "kind": "iso_datetime",
+        "timezone": "UTC",
+        "value": "2026-03-01T00:00:00+00:00"
+      },
+      "depends_on": [],
+      "event_id": "risk.risk-missing.4",
+      "ordinal": 4,
+      "source_pointers": {
+        "clock": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/risk/scenarios/5/states/4/clock"
+        },
+        "coverage": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/states/4/coverage"
+        },
+        "phase": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/risk/scenarios/5/states/4/phase"
+        },
+        "predicted_variance": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/states/4/predicted_variance"
+        },
+        "realized_squared_residual": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/states/4/realized_squared_residual"
+        },
+        "variance_ratio": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/states/4/variance_ratio"
+        }
+      },
+      "stage": "missing",
+      "values": {
+        "clock": "2026-03-01T00:00:00+00:00",
+        "coverage": "0",
+        "phase": "missing",
+        "predicted_variance": null,
+        "realized_squared_residual": null,
+        "variance_ratio": null
+      }
+    }
+  ],
+  "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+  "exporter_sources": {
+    "project_tools/method_action_case.py": "87dc420f939fd04f16bccfc0873cb70d99ec20b7d1b7f87f31176267b2cbcf05",
+    "project_tools/method_fixture_common.py": "2aa9362a85096a4babf316e3deea08c2edf742a9d30c64e4a105a1a4c77afe8b",
+    "project_tools/method_market_cases.py": "562c6af472439f85f83d80662c7fab051ae2a9feb4fc3817659270612235f667",
+    "project_tools/method_owner_calls.py": "3ac2e4d33cf766e6d80bc94667ea2a45efaff01233f8d088a8b29dda1ee6a659",
+    "project_tools/method_risk_case.py": "73fb513b59cced264616ae0f0dc46a8528ea4626b12edac1c87b704321ef3a09",
+    "project_tools/method_session_cases.py": "848501aff7c5b9126a703eae6e762ff8c5f45ce83f35da27d42bf8c61d87f54c"
+  },
+  "policy_mode": "not_applicable",
+  "preset_id": "risk-missing",
+  "provider": {
+    "backend_id": "python",
+    "dependency_sha256": "2cbcad4753a801aec4e8887c036fc857583e026b65534e5d1f2be3a21029206a",
+    "id": "platform",
+    "revision": "c211d36167acf7a81fd0c034beb14317e2036b7e",
+    "source_sha256": {
+      "quant_platform": "53b5a1258fddf5b3142a7d52b34559561149b046909101c18fa54f09c9f16ea0",
+      "quant_platform.analytics": "5fa87fb988a88c435f622e112fb151a26b889f3bc691b529e54ae9c3f879e660",
+      "quant_platform.analytics.risk_calibration": "f382e9109d41262c27cea80992764c92cf2cf562b60a6e47d409130653bcbc1d",
+      "quant_platform.publication": "d07a653bb1b949f8cc628cf5106e34a7cd6c9b705879820ae864df79122f2bdc",
+      "quant_platform.scenarios": "d2cf66162af85a37bb724746ef270a05391d3abf1b33be3776d306e0e7784399",
+      "quant_platform.temporal_validation": "3bc5624bab04ce7eb6b8de325efc7e5f9ecaf310eb24a21b7235dc0b10bb4a9f"
+    },
+    "url": "https://github.com/runchengxie/quant-platform/tree/c211d36167acf7a81fd0c034beb14317e2036b7e",
+    "version": "0.3.0"
+  },
+  "scene_id": "risk",
+  "schema": "engine-learning-trace.v1",
+  "seed": null,
+  "source_ids": [
+    "owner-platform",
+    "exporter"
+  ],
+  "tables": [
+    {
+      "id": "summary",
+      "reason_key": null,
+      "rows": [
+        {
+          "coverage": "0.5",
+          "distinct_target_intervals": "2",
+          "exposure_observations": "0",
+          "forecasts": "4",
+          "horizon_ns": "86400000000000",
+          "interval_coverage": null,
+          "interval_covered": null,
+          "interval_observations": "0",
+          "nonoverlapping_target_intervals": "2",
+          "paired_observations": "2",
+          "predicted_variance": "1",
+          "realized_squared_residual": "5",
+          "sample_status": "insufficient_target_intervals",
+          "tail_observations": "2",
+          "two_sigma_exceedances": "1",
+          "two_sigma_rate": "0.5",
+          "unit": "return_bps",
+          "variance_ratio": "5",
+          "zero_variance_nonzero_residuals": "0"
+        }
+      ],
+      "run_binding_status": "available",
+      "run_names": [
+        "audit"
+      ],
+      "source_pointer": "/scenes/risk/scenarios/5/summary",
+      "value_sources": {
+        "/rows/0/coverage": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/summary/0/coverage"
+        },
+        "/rows/0/distinct_target_intervals": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/summary/0/distinct_target_intervals"
+        },
+        "/rows/0/exposure_observations": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/summary/0/exposure_observations"
+        },
+        "/rows/0/forecasts": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/summary/0/forecasts"
+        },
+        "/rows/0/horizon_ns": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/summary/0/horizon_ns"
+        },
+        "/rows/0/interval_coverage": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/summary/0/interval_coverage"
+        },
+        "/rows/0/interval_covered": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/summary/0/interval_covered"
+        },
+        "/rows/0/interval_observations": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/summary/0/interval_observations"
+        },
+        "/rows/0/nonoverlapping_target_intervals": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/summary/0/nonoverlapping_target_intervals"
+        },
+        "/rows/0/paired_observations": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/summary/0/paired_observations"
+        },
+        "/rows/0/predicted_variance": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/summary/0/predicted_variance"
+        },
+        "/rows/0/realized_squared_residual": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/summary/0/realized_squared_residual"
+        },
+        "/rows/0/sample_status": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/summary/0/sample_status"
+        },
+        "/rows/0/tail_observations": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/summary/0/tail_observations"
+        },
+        "/rows/0/two_sigma_exceedances": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/summary/0/two_sigma_exceedances"
+        },
+        "/rows/0/two_sigma_rate": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/summary/0/two_sigma_rate"
+        },
+        "/rows/0/unit": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/summary/0/unit"
+        },
+        "/rows/0/variance_ratio": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/summary/0/variance_ratio"
+        },
+        "/rows/0/zero_variance_nonzero_residuals": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/summary/0/zero_variance_nonzero_residuals"
+        }
+      }
+    },
+    {
+      "id": "cohorts",
+      "reason_key": null,
+      "rows": [
+        {
+          "coverage": "0",
+          "distinct_target_intervals": "0",
+          "exposure_observations": "0",
+          "forecasts": "2",
+          "horizon_ns": "86400000000000",
+          "interval_coverage": null,
+          "interval_covered": null,
+          "interval_observations": "0",
+          "liquidity": "illiquid",
+          "nonoverlapping_target_intervals": "0",
+          "paired_observations": "0",
+          "predicted_variance": null,
+          "realized_squared_residual": null,
+          "regime": "high",
+          "sample_status": "insufficient_target_intervals",
+          "tail_observations": "0",
+          "two_sigma_exceedances": null,
+          "two_sigma_rate": null,
+          "unit": "return_bps",
+          "variance_ratio": null,
+          "zero_variance_nonzero_residuals": "0"
+        },
+        {
+          "coverage": "1",
+          "distinct_target_intervals": "2",
+          "exposure_observations": "0",
+          "forecasts": "2",
+          "horizon_ns": "86400000000000",
+          "interval_coverage": null,
+          "interval_covered": null,
+          "interval_observations": "0",
+          "liquidity": "liquid",
+          "nonoverlapping_target_intervals": "2",
+          "paired_observations": "2",
+          "predicted_variance": "1",
+          "realized_squared_residual": "5",
+          "regime": "low",
+          "sample_status": "insufficient_target_intervals",
+          "tail_observations": "2",
+          "two_sigma_exceedances": "1",
+          "two_sigma_rate": "0.5",
+          "unit": "return_bps",
+          "variance_ratio": "5",
+          "zero_variance_nonzero_residuals": "0"
+        }
+      ],
+      "run_binding_status": "available",
+      "run_names": [
+        "audit"
+      ],
+      "source_pointer": "/scenes/risk/scenarios/5/cohorts",
+      "value_sources": {
+        "/rows/0/coverage": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/0/coverage"
+        },
+        "/rows/0/distinct_target_intervals": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/0/distinct_target_intervals"
+        },
+        "/rows/0/exposure_observations": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/0/exposure_observations"
+        },
+        "/rows/0/forecasts": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/0/forecasts"
+        },
+        "/rows/0/horizon_ns": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/0/horizon_ns"
+        },
+        "/rows/0/interval_coverage": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/0/interval_coverage"
+        },
+        "/rows/0/interval_covered": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/0/interval_covered"
+        },
+        "/rows/0/interval_observations": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/0/interval_observations"
+        },
+        "/rows/0/liquidity": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/0/liquidity"
+        },
+        "/rows/0/nonoverlapping_target_intervals": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/0/nonoverlapping_target_intervals"
+        },
+        "/rows/0/paired_observations": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/0/paired_observations"
+        },
+        "/rows/0/predicted_variance": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/0/predicted_variance"
+        },
+        "/rows/0/realized_squared_residual": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/0/realized_squared_residual"
+        },
+        "/rows/0/regime": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/0/regime"
+        },
+        "/rows/0/sample_status": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/0/sample_status"
+        },
+        "/rows/0/tail_observations": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/0/tail_observations"
+        },
+        "/rows/0/two_sigma_exceedances": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/0/two_sigma_exceedances"
+        },
+        "/rows/0/two_sigma_rate": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/0/two_sigma_rate"
+        },
+        "/rows/0/unit": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/0/unit"
+        },
+        "/rows/0/variance_ratio": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/0/variance_ratio"
+        },
+        "/rows/0/zero_variance_nonzero_residuals": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/0/zero_variance_nonzero_residuals"
+        },
+        "/rows/1/coverage": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/1/coverage"
+        },
+        "/rows/1/distinct_target_intervals": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/1/distinct_target_intervals"
+        },
+        "/rows/1/exposure_observations": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/1/exposure_observations"
+        },
+        "/rows/1/forecasts": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/1/forecasts"
+        },
+        "/rows/1/horizon_ns": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/1/horizon_ns"
+        },
+        "/rows/1/interval_coverage": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/1/interval_coverage"
+        },
+        "/rows/1/interval_covered": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/1/interval_covered"
+        },
+        "/rows/1/interval_observations": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/1/interval_observations"
+        },
+        "/rows/1/liquidity": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/1/liquidity"
+        },
+        "/rows/1/nonoverlapping_target_intervals": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/1/nonoverlapping_target_intervals"
+        },
+        "/rows/1/paired_observations": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/1/paired_observations"
+        },
+        "/rows/1/predicted_variance": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/1/predicted_variance"
+        },
+        "/rows/1/realized_squared_residual": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/1/realized_squared_residual"
+        },
+        "/rows/1/regime": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/1/regime"
+        },
+        "/rows/1/sample_status": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/1/sample_status"
+        },
+        "/rows/1/tail_observations": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/1/tail_observations"
+        },
+        "/rows/1/two_sigma_exceedances": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/1/two_sigma_exceedances"
+        },
+        "/rows/1/two_sigma_rate": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/1/two_sigma_rate"
+        },
+        "/rows/1/unit": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/1/unit"
+        },
+        "/rows/1/variance_ratio": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/1/variance_ratio"
+        },
+        "/rows/1/zero_variance_nonzero_residuals": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "audit"
+          ],
+          "source_pointer": "/scenes/risk/scenarios/5/cohorts/1/zero_variance_nonzero_residuals"
+        }
+      }
+    }
+  ],
+  "units": {
+    "coverage": "paired rows / forecast rows",
+    "money": "CNY",
+    "variance": "squared basis points over one-day target interval",
+    "variance_ratio": "dimensionless"
+  }
+}

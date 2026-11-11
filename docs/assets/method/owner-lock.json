@@ -1,0 +1,25 @@
+{
+  "schema": "engine-method-owner-lock.v1",
+  "wheels": {
+    "quant_backtest_engine_client-0.3.0-py3-none-any.whl": "bd76083d03b9d2167444f6c9ce89b4d81e874896cdfc9b71e20b7c5698aa129d",
+    "quant_backtest_core-0.3.0-py3-none-any.whl": "bbe8cb964c334e9920ec93f6b1244e2cdf74fdf9c9c98ead510b251947e50780",
+    "research_contracts-0.1.0-py3-none-any.whl": "d5e24d9bdaff130be20c105314a161fec8d38c617b95484db5da341a63691b86",
+    "quant_platform-0.3.0-py3-none-any.whl": "bb52e98e614a53afef3f2609ebd41475fe8c61ee6e7b32e34af89abd311e9b79",
+    "quant_microstructure_core-0.1.0-cp312-abi3-linux_x86_64.whl": "4a2284fd39c5ccaeed8e8399688b643948e3f14150d61faa58e5952d02884c70"
+  },
+  "dependencies": {
+    "numpy": "2.2.6",
+    "pandas": "3.0.6",
+    "scipy": "1.18.1",
+    "python-dateutil": "2.9.0.post0",
+    "six": "1.17.0",
+    "tzdata": "2026.2"
+  },
+  "rust_sha256": "e168da9c9dc253fc01e0fe82935340141eb0ee70acfd372162ce2be97d1f1cf4",
+  "provider_revisions": {
+    "engine": "ad0895f1c2015eb31bd364b40741b0f7cd6e0048",
+    "core": "ad0895f1c2015eb31bd364b40741b0f7cd6e0048",
+    "platform": "c211d36167acf7a81fd0c034beb14317e2036b7e",
+    "runtime": "01ed4c34f955ef6cd39d13aa073b6d61b610d321"
+  }
+}

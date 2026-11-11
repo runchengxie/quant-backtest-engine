@@ -4,7 +4,7 @@
 
 预测要变成收益，先得有钱下单，订单还得成交。成交后的现金和持仓，又会影响下一次决策。净值曲线把这些过程压成了一个数字。下面从一笔订单开始，顺着实际股数和现金看下去，再逐项改变执行条件。
 
-这里的例子来自各场景旁链接的公开实现，输入全部是合成数据。较完整的执行、冲击和优化功能属于 Python Platform，Rust Engine 的能力范围另有明确契约。真实盘口校准、历史集合竞价排队和未来业绩仍没有得到这些例子的验证。
+这里的例子来自各场景旁链接的公开实现，输入全部是合成数据。可选 Python Engine Core 现在负责执行、冲击和有限域规划；Platform 保留无信号教学生成器和描述性风险分析，Rust 示例另有明确契约。[原 PR 19](https://github.com/runchengxie/quant-backtest-engine/pull/19) 的历史和来源署名仍保留，当前 fixture 已由合并后的提供方重新导出，经济输出没有变化。真实盘口校准、历史集合竞价排队和未来业绩仍没有得到这些例子的验证。
 
 关闭 JavaScript 也能读到全部数值表。点击**播放**后画面才会推进，也可以用**下一步**逐个事件查看。情境选项对应事先由原实现算好的结果，浏览器不撮合订单，不重算金融模型。表格保留实现输出的金额精度，较长的小数并不代表经济测量更准确。
 
@@ -35,7 +35,7 @@
 <!-- method:book -->
 
 ??? details "价差、深度与证据范围"
-    初始买卖价差为 `101 − 99 = 2`。价格单位是每股合成货币单位，时钟为经过的毫秒数。成交由 Python Platform 的 ticknet 价格时间优先撮合器生成。这个示意没有重建历史排队，也没有推断隐藏流动性或实现集合竞价优先级。部分成交后仍有未完成数量，期末估值不会替它补上一笔成交。
+    初始买卖价差为 `101 − 99 = 2`。价格单位是每股合成货币单位，时钟为经过的毫秒数。成交由 迁入 Engine Core 的价格时间优先撮合器生成。这个示意没有重建历史排队，也没有推断隐藏流动性或实现集合竞价优先级。部分成交后仍有未完成数量，期末估值不会替它补上一笔成交。
 
 ## 3. 成交之后还会留下什么
 
@@ -43,7 +43,7 @@
 
 先把未受自身交易影响的价格固定在10。基准情境中，买入100股会让暂时偏移增加0.2。成交价的平均偏移为0.1，因为实现把本笔订单新增偏移的一半计入成交价。经过60秒，剩余暂时偏移约为0.0735758882。下一笔买单到来时，会遇到这个尚未消退的状态。
 
-可以分别比较更大的订单、更近的间隔，以及明确不衰减的压力假设。页面只提供已经算好的离散选项，这些参数没有经过市场校准。基准中的不衰减项为零，非零情境用来检查结果对该假设有多敏感。
+large 预设同时改变数量（100 股变为 200 股）和间隔（60 秒变为 120 秒）；可将这一组合变化与更近间隔、明确不衰减的压力预设比较。页面只提供已经算好的离散选项，这些参数没有经过市场校准。基准中的不衰减项为零，非零情境用来检查结果对该假设有多敏感。
 
 <!-- method:impact -->
 
@@ -110,7 +110,7 @@
 
 **交易限制和未结状态要继续保留，估值财富也要与可变现现金分开。**
 
-恢复选项在 Python Platform 会话的每个未结束事件边界中断，从检查点恢复，再把财务表与连续运行的结果比较。报告延迟时，策略可能还没看到已经发生的经济成交。会话保留这部分未结状态，防止重复提交。画面回放的是已经核对过的结果，没有现场杀死一个进程。
+恢复选项在 Python Engine Core 会话的每个未结束事件边界中断，从检查点恢复，再把财务表与连续运行的结果比较。报告延迟时，策略可能还没看到已经发生的经济成交。会话保留这部分未结状态，防止重复提交。画面回放的是已经核对过的结果，没有现场杀死一个进程。
 
 共享流动性选项把两个各买500股的请求合成一笔1,000股外部订单。一个行情区间只允许成交100股，分配器消费这一笔实际成交和费用。即使同一成交记录提供两遍，也只结算一次。本例采用确定的优先顺序，第一个子组合分到100股，第二个为零。每个子组合不会再获得一套独立的成交容量。
 
@@ -123,14 +123,14 @@
 <!-- method:risk -->
 
 ??? details "进程恢复另有验收证据"
-    这些画面验证 Platform 的财务状态恢复，包括延迟可见性。Runtime 负责进程监督和持久化任务恢复，其[财务会话文档](https://github.com/runchengxie/quant-backtest-runtime/blob/01ed4c34f955ef6cd39d13aa073b6d61b610d321/docs/financial-sessions.md)提供独立证据。浏览器回放没有复现那项进程中断验收。检查点哈希绑定输入与所加载代码，可以发现意外修改，不能抵御恶意作者篡改。
+    这些画面验证 Engine Core 的财务状态恢复，包括延迟可见性。Runtime 负责进程监督和持久化任务恢复，其[财务会话文档](https://github.com/runchengxie/quant-backtest-runtime/blob/01ed4c34f955ef6cd39d13aa073b6d61b610d321/docs/financial-sessions.md)提供独立证据。浏览器回放没有复现那项进程中断验收。检查点哈希绑定输入与所加载代码，可以发现意外修改，不能抵御恶意作者篡改。
 
 ## 证据范围与复现入口
 
 | 组件 | 本页检查了什么 | 证据仍未覆盖什么 |
 | --- | --- | --- |
 | Rust Engine | 合成报价成交、费用与最终余额 | Python 冲击模型、离散优化器和分钟策略不属于 Rust 能力 |
-| Python Platform | 合成盘口撮合、冲击状态、费用与整股约束、独立账户、反馈、分配和财务恢复 | 真实市场校准、历史排队重建、实际清仓和未来盈利 |
+| Python Engine Core | 合成盘口撮合、冲击状态、费用与整股约束、独立账户、反馈、分配和财务恢复 | 真实市场校准、历史排队重建、实际清仓和未来盈利 |
 | Runtime | 链接到已合并的公开进程恢复验收 | 动画本身没有启动或终止工作进程 |
 | 教学选择搜索 | 固定无信号样例中的全部六个组合 | PBO/CSCV、一般误报控制和真实样本外证据 |
 
@@ -138,16 +138,15 @@
 
 样例配置保存了带类型信息、参数完整展开的公开组件调用定义。导出器直接执行这些序列化定义，保留浮点位、表格类型、时钟和所有配置默认值。公司行为的基准与后续情境分别记录为独立运行。每次运行各有哈希，整体输入与配置哈希覆盖所有相关运行；变更测试会核对现金、容量、延迟和冲击参数修改后，绑定及原实现行为是否随之改变。
 
-正常的 Rust、独立 Python 客户端和文档构建都不依赖 Platform 或 Runtime。重新导出样例时，需要按 JSON 中的固定公开版本准备干净检出，并使用单独锁定、包含微观结构依赖的 Platform 开发环境。Engine 从记录的源版本构建，再把明确路径传给导出器。环境、构建和输出目录放在源码仓库外。
+正常的 Rust、独立 Python 客户端和文档构建都不依赖 Platform 或 Runtime。重新导出时，在独立环境中安装 `docs/assets/method/owner-lock.json` 登记的 Core、SDK、Platform 普通 wheel 和数值依赖，并提供字节哈希绑定的 Rust 可执行文件。导出器逐文件核对安装内容与 wheel，拒绝可编辑安装和源码树导入。Runtime 仅保留固定历史公开链接，不需要检出。环境、构建和输出目录放在源码仓库外。
 
 ```bash
 python project_tools/export_method_fixtures.py \
-  --platform "$PLATFORM_CHECKOUT" --runtime "$RUNTIME_CHECKOUT" \
   --engine "$ENGINE_BINARY" --output "$OUTPUT_DIR/fixtures.json"
 python -m unittest discover -s project_tools -p 'test_method_*.py'
 node --test project_tools/test_method_replay.cjs
 ```
 
-设置 `METHOD_OWNER_PARITY=1`、`METHOD_PLATFORM`、`METHOD_RUNTIME`、`METHOD_PYTHON` 和 `QUANT_ENGINE_BINARY`，即可调用原实现重新导出，并与仓库样例逐字节比较。[开发与验证](development.zh-CN.md)说明锁定的文档构建和已有 Rust、客户端检查。[能力与兼容性](capabilities.zh-CN.md)列出 Engine 的准确支持范围。
+设置 `METHOD_OWNER_PARITY=1`、`METHOD_PYTHON` 和 `QUANT_ENGINE_BINARY`，即可调用原实现重新导出，并与仓库样例逐字节比较。[开发与验证](development.zh-CN.md)说明锁定的文档构建和已有 Rust、客户端检查。[能力与兼容性](capabilities.zh-CN.md)列出 Engine 的准确支持范围。
 
-挂载控件测试使用单独的工具目录。把 `project_tools/method-tests/package.json` 及其锁文件复制过去，运行 `npm ci --ignore-scripts`，再把 `NODE_PATH` 指向该目录的 `node_modules`，执行 `node --test project_tools/test_method_dom.cjs`。这类 DOM 单元测试检查行为，不等同于真实浏览器验收。手动触发的 **Method fixture owner parity** 工作流会在独立任务中调用固定公开版本重新生成样例，正常构建仍不依赖这些组件。
+挂载控件测试使用单独的工具目录。把 `project_tools/method-tests/package.json` 及其锁文件复制过去，运行 `npm ci --ignore-scripts`，再把 `NODE_PATH` 指向该目录的 `node_modules`，执行 `node --test project_tools/test_method_dom.cjs`。这类 DOM 单元测试检查行为，不等同于真实浏览器验收。手动触发的 **Method fixture owner parity** 工作流需要一个 HTTPS 归档，包含已登记的发布 wheel 和可执行文件。哈希检查拒绝未登记产物；正常构建只读取已提交的公开样例。

@@ -12,7 +12,6 @@ theme:
     - navigation.sections
     - navigation.footer
     - navigation.top
-    - navigation.instant
     - toc.follow
     - search.highlight
     - search.suggest
@@ -33,12 +32,14 @@ plugins:
   - search:
       lang: [en, zh]
 hooks:
+  - project_tools/docs_build_identity.py
   - project_tools/docs_locale.py
   - project_tools/method_docs.py
 extra_css:
   - stylesheets/extra.css
   - stylesheets/method-replay.css
 extra_javascript:
+  - javascripts/site-locale.js
   - javascripts/method-replay.js
 markdown_extensions:
   - tables

@@ -1,4 +1,4 @@
-"""Localize one page's navigation, Material labels and language counterpart links."""
+"""Localize navigation and reciprocal links; site-locale.js stores explicit choice."""
 
 from copy import copy, deepcopy
 

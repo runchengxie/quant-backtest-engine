@@ -9,11 +9,11 @@ from method_owner_calls import define_call, execute_call
 
 
 def build_market_cases(engine):
-    from quant_platform.backtest.impact import LinearImpact
-    from quant_platform.backtest.minute import (
+    from quant_backtest_core.backtest.impact import LinearImpact
+    from quant_backtest_core.backtest.minute import (
         MinuteExecutionConfig,
     )
-    from quant_platform.portfolio.discrete_inventory import (
+    from quant_backtest_core.planning.discrete_inventory import (
         DiscreteInventoryRequest,
     )
 
@@ -124,7 +124,7 @@ def build_market_cases(engine):
                 "depth",
                 book_rows,
                 book_inputs,
-                ["packages/microstructure/src/ticknet/simulator/matching.py"],
+                ["core/src/quant_backtest_core/microstructure/matching.py"],
                 report_scope="illustrative 600 ms delivery schedule; actual delayed accounting is scene risk",
             )
         ]
@@ -174,7 +174,7 @@ def build_market_cases(engine):
                 ident,
                 rows,
                 impact_inputs,
-                ["packages/platform/src/quant_platform/backtest/impact.py"],
+                ["core/src/quant_backtest_core/backtest/impact.py"],
             )
         )
     scenes["impact"] = {"scenarios": impact_scenarios}
@@ -222,7 +222,7 @@ def build_market_cases(engine):
                 "once",
                 cost_rows,
                 shared_inputs,
-                ["packages/platform/src/quant_platform/backtest/minute.py"],
+                ["core/src/quant_backtest_core/backtest/minute.py"],
                 fills=records(shared.fills),
             )
         ]
@@ -287,7 +287,7 @@ def build_market_cases(engine):
                 rows,
                 {"runs": planning_runs},
                 [
-                    "packages/platform/src/quant_platform/portfolio/discrete_inventory.py"
+                    "core/src/quant_backtest_core/planning/discrete_inventory.py"
                 ],
                 grid=grid,
                 status=solved.status,
