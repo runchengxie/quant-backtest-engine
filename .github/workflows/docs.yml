@@ -12,14 +12,15 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      TASK_DATA: ${{ runner.temp }}/engine-site
-      ASTRO_CACHE_DIR: ${{ runner.temp }}/engine-site/astro-cache
-      SITE_INPUT_DIR: ${{ runner.temp }}/engine-site/reference-home
-      ASTRO_OUT_DIR: ${{ runner.temp }}/engine-site/site-astro
-      BROWSER_OUTPUT_DIR: ${{ runner.temp }}/engine-site/browser
-      PLAYWRIGHT_BROWSERS_PATH: ${{ runner.temp }}/engine-site/browsers
     steps:
+      - name: Set isolated site paths
+        run: |
+          echo "TASK_DATA=$RUNNER_TEMP/engine-site" >> "$GITHUB_ENV"
+          echo "ASTRO_CACHE_DIR=$RUNNER_TEMP/engine-site/astro-cache" >> "$GITHUB_ENV"
+          echo "SITE_INPUT_DIR=$RUNNER_TEMP/engine-site/reference-home" >> "$GITHUB_ENV"
+          echo "ASTRO_OUT_DIR=$RUNNER_TEMP/engine-site/site-astro" >> "$GITHUB_ENV"
+          echo "BROWSER_OUTPUT_DIR=$RUNNER_TEMP/engine-site/browser" >> "$GITHUB_ENV"
+          echo "PLAYWRIGHT_BROWSERS_PATH=$RUNNER_TEMP/engine-site/browsers" >> "$GITHUB_ENV"
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
