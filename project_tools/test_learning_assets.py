@@ -237,3 +237,77 @@ class LearningSemanticGates(unittest.TestCase):
             text = path.read_text()
             for marker in ["/home/", "/run/media/", "quant-research", "account_id"]:
                 self.assertNotIn(marker, text)
+
+
+class RegistryIdentityTests(unittest.TestCase):
+    def test_supplied_registries_are_checked_and_preserve_bytes(self):
+        import tempfile
+        from project_tools.export_learning_traces import export_learning_traces
+
+        assets = ROOT / "docs/assets/learning"
+        fixture = ROOT / "docs/assets/method/fixtures.json"
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "output"
+            export_learning_traces(fixture, output, assets / "sources.json", assets / "preset-grid.json")
+            for path in output.rglob("*.json"):
+                self.assertEqual(path.read_bytes(), (assets / path.relative_to(output)).read_bytes())
+            for parameter, filename in [("source_registry", "sources.json"), ("preset_grid", "preset-grid.json")]:
+                supplied = Path(directory) / filename
+                value = json.loads((assets / filename).read_text())
+                value["records" if parameter == "source_registry" else "presets"].pop()
+                supplied.write_text(json.dumps(value))
+                with self.assertRaisesRegex(ValueError, "differs from exact"):
+                    export_learning_traces(fixture, output, **{parameter: supplied})
+
+    def test_rebound_artifact_hash_cannot_hide_identity_mutations(self):
+        import copy
+        import hashlib
+        import shutil
+        import tempfile
+        from project_tools.validate_learning_assets import validate_learning_assets
+
+        def remove_core(value):
+            value["records"] = [record for record in value["records"] if record["id"] != "owner-core"]
+
+        mutations = [
+            ("sources", remove_core),
+            ("sources", lambda value: value["records"].append(copy.deepcopy(value["records"][0]))),
+            ("sources", lambda value: value["records"][0].update(revision="0" * 40)),
+            ("sources", lambda value: value["records"][0].update(sha256="0" * 64)),
+            ("sources", lambda value: value["records"][0].update(claim="unregistered claim")),
+            ("fixture", lambda value: value["execution"].update(rust_sha256="0" * 64)),
+            ("fixture", lambda value: value["execution"]["dependencies"]["quant-backtest-core"].update(sha256="0" * 64)),
+            ("fixture", lambda value: value["owners"]["core"].update(revision="0" * 40)),
+            ("catalog", lambda value: value.update({next(iter(value)): "unregistered translation"})),
+            ("preset_grid", lambda value: value["presets"][0].update(seed="1")),
+            ("manifest", lambda value: value["exporter_sources"].pop(next(iter(value["exporter_sources"])))),
+            ("manifest", lambda value: value["provider_revisions"].update(core="0" * 40)),
+            ("trace", lambda value: value["source_ids"].append("missing-source")),
+            ("trace", lambda value: value["source_ids"].append(value["source_ids"][0])),
+            ("trace", lambda value: next(iter(value["bindings"]["calls"].values()))["source_ids"].append("missing-source")),
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            shutil.copytree(ROOT / "docs/assets", root / "docs/assets")
+            shutil.copytree(ROOT / "project_tools", root / "project_tools", ignore=shutil.ignore_patterns("__pycache__"))
+            manifest_path = root / "docs/assets/learning/manifest.json"
+            original_manifest = manifest_path.read_bytes()
+            validate_learning_assets(manifest_path)
+            for kind, mutate in mutations:
+                with self.subTest(kind=kind, mutate=mutate):
+                    manifest = json.loads(original_manifest)
+                    reference = manifest["catalogs"]["en"] if kind == "catalog" else manifest.get(kind)
+                    if kind == "trace":
+                        reference = next(entry for entry in manifest["traces"] if entry["scene_id"] == "cost")
+                    path = manifest_path if kind == "manifest" else root / "docs" / reference["url"]
+                    original = path.read_bytes()
+                    value = json.loads(original)
+                    mutate(value)
+                    path.write_text(json.dumps(value))
+                    if kind != "manifest":
+                        reference["sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
+                        manifest_path.write_text(json.dumps(manifest))
+                    with self.assertRaises(ValueError):
+                        validate_learning_assets(manifest_path)
+                    path.write_bytes(original)
+                    manifest_path.write_bytes(original_manifest)

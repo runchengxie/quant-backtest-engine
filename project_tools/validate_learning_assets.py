@@ -9,6 +9,7 @@ from pathlib import Path
 try:
     from .export_learning_traces import (
         PRESETS,
+        project_source_registry,
         project_method_trace,
         pointer,
         safe,
@@ -17,6 +18,7 @@ try:
 except ImportError:
     from export_learning_traces import (
         PRESETS,
+        project_source_registry,
         project_method_trace,
         pointer,
         safe,
@@ -32,6 +34,19 @@ def validate_fixture(fixture, root):
         "provider_revisions"
     ]:
         raise ValueError("stale provider")
+    execution = fixture["execution"]
+    if execution["rust_sha256"] != lock["rust_sha256"]:
+        raise ValueError("execution binary identity mismatch")
+    wheels = {
+        entry["wheel"]: entry["sha256"]
+        for entry in execution["dependencies"].values()
+        if "wheel" in entry
+    }
+    if wheels != lock["wheels"]:
+        raise ValueError("installed owner wheel identity mismatch")
+    for name, version in lock["dependencies"].items():
+        if execution["dependencies"][name]["version"] != version:
+            raise ValueError("installed dependency version mismatch")
     sources = {
         **fixture["exporter_sources"],
         "project_tools/export_method_fixtures.py": fixture["exporter_sha256"],
@@ -125,6 +140,13 @@ def validate_learning_assets(manifest_path):
         n: o["revision"] for n, o in fixture["owners"].items()
     }:
         raise ValueError("provider revision mismatch")
+    if manifest["exporter_sources"] != fixture["exporter_sources"]:
+        raise ValueError("manifest exporter sources differ from fixture")
+    source_ids = [source["id"] for source in sources["records"]]
+    if len(source_ids) != len(set(source_ids)):
+        raise ValueError("duplicate source identifier")
+    if sources != project_source_registry(fixture, docs / manifest["fixture"]["url"]):
+        raise ValueError("source registry differs from exact owner evidence")
     for source in sources["records"]:
         if (
             source["class"] == "real_market_calibration"
@@ -140,18 +162,27 @@ def validate_learning_assets(manifest_path):
         trace = read(ref)
         schema("trace", trace)
         validate_trace(trace, fixture)
+        for record in [trace, *trace["bindings"]["calls"].values()]:
+            if not set(record["source_ids"]).issubset(source_ids):
+                raise ValueError("unresolved trace/call source reference")
         case = next(
             c
             for c in fixture["scenes"][trace["scene_id"]]["scenarios"]
             if c["id"] == trace["preset_id"]
         )
         if (
-            entry["inputs"] != safe(case["inputs"])
+            entry["seed"] != trace["seed"]
+            or entry["capabilities"] != ["recorded_events"]
+            or entry["inputs"] != safe(case["inputs"])
             or entry["trace_sha256"] != ref["sha256"]
             or entry["owner_calls"] != trace["bindings"]["calls"]
         ):
             raise ValueError("grid input/binding mismatch")
     catalogs = {locale: read(ref) for locale, ref in manifest["catalogs"].items()}
+    for locale, catalog in catalogs.items():
+        original = json.loads((docs / "assets/method" / (locale + ".json")).read_text())
+        if catalog != original:
+            raise ValueError("catalog differs from authoritative projection")
     if set(catalogs["en"]) != set(catalogs["zh-CN"]):
         raise ValueError("catalog keys differ")
     for path in directory.rglob("*.json"):

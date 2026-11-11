@@ -359,11 +359,7 @@ def ref(path, url):
     return {"url": url, "sha256": digest_file(path)}
 
 
-def export_learning_traces(
-    fixture_path, output_dir, source_registry=None, preset_grid=None
-):
-    fixture = json.loads(fixture_path.read_text())
-    output_dir.mkdir(parents=True, exist_ok=True)
+def project_source_registry(fixture, fixture_path):
     sources = {
         "schema": "engine-learning-sources.v1",
         "records": [
@@ -410,6 +406,18 @@ def export_learning_traces(
             "availability": "available",
         }
     )
+    return sources
+
+
+def export_learning_traces(
+    fixture_path, output_dir, source_registry=None, preset_grid=None
+):
+    fixture = json.loads(fixture_path.read_text())
+    output_dir.mkdir(parents=True, exist_ok=True)
+    sources = project_source_registry(fixture, fixture_path)
+    if source_registry is not None:
+        if json.loads(source_registry.read_text()) != sources:
+            raise ValueError("source registry differs from exact owner evidence")
     write_json(output_dir / "sources.json", sources)
     traces = []
     tuples = []
@@ -438,10 +446,11 @@ def export_learning_traces(
                     "trace_sha256": reference["sha256"],
                 }
             )
-    write_json(
-        output_dir / "preset-grid.json",
-        {"schema": "engine-learning-grid.v1", "presets": tuples},
-    )
+    grid = {"schema": "engine-learning-grid.v1", "presets": tuples}
+    if preset_grid is not None:
+        if json.loads(preset_grid.read_text()) != grid:
+            raise ValueError("preset grid differs from exact fixed owner tuples")
+    write_json(output_dir / "preset-grid.json", grid)
     catalogs = {}
     for locale in ["en", "zh-CN"]:
         source = fixture_path.parent / (locale + ".json")
@@ -469,5 +478,7 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument("--fixture", type=Path, required=True)
     p.add_argument("--output", type=Path, required=True)
+    p.add_argument("--source-registry", type=Path)
+    p.add_argument("--preset-grid", type=Path)
     a = p.parse_args()
-    print(export_learning_traces(a.fixture, a.output))
+    print(export_learning_traces(a.fixture, a.output, a.source_registry, a.preset_grid))

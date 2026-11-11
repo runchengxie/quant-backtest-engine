@@ -157,3 +157,80 @@ test("explicit language preference crosses the legacy renderer without deep-link
     await page.evaluate(() => localStorage.getItem("engine.site.locale.v1")),
   ).toBe("en");
 });
+
+for (const scenario of [
+  {
+    route: "",
+    anchor: "product-main",
+    translated: "product-main",
+    target: "index.zh-CN/",
+    legacy: false,
+  },
+  {
+    route: "backtesting-explained/",
+    anchor: "4-pay-each-cost-once",
+    translated: "4",
+    target: "backtesting-explained.zh-CN/",
+    legacy: true,
+  },
+  {
+    route: "learn/impact/",
+    anchor: "product-main",
+    translated: "product-main",
+    target: "learn/zh-CN/impact/",
+    legacy: false,
+  },
+]) {
+  test(`language switch follows a new in-page fragment: ${scenario.route || "home"}`, async ({
+    page,
+  }) => {
+    await page.goto(scenario.route);
+    expect(new URL(page.url()).hash).toBe("");
+    const language = page.locator(
+      scenario.legacy ? "a[hreflang=zh-CN]" : "[data-site-locale=zh-CN]",
+    );
+    await expect(language).toHaveAttribute(
+      "href",
+      `/quant-backtest-engine/${scenario.target}`,
+    );
+    const anchor = page
+      .locator(
+        `${scenario.legacy ? "a.headerlink" : "a"}[href="#${scenario.anchor}"]`,
+      )
+      .first();
+    if (scenario.legacy)
+      await page.locator(`[id="${scenario.anchor}"]`).hover();
+    if (scenario.anchor === "product-main") await anchor.focus();
+    await anchor.click();
+    await expect(page).toHaveURL(new RegExp(`#${scenario.anchor}$`));
+    await expect(language).toHaveAttribute(
+      "href",
+      `/quant-backtest-engine/${scenario.target}#${scenario.translated}`,
+    );
+    if (scenario.legacy)
+      await page
+        .getByRole("button", { name: "Select language", exact: true })
+        .click();
+    await language.click();
+    await expect(page).toHaveURL(
+      new RegExp(`${scenario.target}#${scenario.translated}$`),
+    );
+    await expect(page.locator(`[id="${scenario.translated}"]`)).toHaveCount(1);
+  });
+}
+
+test("home language mapping reads the current responsibilities fragment on click", async ({
+  page,
+}) => {
+  await page.goto("");
+  const language = page.locator("[data-site-locale=zh-CN]");
+  await expect(language).toHaveAttribute(
+    "href",
+    "/quant-backtest-engine/index.zh-CN/",
+  );
+  // History navigation does not emit hashchange; the click must still read the URL.
+  await page.evaluate(() => history.pushState(null, "", "#responsibilities"));
+  await language.click();
+  await expect(page).toHaveURL(/index.zh-CN\/#_3$/);
+  await expect(page.locator('[id="_3"]')).toHaveCount(1);
+});

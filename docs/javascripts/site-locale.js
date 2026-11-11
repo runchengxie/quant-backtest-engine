@@ -28,9 +28,14 @@
       .forEach((link) => {
         const target = link.dataset.siteLocale || link.getAttribute("hreflang");
         if (!["en", "zh-CN"].includes(target)) return;
-        link.addEventListener("click", () => save(target));
-        if (pair) {
-          let hash = decodeURIComponent(location.hash.slice(1));
+        function refresh() {
+          if (!pair) return;
+          let hash = location.hash.slice(1);
+          try {
+            hash = decodeURIComponent(hash);
+          } catch {
+            // A malformed percent escape must not break language navigation.
+          }
           const anchors = map.anchors[pair[0]] || {};
           if (currentLocale !== target)
             hash =
@@ -43,6 +48,12 @@
             pair[target === "zh-CN" ? 1 : 0] +
             (hash ? "#" + encodeURIComponent(hash) : "");
         }
+        refresh();
+        window.addEventListener("hashchange", refresh);
+        link.addEventListener("click", () => {
+          refresh();
+          save(target);
+        });
       });
     const preference = get();
     document.querySelectorAll("[data-site-nav]").forEach((link) => {
