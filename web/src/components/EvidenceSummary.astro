@@ -1,0 +1,4 @@
+---
+import {catalog} from '../lib/data';const {locale,trace}=Astro.props;const c=catalog(locale);
+---
+<aside class="learning-evidence"><h2 id="product-evidence">{c['learning.boundary']}</h2><p>{c['learning.sourceClass']}</p><p>{c['learning.synthetic']}</p><p>{c['learning.sample']}</p><p>{c['boundary.'+trace.scene_id]}</p><p>{c['units.'+trace.preset_id]??c['units.'+trace.scene_id]}</p><a href={trace.provider.url}>{trace.provider.id} · <code>{trace.provider.revision}</code></a><p>{c['learning.question']}</p></aside>

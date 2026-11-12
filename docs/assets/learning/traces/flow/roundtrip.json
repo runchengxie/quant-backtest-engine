@@ -1,0 +1,493 @@
+{
+  "bindings": {
+    "calls": {},
+    "config_sha256": "b8ab5cf321aff1bf81c7d1bd72bd6696f2e7490c4f64a961602342c472f247f6",
+    "input_sha256": "b8ab5cf321aff1bf81c7d1bd72bd6696f2e7490c4f64a961602342c472f247f6",
+    "run_bindings_pointer": "/scenes/flow/scenarios/0/run_sha256",
+    "run_bindings_reason_key": "provenance.named_run_binding_not_recorded",
+    "run_bindings_status": "unavailable",
+    "run_sha256": {}
+  },
+  "calibration": "synthetic_only",
+  "clock_semantics": {
+    "decision": "strictly prior eligible information",
+    "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
+    "report": "receipt clock; may lag economic fill"
+  },
+  "currency": "USD",
+  "events": [
+    {
+      "clock": {
+        "kind": "utc_ns",
+        "timezone": "UTC",
+        "value": "1735689599999999999"
+      },
+      "depends_on": [],
+      "event_id": "flow.roundtrip.0",
+      "ordinal": 0,
+      "source_pointers": {
+        "cash": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/states/0/cash"
+        },
+        "clock": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/states/0/clock"
+        },
+        "fees": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/states/0/fees"
+        },
+        "phase": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/states/0/phase"
+        },
+        "price": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/states/0/price"
+        },
+        "quantity": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/states/0/quantity"
+        }
+      },
+      "stage": "forecast",
+      "values": {
+        "cash": "10000",
+        "clock": "1735689599999999999",
+        "fees": "0",
+        "phase": "forecast",
+        "price": "10",
+        "quantity": "0"
+      }
+    },
+    {
+      "clock": {
+        "kind": "utc_ns",
+        "timezone": "UTC",
+        "value": "1735689600000000000"
+      },
+      "depends_on": [],
+      "event_id": "flow.roundtrip.1",
+      "ordinal": 1,
+      "source_pointers": {
+        "cash": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/states/1/cash"
+        },
+        "clock": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/states/1/clock"
+        },
+        "fees": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/states/1/fees"
+        },
+        "phase": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/states/1/phase"
+        },
+        "price": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/states/1/price"
+        },
+        "quantity": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/states/1/quantity"
+        }
+      },
+      "stage": "buy",
+      "values": {
+        "cash": "9899.9",
+        "clock": "1735689600000000000",
+        "fees": "0.1",
+        "phase": "buy",
+        "price": "10",
+        "quantity": "10"
+      }
+    },
+    {
+      "clock": {
+        "kind": "utc_ns",
+        "timezone": "UTC",
+        "value": "1735689601000000000"
+      },
+      "depends_on": [],
+      "event_id": "flow.roundtrip.2",
+      "ordinal": 2,
+      "source_pointers": {
+        "cash": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/states/2/cash"
+        },
+        "clock": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/states/2/clock"
+        },
+        "fees": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/states/2/fees"
+        },
+        "phase": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/states/2/phase"
+        },
+        "price": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/states/2/price"
+        },
+        "quantity": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/states/2/quantity"
+        }
+      },
+      "stage": "sell",
+      "values": {
+        "cash": "10019.78",
+        "clock": "1735689601000000000",
+        "fees": "0.22",
+        "phase": "sell",
+        "price": "12",
+        "quantity": "0"
+      }
+    }
+  ],
+  "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+  "exporter_sources": {
+    "project_tools/method_action_case.py": "87dc420f939fd04f16bccfc0873cb70d99ec20b7d1b7f87f31176267b2cbcf05",
+    "project_tools/method_fixture_common.py": "2aa9362a85096a4babf316e3deea08c2edf742a9d30c64e4a105a1a4c77afe8b",
+    "project_tools/method_market_cases.py": "562c6af472439f85f83d80662c7fab051ae2a9feb4fc3817659270612235f667",
+    "project_tools/method_owner_calls.py": "3ac2e4d33cf766e6d80bc94667ea2a45efaff01233f8d088a8b29dda1ee6a659",
+    "project_tools/method_risk_case.py": "73fb513b59cced264616ae0f0dc46a8528ea4626b12edac1c87b704321ef3a09",
+    "project_tools/method_session_cases.py": "848501aff7c5b9126a703eae6e762ff8c5f45ce83f35da27d42bf8c61d87f54c"
+  },
+  "policy_mode": "supplied_orders",
+  "preset_id": "roundtrip",
+  "provider": {
+    "backend_id": "rust-nautilus",
+    "dependency_sha256": "2cbcad4753a801aec4e8887c036fc857583e026b65534e5d1f2be3a21029206a",
+    "id": "engine",
+    "revision": "ad0895f1c2015eb31bd364b40741b0f7cd6e0048",
+    "source_sha256": {
+      "fixtures/roundtrip.json": "b039b17267c93943cc9704a53899585115f4bea8da4da4457d7a7d4258442a75"
+    },
+    "url": "https://github.com/runchengxie/quant-backtest-engine/tree/ad0895f1c2015eb31bd364b40741b0f7cd6e0048",
+    "version": "0.2.0"
+  },
+  "scene_id": "flow",
+  "schema": "engine-learning-trace.v1",
+  "seed": null,
+  "source_ids": [
+    "owner-engine",
+    "exporter"
+  ],
+  "tables": [
+    {
+      "id": "result",
+      "reason_key": "provenance.named_run_binding_not_recorded",
+      "rows": {
+        "backend": "nautilus",
+        "backend_version": "0.66.0",
+        "capabilities": [
+          "quote_market_orders",
+          "multi_asset",
+          "final_balances",
+          "proportional_fees"
+        ],
+        "cash": "10019.78",
+        "commission": "0.22",
+        "currency": "USD",
+        "equity": "10019.78",
+        "fills": [
+          {
+            "commission": "0.1",
+            "order_id": "buy-1",
+            "price": "10",
+            "quantity": "10",
+            "side": "buy",
+            "symbol": "AAA",
+            "ts_ns": "1735689600000000000"
+          },
+          {
+            "commission": "0.12",
+            "order_id": "sell-1",
+            "price": "12",
+            "quantity": "10",
+            "side": "sell",
+            "symbol": "AAA",
+            "ts_ns": "1735689601000000000"
+          }
+        ],
+        "orders": [
+          {
+            "filled_quantity": "10",
+            "id": "buy-1",
+            "status": "FILLED",
+            "symbol": "AAA"
+          },
+          {
+            "filled_quantity": "10",
+            "id": "sell-1",
+            "status": "FILLED",
+            "symbol": "AAA"
+          }
+        ],
+        "positions": [],
+        "positions_value": "0",
+        "schema_version": "engine_result.v1"
+      },
+      "run_binding_status": "unavailable",
+      "run_names": [],
+      "source_pointer": "/scenes/flow/scenarios/0/result",
+      "value_sources": {
+        "/rows/backend": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/backend"
+        },
+        "/rows/backend_version": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/backend_version"
+        },
+        "/rows/capabilities/0": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/capabilities/0"
+        },
+        "/rows/capabilities/1": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/capabilities/1"
+        },
+        "/rows/capabilities/2": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/capabilities/2"
+        },
+        "/rows/capabilities/3": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/capabilities/3"
+        },
+        "/rows/cash": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/cash"
+        },
+        "/rows/commission": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/commission"
+        },
+        "/rows/currency": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/currency"
+        },
+        "/rows/equity": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/equity"
+        },
+        "/rows/fills/0/commission": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/fills/0/commission"
+        },
+        "/rows/fills/0/order_id": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/fills/0/order_id"
+        },
+        "/rows/fills/0/price": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/fills/0/price"
+        },
+        "/rows/fills/0/quantity": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/fills/0/quantity"
+        },
+        "/rows/fills/0/side": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/fills/0/side"
+        },
+        "/rows/fills/0/symbol": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/fills/0/symbol"
+        },
+        "/rows/fills/0/ts_ns": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/fills/0/ts_ns"
+        },
+        "/rows/fills/1/commission": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/fills/1/commission"
+        },
+        "/rows/fills/1/order_id": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/fills/1/order_id"
+        },
+        "/rows/fills/1/price": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/fills/1/price"
+        },
+        "/rows/fills/1/quantity": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/fills/1/quantity"
+        },
+        "/rows/fills/1/side": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/fills/1/side"
+        },
+        "/rows/fills/1/symbol": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/fills/1/symbol"
+        },
+        "/rows/fills/1/ts_ns": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/fills/1/ts_ns"
+        },
+        "/rows/orders/0/filled_quantity": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/orders/0/filled_quantity"
+        },
+        "/rows/orders/0/id": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/orders/0/id"
+        },
+        "/rows/orders/0/status": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/orders/0/status"
+        },
+        "/rows/orders/0/symbol": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/orders/0/symbol"
+        },
+        "/rows/orders/1/filled_quantity": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/orders/1/filled_quantity"
+        },
+        "/rows/orders/1/id": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/orders/1/id"
+        },
+        "/rows/orders/1/status": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/orders/1/status"
+        },
+        "/rows/orders/1/symbol": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/orders/1/symbol"
+        },
+        "/rows/positions_value": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/positions_value"
+        },
+        "/rows/schema_version": {
+          "reason_key": "provenance.named_run_binding_not_recorded",
+          "run_binding_status": "unavailable",
+          "run_names": [],
+          "source_pointer": "/scenes/flow/scenarios/0/result/schema_version"
+        }
+      }
+    }
+  ],
+  "units": {
+    "money": "USD",
+    "offset": "price displacement",
+    "price": "currency/share",
+    "quantity": "shares",
+    "score": "return fraction"
+  }
+}

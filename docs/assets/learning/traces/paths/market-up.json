@@ -1,0 +1,711 @@
+{
+  "bindings": {
+    "calls": {
+      "execution": {
+        "digest_pointer": "/scenes/paths/scenarios/2/run_sha256/execution",
+        "input_pointer": "/scenes/paths/scenarios/2/inputs/runs/execution",
+        "owner_id": "core",
+        "source_ids": [
+          "owner-core",
+          "exporter"
+        ]
+      }
+    },
+    "config_sha256": "5aed65755d9996868636b24b2707ad9eeac1aa96a9cf230b230431e4aaeb6868",
+    "forecast_sha256": "50412276572cba0a0bffc669f48dffd4ed98a61948d07852dbb78b8491275635",
+    "input_sha256": "5aed65755d9996868636b24b2707ad9eeac1aa96a9cf230b230431e4aaeb6868",
+    "market_sha256": "36b0250a187969673f725c6e29a7a7cdeb3c68dd7fcb85f1e037da9c0d500a92",
+    "run_bindings_pointer": "/scenes/paths/scenarios/2/run_sha256",
+    "run_bindings_reason_key": null,
+    "run_bindings_status": "available",
+    "run_sha256": {
+      "execution": "1a5c1fa6321ec0c84afcacc44f1997f8a983868f0093c47d9b830eca241bf14d"
+    }
+  },
+  "calibration": "synthetic_only",
+  "clock_semantics": {
+    "decision": "strictly prior eligible information",
+    "event": "UTC nanoseconds as decimal strings; risk restore uses event-boundary indices and daily cases use ISO session dates",
+    "report": "receipt clock; may lag economic fill"
+  },
+  "comparison": {
+    "axis": "utc_ns_stage",
+    "points": [
+      {
+        "events": {
+          "deep": "paths.deep.0",
+          "feedback": "paths.feedback.0",
+          "market-up": "paths.market-up.0",
+          "thin": "paths.thin.0"
+        },
+        "id": "paths.market-up.0",
+        "label_key": "phase.decision"
+      },
+      {
+        "events": {
+          "deep": "paths.deep.1",
+          "feedback": "paths.feedback.1",
+          "market-up": "paths.market-up.1",
+          "thin": "paths.thin.1"
+        },
+        "id": "paths.market-up.1",
+        "label_key": "phase.decision"
+      },
+      {
+        "events": {
+          "deep": "paths.deep.2",
+          "feedback": "paths.feedback.2",
+          "market-up": "paths.market-up.2",
+          "thin": "paths.thin.2"
+        },
+        "id": "paths.market-up.2",
+        "label_key": "phase.account"
+      }
+    ]
+  },
+  "currency": "CNY",
+  "events": [
+    {
+      "clock": {
+        "kind": "utc_ns",
+        "timezone": "UTC",
+        "value": "1767576540000000000"
+      },
+      "depends_on": [],
+      "event_id": "paths.market-up.0",
+      "ordinal": 0,
+      "source_pointers": {
+        "cash": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/states/0/cash"
+        },
+        "clock": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/paths/scenarios/2/states/0/clock"
+        },
+        "next_target": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/states/0/next_target"
+        },
+        "pending": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/states/0/pending"
+        },
+        "phase": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/paths/scenarios/2/states/0/phase"
+        },
+        "quantity": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/states/0/quantity"
+        }
+      },
+      "stage": "decision",
+      "values": {
+        "cash": "10000",
+        "clock": "1767576540000000000",
+        "next_target": "1",
+        "pending": false,
+        "phase": "decision",
+        "quantity": "0"
+      }
+    },
+    {
+      "clock": {
+        "kind": "utc_ns",
+        "timezone": "UTC",
+        "value": "1767576780000000000"
+      },
+      "depends_on": [],
+      "event_id": "paths.market-up.1",
+      "ordinal": 1,
+      "source_pointers": {
+        "cash": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/states/1/cash"
+        },
+        "clock": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/paths/scenarios/2/states/1/clock"
+        },
+        "next_target": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/states/1/next_target"
+        },
+        "pending": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/states/1/pending"
+        },
+        "phase": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/paths/scenarios/2/states/1/phase"
+        },
+        "quantity": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/states/1/quantity"
+        }
+      },
+      "stage": "decision",
+      "values": {
+        "cash": "9000",
+        "clock": "1767576780000000000",
+        "next_target": null,
+        "pending": true,
+        "phase": "decision",
+        "quantity": "100"
+      }
+    },
+    {
+      "clock": {
+        "kind": "utc_ns",
+        "timezone": "UTC",
+        "value": "1767576960000000000"
+      },
+      "depends_on": [],
+      "event_id": "paths.market-up.2",
+      "ordinal": 2,
+      "source_pointers": {
+        "cash": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/states/2/cash"
+        },
+        "clock": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/paths/scenarios/2/states/2/clock"
+        },
+        "next_target": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/states/2/next_target"
+        },
+        "phase": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/paths/scenarios/2/states/2/phase"
+        },
+        "price": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/paths/scenarios/2/states/2/price"
+        },
+        "quantity": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/states/2/quantity"
+        }
+      },
+      "stage": "account",
+      "values": {
+        "cash": "7950",
+        "clock": "1767576960000000000",
+        "next_target": null,
+        "phase": "account",
+        "price": "10.5",
+        "quantity": "200"
+      }
+    }
+  ],
+  "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+  "exporter_sources": {
+    "project_tools/method_action_case.py": "87dc420f939fd04f16bccfc0873cb70d99ec20b7d1b7f87f31176267b2cbcf05",
+    "project_tools/method_fixture_common.py": "2aa9362a85096a4babf316e3deea08c2edf742a9d30c64e4a105a1a4c77afe8b",
+    "project_tools/method_market_cases.py": "562c6af472439f85f83d80662c7fab051ae2a9feb4fc3817659270612235f667",
+    "project_tools/method_owner_calls.py": "3ac2e4d33cf766e6d80bc94667ea2a45efaff01233f8d088a8b29dda1ee6a659",
+    "project_tools/method_risk_case.py": "73fb513b59cced264616ae0f0dc46a8528ea4626b12edac1c87b704321ef3a09",
+    "project_tools/method_session_cases.py": "848501aff7c5b9126a703eae6e762ff8c5f45ce83f35da27d42bf8c61d87f54c"
+  },
+  "policy_mode": "fixed_forecast",
+  "preset_id": "market-up",
+  "provider": {
+    "backend_id": "python",
+    "dependency_sha256": "2cbcad4753a801aec4e8887c036fc857583e026b65534e5d1f2be3a21029206a",
+    "id": "core",
+    "revision": "ad0895f1c2015eb31bd364b40741b0f7cd6e0048",
+    "source_sha256": {
+      "quant_backtest_core": "aa6ee88568755d563a7f25e7b86fc7a0dde361f5b9225282043d5d967aba73c6",
+      "quant_backtest_core._minute": "073635fe95bc0e704ba5c6d5b2f72a5e79b30c2a16f8c43716fc2a667c03de61",
+      "quant_backtest_core._minute._minute_state": "3c9c1c0ddae216bc11991c37672f4739e1a01b22c76816e83522cca45f4dcf3b",
+      "quant_backtest_core._minute._minute_validation": "82bc90766a875593c57c38912a9e4fba1f2c21b04532c494eef01fece573b246",
+      "quant_backtest_core._minute.capital_flows": "c0d668755a8f0b333c78812871487b1d57c3d74f412b3e11b57f035b0400b74a",
+      "quant_backtest_core._minute.corporate_actions": "bac108db5f43bf6efeb54320d3371de9f27101fb229e44af54e98fcd075171e8",
+      "quant_backtest_core._minute.minute_execution": "9c1f0f6a63b95c86c377fbb7b7d8951be838fc6e5771186f5cdb4f1f40ee4424",
+      "quant_backtest_core._minute.valuation_events": "d4bb0ab3800b9896cd715724b7d1659443371648f2715404c0f5d766dc0193c2",
+      "quant_backtest_core.backends": "426bf7185ba0e76c542142dda1c5651b037983f19f6d7192c81cc37c92fa8f88",
+      "quant_backtest_core.backends.protocol": "db5776a5a4b66f0fcaf9e4d76a258ab8ead885061303bd71ccb2bbafa4e08e43",
+      "quant_backtest_core.backends.registry": "2d327b6df953a1f10336fad1af8ee3a4317bdff97d6fc114d74cca1bd1ae121f",
+      "quant_backtest_core.backtest": "7ed16f2d6b9419674e77bcf541bf599f6c6dcb5c599aad6e8e4cccc6cd03da4d",
+      "quant_backtest_core.backtest._minute_checkpoint": "64e5e0315f00147d8012a4bc9dc656c41706777a3860702e55d70444852569ad",
+      "quant_backtest_core.backtest.impact": "1f60152d7941e22348a17f76d60eabfa3b9135be6c1824dd19bb73953a034bbb",
+      "quant_backtest_core.backtest.minute": "215934a20496cb4113364480da9b5808a470cb15c09910b008c127734f196f93",
+      "quant_backtest_core.backtest.minute_session": "6e823a96167d4a94862775e2aade33fbd6d36943099cdf25ee348c5757417644",
+      "quant_backtest_core.backtest.quantity_locks": "248b26e7352e9a6f675c28887086f573a75f719f0bc3b7406408f7c0b638ef16",
+      "quant_backtest_core.errors": "9c584ba8838431c501a3fe89dde9e36a1e7f44baca054b96cc0476d312f6ad38",
+      "quant_backtest_core.evidence": "7ed16f2d6b9419674e77bcf541bf599f6c6dcb5c599aad6e8e4cccc6cd03da4d",
+      "quant_backtest_core.evidence._exact": "4b76cb1857d59a3b07fb29a251715ba5956349dd7d6a0a2d9ac5b3a4b48a2bc4",
+      "quant_backtest_core.evidence.execution_integrity": "38f46b999ca032b0520cb44d80b04362d966f5b6900064854b25e99db77dc90c",
+      "quant_backtest_core.microstructure": "ff076da5840f71329e51e3146d10b9e0e57ad15bb3ca40685d519675a0168f80",
+      "quant_backtest_core.microstructure.matching": "920adb6b3f5196512cbf23692ab6dbfd7f980b5a80e965a2854d7cf60c216e2a",
+      "quant_backtest_core.microstructure.ordering": "d5744eba37df981d3af9bd7fabc5dffb0d3afa095b2ca76eb109fe927f13db84",
+      "quant_backtest_core.microstructure.pack": "d9b049c508d005fac34c0d70505de8932b8548eb44a570847f820c0435a01f2b",
+      "quant_backtest_core.planning": "32db62cebabed7154687fe57228f44cf6f6a753515cab3ba0e03124e2dfaf5e6",
+      "quant_backtest_core.planning.discrete_inventory": "df31ad2bdd9283c05649c3d06feb2744b32c0715592535f3c1e431c8e3ea4a8c",
+      "quant_backtest_core.planning.sleeve_allocation": "b6c73dd88c1f2804e3f278df8ccb069daf1f2934bda94a70d8144120f882061f",
+      "quant_backtest_core.runner": "d0c64ab0915c5a070abf30bf1f14ff32bd9716650ba28018f64e060c34488803"
+    },
+    "url": "https://github.com/runchengxie/quant-backtest-engine/tree/ad0895f1c2015eb31bd364b40741b0f7cd6e0048",
+    "version": "0.3.0"
+  },
+  "scene_id": "paths",
+  "schema": "engine-learning-trace.v1",
+  "seed": null,
+  "source_ids": [
+    "owner-core",
+    "exporter"
+  ],
+  "tables": [
+    {
+      "id": "fills",
+      "reason_key": null,
+      "rows": [
+        {
+          "cash_after": "9000",
+          "commission": "0",
+          "gross_amount": "1000",
+          "order_id": "0",
+          "price": "10",
+          "quantity": "100",
+          "sell_tax": "0",
+          "side": "buy",
+          "symbol": "A",
+          "time": "2026-01-05T09:32:00+08:00",
+          "transaction_cost": "0"
+        },
+        {
+          "cash_after": "7950",
+          "commission": "0",
+          "gross_amount": "1050",
+          "order_id": "0",
+          "price": "10.5",
+          "quantity": "100",
+          "sell_tax": "0",
+          "side": "buy",
+          "symbol": "A",
+          "time": "2026-01-05T09:36:00+08:00",
+          "transaction_cost": "0"
+        }
+      ],
+      "run_binding_status": "available",
+      "run_names": [
+        "execution"
+      ],
+      "source_pointer": "/scenes/paths/scenarios/2/fills",
+      "value_sources": {
+        "/rows/0/cash_after": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/fills/0/cash_after"
+        },
+        "/rows/0/commission": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/fills/0/commission"
+        },
+        "/rows/0/gross_amount": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/fills/0/gross_amount"
+        },
+        "/rows/0/order_id": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/fills/0/order_id"
+        },
+        "/rows/0/price": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/fills/0/price"
+        },
+        "/rows/0/quantity": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/fills/0/quantity"
+        },
+        "/rows/0/sell_tax": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/fills/0/sell_tax"
+        },
+        "/rows/0/side": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/fills/0/side"
+        },
+        "/rows/0/symbol": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/fills/0/symbol"
+        },
+        "/rows/0/time": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/fills/0/time"
+        },
+        "/rows/0/transaction_cost": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/fills/0/transaction_cost"
+        },
+        "/rows/1/cash_after": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/fills/1/cash_after"
+        },
+        "/rows/1/commission": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/fills/1/commission"
+        },
+        "/rows/1/gross_amount": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/fills/1/gross_amount"
+        },
+        "/rows/1/order_id": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/fills/1/order_id"
+        },
+        "/rows/1/price": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/fills/1/price"
+        },
+        "/rows/1/quantity": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/fills/1/quantity"
+        },
+        "/rows/1/sell_tax": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/fills/1/sell_tax"
+        },
+        "/rows/1/side": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/fills/1/side"
+        },
+        "/rows/1/symbol": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/fills/1/symbol"
+        },
+        "/rows/1/time": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/fills/1/time"
+        },
+        "/rows/1/transaction_cost": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/fills/1/transaction_cost"
+        }
+      }
+    },
+    {
+      "id": "orders",
+      "reason_key": null,
+      "rows": [
+        {
+          "commission_paid": "0",
+          "deadline": "2026-01-05T10:00:00+08:00",
+          "decision_time": "2026-01-05T09:29:00+08:00",
+          "entry_time": "2026-01-05T09:30:00+08:00",
+          "executed_notional": "2050",
+          "filled_quantity": "200",
+          "order_id": "0",
+          "quantity": "1000",
+          "reason": "partial_fill",
+          "reference_basis": "raw",
+          "reference_price": "10",
+          "reference_source_time": "2026-01-05T09:29:00+08:00",
+          "reference_time": "2026-01-05T09:29:00+08:00",
+          "side": "buy",
+          "status": "expired",
+          "symbol": "A",
+          "tax_paid": "0"
+        }
+      ],
+      "run_binding_status": "available",
+      "run_names": [
+        "execution"
+      ],
+      "source_pointer": "/scenes/paths/scenarios/2/orders",
+      "value_sources": {
+        "/rows/0/commission_paid": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/orders/0/commission_paid"
+        },
+        "/rows/0/deadline": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/orders/0/deadline"
+        },
+        "/rows/0/decision_time": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/orders/0/decision_time"
+        },
+        "/rows/0/entry_time": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/orders/0/entry_time"
+        },
+        "/rows/0/executed_notional": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/orders/0/executed_notional"
+        },
+        "/rows/0/filled_quantity": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/orders/0/filled_quantity"
+        },
+        "/rows/0/order_id": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/orders/0/order_id"
+        },
+        "/rows/0/quantity": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/orders/0/quantity"
+        },
+        "/rows/0/reason": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/orders/0/reason"
+        },
+        "/rows/0/reference_basis": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/orders/0/reference_basis"
+        },
+        "/rows/0/reference_price": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/orders/0/reference_price"
+        },
+        "/rows/0/reference_source_time": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/orders/0/reference_source_time"
+        },
+        "/rows/0/reference_time": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/orders/0/reference_time"
+        },
+        "/rows/0/side": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/orders/0/side"
+        },
+        "/rows/0/status": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/orders/0/status"
+        },
+        "/rows/0/symbol": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/orders/0/symbol"
+        },
+        "/rows/0/tax_paid": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "execution"
+          ],
+          "source_pointer": "/scenes/paths/scenarios/2/orders/0/tax_paid"
+        }
+      }
+    }
+  ],
+  "units": {
+    "money": "CNY",
+    "offset": "price displacement",
+    "price": "currency/share",
+    "quantity": "shares",
+    "score": "return fraction"
+  }
+}

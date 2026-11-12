@@ -39,3 +39,25 @@ quant-backtest-runtime 的按语言过滤导航。英文为默认语言，中文
 Material 官方[宣布于 2027 年 5 月 5 日结束维护](https://squidfunk.github.io/mkdocs-material/)。
 当前锁定版本与同系列项目一致。应在此日期前评估上游后继方案或仍受维护的兼容主题。
 正文保留为 Markdown，发布使用标准静态网页产物，便于后续迁移。
+
+## 学习站点拼装
+
+PR 与 main 执行相同检查，仅 main 发布。使用全新的仓库外 `TASK_DATA` 目录、Node 26.13.0/npm 12.2.2 以及锁定的 `web/package-lock.json`。前端依赖安装在外部目录，将其 `node_modules` 链接到 `web/`；Astro 生成状态也放在仓库外。文档环境安装带哈希的 `docs/requirements/docs.lock` 和 `learning.lock`。
+
+```sh
+python -m unittest project_tools.test_site_routes project_tools.test_reference_home project_tools.test_site_assembly project_tools.test_learning_assets -v
+python project_tools/validate_learning_assets.py --manifest docs/assets/learning/manifest.json
+npm --prefix web run check
+npm --prefix web run test:unit
+mkdocs build --strict --site-dir "$TASK_DATA/site-mkdocs"
+python project_tools/check_docs.py --site-dir "$TASK_DATA/site-mkdocs"
+python project_tools/extract_reference_home.py --site-dir "$TASK_DATA/site-mkdocs" --output "$TASK_DATA/reference-home"
+SITE_INPUT_DIR="$TASK_DATA/reference-home" ASTRO_OUT_DIR="$TASK_DATA/site-astro" ASTRO_CACHE_DIR="$TASK_DATA/astro-cache" npm --prefix web run build
+python project_tools/assemble_site.py --mkdocs "$TASK_DATA/site-mkdocs" --astro "$TASK_DATA/site-astro" --learning docs/assets/learning --routes docs/site/route-ownership.json --output "$TASK_DATA/site-assembled"
+python project_tools/check_assembled_site.py --site-dir "$TASK_DATA/site-assembled" --base /quant-backtest-engine/ --legacy docs/site/legacy-route-anchors.json
+SITE_DIR="$TASK_DATA/site-assembled" SITE_BASE=/quant-backtest-engine/ BROWSER_OUTPUT_DIR="$TASK_DATA/browser" npm --prefix web run test:e2e
+```
+
+浏览器检查前先安装锁定的 Playwright Chromium，或将 `CHROME_EXECUTABLE` 明确指向兼容的已安装 Chrome。测试启动器使用记录下来的空闲本地端口提供已构建产物。搜索范围仍是 MkDocs 技术参考；共享语言偏好不会重定向深链接。
+
+唯一发布入口为 `.github/workflows/docs.yml`，只上传 `site-assembled`。`site-build.json` 绑定源码版本、源码/锁文件/manifest 输入及交付文件哈希。原教程保留 [PR 19](https://github.com/runchengxie/quant-backtest-engine/pull/19) 和提交 `4820af3b82940e7697cb8c92154315b1d59ee23d`，不提交历史渲染首页。

@@ -89,3 +89,5 @@ which also only uploads artifacts. After merge and review, dispatch on `main` wi
 GitHub prerelease targeting the tested revision, never a crates.io release. Existing
 release/tag names must not be reused. If a publication request loses its response,
 inspect the remote release and tag before attempting it again.
+
+The Astro learning frontend assembles with the retained MkDocs reference into one Pages artifact. Original PR 19 routes, anchors, assets and history remain available; regenerated provider evidence preserves the original economics.

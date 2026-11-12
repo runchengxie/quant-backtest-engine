@@ -1,0 +1,1 @@
+{"name":"engine-method-doc-tests","private":true,"version":"1.0.0","description":"Optional DOM test tooling for public method replay; not an Engine dependency","dependencies":{"jsdom":"26.1.0"}}

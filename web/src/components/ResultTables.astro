@@ -1,0 +1,49 @@
+---
+import {catalog,display,flatten} from '../lib/data';
+import {base} from '../lib/routes';
+const {locale,traces}=Astro.props;
+const c=catalog(locale);
+const valueText=(key:string,value:unknown)=>key==='phase'&&typeof value==='string'?(c['phase.'+value]??value):display(value,c);
+---
+<section>
+  <h2 id="product-all-results">{c['learning.allResults']}</h2>
+  {traces.map((trace:any,presetIndex:number)=>(
+    <article class="learning-results" id={'product-preset-'+trace.preset_id} data-static-preset={trace.preset_id}>
+      <h3>{c['scenario.'+trace.preset_id]}</h3>
+      <a download href={base+'assets/learning/traces/'+trace.scene_id+'/'+trace.preset_id+'.json'}>{c['learning.download']}</a>
+      <p><a href={trace.provider.url}>{trace.provider.id} · {trace.provider.version}</a> · {c['learning.synthetic']}</p>
+      <p>{c['units.'+trace.preset_id]??c['units.'+trace.scene_id]}</p>
+      <details open={presetIndex===0}>
+        <summary>{c.table}</summary>
+        <div class="learning-scroll">
+          <table>
+            <thead><tr><th scope="col">{c.frame}</th><th scope="col">{c['learning.field']}</th><th scope="col">{c['learning.value']}</th></tr></thead>
+            <tbody>{trace.events.flatMap((event:any)=>Object.entries(event.values).map(([key,value])=>(
+              <tr data-event={event.event_id} data-source-pointer={event.source_pointers[key].source_pointer}>
+                <td>{event.ordinal+1}</td><th scope="row">{c['field.'+key]??key}</th><td>{valueText(key,value)}</td>
+              </tr>
+            )))}</tbody>
+          </table>
+        </div>
+      </details>
+      {trace.tables.map((table:any)=>(
+        <details>
+          <summary>{c['field.'+table.id]??table.id}</summary>
+          <div class="learning-scroll">
+            <table>
+              <thead><tr><th scope="col">{c['learning.tableSource']}</th><th scope="col">{c['learning.value']}</th></tr></thead>
+              <tbody>{flatten(table.rows).map(([path,value])=>(<tr><th scope="row"><code>{table.source_pointer+path}</code></th><td>{display(value,c)}</td></tr>))}</tbody>
+            </table>
+          </div>
+        </details>
+      ))}
+      <details class="learning-provenance">
+        <summary>{c.sources}</summary>
+        <p><a href={trace.provider.url}><code>{trace.provider.revision}</code></a></p>
+        <p>{c['learning.pointerHelp']}</p>
+        {Object.keys(trace.bindings.run_sha256).length===0?<p>{c['provenance.named_run_binding_not_recorded']}</p>:<dl>{Object.entries(trace.bindings.run_sha256).map(([name,digest])=><div><dt>{name}</dt><dd><code>{String(digest)}</code></dd></div>)}</dl>}
+        <ul>{trace.events.flatMap((event:any)=>Object.values(event.source_pointers).map((source:any)=><li><code>{source.source_pointer}</code> · {source.run_names.join(', ')||c[source.reason_key]||source.reason_key}</li>))}</ul>
+      </details>
+    </article>
+  ))}
+</section>

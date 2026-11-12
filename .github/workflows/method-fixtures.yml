@@ -1,0 +1,31 @@
+name: Method fixture owner parity
+on:
+  workflow_dispatch:
+    inputs:
+      release_archive_url:
+        description: HTTPS ZIP of the exact registered wheels and Rust executable
+        type: string
+        required: true
+permissions:
+  contents: read
+jobs:
+  owner-parity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+      - name: Verify exact public release bytes before installation
+        env:
+          OWNER_ARCHIVE_URL: ${{ inputs.release_archive_url }}
+        run: |
+          case "$OWNER_ARCHIVE_URL" in https://*) ;; *) exit 2 ;; esac
+          curl --fail --location --proto '=https' --proto-redir '=https' "$OWNER_ARCHIVE_URL" --output "$RUNNER_TEMP/owners.zip"
+          python3 project_tools/unpack_method_owners.py --archive "$RUNNER_TEMP/owners.zip" --output "$RUNNER_TEMP/owners"
+          uv venv --python 3.13 "$RUNNER_TEMP/method-owner-env"
+          uv pip install --python "$RUNNER_TEMP/method-owner-env/bin/python" --no-deps "$RUNNER_TEMP"/owners/*.whl numpy==2.2.6 pandas==3.0.6 scipy==1.18.1 python-dateutil==2.9.0.post0 six==1.17.0 tzdata==2026.2
+      - name: Reexport actual installed owners and compare all fixture bytes
+        env:
+          METHOD_OWNER_PARITY: '1'
+          METHOD_PYTHON: ${{ runner.temp }}/method-owner-env/bin/python
+          QUANT_ENGINE_BINARY: ${{ runner.temp }}/owners/quant-backtest-engine
+        run: python3 -m unittest discover -s project_tools -p test_method_fixtures.py

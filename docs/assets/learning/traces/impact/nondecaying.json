@@ -1,0 +1,413 @@
+{
+  "bindings": {
+    "calls": {
+      "model": {
+        "digest_pointer": "/scenes/impact/scenarios/2/run_sha256/model",
+        "input_pointer": "/scenes/impact/scenarios/2/inputs/runs/model",
+        "owner_id": "core",
+        "source_ids": [
+          "owner-core",
+          "exporter"
+        ]
+      }
+    },
+    "config_sha256": "f1165fc45a6df46bbbe54f55a500bc16bab226783d4821d87b7ec32b0f03f5dd",
+    "input_sha256": "f1165fc45a6df46bbbe54f55a500bc16bab226783d4821d87b7ec32b0f03f5dd",
+    "run_bindings_pointer": "/scenes/impact/scenarios/2/run_sha256",
+    "run_bindings_reason_key": null,
+    "run_bindings_status": "available",
+    "run_sha256": {
+      "model": "5f3e8f3f2eb3b89478eed75611190b2a5a81e44aac9c66a2453da80ce9ab97a7"
+    }
+  },
+  "calibration": "synthetic_only",
+  "clock_semantics": {
+    "decision": "strictly prior eligible information",
+    "event": "elapsed seconds",
+    "report": "receipt clock; may lag economic fill"
+  },
+  "currency": "CNY",
+  "events": [
+    {
+      "clock": {
+        "kind": "elapsed_s",
+        "timezone": null,
+        "value": "0"
+      },
+      "depends_on": [],
+      "event_id": "impact.nondecaying.0",
+      "ordinal": 0,
+      "source_pointers": {
+        "clock": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/impact/scenarios/2/states/0/clock"
+        },
+        "offset": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "model"
+          ],
+          "source_pointer": "/scenes/impact/scenarios/2/states/0/offset"
+        },
+        "permanent": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "model"
+          ],
+          "source_pointer": "/scenes/impact/scenarios/2/states/0/permanent"
+        },
+        "phase": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/impact/scenarios/2/states/0/phase"
+        },
+        "price": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "model"
+          ],
+          "source_pointer": "/scenes/impact/scenarios/2/states/0/price"
+        },
+        "quantity": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/impact/scenarios/2/states/0/quantity"
+        },
+        "transient": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "model"
+          ],
+          "source_pointer": "/scenes/impact/scenarios/2/states/0/transient"
+        },
+        "unaffected": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/impact/scenarios/2/states/0/unaffected"
+        }
+      },
+      "stage": "fill",
+      "values": {
+        "clock": "0",
+        "offset": "0.15",
+        "permanent": "0.1",
+        "phase": "fill",
+        "price": "10.15",
+        "quantity": "100",
+        "transient": "0.2",
+        "unaffected": "10"
+      }
+    },
+    {
+      "clock": {
+        "kind": "elapsed_s",
+        "timezone": null,
+        "value": "60"
+      },
+      "depends_on": [],
+      "event_id": "impact.nondecaying.1",
+      "ordinal": 1,
+      "source_pointers": {
+        "clock": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/impact/scenarios/2/states/1/clock"
+        },
+        "offset": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "model"
+          ],
+          "source_pointer": "/scenes/impact/scenarios/2/states/1/offset"
+        },
+        "permanent": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "model"
+          ],
+          "source_pointer": "/scenes/impact/scenarios/2/states/1/permanent"
+        },
+        "phase": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/impact/scenarios/2/states/1/phase"
+        },
+        "price": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "model"
+          ],
+          "source_pointer": "/scenes/impact/scenarios/2/states/1/price"
+        },
+        "quantity": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/impact/scenarios/2/states/1/quantity"
+        },
+        "transient": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "model"
+          ],
+          "source_pointer": "/scenes/impact/scenarios/2/states/1/transient"
+        },
+        "unaffected": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/impact/scenarios/2/states/1/unaffected"
+        }
+      },
+      "stage": "decay",
+      "values": {
+        "clock": "60",
+        "offset": "0.1735758882342885",
+        "permanent": "0.1",
+        "phase": "decay",
+        "price": "10.17357588823429",
+        "quantity": "0",
+        "transient": "0.07357588823428847",
+        "unaffected": "10"
+      }
+    },
+    {
+      "clock": {
+        "kind": "elapsed_s",
+        "timezone": null,
+        "value": "60"
+      },
+      "depends_on": [],
+      "event_id": "impact.nondecaying.2",
+      "ordinal": 2,
+      "source_pointers": {
+        "clock": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/impact/scenarios/2/states/2/clock"
+        },
+        "offset": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "model"
+          ],
+          "source_pointer": "/scenes/impact/scenarios/2/states/2/offset"
+        },
+        "permanent": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "model"
+          ],
+          "source_pointer": "/scenes/impact/scenarios/2/states/2/permanent"
+        },
+        "phase": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/impact/scenarios/2/states/2/phase"
+        },
+        "price": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "model"
+          ],
+          "source_pointer": "/scenes/impact/scenarios/2/states/2/price"
+        },
+        "quantity": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/impact/scenarios/2/states/2/quantity"
+        },
+        "transient": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "model"
+          ],
+          "source_pointer": "/scenes/impact/scenarios/2/states/2/transient"
+        },
+        "unaffected": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/impact/scenarios/2/states/2/unaffected"
+        }
+      },
+      "stage": "fill",
+      "values": {
+        "clock": "60",
+        "offset": "0.3235758882342885",
+        "permanent": "0.2",
+        "phase": "fill",
+        "price": "10.323575888234288",
+        "quantity": "100",
+        "transient": "0.27357588823428847",
+        "unaffected": "10"
+      }
+    },
+    {
+      "clock": {
+        "kind": "elapsed_s",
+        "timezone": null,
+        "value": "240"
+      },
+      "depends_on": [],
+      "event_id": "impact.nondecaying.3",
+      "ordinal": 3,
+      "source_pointers": {
+        "clock": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/impact/scenarios/2/states/3/clock"
+        },
+        "offset": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "model"
+          ],
+          "source_pointer": "/scenes/impact/scenarios/2/states/3/offset"
+        },
+        "permanent": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "model"
+          ],
+          "source_pointer": "/scenes/impact/scenarios/2/states/3/permanent"
+        },
+        "phase": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/impact/scenarios/2/states/3/phase"
+        },
+        "price": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "model"
+          ],
+          "source_pointer": "/scenes/impact/scenarios/2/states/3/price"
+        },
+        "quantity": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/impact/scenarios/2/states/3/quantity"
+        },
+        "transient": {
+          "reason_key": null,
+          "run_binding_status": "available",
+          "run_names": [
+            "model"
+          ],
+          "source_pointer": "/scenes/impact/scenarios/2/states/3/transient"
+        },
+        "unaffected": {
+          "reason_key": "provenance.supplied_metadata",
+          "run_binding_status": "not_applicable",
+          "run_names": [],
+          "source_pointer": "/scenes/impact/scenarios/2/states/3/unaffected"
+        }
+      },
+      "stage": "decay",
+      "values": {
+        "clock": "240",
+        "offset": "0.21362054145131965",
+        "permanent": "0.2",
+        "phase": "decay",
+        "price": "10.21362054145132",
+        "quantity": "0",
+        "transient": "0.013620541451319626",
+        "unaffected": "10"
+      }
+    }
+  ],
+  "evidence_boundary": "Synthetic acceptance only; no real-market calibration or performance claim",
+  "exporter_sources": {
+    "project_tools/method_action_case.py": "87dc420f939fd04f16bccfc0873cb70d99ec20b7d1b7f87f31176267b2cbcf05",
+    "project_tools/method_fixture_common.py": "2aa9362a85096a4babf316e3deea08c2edf742a9d30c64e4a105a1a4c77afe8b",
+    "project_tools/method_market_cases.py": "562c6af472439f85f83d80662c7fab051ae2a9feb4fc3817659270612235f667",
+    "project_tools/method_owner_calls.py": "3ac2e4d33cf766e6d80bc94667ea2a45efaff01233f8d088a8b29dda1ee6a659",
+    "project_tools/method_risk_case.py": "73fb513b59cced264616ae0f0dc46a8528ea4626b12edac1c87b704321ef3a09",
+    "project_tools/method_session_cases.py": "848501aff7c5b9126a703eae6e762ff8c5f45ce83f35da27d42bf8c61d87f54c"
+  },
+  "policy_mode": "not_applicable",
+  "preset_id": "nondecaying",
+  "provider": {
+    "backend_id": "python",
+    "dependency_sha256": "2cbcad4753a801aec4e8887c036fc857583e026b65534e5d1f2be3a21029206a",
+    "id": "core",
+    "revision": "ad0895f1c2015eb31bd364b40741b0f7cd6e0048",
+    "source_sha256": {
+      "quant_backtest_core": "aa6ee88568755d563a7f25e7b86fc7a0dde361f5b9225282043d5d967aba73c6",
+      "quant_backtest_core._minute": "073635fe95bc0e704ba5c6d5b2f72a5e79b30c2a16f8c43716fc2a667c03de61",
+      "quant_backtest_core._minute._minute_state": "3c9c1c0ddae216bc11991c37672f4739e1a01b22c76816e83522cca45f4dcf3b",
+      "quant_backtest_core._minute._minute_validation": "82bc90766a875593c57c38912a9e4fba1f2c21b04532c494eef01fece573b246",
+      "quant_backtest_core._minute.capital_flows": "c0d668755a8f0b333c78812871487b1d57c3d74f412b3e11b57f035b0400b74a",
+      "quant_backtest_core._minute.corporate_actions": "bac108db5f43bf6efeb54320d3371de9f27101fb229e44af54e98fcd075171e8",
+      "quant_backtest_core._minute.minute_execution": "9c1f0f6a63b95c86c377fbb7b7d8951be838fc6e5771186f5cdb4f1f40ee4424",
+      "quant_backtest_core._minute.valuation_events": "d4bb0ab3800b9896cd715724b7d1659443371648f2715404c0f5d766dc0193c2",
+      "quant_backtest_core.backends": "426bf7185ba0e76c542142dda1c5651b037983f19f6d7192c81cc37c92fa8f88",
+      "quant_backtest_core.backends.protocol": "db5776a5a4b66f0fcaf9e4d76a258ab8ead885061303bd71ccb2bbafa4e08e43",
+      "quant_backtest_core.backends.registry": "2d327b6df953a1f10336fad1af8ee3a4317bdff97d6fc114d74cca1bd1ae121f",
+      "quant_backtest_core.backtest": "7ed16f2d6b9419674e77bcf541bf599f6c6dcb5c599aad6e8e4cccc6cd03da4d",
+      "quant_backtest_core.backtest._minute_checkpoint": "64e5e0315f00147d8012a4bc9dc656c41706777a3860702e55d70444852569ad",
+      "quant_backtest_core.backtest.impact": "1f60152d7941e22348a17f76d60eabfa3b9135be6c1824dd19bb73953a034bbb",
+      "quant_backtest_core.backtest.minute": "215934a20496cb4113364480da9b5808a470cb15c09910b008c127734f196f93",
+      "quant_backtest_core.backtest.minute_session": "6e823a96167d4a94862775e2aade33fbd6d36943099cdf25ee348c5757417644",
+      "quant_backtest_core.backtest.quantity_locks": "248b26e7352e9a6f675c28887086f573a75f719f0bc3b7406408f7c0b638ef16",
+      "quant_backtest_core.errors": "9c584ba8838431c501a3fe89dde9e36a1e7f44baca054b96cc0476d312f6ad38",
+      "quant_backtest_core.evidence": "7ed16f2d6b9419674e77bcf541bf599f6c6dcb5c599aad6e8e4cccc6cd03da4d",
+      "quant_backtest_core.evidence._exact": "4b76cb1857d59a3b07fb29a251715ba5956349dd7d6a0a2d9ac5b3a4b48a2bc4",
+      "quant_backtest_core.evidence.execution_integrity": "38f46b999ca032b0520cb44d80b04362d966f5b6900064854b25e99db77dc90c",
+      "quant_backtest_core.microstructure": "ff076da5840f71329e51e3146d10b9e0e57ad15bb3ca40685d519675a0168f80",
+      "quant_backtest_core.microstructure.matching": "920adb6b3f5196512cbf23692ab6dbfd7f980b5a80e965a2854d7cf60c216e2a",
+      "quant_backtest_core.microstructure.ordering": "d5744eba37df981d3af9bd7fabc5dffb0d3afa095b2ca76eb109fe927f13db84",
+      "quant_backtest_core.microstructure.pack": "d9b049c508d005fac34c0d70505de8932b8548eb44a570847f820c0435a01f2b",
+      "quant_backtest_core.planning": "32db62cebabed7154687fe57228f44cf6f6a753515cab3ba0e03124e2dfaf5e6",
+      "quant_backtest_core.planning.discrete_inventory": "df31ad2bdd9283c05649c3d06feb2744b32c0715592535f3c1e431c8e3ea4a8c",
+      "quant_backtest_core.planning.sleeve_allocation": "b6c73dd88c1f2804e3f278df8ccb069daf1f2934bda94a70d8144120f882061f",
+      "quant_backtest_core.runner": "d0c64ab0915c5a070abf30bf1f14ff32bd9716650ba28018f64e060c34488803"
+    },
+    "url": "https://github.com/runchengxie/quant-backtest-engine/tree/ad0895f1c2015eb31bd364b40741b0f7cd6e0048",
+    "version": "0.3.0"
+  },
+  "scene_id": "impact",
+  "schema": "engine-learning-trace.v1",
+  "seed": null,
+  "source_ids": [
+    "owner-core",
+    "exporter"
+  ],
+  "tables": [],
+  "units": {
+    "money": "CNY",
+    "offset": "price displacement",
+    "price": "currency/share",
+    "quantity": "shares",
+    "score": "return fraction"
+  }
+}

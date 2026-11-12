@@ -1,0 +1,42 @@
+.method-scene{--method-accent:#126c80;--method-soft:#e6f4f5;--method-ink:#163843;border:1px solid var(--md-default-fg-color--lighter);border-radius:.7rem;padding:1rem;margin:1.4rem 0 2.2rem;background:var(--md-default-bg-color)}
+[data-md-color-scheme="slate"] .method-scene{--method-accent:#8cdeeb;--method-soft:#233b46;--method-ink:#e3f4f7}
+.method-controls{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.6rem 0}
+.method-controls[hidden],.method-stage[hidden]{display:none}
+.method-controls button,.method-controls select{font:inherit;min-height:44px;border:1px solid var(--method-accent);border-radius:.3rem;padding:.35rem .7rem;color:var(--method-ink);background:var(--method-soft)}
+.method-controls select{max-width:100%;min-width:0}
+.method-controls button{cursor:pointer}
+.method-controls button:disabled{opacity:.6;cursor:default}
+.method-controls :focus-visible,.method-scene summary:focus-visible{outline:3px solid var(--md-accent-fg-color);outline-offset:3px}
+.method-scene svg{width:100%;max-width:680px;height:auto;display:block;margin:auto;color:var(--method-ink)}
+.method-scene svg text{font-size:15px;fill:currentColor}
+.method-scene svg .method-svg-title{font-size:18px;font-weight:600}
+.method-line{stroke:var(--method-ink);stroke-width:1.2;opacity:.6}
+.method-shape{fill:var(--method-soft);stroke:var(--method-accent);stroke-width:1.5}
+.method-active{stroke-width:4}
+.method-fill,.method-feasible,.method-point,.method-cursor{fill:var(--method-accent)}
+.method-infeasible{fill:var(--md-default-bg-color);stroke:var(--md-default-fg-color--light);stroke-dasharray:2 2}
+.method-ring{fill:none;stroke:#c05d08;stroke-width:3}
+[data-md-color-scheme="slate"] .method-ring{stroke:#ffba73}
+.method-grid-label{font-size:10px!important;fill:var(--md-default-bg-color)!important}
+.method-infeasible+.method-grid-label{fill:var(--method-ink)!important}
+.method-series{fill:none;stroke-width:3}
+.method-series-0{stroke:var(--method-ink);stroke-dasharray:3 4}
+.method-series-1{stroke:var(--method-accent)}
+.method-series-2{stroke:#c05d08;stroke-dasharray:8 4}
+.method-legend{stroke:none}
+.method-feedback{fill:none;stroke:var(--method-accent);stroke-width:2;stroke-dasharray:5 6}
+.method-playing .method-feedback{animation:method-flow 1.2s linear infinite}
+.method-playing .method-cursor{animation:method-pulse 1.2s ease-in-out infinite}
+.method-status{min-height:4em;font-variant-numeric:tabular-nums;font-size:.8rem;border-left:3px solid var(--method-accent);padding:.5rem .75rem;overflow-wrap:anywhere}
+.method-scroll{overflow:auto;max-width:100%}
+.method-scene table{font-variant-numeric:tabular-nums;font-size:.72rem;white-space:nowrap;width:100%;border-collapse:collapse}
+.method-scene th,.method-scene td{padding:.45rem .6rem;border-bottom:1px solid var(--md-default-fg-color--lightest);text-align:left}
+.method-current{background:var(--method-soft);outline:2px solid var(--method-accent);outline-offset:-2px}
+.method-boundary{font-size:.8rem;border-radius:.3rem;padding:.6rem;background:var(--method-soft)}
+.method-scene details{margin:.8rem 0}
+.method-scene summary{cursor:pointer;min-height:36px}
+.method-scene code{overflow-wrap:anywhere;white-space:normal}
+@keyframes method-flow{to{stroke-dashoffset:-22}}
+@keyframes method-pulse{50%{r:9}}
+@media(prefers-reduced-motion:reduce){.method-scene *{animation:none!important;transition:none!important}}
+@media(max-width:600px){.method-scene{padding:.6rem}.method-controls label{width:100%}.method-controls select{width:100%}.method-status{font-size:.73rem}.method-scene svg text{font-size:14px}}

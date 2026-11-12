@@ -1,0 +1,4 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';import {base,route} from '../../lib/routes';import {catalog} from '../../lib/data';import routes from '../../../../docs/site/locale-routes.json';import labels from '../../../../docs/site/reference-labels.json';const locale='zh-CN';const c=catalog(locale);const pairs=Object.entries(routes.pairs).filter(([en])=>en&&!en.startsWith('learn/')&&!en.startsWith('lab/')&&!en.startsWith('reference/'));
+---
+<SiteLayout locale={locale} title={c['learning.reference']} counterpart={route('reference','en')}><h1 id="product-reference">{c['learning.reference']}</h1><p>{c['learning.technicalSearch']}</p><ul>{pairs.map(([en,zh])=><li><a href={base+(zh)}>{(labels as Record<string,string>)[locale==='zh-CN'?zh:en]??en}</a></li>)}</ul></SiteLayout>

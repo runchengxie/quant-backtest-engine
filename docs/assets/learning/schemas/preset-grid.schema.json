@@ -1,0 +1,206 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "engine-learning-grid.v1"
+    },
+    "presets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "scene_id": {
+            "enum": [
+              "flow",
+              "book",
+              "impact",
+              "cost",
+              "lots",
+              "paths",
+              "selection",
+              "risk"
+            ]
+          },
+          "preset_id": {
+            "type": "string"
+          },
+          "inputs": {},
+          "seed": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "owner_calls": {
+            "additionalProperties": {
+              "$ref": "#/$defs/CallSource"
+            },
+            "description": "Exactly the same keys as run_sha256; pointer values, source identities and key equality require semantic validation.",
+            "type": "object"
+          },
+          "trace_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "scene_id",
+          "preset_id",
+          "inputs",
+          "seed",
+          "capabilities",
+          "owner_calls",
+          "trace_sha256"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "presets"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "CallSource": {
+      "additionalProperties": false,
+      "properties": {
+        "digest_pointer": {
+          "pattern": "^/",
+          "type": "string"
+        },
+        "input_pointer": {
+          "pattern": "^/",
+          "type": "string"
+        },
+        "owner_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "input_pointer",
+        "digest_pointer",
+        "owner_id",
+        "source_ids"
+      ],
+      "type": "object"
+    },
+    "ValueSource": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "else": {
+            "properties": {
+              "reason_key": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "run_names": {
+                "maxItems": 0
+              }
+            }
+          },
+          "if": {
+            "properties": {
+              "run_binding_status": {
+                "const": "available"
+              }
+            },
+            "required": [
+              "run_binding_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "reason_key": {
+                "type": "null"
+              },
+              "run_names": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "reason_key": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "run_binding_status": {
+          "enum": [
+            "available",
+            "unavailable",
+            "not_applicable"
+          ]
+        },
+        "run_names": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "source_pointer": {
+          "pattern": "^/",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_pointer",
+        "run_names",
+        "run_binding_status",
+        "reason_key"
+      ],
+      "type": "object"
+    },
+    "SafeValue": {
+      "anyOf": [
+        {
+          "type": [
+            "string",
+            "boolean",
+            "null"
+          ]
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SafeValue"
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/SafeValue"
+          }
+        }
+      ]
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

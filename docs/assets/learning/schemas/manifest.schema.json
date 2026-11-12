@@ -1,0 +1,172 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "engine-learning-manifest.v1"
+    },
+    "provider_revisions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{40}$"
+      }
+    },
+    "exporter_sources": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      }
+    },
+    "fixture": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "pattern": "^assets/[^?#]+$"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "url",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "sources": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "pattern": "^assets/[^?#]+$"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "url",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "catalogs": {
+      "type": "object",
+      "properties": {
+        "en": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "pattern": "^assets/[^?#]+$"
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "url",
+            "sha256"
+          ],
+          "additionalProperties": false
+        },
+        "zh-CN": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "pattern": "^assets/[^?#]+$"
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "url",
+            "sha256"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "en",
+        "zh-CN"
+      ],
+      "additionalProperties": false
+    },
+    "preset_grid": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "pattern": "^assets/[^?#]+$"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "url",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "traces": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "scene_id": {
+            "enum": [
+              "flow",
+              "book",
+              "impact",
+              "cost",
+              "lots",
+              "paths",
+              "selection",
+              "risk"
+            ]
+          },
+          "preset_id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^assets/[^?#]+$"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "scene_id",
+          "preset_id",
+          "url",
+          "sha256"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "provider_revisions",
+    "exporter_sources",
+    "fixture",
+    "sources",
+    "catalogs",
+    "preset_grid",
+    "traces"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

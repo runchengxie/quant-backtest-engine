@@ -4,3 +4,7 @@
 /site/
 /.venv-docs/
 __pycache__/
+
+# Task-local links to external frontend tooling/cache
+web/node_modules
+web/.astro
