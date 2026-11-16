@@ -2,9 +2,11 @@
 
 [English](reusable-product.md)
 
+当前交付状态（2026-11-16）：提供方 C 已合并至 `ad0895f1c2015eb31bd364b40741b0f7cd6e0048`，Platform 消费者 C 已合并至 `c211d36167acf7a81fd0c034beb14317e2036b7e`，教程通过 PR 26 合并至 `062a820de013d824686e6b5f6582843618929d27`。见[验收与剩余关卡](../product/acceptance.zh-CN.md)。下文保留各阶段关卡的历史背景。
+
 Core 0.3.0 源码新增完整独立日频财务实现及显式 python.daily 后端，分钟、规划与情景
-核算继续保留。SDK 0.3.0 保持标准库命名空间。提供方 B 和 Platform B 已按归属登记表
-记录的版本发布；提供方 C 审核、合并、确切合并版 wheel 及 Platform C 切换仍待完成。
+核算继续保留。SDK 0.3.0 保持标准库命名空间。提供方 C 与 Platform 消费者 C 已按上文
+修订合并，并保留独立 wheel 回执；Runtime v9 与其他研究调用方关卡分别跟踪。
 请阅读[安装](../product/installation.zh-CN.md)、[后端边界](../product/backends.zh-CN.md)
 和[日频输入](../product/daily-inputs.zh-CN.md)。源码实现与发布、消费者验收分别记录。
 
@@ -14,8 +16,8 @@ Core 0.3.0 源码新增完整独立日频财务实现及显式 python.daily 后�
 | --- | --- | --- |
 | Engine Rust | 0.2.0，NautilusTrader 0.66.0；原生报价、会话与 CLI 语义不变 | Python 能力不扩展 Rust；成交与记账仍以上游为准 |
 | Engine SDK | `quant-backtest-engine-client` 0.3.0；`quant_backtest_engine`；Python ≥3.11；标准库产品契约 | 固定确切已审查源码及已验证 wheel；SDK 基础导入不依赖 core |
-| 可选 Engine core | Core 0.3.0 源码；Python 3.12/3.13；独立日频、分钟、规划及情景核算 | 提供方 C 审核、合并、确切合并产物待完成 |
-| Platform | 保留消费者 B | 消费者 C（Task 15）等待提供方 C 合并验证；研究及发布仍归 Platform |
+| 可选 Engine core | Core 0.3.0 源码；Python 3.12/3.13；独立日频、分钟、规划及情景核算 | 提供方 C 已合并，保留独立确切 wheel 回执 |
+| Platform | 消费者 C 已通过 PR 200 合并 | 固定确切提供方；研究及发布仍归 Platform |
 | Runtime | 保留既有 0.1.0 及 v1–v8 路径 | 可选新增 v9/0.2.0 消费者须等待提供方合并及运行管理验收 |
 
 Core 基础包依赖 SDK `>=0.3.0,<0.4`；仓库构建与消费者固定确切的已合并 VCS 修订
@@ -108,7 +110,7 @@ Runtime 客户端、独立信号验收持仓重放、市场研究的分钟/日�
 
 [PR 19](https://github.com/runchengxie/quant-backtest-engine/pull/19) 的
 [`4820af3`](https://github.com/runchengxie/quant-backtest-engine/tree/4820af3b82940e7697cb8c92154315b1d59ee23d)
-仍是保留的、已审查但尚未合并的源码。八个场景标识全部保留：
+已连同祖先历史整合进合并后的 PR 26；原检查点继续保留作为来源记录。八个场景标识全部保留：
 `selection`、`paths`、`cost`、`impact`、`lots`、`flow`、`book`、`risk`。
 同时保留双语目录与页面、导出器及辅助源码和哈希、精确时钟投影、无 JavaScript 财务表格、
 重放/DOM/夹具测试，以及许可和源码历史。

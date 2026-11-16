@@ -2,11 +2,13 @@
 
 [简体中文](reusable-product.zh-CN.md)
 
+Current delivery status (2026-11-16): provider C is merged at `ad0895f1c2015eb31bd364b40741b0f7cd6e0048`, Platform consumer C at `c211d36167acf7a81fd0c034beb14317e2036b7e`, and the tutorial at `062a820de013d824686e6b5f6582843618929d27` (PR 26). See [acceptance and remaining gates](../product/acceptance.md). The staged gate descriptions below retain their historical context.
+
 Core 0.3.0 source now includes the complete independent daily financial graph and explicit
 python.daily backend alongside the minute, planning and scenario owners. SDK 0.3.0
-retains its standard-library namespace. Provider B and Platform B are released at the
-revisions recorded in the ownership registry; provider C review, merge, exact merged
-wheels and Platform C cutover remain pending. Use [installation](../product/installation.md),
+retains its standard-library namespace. Provider C and Platform consumer C are merged at the
+revisions above, with independent wheel receipts. Runtime v9 and remaining research
+consumer gates remain separate. Use [installation](../product/installation.md),
 [backend limits](../product/backends.md) and [daily inputs](../product/daily-inputs.md).
 Source implementation is distinct from release and consumer evidence.
 
@@ -16,8 +18,8 @@ Source implementation is distinct from release and consumer evidence.
 | --- | --- | --- |
 | Engine Rust | 0.2.0, NautilusTrader 0.66.0; unchanged native quote/session/CLI behavior | Python capabilities do not extend Rust; upstream execution/accounting remain authoritative |
 | Engine SDK | `quant-backtest-engine-client` 0.3.0; `quant_backtest_engine`; Python ≥3.11; standard-library product contracts | Pin the exact reviewed source and verified wheel; base SDK never imports core |
-| Optional Engine core | Core 0.3.0 source; Python 3.12/3.13; independent daily, minute, planning and scenario owners | Provider C review/merge/exact merged artifacts pending |
-| Platform | Consumer B retained | Consumer C (Task 15) follows merged verified provider C; research/publication remain Platform |
+| Optional Engine core | Core 0.3.0 source; Python 3.12/3.13; independent daily, minute, planning and scenario owners | Merged provider C; independent exact-wheel receipts retained |
+| Platform | Consumer C merged in PR 200 | Exact provider pin; research/publication remain Platform |
 | Runtime | Existing 0.1.0 and v1–v8 paths retained | Optional additive v9/0.2.0 consumer follows merged provider and operational acceptance |
 
 Core base depends on SDK `>=0.3.0,<0.4`; repository builds and consumers pin an exact
@@ -126,7 +128,8 @@ restore is promised. Never request a new checkpoint from a failed financial owne
 
 [PR 19](https://github.com/runchengxie/quant-backtest-engine/pull/19) at
 [`4820af3`](https://github.com/runchengxie/quant-backtest-engine/tree/4820af3b82940e7697cb8c92154315b1d59ee23d)
-remains preserved, unmerged reviewed source. Retain all eight scene identifiers:
+was incorporated with its ancestry into merged PR 26. The original checkpoint remains
+preserved for provenance. All eight scene identifiers are retained:
 `selection`, `paths`, `cost`, `impact`, `lots`, `flow`, `book`, `risk`. Keep bilingual
 catalogs/pages, exporter/helper sources and hashes, exact-clock projection,
 no-JS financial tables, replay/DOM/fixture tests and license/source history.
@@ -139,7 +142,8 @@ environments. Keep old provenance. Risk/null teaching can retain Platform as a
 separate optional analytical owner. Replace the forced Runtime documentation-only
 checkout with an optional versioned reference when integrating. Browser replay
 continues displaying exported owner results; it never computes a financial model.
-This M0 change leaves the tutorial branch and worktree intact.
+The historical M0 step left the tutorial branch and worktree intact; later PR 26
+incorporated it. Earlier task resources require their own recorded closeout.
 
 ## Validate this record
 

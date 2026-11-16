@@ -70,6 +70,7 @@ nav:
       - Migration limits: migration/corporate-action-conformance.md
       - Product contracts: product/contracts.md
       - Product installation: product/installation.md
+      - Delivery acceptance: product/acceptance.md
       - Product backends: product/backends.md
       - Daily inputs: product/daily-inputs.md
       - Daily execution scope: guides/execution-simulation.md
@@ -120,6 +121,7 @@ nav:
       - 迁移边界: migration/corporate-action-conformance.zh-CN.md
       - 产品契约: product/contracts.zh-CN.md
       - 产品安装: product/installation.zh-CN.md
+      - 交付验收: product/acceptance.zh-CN.md
       - 产品后端: product/backends.zh-CN.md
       - 日频输入: product/daily-inputs.zh-CN.md
       - 日频执行范围: guides/execution-simulation.zh-CN.md

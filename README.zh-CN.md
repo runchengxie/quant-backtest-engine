@@ -8,10 +8,10 @@
 
 如果你已经确定要测试哪些订单，可以从这里开始。仓库中的合成示例无需行情数据、策略代码或任务服务。
 
-当前源码已实现提供方 A：可选 Python core 0.1.0 提供独立分钟会话、来源绑定的恢复以及
-已迁入的财务叶子 API；SDK 0.3.0 保留既有客户端命名空间。请从
-[可选产品安装](docs/product/installation.zh-CN.md)和[恢复示例](docs/product/recovery.zh-CN.md)开始，
-使用确切的已审查源码和 wheel 摘要。提供方 C 的集成、发布验证及其消费者切换仍待完成；这不表示已经在 PyPI 发布或完成消费者版本发布。
+可选 Python core 0.3.0 提供独立分钟与日频执行、账户恢复、有界规划和情景 API。
+SDK 0.3.0 保留标准库客户端命名空间。请从[安装说明](docs/product/installation.zh-CN.md)
+和[交付验收指南](docs/product/acceptance.zh-CN.md)开始。
+已有经过审查的合并源码与独立构建的 wheel；这不表示已在 PyPI 发布或完成可选 Runtime v9 切换。
 
 ## 先跑一个小回测
 
@@ -42,8 +42,8 @@ Rust 后端仍不支持公司行为、退市和完整市场规则；单独的 Py
 增加队列、任务状态、取消、资源限制和结果保存。
 [quant-platform](https://github.com/runchengxie/quant-platform)目前保留 Python 后端，作为兼容对照并处理暂不支持的场景。
 [可复用产品迁移](docs/migration/reusable-product.zh-CN.md)记录了已实现的财务核算与后续消费者关卡。
-Core 0.3.0 增加[独立日频实现](docs/product/daily-inputs.zh-CN.md)；提供方 C 发布和
-消费者切换仍须完成审核、合并及确切产物验证。
+Core 0.3.0 包含[独立日频实现](docs/product/daily-inputs.zh-CN.md)。Platform 消费者 C
+已通过 PR 200 合并；Runtime 和其他调用方的关卡分别跟踪。
 本引擎可以独立使用，不需要安装这两个项目。
 
 ## 接下来
@@ -59,4 +59,4 @@ Core 0.3.0 增加[独立日频实现](docs/product/daily-inputs.zh-CN.md)；提�
 LGPL-3.0-only。原文见 [LICENSE](LICENSE)、[COPYING](COPYING)，
 依赖声明见[第三方说明](docs/third-party-notices.zh-CN.md)。上游依赖保留各自的版权与许可要求。
 
-确定性订单簿撮合与回放已在提供方 B 源码实现，尚待合并发布。[订单簿 Python 与可选 PyO3 模式](docs/development/microstructure-rust.zh-CN.md).
+确定性订单簿撮合与回放已包含在合并后的提供方 B 源码中。[订单簿 Python 与可选 PyO3 模式](docs/development/microstructure-rust.zh-CN.md).
