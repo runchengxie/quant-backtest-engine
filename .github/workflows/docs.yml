@@ -52,7 +52,7 @@ jobs:
           NODE_PATH="$TASK_DATA/method-dom/node_modules" node --test project_tools/test_method_dom.cjs
       - name: Validate exact assets, route assembly and shared replay state
         run: |
-          "$TASK_DATA/docs-env/bin/python" -m unittest project_tools.test_site_routes project_tools.test_reference_home project_tools.test_site_assembly project_tools.test_learning_assets -v
+          "$TASK_DATA/docs-env/bin/python" -m unittest project_tools.test_deployed_site project_tools.test_site_routes project_tools.test_reference_home project_tools.test_site_assembly project_tools.test_learning_assets -v
           "$TASK_DATA/docs-env/bin/python" project_tools/validate_learning_assets.py --manifest docs/assets/learning/manifest.json
           npm --prefix web run check
           npm --prefix web run test:unit

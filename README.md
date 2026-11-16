@@ -10,13 +10,12 @@ accounting, with a Rust library, command-line tool and independent Python client
 Use it when you already know which orders to test. For a first experiment, the
 included synthetic example needs no market data, strategy code or runtime service.
 
-Provider A is implemented in this source tree: the optional Python core 0.1.0 adds
-standalone minute sessions, source-bound recovery and transferred financial leaf APIs;
-SDK 0.3.0 retains the existing client namespace. Start with the
-[optional product installation](docs/product/installation.md) and
-[recovery example](docs/product/recovery.md), using exact reviewed source and wheel hashes.
-Provider A integration/release verification and Platform/Runtime consumer cutovers are
-still pending; this is not a PyPI availability or consumer-release claim.
+Optional Python core 0.3.0 provides independent minute and daily execution,
+account recovery, bounded planning and scenario APIs. SDK 0.3.0 keeps the
+standard-library client namespace. Start with [installation](docs/product/installation.md)
+and the [delivery acceptance guide](docs/product/acceptance.md).
+Reviewed merged source and independently built wheels are available; this does
+not imply a PyPI release or the optional Runtime v9 cutover.
 
 ## Try a small backtest
 
@@ -51,9 +50,9 @@ The engine runs a backtest. [quant-backtest-runtime](https://github.com/runcheng
 adds queues, job status, cancellation, resource limits and saved results.
 [quant-platform](https://github.com/runchengxie/quant-platform) retains the Python
 backends currently used for compatibility and unsupported scenarios. The [reusable product migration](docs/migration/reusable-product.md) records the
-implemented financial owners and remaining consumer gates. Core 0.3.0 adds the independent
-[daily execution graph](docs/product/daily-inputs.md); provider C release and consumer
-cutover remain gated by review, merge and exact artifact verification.
+implemented financial owners and remaining consumer gates. Core 0.3.0 includes the independent
+[daily execution graph](docs/product/daily-inputs.md). Platform consumer C merged
+in PR 200; Runtime and other consumer gates are tracked separately.
 You can use this engine without either repository.
 
 ## Next steps
@@ -70,4 +69,4 @@ LGPL-3.0-only. See [LICENSE](LICENSE), [COPYING](COPYING) and
 [third-party notices](docs/third-party-notices.md). Upstream dependencies retain
 their own copyright and licensing obligations.
 
-Deterministic LOB matching/replay is implemented in provider B source, pending merged release. [LOB Python / optional PyO3 modes](docs/development/microstructure-rust.md).
+Deterministic LOB matching/replay is included in merged provider B source. [LOB Python / optional PyO3 modes](docs/development/microstructure-rust.md).

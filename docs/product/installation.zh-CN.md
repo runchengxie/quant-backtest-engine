@@ -2,6 +2,8 @@
 
 [English](installation.md)
 
+[交付验收与剩余关卡](acceptance.zh-CN.md).
+
 Core 0.3.0 提供显式选择的 Rust 执行器和可恢复 Python 分钟执行器。在 Python 3.12 或 3.13 环境中，
 安装从同一已审核 Engine 提交构建的 SDK 0.3.0 和 core wheel。
 core 的解释器范围为 `>=3.12,<3.14`。Python 3.14 上 pandas 3.0.6 要求
@@ -77,7 +79,7 @@ daily extra 已在提供方 C 源码中启用独立日频实现及 `python.daily
 
 ## Task 9 执行归属
 
-提供方 B 已实现[纸面账户](../backtest/paper-account.zh-CN.md)、[账户事件与完整检查点](../contracts/paper-account-events.zh-CN.md)、[外部对账](../backtest/capital-and-reconciliation.zh-CN.md)、[中立待成交预留](../contracts/pending-allocation.zh-CN.md)和[执行冲击估计](../microstructure/impact-estimation.zh-CN.md)。pandas 账户和预留使用 core 的 `[planning]` 可选依赖；回放/冲击只需标准库。可选原生 wheel 尚无逐笔证据，仍拒绝冲击估计。调用者优化器负责完整研究验证，Engine 不提供 OSQP 优化器。当前提供方 C 候选版本为 Core 0.3.0；其审查、合并及精确 wheel 验证仍须先于发布和消费者切换；旧检查点保留完整固定旧环境。
+提供方 B 已实现[纸面账户](../backtest/paper-account.zh-CN.md)、[账户事件与完整检查点](../contracts/paper-account-events.zh-CN.md)、[外部对账](../backtest/capital-and-reconciliation.zh-CN.md)、[中立待成交预留](../contracts/pending-allocation.zh-CN.md)和[执行冲击估计](../microstructure/impact-estimation.zh-CN.md)。pandas 账户和预留使用 core 的 `[planning]` 可选依赖；回放/冲击只需标准库。可选原生 wheel 尚无逐笔证据，仍拒绝冲击估计。调用者优化器负责完整研究验证，Engine 不提供 OSQP 优化器。Core 0.3.0 提供方 C 与 Platform 消费者 C 已合并；确切源码、wheel 组合及其他调用方关卡见[验收指南](acceptance.zh-CN.md)；旧检查点保留完整固定旧环境。
 
 ## 有界规划
 
@@ -91,6 +93,6 @@ daily extra 已在提供方 C 源码中启用独立日频实现及 `python.daily
 
 `[scenario]` 额外支持[独立目标场景组合](scenarios.zh-CN.md)。每个 extra 应单独安装 wheel，
 运行 `project_tools/verify_installed_scenarios.py --profile EXTRA`，并以 `--profile all` 检查并集。
-`daily` extra 启用独立日频计算及 `python.daily`；提供方 C 仍是待审查、合并与发布验证的候选版本。
+`daily` extra 启用独立日频计算及 `python.daily`；提供方 C 已合并，可按已验证源码独立构建 wheel；不表示已在 PyPI 发布。
 
 日频验收执行 `python -I -B project_tools/verify_installed_daily.py` 及 `python -I -B -m pytest core/tests/daily -q -p no:cacheprovider`。最小 daily 不依赖 PyArrow；pandas 字符串及标签索引的存储类型可能为 Python。原核算方严格对照另装 PyArrow 26.0.1，逐表逐 dtype 精确比较。两类环境均须保持数值、缺失值语义、顺序和财务汇总一致。

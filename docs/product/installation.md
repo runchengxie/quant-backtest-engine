@@ -2,6 +2,8 @@
 
 [简体中文](installation.zh-CN.md)
 
+[Delivery acceptance and remaining gates](acceptance.md).
+
 Core 0.3.0 provides explicit Rust and resumable Python minute runners. Install the SDK 0.3.0 wheel
 and core wheel built from the same reviewed Engine revision into a Python 3.12 or
 3.13 environment (`>=3.12,<3.14`). Python 3.14 needs a separate numerical
@@ -59,7 +61,7 @@ The `scenario` extra supports [market paths and stress](../backtest/market-paths
 `cost` supports [transaction cost evidence](../backtest/transaction-cost-evidence.md)
 and scoped fitting. These are independent leaf APIs. The `minute` extra now provides the direct
 [minute session and financial kernels](../backtest/minute-session.md). The minute extra enables `python.minute`; see [recovery and exact input codec](recovery.md).
-Planning and microstructure extras enable their documented leaf APIs. The daily group enables `python.daily` in provider C source (release pending);
+Planning and microstructure extras enable their documented leaf APIs. The daily group enables `python.daily` in merged provider C source;
 unknown keys are rejected.
 See [backend limits](backends.md) before choosing a manifest.
 
@@ -91,7 +93,7 @@ Use the `[planning]` optional core dependencies for pandas-based accounts and
 reservations. Replay/impact is standard-library-only; the optional native wheel
 still rejects impact estimation because per-fill evidence is unsupported. A supplied
 optimizer owns full research validation; Engine supplies no OSQP optimizer.
-The current provider C candidate is Core 0.3.0; its review, integration and exact-wheel validation still precede release availability and consumer cutover. Old checkpoints retain their full pinned legacy environment.
+Core 0.3.0 provider C and Platform consumer C are merged; exact source/wheel combinations and remaining consumer gates are recorded in the [acceptance guide](acceptance.md). Old checkpoints retain their full pinned legacy environment.
 
 ## Bounded planning
 
@@ -102,7 +104,7 @@ explicit `[planning]` extra with NumPy 2.2.6, pandas 3.0.6 and SciPy 1.18.1 for 
 continuous APIs. Finite inventory/oracle and sleeve attribution use only the
 standard library. Importing the planning package stays lazy. No Platform, Runtime,
 Torch or OSQP is required; generic optimizers and risk estimators remain external.
-The current Core 0.3.0 candidate is a source implementation, not a merged release or consumer cutover.
+Core 0.3.0 is available from the reviewed merged source and verified independent wheels; no PyPI availability is implied.
 See [impact planning](../concepts/impact-planning.md),
 [finite inventory](../concepts/discrete-inventory.md), and
 [sleeve allocation](../backtest/sleeve-allocation.md).
