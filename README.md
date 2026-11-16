@@ -15,7 +15,7 @@ account recovery, bounded planning and scenario APIs. SDK 0.3.0 keeps the
 standard-library client namespace. Start with [installation](docs/product/installation.md)
 and the [delivery acceptance guide](docs/product/acceptance.md).
 Reviewed merged source and independently built wheels are available; this does
-not imply a PyPI release or the optional Runtime v9 cutover.
+not imply a PyPI release or production service activation.
 
 ## Try a small backtest
 

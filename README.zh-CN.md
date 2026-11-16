@@ -11,7 +11,7 @@
 可选 Python core 0.3.0 提供独立分钟与日频执行、账户恢复、有界规划和情景 API。
 SDK 0.3.0 保留标准库客户端命名空间。请从[安装说明](docs/product/installation.zh-CN.md)
 和[交付验收指南](docs/product/acceptance.zh-CN.md)开始。
-已有经过审查的合并源码与独立构建的 wheel；这不表示已在 PyPI 发布或完成可选 Runtime v9 切换。
+已有经过审查的合并源码与独立构建的 wheel；这不表示已在 PyPI 发布或启用生产服务。
 
 ## 先跑一个小回测
 
