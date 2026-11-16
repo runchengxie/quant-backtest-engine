@@ -87,7 +87,7 @@ renderers, checks routes/legacy anchors and runs the real built-site browser sui
 After a successful main deployment, verify the expected full merged commit:
 
 ```sh
-python -B project_tools/verify_deployed_site.py \
+python -B "$SOURCE/project_tools/verify_deployed_site.py" \
   --url https://runchengxie.github.io/quant-backtest-engine/ \
   --revision "$MERGED_REVISION" --output "$TASK_DATA/deployed.json"
 ```

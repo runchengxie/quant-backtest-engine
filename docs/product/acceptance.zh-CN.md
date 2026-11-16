@@ -76,7 +76,7 @@ cd "$TASK_DATA"
 main 部署成功后，用预期的完整合并提交核验：
 
 ```sh
-python -B project_tools/verify_deployed_site.py \
+python -B "$SOURCE/project_tools/verify_deployed_site.py" \
   --url https://runchengxie.github.io/quant-backtest-engine/ \
   --revision "$MERGED_REVISION" --output "$TASK_DATA/deployed.json"
 ```
