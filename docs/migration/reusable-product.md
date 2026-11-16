@@ -2,13 +2,13 @@
 
 [简体中文](reusable-product.zh-CN.md)
 
-Current delivery status (2026-11-16): provider C is merged at `ad0895f1c2015eb31bd364b40741b0f7cd6e0048`, Platform consumer C at `c211d36167acf7a81fd0c034beb14317e2036b7e`, and the tutorial at `062a820de013d824686e6b5f6582843618929d27` (PR 26). See [acceptance and remaining gates](../product/acceptance.md). The staged gate descriptions below retain their historical context.
+Current delivery status (2026-11-17): provider C is merged at `ad0895f1c2015eb31bd364b40741b0f7cd6e0048`, Platform consumer C at `c211d36167acf7a81fd0c034beb14317e2036b7e`, and the tutorial at `062a820de013d824686e6b5f6582843618929d27` (PR 26). See [acceptance and remaining gates](../product/acceptance.md). The staged gate descriptions below retain their historical context.
 
 Core 0.3.0 source now includes the complete independent daily financial graph and explicit
 python.daily backend alongside the minute, planning and scenario owners. SDK 0.3.0
 retains its standard-library namespace. Provider C and Platform consumer C are merged at the
-revisions above, with independent wheel receipts. Runtime v9 and remaining research
-consumer gates remain separate. Use [installation](../product/installation.md),
+revisions above, with independent wheel receipts. Runtime v9 is merged and its process recovery is validated; remaining caller
+release and production gates stay separate. Use [installation](../product/installation.md),
 [backend limits](../product/backends.md) and [daily inputs](../product/daily-inputs.md).
 Source implementation is distinct from release and consumer evidence.
 
@@ -20,7 +20,7 @@ Source implementation is distinct from release and consumer evidence.
 | Engine SDK | `quant-backtest-engine-client` 0.3.0; `quant_backtest_engine`; Python ≥3.11; standard-library product contracts | Pin the exact reviewed source and verified wheel; base SDK never imports core |
 | Optional Engine core | Core 0.3.0 source; Python 3.12/3.13; independent daily, minute, planning and scenario owners | Merged provider C; independent exact-wheel receipts retained |
 | Platform | Consumer C merged in PR 200 | Exact provider pin; research/publication remain Platform |
-| Runtime | Existing 0.1.0 and v1–v8 paths retained | Optional additive v9/0.2.0 consumer follows merged provider and operational acceptance |
+| Runtime | 0.2.0 v9 source merged at `eb00e0b85459d64719d6dc05bc93a94a4ffbce95`; v1–v8 paths retained | Exact installed profiles and isolated stores; historical recovery keeps its full pinned release |
 
 Core base depends on SDK `>=0.3.0,<0.4`; repository builds and consumers pin an exact
 merged VCS revision or verified wheel hash. Local invocation is explicit. No PyPI

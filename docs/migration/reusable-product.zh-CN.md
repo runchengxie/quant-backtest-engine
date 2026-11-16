@@ -2,11 +2,11 @@
 
 [English](reusable-product.md)
 
-当前交付状态（2026-11-16）：提供方 C 已合并至 `ad0895f1c2015eb31bd364b40741b0f7cd6e0048`，Platform 消费者 C 已合并至 `c211d36167acf7a81fd0c034beb14317e2036b7e`，教程通过 PR 26 合并至 `062a820de013d824686e6b5f6582843618929d27`。见[验收与剩余关卡](../product/acceptance.zh-CN.md)。下文保留各阶段关卡的历史背景。
+当前交付状态（2026-11-17）：提供方 C 已合并至 `ad0895f1c2015eb31bd364b40741b0f7cd6e0048`，Platform 消费者 C 已合并至 `c211d36167acf7a81fd0c034beb14317e2036b7e`，教程通过 PR 26 合并至 `062a820de013d824686e6b5f6582843618929d27`。见[验收与剩余关卡](../product/acceptance.zh-CN.md)。下文保留各阶段关卡的历史背景。
 
 Core 0.3.0 源码新增完整独立日频财务实现及显式 python.daily 后端，分钟、规划与情景
 核算继续保留。SDK 0.3.0 保持标准库命名空间。提供方 C 与 Platform 消费者 C 已按上文
-修订合并，并保留独立 wheel 回执；Runtime v9 与其他研究调用方关卡分别跟踪。
+修订合并，并保留独立 wheel 回执；Runtime v9 已合并并验证进程恢复，其他调用方发布与生产关卡分别跟踪。
 请阅读[安装](../product/installation.zh-CN.md)、[后端边界](../product/backends.zh-CN.md)
 和[日频输入](../product/daily-inputs.zh-CN.md)。源码实现与发布、消费者验收分别记录。
 
@@ -18,7 +18,7 @@ Core 0.3.0 源码新增完整独立日频财务实现及显式 python.daily 后�
 | Engine SDK | `quant-backtest-engine-client` 0.3.0；`quant_backtest_engine`；Python ≥3.11；标准库产品契约 | 固定确切已审查源码及已验证 wheel；SDK 基础导入不依赖 core |
 | 可选 Engine core | Core 0.3.0 源码；Python 3.12/3.13；独立日频、分钟、规划及情景核算 | 提供方 C 已合并，保留独立确切 wheel 回执 |
 | Platform | 消费者 C 已通过 PR 200 合并 | 固定确切提供方；研究及发布仍归 Platform |
-| Runtime | 保留既有 0.1.0 及 v1–v8 路径 | 可选新增 v9/0.2.0 消费者须等待提供方合并及运行管理验收 |
+| Runtime | 0.2.0 v9 已合并至 `eb00e0b85459d64719d6dc05bc93a94a4ffbce95`；保留 v1–v8 路径 | 固定安装环境及独立任务库；历史恢复保留完整固定版本 |
 
 Core 基础包依赖 SDK `>=0.3.0,<0.4`；仓库构建与消费者固定确切的已合并 VCS 修订
 或已验证 wheel 哈希。本地调用必须显式选择。不要求发布到 PyPI；包版本不能替代源码、

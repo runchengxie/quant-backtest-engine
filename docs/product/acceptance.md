@@ -16,7 +16,8 @@ The following are distinct identities, not interchangeable package-version claim
 | Engine financial provider C | `ad0895f1c2015eb31bd364b40741b0f7cd6e0048` | Core/SDK 0.3.0; independent daily graph and period-leg financial closure |
 | Engine tutorial | `062a820de013d824686e6b5f6582843618929d27` (PR 26) | Astro lessons and replay lab; preserved eight scenes and 21 presets |
 | Platform consumer C | `c211d36167acf7a81fd0c034beb14317e2036b7e` (PR 200) | Compatibility adapters to the Engine provider; research stays outside Engine |
-| Runtime retained baseline | `01ed4c34f955ef6cd39d13aa073b6d61b610d321` | Existing integration; no claim of the proposed v9 consumer cutover |
+| Runtime Engine v9 | `eb00e0b85459d64719d6dc05bc93a94a4ffbce95` (PR 60) | Runtime 0.2.0 fixed Engine provider; actual process-death recovery validated |
+| Runtime retained baseline | `01ed4c34f955ef6cd39d13aa073b6d61b610d321` | Historical recovery retains its complete original release and dependency closure |
 
 The tutorial revision does not change the provider's `core/`, `python/`, Rust
 sources or Cargo lock. Independent wheel acceptance records the actual build
@@ -97,11 +98,28 @@ rechecks the receipt after downloading. A stale revision, changed file or mixed
 publication fails. This supplements browser behavior and CI; it is not a browser
 interaction test or independent authentication of the build's financial claims.
 
+## Runtime integration verified on 2026-11-17
+
+[Runtime PR 60](https://github.com/runchengxie/quant-backtest-runtime/pull/60)
+merged the opt-in `engine.minute_session_resume` v9 provider. The exact merged
+release passed an actual process-kill recovery with full result and native-ledger
+byte equality. The reviewed implementation passed all 25 v9 cases, including four
+crash boundaries; its current-target CI and merged main CI passed. Retained v8 and
+Rust integration were checked separately. These suites overlap and are not one
+unique-test total.
+
+Use the [fixed Runtime provider guide](https://runchengxie.github.io/quant-backtest-runtime/engine-financial-sessions/)
+and its exact Engine `ad0895f` source profile or allowlisted wheels. The newer
+Engine tutorial revision has identical financial source bytes, but a version number
+or different VCS pin is not automatically admitted by Runtime. Keep v9 in an
+isolated store; an old worker must not claim its jobs. Production service activation
+and historical-release retirement remain separate operator decisions.
+
 ## Remaining gates
 
-- Runtime v9 process-kill/admission acceptance and remaining research consumers
-  are separate integration work. Preserve their current supported paths and full
-  pinned historical recovery environments until independently verified.
+- Remaining caller releases must retain their own exact provider/consumer receipts.
+  Historical recovery requires the original full release; new v9 acceptance does
+  not authorize hot rebinding or removal of compatibility aliases.
 - The friend's CNY 50 million case still needs original target/order intent,
   submission/arrival clocks, initial cash/holdings/locks, fee terms and executable
   market inputs. Existing fixed-fill diagnostics cannot establish actual capacity.

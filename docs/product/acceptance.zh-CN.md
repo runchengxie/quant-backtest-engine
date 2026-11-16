@@ -14,7 +14,8 @@
 | Engine 财务提供方 C | `ad0895f1c2015eb31bd364b40741b0f7cd6e0048` | Core/SDK 0.3.0；独立日频实现与期间分段财务闭包 |
 | Engine 教程 | `062a820de013d824686e6b5f6582843618929d27`（PR 26） | Astro 教程与回放实验室；保留八个场景、21 组预设 |
 | Platform 消费者 C | `c211d36167acf7a81fd0c034beb14317e2036b7e`（PR 200） | 调用 Engine 的兼容适配；研究仍在 Engine 之外 |
-| Runtime 保留基线 | `01ed4c34f955ef6cd39d13aa073b6d61b610d321` | 既有接入；不表示拟议的 v9 消费者已切换 |
+| Runtime Engine v9 | `eb00e0b85459d64719d6dc05bc93a94a4ffbce95`（PR 60） | Runtime 0.2.0 固定 Engine 提供方；实际进程终止恢复已验收 |
+| Runtime 保留基线 | `01ed4c34f955ef6cd39d13aa073b6d61b610d321` | 历史恢复保留完整原始版本及依赖环境 |
 
 教程修订没有改变提供方的 `core/`、`python/`、Rust 源码或 Cargo 锁文件。
 独立 wheel 验收记录实际构建提交和 SHA256，不给旧检查点重新命名。
@@ -85,10 +86,23 @@ python -B "$SOURCE/project_tools/verify_deployed_site.py" \
 版本过旧、文件变化或发布混杂都会失败。这是对浏览器和 CI 验收的补充，
 不替代交互测试，也不能独立认证构建中财务结论的真实性。
 
+## 2026-11-17 Runtime 接入验收
+
+[Runtime PR 60](https://github.com/runchengxie/quant-backtest-runtime/pull/60)
+已合并可选的 `engine.minute_session_resume` v9 提供方。确切合并版本通过实际进程终止恢复，
+完整结果与原生账本字节相等。已审查实现的 25 项 v9 用例全部通过，覆盖四个中断边界；
+当前目标分支检查及合并后 main CI 均通过。旧 v8 与 Rust 接入分别验证，
+这些测试范围有重叠，不能相加当作独立测试总数。
+
+使用 [Runtime 固定提供方指南](https://runchengxie.github.io/quant-backtest-runtime/engine-financial-sessions.zh-CN/)
+中确切的 Engine `ad0895f` 源码环境或白名单 wheel。
+较新的 Engine 教程版本虽然具有相同的财务源码字节，但包版本号或不同 VCS 提交不能自动通过 Runtime 准入。
+v9 使用独立任务库，不能让旧 worker 领取。生产服务启用与历史版本退役仍是独立操作。
+
 ## 剩余关卡
 
-- Runtime v9 的进程终止与任务准入验收，以及其他研究调用方，属于独立接入工作。
-  完成验证前保留既有支持路径和完整固定的历史恢复环境。
+- 其他调用方版本继续保留各自确切的提供方与消费者验收回执。
+  历史恢复仍需完整原始环境；v9 验收不授权热替换或删除兼容别名。
 - 朋友的 5000 万元案例仍缺原始目标与下单意图、提交和到达时钟、初始现金/持仓/锁定、费用条款和可执行行情。
   既有固定成交诊断不能证明真实容量。
 - 真实冲击与滑点校准需要可追溯数据和识别方案；合成敏感性分析不能证明因果冲击。
