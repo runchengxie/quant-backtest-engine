@@ -17,7 +17,7 @@ def input_identity():
         set(
             n
             for n in names
-            if n.startswith(("docs/", "web/", "project_tools/", ".github/workflows/")) or n == "mkdocs.yml"
+            if n.startswith(("docs/", "web/", "project_tools/", ".github/workflows/"))
         )
     )
     hashes = {

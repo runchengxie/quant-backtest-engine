@@ -1,6 +1,18 @@
 ---
 import {createHash} from 'node:crypto';
-import {catalog,traces as loadTraces,manifestHash} from '../lib/data';import {route} from '../lib/routes';import EvidenceSummary from './EvidenceSummary.astro';import ResultTables from './ResultTables.astro';import ReplayWorkbench from './replay/ReplayWorkbench';
-const {scene,locale,lab=false}=Astro.props;const c=catalog(locale);const traces=loadTraces(scene);const narratives=import.meta.glob('../content/learn/*/*.md',{eager:true});const document=narratives[`../content/learn/${locale}/${scene}.md`] as any;const Content=document.Content;const payloadHash=createHash('sha256').update(JSON.stringify(traces)).digest('hex');
+import {catalog,traces as loadTraces,manifestHash} from '../lib/data';
+import {editorial,readingOrder} from '../lib/editorial';
+import {route} from '../lib/routes';
+import EvidenceSummary from './EvidenceSummary.astro';
+import ResultTables from './ResultTables.astro';
+import ReplayWorkbench from './replay/ReplayWorkbench';
+const {scene,locale}=Astro.props;const c=catalog(locale);const e=editorial(locale);const traces=loadTraces(scene);if(scene==='risk'){traces.sort((a,b)=>Number(b.preset_id==='risk-full')-Number(a.preset_id==='risk-full'));}const narratives=import.meta.glob('../content/learn/*/*.md',{eager:true});const document=narratives[`../content/learn/${locale}/${scene}.md`] as any;const Content=document.Content;const payloadHash=createHash('sha256').update(JSON.stringify(traces)).digest('hex');const index=readingOrder.indexOf(scene);const previous=readingOrder[index-1];const next=readingOrder[index+1];
 ---
-<section class="learning-hero"><p class="learning-kicker">{lab?c['learning.lab']:c['learning.learn']}</p><h1 id={'product-'+scene}>{c['learning.title.'+scene]}</h1><Content/><a class="learning-button" href={route(lab?'learn':'lab',locale,scene)}>{c[lab?'learning.read':'learning.lab']}</a></section><EvidenceSummary locale={locale} trace={traces[0]}/>{lab&&<ReplayWorkbench client:load traces={traces} catalog={c} locale={locale} manifestHash={manifestHash} payloadHash={payloadHash}/>}<ResultTables locale={locale} traces={traces}/>
+<article class="editorial-lesson">
+  <header class="editorial-lesson-heading"><a class="learning-kicker" href={route('learn',locale)}>{e['lesson.map']} / {String(index+1).padStart(2,'0')}</a><h1 id={'product-'+scene}>{e[scene+'.question']}</h1><p class="editorial-lede">{e[scene+'.summary']}</p></header>
+  <ReplayWorkbench client:load traces={traces} catalog={c} locale={locale} manifestHash={manifestHash} payloadHash={payloadHash}/>
+  <section class="editorial-reading" aria-label={e['lesson.guide']}><Content/></section>
+  <details class="editorial-disclosure"><summary>{e['lesson.evidence']}</summary><EvidenceSummary locale={locale} trace={traces[0]}/></details>
+  <details class="editorial-disclosure"><summary>{e['lesson.tables']}</summary><ResultTables locale={locale} traces={traces}/></details>
+  <nav class="editorial-next" aria-label={e['lesson.map']}>{previous&&<a href={route('learn',locale,previous)}><small>{e['lesson.previous']}</small>{e[previous+'.question']}</a>}{next&&<a href={route('learn',locale,next)}><small>{e['lesson.next']}</small>{e[next+'.question']} <span aria-hidden="true">→</span></a>}</nav>
+</article>

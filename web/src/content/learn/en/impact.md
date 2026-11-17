@@ -2,13 +2,15 @@
 
 Does your first trade make the next trade more expensive?
 
-<h2 id="product-try">Try it</h2>
+<h2 id="product-try">What changes</h2>
 
 Start with small and step through fill, recovery, fill and recovery. Compare Unaffected price, Transient displacement and Fill/mark offset. Then choose close to see the shorter pause. Choose nondecaying to separate the persistent assumption from the decaying state.
 
-<h2 id="product-read">Read the recorded result</h2>
+<h2 id="product-read">What to notice</h2>
 
 The last small event still records a positive displacement: “recovering” does not mean it has instantly returned to the unaffected price. In nondecaying, the persistent term remains after waiting. That difference comes from the specified model assumption.
+
+A transient state can shrink during a pause while the permanent state stays put. The fill/mark offset is a separate recorded output with its own timing and pricing convention; adding the state bars would create a second pricing model. Permanent impact here is a sensitivity assumption, not proof that a real price will never recover.
 
 <h2 id="product-unknown">What remains unknown</h2>
 

@@ -1,0 +1,422 @@
+{
+  "schema": "engine-opportunity-example.v1",
+  "provenance": {
+    "api": "quant_backtest_core.evidence.transaction_costs.audit_transaction_costs",
+    "provider_revision": "ad0895f1c2015eb31bd364b40741b0f7cd6e0048",
+    "wheel": {
+      "name": "quant_backtest_core-0.3.0-py3-none-any.whl",
+      "sha256": "bbe8cb964c334e9920ec93f6b1244e2cdf74fdf9c9c98ead510b251947e50780"
+    },
+    "source": {
+      "path": "core/src/quant_backtest_core/evidence/transaction_costs.py",
+      "sha256": "6c5306109821472282b12c2e636e89c2fbb112a06d7b0d953cfb2c162f850b08"
+    },
+    "exporter": {
+      "path": "project_tools/export_opportunity_example.py",
+      "sha256": "4d798ab5028b3b41994b9f9308dd2c560d23cf5cde130141255d135ec10fbcdc"
+    },
+    "owner_lock_sha256": "053f7fb8b20857898a5b5ae40116947b06002a7ef31078a3d8c364b4c017e9d9",
+    "dependencies": {
+      "numpy": "2.2.6",
+      "pandas": "3.0.6",
+      "scipy": "1.18.1",
+      "python-dateutil": "2.9.0.post0",
+      "six": "1.17.0",
+      "tzdata": "2026.2"
+    }
+  },
+  "limitations": [
+    "synthetic_not_market_probability",
+    "caller_recorded_fees",
+    "descriptive_opportunity_not_cash_debit",
+    "real_calibration_unavailable",
+    "attribution_not_additive"
+  ],
+  "cases": [
+    {
+      "id": "down",
+      "inputs": {
+        "parents": [
+          {
+            "parent_id": "down",
+            "side": "buy",
+            "requested_shares": "200",
+            "reference_price": "10",
+            "reference_ns": "1798761600000000000",
+            "reference_available_ns": "1798761601000000000",
+            "decision_ns": "1798761602000000000",
+            "arrival_price": "10",
+            "arrival_ns": "1798761603000000000",
+            "arrival_available_ns": "1798761604000000000",
+            "completed_ns": "1798761610000000000",
+            "available_ns": "1798761620000000000",
+            "status": "cancelled",
+            "source_binding": "synthetic-opportunity-2027-v1",
+            "evidence_kind": "synthetic",
+            "quantity_unit": "shares",
+            "currency": "CNY",
+            "price_convention": "includes_spread_and_impact",
+            "brokerage_terms_version": "synthetic-recorded-fee-v1",
+            "opportunity_price": "8",
+            "opportunity_ns": "1798761615000000000",
+            "opportunity_available_ns": "1798761616000000000",
+            "opportunity_benchmark": "synthetic terminal mid at 2027-01-01T00:00:15Z"
+          }
+        ],
+        "fills": [
+          {
+            "fill_id": "down.fill",
+            "parent_id": "down",
+            "child_id": "down.child",
+            "price": "10.1",
+            "shares": "100",
+            "fill_ns": "1798761606000000000",
+            "receipt_ns": "1798761607000000000",
+            "source_binding": "synthetic-opportunity-2027-v1",
+            "evidence_kind": "synthetic",
+            "quantity_unit": "shares",
+            "currency": "CNY",
+            "recorded_commission": "5",
+            "recorded_tax": "0"
+          }
+        ],
+        "options": {
+          "billing": "parent",
+          "commission_bps": "0",
+          "minimum_commission": "0",
+          "sell_tax_bps": "0"
+        }
+      },
+      "outputs": {
+        "parents": [
+          {
+            "parent_id": "down",
+            "side": "buy",
+            "requested_shares": "200",
+            "reference_price": "10",
+            "reference_ns": "1798761600000000000",
+            "reference_available_ns": "1798761601000000000",
+            "decision_ns": "1798761602000000000",
+            "arrival_price": "10",
+            "arrival_ns": "1798761603000000000",
+            "arrival_available_ns": "1798761604000000000",
+            "completed_ns": "1798761610000000000",
+            "available_ns": "1798761620000000000",
+            "status": "cancelled",
+            "source_binding": "synthetic-opportunity-2027-v1",
+            "evidence_kind": "synthetic",
+            "quantity_unit": "shares",
+            "currency": "CNY",
+            "price_convention": "includes_spread_and_impact",
+            "brokerage_terms_version": "synthetic-recorded-fee-v1",
+            "opportunity_price": "8",
+            "opportunity_ns": "1798761615000000000",
+            "opportunity_available_ns": "1798761616000000000",
+            "opportunity_benchmark": "synthetic terminal mid at 2027-01-01T00:00:15Z",
+            "filled_shares": "100",
+            "unfilled_shares": "100",
+            "filled_notional": "1010.0",
+            "completion": "0.5",
+            "modeled_commission": "0.0",
+            "modeled_tax": "0.0",
+            "modeled_cash_fees": "0.0",
+            "recorded_cash_fees": "5.0",
+            "fee_evidence": "caller_recorded",
+            "reference_price_shortfall": "10.0",
+            "arrival_price_shortfall": "10.0",
+            "delay_shortfall": "0.0",
+            "reference_shortfall_with_modeled_fees": "10.0",
+            "reference_shortfall_with_recorded_fees": "15.0",
+            "opportunity_shortfall": "-200.0",
+            "participation": null,
+            "attribution_additive": false,
+            "unavailable_reasons": [
+              "liquidity"
+            ]
+          }
+        ],
+        "fills": [
+          {
+            "fill_id": "down.fill",
+            "parent_id": "down",
+            "child_id": "down.child",
+            "price": "10.1",
+            "shares": "100",
+            "fill_ns": "1798761606000000000",
+            "receipt_ns": "1798761607000000000",
+            "source_binding": "synthetic-opportunity-2027-v1",
+            "evidence_kind": "synthetic",
+            "quantity_unit": "shares",
+            "currency": "CNY",
+            "recorded_commission": "5",
+            "recorded_tax": "0"
+          }
+        ],
+        "schema": "transaction-cost-evidence.v1",
+        "source_digest": "e0f63d3036f7d376ca057ec161c1ab5ff1de06e6c073df414b1ffb0d3937c6cc",
+        "duplicate_reports": "0",
+        "billing": "parent",
+        "real_calibration": "unavailable",
+        "provenance_status": "caller_asserted"
+      }
+    },
+    {
+      "id": "flat",
+      "inputs": {
+        "parents": [
+          {
+            "parent_id": "flat",
+            "side": "buy",
+            "requested_shares": "200",
+            "reference_price": "10",
+            "reference_ns": "1798761600000000000",
+            "reference_available_ns": "1798761601000000000",
+            "decision_ns": "1798761602000000000",
+            "arrival_price": "10",
+            "arrival_ns": "1798761603000000000",
+            "arrival_available_ns": "1798761604000000000",
+            "completed_ns": "1798761610000000000",
+            "available_ns": "1798761620000000000",
+            "status": "cancelled",
+            "source_binding": "synthetic-opportunity-2027-v1",
+            "evidence_kind": "synthetic",
+            "quantity_unit": "shares",
+            "currency": "CNY",
+            "price_convention": "includes_spread_and_impact",
+            "brokerage_terms_version": "synthetic-recorded-fee-v1",
+            "opportunity_price": "10",
+            "opportunity_ns": "1798761615000000000",
+            "opportunity_available_ns": "1798761616000000000",
+            "opportunity_benchmark": "synthetic terminal mid at 2027-01-01T00:00:15Z"
+          }
+        ],
+        "fills": [
+          {
+            "fill_id": "flat.fill",
+            "parent_id": "flat",
+            "child_id": "flat.child",
+            "price": "10.1",
+            "shares": "100",
+            "fill_ns": "1798761606000000000",
+            "receipt_ns": "1798761607000000000",
+            "source_binding": "synthetic-opportunity-2027-v1",
+            "evidence_kind": "synthetic",
+            "quantity_unit": "shares",
+            "currency": "CNY",
+            "recorded_commission": "5",
+            "recorded_tax": "0"
+          }
+        ],
+        "options": {
+          "billing": "parent",
+          "commission_bps": "0",
+          "minimum_commission": "0",
+          "sell_tax_bps": "0"
+        }
+      },
+      "outputs": {
+        "parents": [
+          {
+            "parent_id": "flat",
+            "side": "buy",
+            "requested_shares": "200",
+            "reference_price": "10",
+            "reference_ns": "1798761600000000000",
+            "reference_available_ns": "1798761601000000000",
+            "decision_ns": "1798761602000000000",
+            "arrival_price": "10",
+            "arrival_ns": "1798761603000000000",
+            "arrival_available_ns": "1798761604000000000",
+            "completed_ns": "1798761610000000000",
+            "available_ns": "1798761620000000000",
+            "status": "cancelled",
+            "source_binding": "synthetic-opportunity-2027-v1",
+            "evidence_kind": "synthetic",
+            "quantity_unit": "shares",
+            "currency": "CNY",
+            "price_convention": "includes_spread_and_impact",
+            "brokerage_terms_version": "synthetic-recorded-fee-v1",
+            "opportunity_price": "10",
+            "opportunity_ns": "1798761615000000000",
+            "opportunity_available_ns": "1798761616000000000",
+            "opportunity_benchmark": "synthetic terminal mid at 2027-01-01T00:00:15Z",
+            "filled_shares": "100",
+            "unfilled_shares": "100",
+            "filled_notional": "1010.0",
+            "completion": "0.5",
+            "modeled_commission": "0.0",
+            "modeled_tax": "0.0",
+            "modeled_cash_fees": "0.0",
+            "recorded_cash_fees": "5.0",
+            "fee_evidence": "caller_recorded",
+            "reference_price_shortfall": "10.0",
+            "arrival_price_shortfall": "10.0",
+            "delay_shortfall": "0.0",
+            "reference_shortfall_with_modeled_fees": "10.0",
+            "reference_shortfall_with_recorded_fees": "15.0",
+            "opportunity_shortfall": "0.0",
+            "participation": null,
+            "attribution_additive": false,
+            "unavailable_reasons": [
+              "liquidity"
+            ]
+          }
+        ],
+        "fills": [
+          {
+            "fill_id": "flat.fill",
+            "parent_id": "flat",
+            "child_id": "flat.child",
+            "price": "10.1",
+            "shares": "100",
+            "fill_ns": "1798761606000000000",
+            "receipt_ns": "1798761607000000000",
+            "source_binding": "synthetic-opportunity-2027-v1",
+            "evidence_kind": "synthetic",
+            "quantity_unit": "shares",
+            "currency": "CNY",
+            "recorded_commission": "5",
+            "recorded_tax": "0"
+          }
+        ],
+        "schema": "transaction-cost-evidence.v1",
+        "source_digest": "25f5472c966fdf88ef3c9295145e5cc04ec5391e74410030217249cfb20c2a1e",
+        "duplicate_reports": "0",
+        "billing": "parent",
+        "real_calibration": "unavailable",
+        "provenance_status": "caller_asserted"
+      }
+    },
+    {
+      "id": "up",
+      "inputs": {
+        "parents": [
+          {
+            "parent_id": "up",
+            "side": "buy",
+            "requested_shares": "200",
+            "reference_price": "10",
+            "reference_ns": "1798761600000000000",
+            "reference_available_ns": "1798761601000000000",
+            "decision_ns": "1798761602000000000",
+            "arrival_price": "10",
+            "arrival_ns": "1798761603000000000",
+            "arrival_available_ns": "1798761604000000000",
+            "completed_ns": "1798761610000000000",
+            "available_ns": "1798761620000000000",
+            "status": "cancelled",
+            "source_binding": "synthetic-opportunity-2027-v1",
+            "evidence_kind": "synthetic",
+            "quantity_unit": "shares",
+            "currency": "CNY",
+            "price_convention": "includes_spread_and_impact",
+            "brokerage_terms_version": "synthetic-recorded-fee-v1",
+            "opportunity_price": "12",
+            "opportunity_ns": "1798761615000000000",
+            "opportunity_available_ns": "1798761616000000000",
+            "opportunity_benchmark": "synthetic terminal mid at 2027-01-01T00:00:15Z"
+          }
+        ],
+        "fills": [
+          {
+            "fill_id": "up.fill",
+            "parent_id": "up",
+            "child_id": "up.child",
+            "price": "10.1",
+            "shares": "100",
+            "fill_ns": "1798761606000000000",
+            "receipt_ns": "1798761607000000000",
+            "source_binding": "synthetic-opportunity-2027-v1",
+            "evidence_kind": "synthetic",
+            "quantity_unit": "shares",
+            "currency": "CNY",
+            "recorded_commission": "5",
+            "recorded_tax": "0"
+          }
+        ],
+        "options": {
+          "billing": "parent",
+          "commission_bps": "0",
+          "minimum_commission": "0",
+          "sell_tax_bps": "0"
+        }
+      },
+      "outputs": {
+        "parents": [
+          {
+            "parent_id": "up",
+            "side": "buy",
+            "requested_shares": "200",
+            "reference_price": "10",
+            "reference_ns": "1798761600000000000",
+            "reference_available_ns": "1798761601000000000",
+            "decision_ns": "1798761602000000000",
+            "arrival_price": "10",
+            "arrival_ns": "1798761603000000000",
+            "arrival_available_ns": "1798761604000000000",
+            "completed_ns": "1798761610000000000",
+            "available_ns": "1798761620000000000",
+            "status": "cancelled",
+            "source_binding": "synthetic-opportunity-2027-v1",
+            "evidence_kind": "synthetic",
+            "quantity_unit": "shares",
+            "currency": "CNY",
+            "price_convention": "includes_spread_and_impact",
+            "brokerage_terms_version": "synthetic-recorded-fee-v1",
+            "opportunity_price": "12",
+            "opportunity_ns": "1798761615000000000",
+            "opportunity_available_ns": "1798761616000000000",
+            "opportunity_benchmark": "synthetic terminal mid at 2027-01-01T00:00:15Z",
+            "filled_shares": "100",
+            "unfilled_shares": "100",
+            "filled_notional": "1010.0",
+            "completion": "0.5",
+            "modeled_commission": "0.0",
+            "modeled_tax": "0.0",
+            "modeled_cash_fees": "0.0",
+            "recorded_cash_fees": "5.0",
+            "fee_evidence": "caller_recorded",
+            "reference_price_shortfall": "10.0",
+            "arrival_price_shortfall": "10.0",
+            "delay_shortfall": "0.0",
+            "reference_shortfall_with_modeled_fees": "10.0",
+            "reference_shortfall_with_recorded_fees": "15.0",
+            "opportunity_shortfall": "200.0",
+            "participation": null,
+            "attribution_additive": false,
+            "unavailable_reasons": [
+              "liquidity"
+            ]
+          }
+        ],
+        "fills": [
+          {
+            "fill_id": "up.fill",
+            "parent_id": "up",
+            "child_id": "up.child",
+            "price": "10.1",
+            "shares": "100",
+            "fill_ns": "1798761606000000000",
+            "receipt_ns": "1798761607000000000",
+            "source_binding": "synthetic-opportunity-2027-v1",
+            "evidence_kind": "synthetic",
+            "quantity_unit": "shares",
+            "currency": "CNY",
+            "recorded_commission": "5",
+            "recorded_tax": "0"
+          }
+        ],
+        "schema": "transaction-cost-evidence.v1",
+        "source_digest": "8392ac2bfd1cbd193ad8d8f061041229634ce0b3d93c860e01f659d9caeef313",
+        "duplicate_reports": "0",
+        "billing": "parent",
+        "real_calibration": "unavailable",
+        "provenance_status": "caller_asserted"
+      }
+    }
+  ],
+  "receipt": {
+    "payload_sha256": "8b3df94f4562dd6c9256628d3763e0d9dff1cb3a613caeaf1b5844e9250b42c2",
+    "canonicalization": "sorted compact UTF-8 JSON excluding receipt"
+  }
+}

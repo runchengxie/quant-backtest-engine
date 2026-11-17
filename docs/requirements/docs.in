@@ -1,1 +1,3 @@
-mkdocs-material>=9.6,<10
+# Presentation dialect used by the direct Astro reference preparer.
+Markdown==3.11.2
+pymdown-extensions==12.3

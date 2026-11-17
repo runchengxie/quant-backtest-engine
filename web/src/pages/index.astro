@@ -1,4 +1,4 @@
 ---
-import SiteLayout from '../layouts/SiteLayout.astro';import LearningOverview from '../components/LearningOverview.astro';import LegacyOverview from '../components/LegacyOverview.astro';import {home} from '../lib/routes';
+import SiteLayout from '../layouts/SiteLayout.astro';import LearningOverview from '../components/LearningOverview.astro';import LegacyOverview from '../components/LegacyOverview.astro';import {home} from '../lib/routes';import {editorial} from '../lib/editorial';const e=editorial('en');
 ---
-<SiteLayout locale="en" title="quant-backtest-engine" counterpart={home('zh-CN')}><LearningOverview locale="en"/><LegacyOverview locale="en"/></SiteLayout>
+<SiteLayout locale="en" title="quant-backtest-engine" counterpart={home('zh-CN')}><LearningOverview locale="en"/><details class="editorial-disclosure editorial-technical"><summary>{e['home.technical']}</summary><LegacyOverview locale="en"/></details></SiteLayout>

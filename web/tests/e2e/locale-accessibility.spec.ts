@@ -17,6 +17,7 @@ for (const locale of ["en", "zh-CN"])
     await expect(
       page.locator(".learning-controls select").first(),
     ).toBeDisabled();
+    await page.locator(".editorial-disclosure").filter({has:page.locator("[data-static-preset]")}).locator(":scope > summary").click();
     await page
       .locator("[data-static-preset=shared] details")
       .nth(1)
@@ -132,9 +133,7 @@ test("playback pauses on hidden tab, does not resume, and navigation cleans time
     id!,
   );
   await page.getByRole("button", { name: "Play", exact: true }).click();
-  await page
-    .getByRole("link", { name: "Read the explanation", exact: true })
-    .click();
+  await page.locator(".editorial-lesson-heading .learning-kicker").click();
   await page.goBack();
   await expect(
     page.getByRole("button", { name: "Play", exact: true }),

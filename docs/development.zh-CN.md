@@ -1,63 +1,46 @@
-# 开发与验证
+# 开发与网站构建
 
-Rust 最低版本为 1.99.0。Cargo.toml、Cargo.lock、LICENSE 和 COPYING 保留在根目录。
-第三方说明放在 docs/third-party-notices.md，普通文档采用 kebab-case 文件名。
+[English](development.md)
 
-```sh
-cargo fmt --all --check
-cargo clippy --locked --all-targets -- -D warnings
-cargo test --locked
-cargo run --locked -- run fixtures/roundtrip.json
-git diff --check
-```
+构建、环境、缓存和结果放在检出目录之外。Rust 要求1.99.0+，NautilusTrader 固定为0.66.0。网站现在由 Astro 统一生成：参考文档与互动教学共享页面框架、语言切换和同一个发布产物。
 
-测试覆盖严格输入校验、无未来报价成交、费用、拒单、多标的持仓、重复运行和真实 CLI。
-构建缓存、测试结果和保留的网页产物按工作区规范写入仓库之外。
+## 引擎检查
 
-## 文档站
+执行 `cargo fmt --all --check`、`cargo clippy --locked --all-targets -- -D warnings`、`cargo test --locked`、`cargo run --locked -- run fixtures/roundtrip.json`，以及 `python -m unittest project_tools.test_reusable_ownership -v`、`python project_tools/check_reusable_ownership.py` 和 `git diff --check`。将 `CARGO_TARGET_DIR` 指向外部任务目录。这些检查不代表冲击参数已校准或交易所行为已完整复刻。
 
-Python 仅用于 MkDocs 工具，不参与 Rust 引擎运行。
+## Astro 网站
+
+使用 Node26.13.0、npm12.2.2 和已提交的前端锁。Python3.13 只准备可信文章内容及引擎产出的教学证据，不是第二个整站渲染器，也不在浏览器里核算金融结果。正式构建不安装或运行 MkDocs。保留固定版本的 Python-Markdown / PyMdown，是为了兼容已有 Markdown 方言和精确的旧标题锚点；所有 HTML 路由、页面布局及最终生成均由 Astro 负责。
+
+在外部环境用 `uv pip sync --require-hashes` 安装 `docs/requirements/docs.lock` 和 `learning.lock`。前端依赖按不变的 `web/package-lock.json` 安装到任务独占目录，再把 `node_modules` 链接到 `web/`；Astro 生成文件和缓存也放在外部，不能与其他并行任务共用可写缓存。
+
+完整命令见英文页；核心构建顺序如下，准备与输出目录必须是新的：
 
 ```sh
-uv venv --python 3.13 .venv-docs
-uv pip sync --python .venv-docs/bin/python docs/requirements/docs.lock
-.venv-docs/bin/mkdocs build --strict
-.venv-docs/bin/python project_tools/check_docs.py --site-dir site
-.venv-docs/bin/mkdocs serve
-```
-
-PR 只构建和检查，合并到 main 后通过 GitHub Actions 产物发布到 GitHub Pages。
-不把生成网页提交进源码，不需要强制推送分支。
-
-设计参考 quant-platform 的暖灰底色、棕色强调色和系统字体，以及
-quant-backtest-runtime 的按语言过滤导航。英文为默认语言，中文页面有对应导航、
-界面语言和深浅色按钮文字。主题选择由 Material 保留，切换语言跳到当前页面的对应译文。
-缺少译文时回退英文首页。
-
-## 主题维护
-
-Material 官方[宣布于 2027 年 5 月 5 日结束维护](https://squidfunk.github.io/mkdocs-material/)。
-当前锁定版本与同系列项目一致。应在此日期前评估上游后继方案或仍受维护的兼容主题。
-正文保留为 Markdown，发布使用标准静态网页产物，便于后续迁移。
-
-## 学习站点拼装
-
-PR 与 main 执行相同检查，仅 main 发布。使用全新的仓库外 `TASK_DATA` 目录、Node 26.13.0/npm 12.2.2 以及锁定的 `web/package-lock.json`。前端依赖安装在外部目录，将其 `node_modules` 链接到 `web/`；Astro 生成状态也放在仓库外。文档环境安装带哈希的 `docs/requirements/docs.lock` 和 `learning.lock`。
-
-```sh
-python -m unittest project_tools.test_site_routes project_tools.test_reference_home project_tools.test_site_assembly project_tools.test_learning_assets -v
-python project_tools/validate_learning_assets.py --manifest docs/assets/learning/manifest.json
-npm --prefix web run check
-npm --prefix web run test:unit
-mkdocs build --strict --site-dir "$TASK_DATA/site-mkdocs"
-python project_tools/check_docs.py --site-dir "$TASK_DATA/site-mkdocs"
-python project_tools/extract_reference_home.py --site-dir "$TASK_DATA/site-mkdocs" --output "$TASK_DATA/reference-home"
-SITE_INPUT_DIR="$TASK_DATA/reference-home" ASTRO_OUT_DIR="$TASK_DATA/site-astro" ASTRO_CACHE_DIR="$TASK_DATA/astro-cache" npm --prefix web run build
-python project_tools/assemble_site.py --mkdocs "$TASK_DATA/site-mkdocs" --astro "$TASK_DATA/site-astro" --learning docs/assets/learning --routes docs/site/route-ownership.json --output "$TASK_DATA/site-assembled"
-python project_tools/check_assembled_site.py --site-dir "$TASK_DATA/site-assembled" --base /quant-backtest-engine/ --legacy docs/site/legacy-route-anchors.json
+export PYTHON="$TASK_DATA/docs-env/bin/python"
+export SITE_INPUT_DIR="$TASK_DATA/reference-input"
+export ASTRO_OUT_DIR="$TASK_DATA/site-astro"
+export ASTRO_CACHE_DIR="$TASK_DATA/astro-cache"
+"$PYTHON" project_tools/prepare_reference.py --output "$SITE_INPUT_DIR"
+npm --prefix web run build
+"$PYTHON" project_tools/assemble_site.py --astro "$ASTRO_OUT_DIR" --learning docs/assets/learning --routes docs/site/route-ownership.json --output "$TASK_DATA/site-assembled"
+"$PYTHON" project_tools/check_docs.py --site-dir "$TASK_DATA/site-assembled"
+"$PYTHON" project_tools/check_assembled_site.py --site-dir "$TASK_DATA/site-assembled" --base /quant-backtest-engine/ --legacy docs/site/legacy-route-anchors.json
 SITE_DIR="$TASK_DATA/site-assembled" SITE_BASE=/quant-backtest-engine/ BROWSER_OUTPUT_DIR="$TASK_DATA/browser" npm --prefix web run test:e2e
 ```
 
-浏览器检查前先安装锁定的 Playwright Chromium，或将 `CHROME_EXECUTABLE` 明确指向兼容的已安装 Chrome。测试启动器使用记录下来的空闲本地端口提供已构建产物。搜索范围仍是 MkDocs 技术参考；共享语言偏好不会重定向深链接。
+源码发生变化后要重新准备输入，再构建；旧内容凭据不能混用。验收还包括 `test_method_*`、`test_prepare_reference`、路由/首页/组装/学习资产测试、教学资产校验、`npm run check`、`npm run test:unit`、旧回放与 DOM 测试。DOM 工具使用单独锁定的 `project_tools/method-tests` 环境及 `NODE_PATH`。浏览器安装锁定 Playwright Chromium，或通过 `CHROME_EXECUTABLE` 使用兼容的本机浏览器。测试服务器只在已分配的本地端口运行并记录实际构建产物，无需长期预览服务。
 
-唯一发布入口为 `.github/workflows/docs.yml`，只上传 `site-assembled`。`site-build.json` 绑定源码版本、源码/锁文件/manifest 输入及交付文件哈希。原教程保留 [PR 19](https://github.com/runchengxie/quant-backtest-engine/pull/19) 和提交 `4820af3b82940e7697cb8c92154315b1d59ee23d`，不提交历史渲染首页。
+## 阅读与交互
+
+八个基础说明页都以一个大白话问题和一个联动主图开始。完整数值、来源及所有表格放在原生可展开区域，学习和实验旧地址都继续可用。参考文档搜索、旧 URL、锚点和下载保留；默认英文，中文对照和显式语言偏好沿用既有路由与存储约定。动画是可选项，尊重减少动态效果设置；禁用 JavaScript 时仍能展开完整记录表格。
+
+浏览器只回放引擎产出的合成证据、把数值映射成图形，不重算账户，不把未知值改成零，不给确定情景编造概率。机会损失不是现金手续费，永久冲击系数是模型假设，有限可行格点也不代表已求出通用非凸问题或 HJB 的全局解。概念流程里的预测阶段，不表示示例给定订单来自训练好的策略。
+
+视觉与讲解方式参考 [Distill 的互动优化文章](https://distill.pub/2017/momentum/)及 [Seeing Theory](https://github.com/seeingtheory/Seeing-Theory)，没有复制其代码或图形资产。[Astro 内容组织](https://docs.astro.build/en/guides/content-collections/)和 [Starlight 自定义页面](https://starlight.astro.build/guides/pages/)用于理解参考阅读与实验页面的分工，没有增加 Starlight 依赖。
+
+## 发布与来源
+
+唯一发布入口为 `.github/workflows/docs.yml`。PR 验证但不发布，合并后的 main 只上传组装好的 Astro 产物到 GitHub Pages。`site-build.json` 绑定实际源码、锁、输入清单及最终文件字节；陈旧片段会被拒绝。保留原教学 PR19 提交 `4820af3b82940e7697cb8c92154315b1d59ee23d` 的来源记录，不提交生成后的网站，也不因换渲染器重写金融样例的身份。
+
+旧双渲染器和片段提取函数只作为历史测试工具保留，不构成隐含 MkDocs 构建依赖。许可原文与署名见[第三方说明](third-party-notices.zh-CN.md)、`LICENSE`、`COPYING`。

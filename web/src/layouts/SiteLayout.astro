@@ -1,7 +1,24 @@
 ---
 import '../styles/site.css';
+import '../styles/reference.css';
 import {base,home,route} from '../lib/routes';
 import {catalog,manifestHash} from '../lib/data';
-const {locale='en',title,counterpart}=Astro.props;const c=catalog(locale);
+import {referencePages} from '../lib/reference';
+import {referenceUI} from '../lib/reference-ui';
+const {locale='en',title,counterpart,reference=false}=Astro.props;
+const c=catalog(locale),r=referenceUI(locale);
 ---
-<!doctype html><html lang={locale}><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="color-scheme" content="light dark"/><meta name="learning-manifest" content={manifestHash}/><title>{title} · quant-backtest-engine</title><link rel="alternate" hreflang={locale==='en'?'zh-CN':'en'} href={counterpart}/></head><body><a class="learning-skip" href="#product-main">{locale==='en'?'Skip to content':'跳到正文'}</a><header class="learning-header"><a class="learning-brand" href={home(locale)}>quant-backtest-engine</a><nav aria-label={locale==='en'?'Main':'主导航'}><a data-site-nav href={route('learn',locale)}>{c['learning.learn']}</a><a data-site-nav href={route('reference',locale)}>{c['learning.reference']}</a><a data-site-locale={locale==='en'?'zh-CN':'en'} href={counterpart}>{locale==='en'?'简体中文':'English'}</a><button id="product-theme" aria-label={c['learning.theme']}>{c['learning.theme']}</button></nav></header><main id="product-main"><slot/></main><footer><p>{c['learning.synthetic']}</p><a href={base+'assets/learning/manifest.json'}>manifest.json</a> · <a href="https://github.com/runchengxie/quant-backtest-engine/pull/19">PR 19</a></footer><script is:inline src={base+'javascripts/site-locale.js'}></script><script is:inline>document.querySelector('#product-theme')?.addEventListener('click',()=>{document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';});</script></body></html>
+<!doctype html>
+<html lang={locale}>
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="color-scheme" content="light dark"/><meta name="learning-manifest" content={manifestHash}/><link rel="stylesheet" href={base+'stylesheets/method-replay.css'}/><title>{title} · quant-backtest-engine</title><link rel="alternate" hreflang={locale==='en'?'zh-CN':'en'} href={counterpart}/></head>
+<body>
+<a class="learning-skip" href="#product-main">{r.skip}</a>
+<header class="learning-header"><a class="learning-brand" href={home(locale)}>quant-backtest-engine</a><nav aria-label={r.navigation}><a data-site-nav href={route('learn',locale)}>{c['learning.learn']}</a><a data-site-nav href={route('reference',locale)}>{c['learning.reference']}</a>{reference&&<button id="reference-language" aria-controls="reference-language-link" aria-label={r.selectLanguage}>{r.language}</button>}<a id={reference?'reference-language-link':undefined} hreflang={locale==='en'?'zh-CN':'en'} data-site-locale={locale==='en'?'zh-CN':'en'} href={counterpart}>{locale==='en'?'简体中文':'English'}</a><button id="product-theme" aria-label={c['learning.theme']}>{c['learning.theme']}</button></nav></header>
+<main id="product-main">
+{reference&&<><nav class="reference-navigation" aria-label={r.navigation}><details><summary>{c['learning.reference']}</summary><ul>{referencePages.filter(p=>p.locale===locale).map(p=><li><a href={base+(p.route?p.route+'/':'')}>{p.title}</a></li>)}</ul></details></nav><section class="reference-search"><label for="reference-query">{r.search}</label><input id="reference-query" type="search" data-locale={locale} data-unavailable={r.searchUnavailable}/><ul id="reference-results" aria-live="polite"></ul></section></>}
+<slot/>
+</main>
+<footer><p>{c['learning.synthetic']}</p><a href={base+'assets/learning/manifest.json'}>manifest.json</a> · <a href="https://github.com/runchengxie/quant-backtest-engine/pull/19">PR 19</a></footer>
+<script is:inline src={base+'javascripts/reference-search.js'}></script><script is:inline src={base+'javascripts/method-replay.js'}></script><script is:inline src={base+'javascripts/site-locale.js'}></script>
+<script is:inline>document.querySelector('#reference-language')?.addEventListener('click',()=>document.querySelector('#reference-language-link')?.focus());document.querySelector('#product-theme')?.addEventListener('click',()=>{const root=document.documentElement;const dark=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;root.dataset.theme=dark?'light':'dark';});</script>
+</body></html>
