@@ -44,3 +44,5 @@ SITE_DIR="$TASK_DATA/site-assembled" SITE_BASE=/quant-backtest-engine/ BROWSER_O
 唯一发布入口为 `.github/workflows/docs.yml`。PR 验证但不发布，合并后的 main 只上传组装好的 Astro 产物到 GitHub Pages。`site-build.json` 绑定实际源码、锁、输入清单及最终文件字节；陈旧片段会被拒绝。保留原教学 PR19 提交 `4820af3b82940e7697cb8c92154315b1d59ee23d` 的来源记录，不提交生成后的网站，也不因换渲染器重写金融样例的身份。
 
 旧双渲染器和片段提取函数只作为历史测试工具保留，不构成隐含 MkDocs 构建依赖。许可原文与署名见[第三方说明](third-party-notices.zh-CN.md)、`LICENSE`、`COPYING`。
+
+[网页构建依赖安全缓解](frontend-security.zh-CN.md)：全新安装后先应用补丁，再运行 Astro 和受验证的审计门禁。

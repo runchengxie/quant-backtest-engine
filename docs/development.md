@@ -60,3 +60,5 @@ The design takes inspiration from [Distill's interactive optimization explanatio
 The sole deployment owner is `.github/workflows/docs.yml`. PRs validate without publishing; merged main commits publish only the assembled Astro artifact to GitHub Pages. `site-build.json` binds actual source/lock/manifest inputs and delivered file hashes; changed or stale fragments fail admission. Keep original tutorial provenance at PR 19 commit `4820af3b82940e7697cb8c92154315b1d59ee23d`. No generated homepage/site is committed, and financial fixture/source identities are unchanged by renderer migration.
 
 Retired two-renderer/extraction helpers are historical tested utilities, not a hidden MkDocs build dependency. License originals and notices remain in [third-party notices](third-party-notices.md), `LICENSE` and `COPYING`.
+
+[Frontend build security mitigation](frontend-security.md): patch fresh installs before Astro and use the verified audit gate.

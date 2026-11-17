@@ -37,6 +37,8 @@ jobs:
           cp web/package*.json "$TASK_DATA/web-deps/"
           npm ci --prefix "$TASK_DATA/web-deps" --no-audit --no-fund
           ln -s "$TASK_DATA/web-deps/node_modules" web/node_modules
+          node project_tools/frontend_security.cjs patch web
+          node --test project_tools/test_frontend_security.cjs
           ln -s "$TASK_DATA/web-deps/node_modules" "$TASK_DATA/node_modules"
           ln -s "$TASK_DATA/web-generated" web/.astro
           cp project_tools/method-tests/package*.json "$TASK_DATA/method-dom/"
@@ -56,7 +58,7 @@ jobs:
           "$TASK_DATA/docs-env/bin/python" project_tools/validate_learning_assets.py --manifest docs/assets/learning/manifest.json
           npm --prefix web run check
           npm --prefix web run test:unit
-          npm --prefix web audit --audit-level=high
+          FRONTEND_AUDIT_RECEIPT="$TASK_DATA/frontend-audit.json" npm --prefix web run audit:locked
       - name: Build one Astro-owned artifact
         run: |
           "$TASK_DATA/docs-env/bin/python" project_tools/prepare_reference.py --output "$SITE_INPUT_DIR"
