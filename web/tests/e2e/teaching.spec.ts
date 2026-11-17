@@ -115,3 +115,10 @@ test("first theme click reverses the system dark preference", async ({ page }) =
   await page.locator("#product-theme").click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
 });
+
+test("risk lesson starts with the forecast rather than a recovery preset", async ({ page }) => {
+  await page.goto("learn/risk/");
+  await expect(page.locator("[data-ready=true]")).toBeVisible();
+  await expect(page.locator(".teaching-scenes [data-field=predicted_variance]")).toBeVisible();
+  await expect(page.locator(".learning-controls select").first()).toHaveValue("risk-full");
+});

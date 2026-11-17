@@ -6,7 +6,7 @@ import {route} from '../lib/routes';
 import EvidenceSummary from './EvidenceSummary.astro';
 import ResultTables from './ResultTables.astro';
 import ReplayWorkbench from './replay/ReplayWorkbench';
-const {scene,locale}=Astro.props;const c=catalog(locale);const e=editorial(locale);const traces=loadTraces(scene);const narratives=import.meta.glob('../content/learn/*/*.md',{eager:true});const document=narratives[`../content/learn/${locale}/${scene}.md`] as any;const Content=document.Content;const payloadHash=createHash('sha256').update(JSON.stringify(traces)).digest('hex');const index=readingOrder.indexOf(scene);const previous=readingOrder[index-1];const next=readingOrder[index+1];
+const {scene,locale}=Astro.props;const c=catalog(locale);const e=editorial(locale);const traces=loadTraces(scene);if(scene==='risk'){traces.sort((a,b)=>Number(b.preset_id==='risk-full')-Number(a.preset_id==='risk-full'));}const narratives=import.meta.glob('../content/learn/*/*.md',{eager:true});const document=narratives[`../content/learn/${locale}/${scene}.md`] as any;const Content=document.Content;const payloadHash=createHash('sha256').update(JSON.stringify(traces)).digest('hex');const index=readingOrder.indexOf(scene);const previous=readingOrder[index-1];const next=readingOrder[index+1];
 ---
 <article class="editorial-lesson">
   <header class="editorial-lesson-heading"><a class="learning-kicker" href={route('learn',locale)}>{e['lesson.map']} / {String(index+1).padStart(2,'0')}</a><h1 id={'product-'+scene}>{e[scene+'.question']}</h1><p class="editorial-lede">{e[scene+'.summary']}</p></header>
