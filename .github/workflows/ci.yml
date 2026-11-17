@@ -95,7 +95,7 @@ jobs:
           uv venv --python "${{ matrix.python }}" "$RUNNER_TEMP/core-planning"
           uv pip install --python "$RUNNER_TEMP/core-planning/bin/python" "$RUNNER_TEMP/wheels/quant_backtest_core-0.3.0-py3-none-any.whl[planning]" "$RUNNER_TEMP/wheels/quant_backtest_engine_client-0.3.0-py3-none-any.whl" numpy==2.2.6 pandas==3.0.6 scipy==1.18.1 'pytest>=8,<10'
           "$RUNNER_TEMP/core-planning/bin/python" -I -B project_tools/verify_installed_planning.py
-          "$RUNNER_TEMP/core-planning/bin/python" -I -B -m pytest core/tests/test_impact_planning.py core/tests/test_multiperiod.py core/tests/test_discrete_inventory.py core/tests/test_discrete_oracle.py core/tests/test_sleeve_allocation.py core/tests/test_planning_session.py -q -p no:cacheprovider
+          "$RUNNER_TEMP/core-planning/bin/python" -I -B -m pytest core/tests/test_impact_planning.py core/tests/test_multiperiod.py core/tests/test_discrete_inventory.py core/tests/test_discrete_oracle.py core/tests/test_sleeve_allocation.py core/tests/test_planning_session.py core/tests/test_joint_execution.py -q -p no:cacheprovider
       - name: Minimal installed minute recovery acceptance
         run: |
           uv venv --python "${{ matrix.python }}" "$RUNNER_TEMP/core-minute"

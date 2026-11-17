@@ -82,6 +82,7 @@ nav:
       - Financial recovery: product/recovery.md
       - Independent scenarios: product/scenarios.md
       - Impact-aware planning: concepts/impact-planning.md
+      - Joint execution benchmark: product/joint-execution.md
       - Finite inventory: concepts/discrete-inventory.md
       - Impact and discrete scenarios: concepts/impact-optimization-scenarios.md
       - Shared sleeve allocation: backtest/sleeve-allocation.md
@@ -133,6 +134,7 @@ nav:
       - 财务会话恢复: product/recovery.zh-CN.md
       - 独立场景: product/scenarios.zh-CN.md
       - 冲击与滚动规划: concepts/impact-planning.zh-CN.md
+      - 联合执行基准: product/joint-execution.zh-CN.md
       - 有限持仓: concepts/discrete-inventory.zh-CN.md
       - 冲击与离散场景: concepts/impact-optimization-scenarios.zh-CN.md
       - 共用账户策略分配: backtest/sleeve-allocation.zh-CN.md

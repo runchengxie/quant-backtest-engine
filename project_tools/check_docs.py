@@ -71,6 +71,7 @@ def check(site: Path) -> None:
         "product/backends",
         "product/recovery",
         "concepts/impact-planning",
+        "product/joint-execution",
         "backtest/capital-and-reconciliation",
         "backtest/market-paths",
         "backtest/transaction-cost-evidence",
