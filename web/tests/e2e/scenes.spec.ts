@@ -71,6 +71,11 @@ for (const locale of ["en", "zh-CN"])
           "data-current-event",
           `${scene}.${id}.0`,
         );
+        if (
+          (await page.locator(".teaching-evidence").getAttribute("open")) ===
+          null
+        )
+          await page.locator(".teaching-evidence > summary").click();
         const timeline = page.locator('section[tabindex="0"]');
         await timeline.focus();
         await page.keyboard.press("ArrowRight");
@@ -84,6 +89,7 @@ for (const locale of ["en", "zh-CN"])
 test("comparison uses independently recorded account", async ({ page }) => {
   await page.goto("lab/paths/");
   await expect(page.locator("[data-ready=true]")).toBeVisible();
+  await page.locator(".teaching-evidence > summary").click();
   await page
     .getByRole("checkbox", { name: "Same market · 50% participation" })
     .check();

@@ -10,11 +10,13 @@ export default defineConfig({
   site: "https://runchengxie.github.io",
   base: "/quant-backtest-engine/",
   output: "static",
+  publicDir: input ? input + "/public" : "./public",
   trailingSlash: "always",
   outDir: out || fileURLToPath(new URL("./dist/", import.meta.url)),
   cacheDir:
     process.env.ASTRO_CACHE_DIR ||
     fileURLToPath(new URL("./.astro/", import.meta.url)),
+  vite: { cacheDir: process.env.ASTRO_CACHE_DIR ? process.env.ASTRO_CACHE_DIR + "/vite" : "./.astro/vite" },
   integrations: [
     react(),
     {

@@ -1,0 +1,10 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import {referencePages,referenceContent} from '../lib/reference';
+import {base} from '../lib/routes';
+export function getStaticPaths(){return referencePages.filter(p=>p.route&&p.route!=='index.zh-CN').map(page=>({params:{reference:page.route},props:{page}}));}
+const {page}=Astro.props;
+const counterpart=base+(page.locale==='zh-CN'?page.route.replace('.zh-CN',''):page.route+'.zh-CN')+'/';
+const content=referenceContent(page);
+---
+<SiteLayout locale={page.locale} title={page.title} counterpart={counterpart} reference={true}><article class="reference-document" set:html={content}/></SiteLayout>

@@ -2,6 +2,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+
 from project_tools.assemble_site import assemble_site
 
 
@@ -68,3 +69,39 @@ class AssemblyTests(unittest.TestCase):
             receipt = json.loads((result / "site-build.json").read_text())
             self.assertNotIn("site-build.json", receipt["files"])
             self.assertIn("search/search_index.json", receipt["files"])
+
+
+class AstroAssemblyTests(unittest.TestCase):
+    def test_one_owner_rejects_unlisted_html_and_stale_identity(self):
+        from project_tools.assemble_site import assemble_astro
+        from project_tools.site_identity import input_identity
+
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d)
+            astro = p / "astro"
+            astro.mkdir()
+            learning = p / "learning"
+            learning.mkdir()
+            config = {
+                "astro_html": ["index.html"],
+                "astro_asset_files": [],
+                "astro_asset_prefixes": [],
+                "base": "/quant-backtest-engine/",
+                "origin": "https://example.com",
+            }
+            routes = p / "routes.json"
+            routes.write_text(json.dumps(config))
+            (astro / "index.html").write_text('<h1 id="home">Home</h1>')
+            (astro / "renderer-input.json").write_text("{}")
+            with self.assertRaisesRegex(ValueError, "identities"):
+                assemble_astro(astro, learning, routes, p / "out")
+            (astro / "renderer-input.json").write_text(json.dumps(input_identity()))
+            (astro / "unexpected.html").write_text("extra")
+            with self.assertRaisesRegex(ValueError, "undeclared"):
+                assemble_astro(astro, learning, routes, p / "out")
+            (astro / "unexpected.html").unlink()
+            result = assemble_astro(astro, learning, routes, p / "out")
+            self.assertEqual(
+                json.loads((result / "site-build.json").read_text())["owners"],
+                {"index.html": "astro"},
+            )

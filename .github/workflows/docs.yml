@@ -52,18 +52,17 @@ jobs:
           NODE_PATH="$TASK_DATA/method-dom/node_modules" node --test project_tools/test_method_dom.cjs
       - name: Validate exact assets, route assembly and shared replay state
         run: |
-          "$TASK_DATA/docs-env/bin/python" -m unittest project_tools.test_deployed_site project_tools.test_site_routes project_tools.test_reference_home project_tools.test_site_assembly project_tools.test_learning_assets -v
+          "$TASK_DATA/docs-env/bin/python" -m unittest project_tools.test_deployed_site project_tools.test_site_routes project_tools.test_reference_home project_tools.test_prepare_reference project_tools.test_site_assembly project_tools.test_learning_assets project_tools.test_export_opportunity_example -v
           "$TASK_DATA/docs-env/bin/python" project_tools/validate_learning_assets.py --manifest docs/assets/learning/manifest.json
           npm --prefix web run check
           npm --prefix web run test:unit
           npm --prefix web audit --audit-level=high
-      - name: Build both renderers and one collision-checked artifact
+      - name: Build one Astro-owned artifact
         run: |
-          "$TASK_DATA/docs-env/bin/mkdocs" build --strict --site-dir "$TASK_DATA/site-mkdocs"
-          "$TASK_DATA/docs-env/bin/python" project_tools/check_docs.py --site-dir "$TASK_DATA/site-mkdocs"
-          "$TASK_DATA/docs-env/bin/python" project_tools/extract_reference_home.py --site-dir "$TASK_DATA/site-mkdocs" --output "$SITE_INPUT_DIR"
+          "$TASK_DATA/docs-env/bin/python" project_tools/prepare_reference.py --output "$SITE_INPUT_DIR"
           npm --prefix web run build
-          "$TASK_DATA/docs-env/bin/python" project_tools/assemble_site.py --mkdocs "$TASK_DATA/site-mkdocs" --astro "$ASTRO_OUT_DIR" --learning docs/assets/learning --routes docs/site/route-ownership.json --output "$TASK_DATA/site-assembled"
+          "$TASK_DATA/docs-env/bin/python" project_tools/assemble_site.py --astro "$ASTRO_OUT_DIR" --learning docs/assets/learning --routes docs/site/route-ownership.json --output "$TASK_DATA/site-assembled"
+          "$TASK_DATA/docs-env/bin/python" project_tools/check_docs.py --site-dir "$TASK_DATA/site-assembled"
           "$TASK_DATA/docs-env/bin/python" project_tools/check_assembled_site.py --site-dir "$TASK_DATA/site-assembled" --base /quant-backtest-engine/ --legacy docs/site/legacy-route-anchors.json
       - name: Real built-site browser acceptance
         run: SITE_DIR="$TASK_DATA/site-assembled" SITE_BASE=/quant-backtest-engine/ npm --prefix web run test:e2e

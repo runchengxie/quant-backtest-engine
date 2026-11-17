@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import re
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
@@ -88,46 +87,20 @@ def check(site: Path) -> None:
                 else f"{name}{suffix}/index.html"
             )
             text = (root / relative).read_text(encoding="utf-8")
-            language = "zh" if chinese else "en"
+            language = "zh-CN" if chinese else "en"
             assert f'<html lang="{language}"' in text, relative
-            dark, light = (
-                ("切换至深色模式", "切换至浅色模式")
-                if chinese
-                else ("Switch to dark mode", "Switch to light mode")
-            )
-            assert f'aria-label="{dark}"' in text and f'aria-label="{light}"' in text, (
-                relative
-            )
-            assert (
-                'data-md-color-scheme="default"' in text
-                and 'data-md-color-scheme="slate"' in text
-            ), relative
-            nav = text.split("md-sidebar--primary", 1)[1].split(
-                "md-sidebar--secondary", 1
-            )[0]
-            footer = re.search(r'<nav[^>]*class="md-footer__inner.*?</nav>', text, re.S)
-            if footer:
-                footer_links = Links()
-                footer_links.feed(footer.group())
-                for href in footer_links.links:
-                    assert (".zh-CN" in href) == chinese, (
-                        f"footer crosses locales: {relative}: {href}"
-                    )
-            expected, excluded = (
-                ("输入输出契约", "Request and result contracts")
-                if chinese
-                else ("Request and result contracts", "输入输出契约")
-            )
-            assert expected in nav and excluded not in nav, relative
+            assert 'id="product-theme"' in text, relative
+            if name != "index":
+                assert 'id="reference-query"' in text, relative
             counterpart = (
                 (f"{name}/" if name != "index" else "") if chinese else f"{name}.zh-CN/"
             )
-            assert (
-                f"https://runchengxie.github.io/quant-backtest-engine/{counterpart}"
-                in text
-            ), relative
-    from method_docs import ASSETS
+            assert f'href="/quant-backtest-engine/{counterpart}"' in text, relative
+            # Actual legacy IDs and every local link/fragment are checked separately
+            # by check_assembled_site, against the immutable observed baseline.
     import json
+
+    from method_docs import ASSETS
 
     fixtures = json.loads((ASSETS / "fixtures.json").read_text())
     for suffix in ["", ".zh-CN"]:

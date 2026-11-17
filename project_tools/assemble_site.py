@@ -1,6 +1,7 @@
 """Produce a fresh, collision-free union with one owner per delivered path."""
 
 from __future__ import annotations
+
 import argparse
 import gzip
 import json
@@ -86,7 +87,7 @@ def assemble_site(
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)
     routes = [
-        name[:-10] if name.endswith("index.html") else name
+        name.removesuffix("index.html")
         for name in inputs
         if name.endswith(".html") and name != "404.html"
     ]
@@ -119,9 +120,80 @@ def assemble_site(
     return output_dir
 
 
+def assemble_astro(
+    astro_dir: Path, learning_dir: Path, route_manifest: Path, output_dir: Path
+) -> Path:
+    """Finalize one Astro renderer, preserving declared paths and exact asset bytes."""
+    config = json.loads(route_manifest.read_text())
+    if output_dir.exists():
+        raise ValueError("assembled output must not already exist")
+    identity = json.loads((astro_dir / "renderer-input.json").read_text())
+    if identity != input_identity():
+        raise ValueError("renderer source identities differ")
+    inputs = {}
+    for source in safe_files(astro_dir):
+        name = source.relative_to(astro_dir).as_posix()
+        if name == "renderer-input.json":
+            continue
+        declared = (
+            name in config["astro_html"]
+            if name.endswith(".html")
+            else (
+                name in config["astro_asset_files"]
+                or any(name.startswith(p) for p in config["astro_asset_prefixes"])
+            )
+        )
+        if not declared:
+            raise ValueError(f"undeclared Astro output: {name}")
+        inputs[name] = source
+    if set(config["astro_html"]) != {p for p in inputs if p.endswith(".html")}:
+        raise ValueError("missing declared Astro HTML")
+    for source in safe_files(learning_dir):
+        name = "assets/learning/" + source.relative_to(learning_dir).as_posix()
+        if name not in inputs or sha256(inputs[name]) != sha256(source):
+            raise ValueError(f"learning bytes mismatch: {name}")
+    output_dir.mkdir(parents=True)
+    for name, source in inputs.items():
+        target = output_dir / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+    routes = [
+        n.removesuffix("index.html")
+        for n in inputs
+        if n.endswith(".html") and n != "404.html"
+    ]
+    sitemap = (
+        '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+        + "".join(
+            "<url><loc>"
+            + escape(config["origin"] + config["base"] + route)
+            + "</loc></url>"
+            for route in sorted(routes)
+        )
+        + "</urlset>"
+    )
+    (output_dir / "sitemap.xml").write_text(sitemap)
+    (output_dir / "sitemap.xml.gz").write_bytes(
+        gzip.compress(sitemap.encode(), mtime=0)
+    )
+    inventory = inventory_site_routes(output_dir)
+    receipt = {
+        "schema": "engine-site-build.v1",
+        "identity": identity,
+        "route_manifest_sha256": sha256(route_manifest),
+        "files": inventory["files"],
+        "html": inventory["html"],
+        "owners": {n: "astro" for n in inputs},
+    }
+    (output_dir / "site-build.json").write_text(
+        json.dumps(receipt, ensure_ascii=False, indent=2) + "\n"
+    )
+    return output_dir
+
+
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
-    for arg in ["mkdocs", "astro", "learning", "routes", "output"]:
+    for arg in ["astro", "learning", "routes", "output"]:
         p.add_argument("--" + arg, type=Path, required=True)
     a = p.parse_args()
-    assemble_site(a.mkdocs, a.astro, a.learning, a.routes, a.output)
+    assemble_astro(a.astro, a.learning, a.routes, a.output)

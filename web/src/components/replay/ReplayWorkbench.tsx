@@ -11,6 +11,8 @@ import CausalFlow from "./CausalFlow";
 import TraceChart from "./TraceChart";
 import ComparisonPanel from "./ComparisonPanel";
 import FeasibleGrid from "./FeasibleGrid";
+import TeachingScenes from "./TeachingScenes";
+import { teachingText } from "../../lib/teaching-catalog";
 export default function ReplayWorkbench({
   traces,
   catalog,
@@ -115,44 +117,59 @@ export default function ReplayWorkbench({
         {t("frame")} {state.eventOrdinal + 1} / {trace.events.length} ·{" "}
         {t("phase." + event.stage)}
       </p>
-      <EventTimeline
-        events={trace.events}
-        ordinal={state.eventOrdinal}
+
+      <TeachingScenes
+        trace={trace}
+        traces={traces}
+        event={event}
+        locale={locale}
         ready={ready}
-        t={t}
+        label={t}
         select={(eventId) => dispatch({ type: "SELECT_EVENT", eventId })}
-        step={(type) => dispatch({ type })}
       />
-      <CausalFlow event={event} t={t} />
-      <TraceChart event={event} events={trace.events} t={t} />
-      <FeasibleGrid trace={trace} t={t} />
-      {trace.comparison && (
-        <fieldset disabled={!ready}>
-          <legend>{t("learning.comparison")}</legend>
-          {traces
-            .filter((x) => x.preset_id !== trace.preset_id)
-            .map((other) => (
-              <label key={other.preset_id}>
-                <input
-                  type="checkbox"
-                  checked={state.comparisonPresetIds.includes(other.preset_id)}
-                  onChange={(e) =>
-                    dispatch({
-                      type: "SET_COMPARISON",
-                      presetIds: e.target.checked
-                        ? [...state.comparisonPresetIds, other.preset_id]
-                        : state.comparisonPresetIds.filter(
-                            (id) => id !== other.preset_id,
-                          ),
-                    })
-                  }
-                />
-                {t("scenario." + other.preset_id)}
-              </label>
-            ))}
-        </fieldset>
-      )}
-      <ComparisonPanel rows={comparisonEvents(state, index)} t={t} />
+      <details className="teaching-evidence">
+        <summary>{teachingText(locale, "evidence")}</summary>
+        <EventTimeline
+          events={trace.events}
+          ordinal={state.eventOrdinal}
+          ready={ready}
+          t={t}
+          select={(eventId) => dispatch({ type: "SELECT_EVENT", eventId })}
+          step={(type) => dispatch({ type })}
+        />
+        <CausalFlow event={event} t={t} />
+        <TraceChart event={event} events={trace.events} t={t} />
+        <FeasibleGrid trace={trace} t={t} />
+        {trace.comparison && (
+          <fieldset disabled={!ready}>
+            <legend>{t("learning.comparison")}</legend>
+            {traces
+              .filter((x) => x.preset_id !== trace.preset_id)
+              .map((other) => (
+                <label key={other.preset_id}>
+                  <input
+                    type="checkbox"
+                    checked={state.comparisonPresetIds.includes(
+                      other.preset_id,
+                    )}
+                    onChange={(e) =>
+                      dispatch({
+                        type: "SET_COMPARISON",
+                        presetIds: e.target.checked
+                          ? [...state.comparisonPresetIds, other.preset_id]
+                          : state.comparisonPresetIds.filter(
+                              (id) => id !== other.preset_id,
+                            ),
+                      })
+                    }
+                  />
+                  {t("scenario." + other.preset_id)}
+                </label>
+              ))}
+          </fieldset>
+        )}
+        <ComparisonPanel rows={comparisonEvents(state, index)} t={t} />
+      </details>
     </div>
   );
 }
