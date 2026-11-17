@@ -4,6 +4,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("../", import.meta.url));
+execFileSync(process.execPath, [root + "project_tools/frontend_security.cjs", "verify", root + "web"], { stdio: "pipe" });
 const input = process.env.SITE_INPUT_DIR;
 const out = process.env.ASTRO_OUT_DIR;
 export default defineConfig({
