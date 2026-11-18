@@ -18,7 +18,7 @@ report = audit_transaction_costs(
 observations = report.cost_observations(fee_basis="modeled")
 ```
 
-示例费率仅用于合成机制测试，不代表券商收费标准。调用方负责保存带版本的费用条款，并确认计费约定。
+示例费率用于合成机制测试，券商收费标准需使用独立条款核对。调用方负责保存带版本的费用条款，并确认计费约定。
 
 ## 标准化输入
 
@@ -56,13 +56,13 @@ observations = report.cost_observations(fee_basis="modeled")
 
 `fill_id` 在一次审核中唯一标识一笔物理成交。同一物理成交的相同回报按身份去重，不受行顺序或收到顺序影响，保留最早有效回报时钟。物理内容冲突则报错。比较前会规范化价格和股数的数值表示。空成交表仍需保留必需列。
 
-成交可选列 `recorded_commission` 和 `recorded_tax` 为已分摊到该物理成交的人民币分金额，不得重复填写整笔父订单账单。每笔去重后成交的两项费用均齐备，才生成父订单已记录费用总额。买入税费也需要显式填零。缺失费用保持未知。已记录数值属于调用方提供的证据，不等于已认证券商账单。
+成交可选列 `recorded_commission` 和 `recorded_tax` 为已分摊到该物理成交的人民币分金额，不得重复填写整笔父订单账单。每笔去重后成交的两项费用均齐备，才生成父订单已记录费用总额。买入税费也需要显式填零。缺失费用保持未知。已记录数值来自调用方，券商账单认证需另行完成。
 
 ## 费用与归因
 
 每个计费组先计算成交额 `N = sum(price * shares)`，佣金为 `round_cent(max(minimum_commission, N * commission_bps / 10000))`，卖出税为 `round_cent(N * sell_tax_bps / 10000)`。使用 Decimal 计算，每笔佣金和税分别按四舍五入保留到分。`billing="parent"` 合并所有子成交，仅收一次最低佣金。`billing="child"` 按子订单分别计算最低佣金和舍入税费。零成交不生成模型费用。不支持其他计费规则、返佣和负费率。
 
-`modeled_commission`、`modeled_tax`、`modeled_cash_fees` 是这些条款下的估算。`recorded_cash_fees` 是去重后的已记录分摊费用之和，证据不全则为 `None`。`fee_evidence` 为 `caller_recorded` 或 `unavailable`。输出使用浮点数方便分析，不是精确到账户分的经济账本。
+`modeled_commission`、`modeled_tax`、`modeled_cash_fees` 是这些条款下的估算。`recorded_cash_fees` 是去重后的已记录分摊费用之和，证据不全则为 `None`。`fee_evidence` 为 `caller_recorded` 或 `unavailable`。输出采用浮点数用于分析，精确到账户分的记账由原账户所有者负责。
 
 令买入 `s=+1`、卖出 `s=-1`，成交股数为 `q`、委托量为 `Q`、成交额为 `N`、参考价为 `R`、到达价为 `A`、终点基准为 `H`：
 
@@ -90,4 +90,4 @@ observations = report.cost_observations(fee_basis="modeled")
 
 调用方必须证明所选日期或订单聚类之间的独立性，包括不同订单受共同日期影响的情形。标签本身不能证明独立。区间不包含系数估计不确定性、模型选择或未来市场概率。不使用后续数据重新拟合，也不自动晋升模型。
 
-`source_digest` 绑定规范序列化后的输入记录、全部收到的回报、附加标量列和数值费用条款，不受行顺序影响。它不是原始文件字节摘要。调用方需在自己的证据清单中保留原始字节摘要、供应方来源、代码和消费方版本、带版本的费用条款。`broker_fills` 标签或优秀的合成拟合均不能证明来源真实。报告始终返回 `provenance_status="caller_asserted"` 和 `real_calibration="unavailable"`。此接口不验证券商记录，不识别历史队列，不校准永久冲击，也不产生新的样本外主张。
+`source_digest` 绑定规范序列化后的输入记录、全部收到的回报、附加标量列和数值费用条款，不受行顺序影响。原始文件字节摘要需另行保存。调用方需在自己的证据清单中保留原始字节摘要、供应方来源、代码和消费方版本、带版本的费用条款。`broker_fills` 标签或优秀的合成拟合均不能证明来源真实。报告始终返回 `provenance_status="caller_asserted"` 和 `real_calibration="unavailable"`。此接口不验证券商记录，不识别历史队列，不校准永久冲击，也不产生新的样本外主张。

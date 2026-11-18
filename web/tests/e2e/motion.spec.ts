@@ -58,5 +58,5 @@ test("reduced motion leaves automatic loops and transitions off while step butto
   await page.locator("[data-action=next]").click();
   await expect(page.locator(".motion-caption")).toContainText("5");
   await expect(page.locator(".motion-shares [data-filled=true]")).toHaveCount(5);
-  expect(await page.locator(".motion-bar").first().evaluate(node=>getComputedStyle(node).transitionDuration)).toBe("0s");
+  expect(await page.locator(".motion-shares > span").first().evaluate(node=>getComputedStyle(node).transitionDuration)).toBe("0s");
 });

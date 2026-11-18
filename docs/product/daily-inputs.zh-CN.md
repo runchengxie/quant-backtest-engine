@@ -20,7 +20,7 @@ Core 0.3.0 已实现独立日频图、daily-input.v1 校验和 python.daily 后�
 尚不支持独立估值价格。人民币原始股数口径使用 `raw_share` 和
 `CNY/raw_share`；复权口径使用 `adjusted_share` 和 `CNY/adjusted_share`。
 流动性倍数为 1 时单位是 `CNY`，倍数为 1000 时是 `1000 CNY`。
-未来 manifest 适配器必须核对币种和股数口径；原生元数据本身并不表示 manifest 已获准执行。
+未来 manifest 适配器必须核对币种和股数口径；manifest 的执行准入需通过适配器校验。
 
 手数、T+1、流动性倍数及涨跌停、上市状态选择器仅保留在 `ExecutionSimConfig`。
 类和解析器从 Platform 提交 `7a618bddd8fdeee5dbe37fe5b54a9698e0de5355`
@@ -38,7 +38,7 @@ Core 0.3.0 已实现独立日频图、daily-input.v1 校验和 python.daily 后�
 
 每个严格的 `YYYY-MM-DD` 调仓日期必须有信息、决策和准入时钟。
 要求信息时间 ≤ 决策时间 ≤ 准入时间；若有独立可用时间证据，还要求可用时间 ≤ 决策时间。
-准入表示最早允许下单的时间，不是实际成交时间。其他时钟允许为空；
+准入记录最早允许下单的时间，实际成交时间由执行结果给出。其他时钟允许为空；
 不对所有时钟施加统一全序。
 
 `DailyDecisionTiming` 保存可空的信号、最早下单、执行窗口起止时间、
@@ -50,7 +50,7 @@ Core 0.3.0 已实现独立日频图、daily-input.v1 校验和 python.daily 后�
 没有来源的可用时间保持未知。`utc_ns` 将有时区的时间精确转成 UTC 纳秒字符串，
 不经过浮点秒数，超过 JavaScript 安全整数范围时仍保留纳秒精度。
 
-日历日期是日期标签，不是时间瞬间。`ExecutionCalendar.from_dates`
+日历日期采用日期标签口径，具体时间瞬间由带时区的时钟字段表示。`ExecutionCalendar.from_dates`
 校验严格有效日期并排序、去重，保留系统已安装的 IANA 时区标识原文。
 语义摘要对 UTF-8 JSON 计算哈希：键依次为 `schema`、`timezone`、
 `open_dates`；schema 为 `execution-calendar.v1`；`ensure_ascii=True`；
@@ -72,8 +72,8 @@ Core 0.3.0 已实现独立日频图、daily-input.v1 校验和 python.daily 后�
 `valuation_complete`。`DailySummaryEvidence` 不可变，
 schema 为 `daily-summary-evidence.v1`，声明两张表分别可用或不可用，
 估值完整性和外部资金流为零的标志与日表行序严格对齐。
-可用表示覆盖声明运行区间的完整支持证据，包括显式空结果，而不是“有一个 DataFrame”。
-这些是执行方或调用方的断言，不是 Engine 推断的来源认证。状态矛盾或行数不符时报错。
+可用状态要求完整覆盖声明运行区间，并保留显式空结果及其证据。
+这些声明由执行方或调用方提供，来源认证需独立核实。状态矛盾或行数不符时报错。
 
 估值标志 True 表示该收益区间的期初、期末价格、现金、持仓和应收项完整。
 零资金流标志 True 表示整个区间有完整的无外部注资证据，包括初始到首行的区间。

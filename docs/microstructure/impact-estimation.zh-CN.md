@@ -6,7 +6,7 @@
 
 ## 计划与单位
 
-`ExecutionSchedule(side, total_volume, n_child=1, start_time_ms=1000, end_time_ms=5000)` 的 +1 为买、-1 为卖，数量为原始整数股，时间为整数回放毫秒，价格为原始整数单位。这是限价子单计划，不保证成交，也不是已校准交易算法。
+`ExecutionSchedule(side, total_volume, n_child=1, start_time_ms=1000, end_time_ms=5000)` 的 +1 为买、-1 为卖，数量为原始整数股，时间为整数回放毫秒，价格为原始整数单位。该对象给出限价子单计划，成交由回放撮合决定，交易算法校准需另行完成。
 
 总量整除子单数，余量给最后一单；第 i 单时钟为 `start_time_ms + max(end_time_ms-start_time_ms, 1)*i//n_child`。运行前，各子单限价取当时对手最优价；缺失时买用 `int(mid_before+1)`、卖用 `int(mid_before-1)`。排入子单时选择限价，不先把市场推进至各未来时钟。随后跑完全部已排队事件，包括计划结束后的背景事件。
 
@@ -27,7 +27,7 @@ assert result.execution_vwap == 101.0
 
 `ImpactResult` 保留 `mid_before`、`mid_after`、方向调整的 `slippage_bps`、`filled_volume`，以及 `unfilled_volume=0`、`execution_vwap=None`、`execution_slippage_bps=None`、`fills=()` 默认值。fills 仅含本次新增的实际子单成交，包括运行中稍后被动成交，排除纯背景交易。按买卖方向选择 buy_id 或 sell_id 归属。数量和成交量加权价直接来自这些逐笔成交，不以汇总交易替代；未成量为请求量减已归属成交量。连续运行不重复计入此前成交。
 
-初始中价为正时，中价滑点为 `side * (mid_after-mid_before)/mid_before * 10000`，执行滑点为 `side * (execution_vwap/mid_before-1) * 10000`，单位基点。无成交时 VWAP 与执行价差为 `None`，不是零。它们描述合成回放干预，不构成已校准的真实市场因果冲击。
+初始中价为正时，中价滑点为 `side * (mid_after-mid_before)/mid_before * 10000`，执行滑点为 `side * (execution_vwap/mid_before-1) * 10000`，单位基点。无成交时 VWAP 与执行价差保留为 `None`。这些结果描述合成回放干预，真实市场中的因果冲击需独立校准。
 
 ## 原生与空订单簿限制
 

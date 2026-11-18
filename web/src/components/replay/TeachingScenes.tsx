@@ -3,7 +3,7 @@ import { teachingText, type TeachingKey } from "../../lib/teaching-catalog";
 import SceneIllustration from "./SceneIllustration";
 import OpportunityExample from "./OpportunityExample";
 import "./teaching.css";
-type Props = {trace: LearningTrace; traces: LearningTrace[]; event: Event; locale: string; ready: boolean; select: (id: string) => void; label: (key: string) => string};
+type Props = {trace: LearningTrace; traces: LearningTrace[]; event: Event; locale: string; ready: boolean; select: (id: string) => void; selectPath: (presetId: string, eventId: string) => void; label: (key: string) => string};
 export default function TeachingScenes(props: Props) {
   const {trace,event,locale}=props;
   const t=(key: TeachingKey)=>teachingText(locale,key);

@@ -19,11 +19,11 @@ assert evidence.components_status == "partial"
 assert evidence.to_mapping()["total"] == 5
 ```
 
-金额以来源账户货币计量，不是费率。`CostComponents` 用 `None` 表示无法取得的证据；
+金额采用来源账户币种的金额口径。`CostComponents` 用 `None` 表示无法取得的证据；
 只有来源明确为零时才使用零。`CostEvidence` 保留来源及版本、阶段、范围、
 记账所有者、货币、单位、原始分类和关联成交 ID。来源版本须同时标识代码与配置；
-ID 是运行内的证据定位符，不是经过认证的回执。
-`actual_fill_model` 表示模拟成交，不是券商实际收费。
+ID 用于运行内的证据定位，来源认证需另行核实。
+`actual_fill_model` 记录模拟成交，券商实际收费需用独立账单核对。
 其他阶段为 `planned_estimate`、`aggregate_estimate`、`broker_actual`；
 最后一项需要独立券商来源，本任务不获取该类数据。
 
@@ -59,5 +59,5 @@ Core 不导入这些类或伪造其结果。明确已知的空成交集合与不
 及按聚类重采样。安装 `[cost]` 以取得 pandas、NumPy 和 SciPy。
 输入列、完成/可用时钟、带符号短缺单位、种子、聚类数量与不确定性边界，
 见[交易成本证据](transaction-cost-evidence.zh-CN.md)。
-较晚可用不等于此前未见的执行区间；不自动晋级模型，也不保证未来校准有效。
+样本外判定还需核对执行区间是否重叠。可用时点较晚只满足时间条件，模型晋级与未来校准有效性需分别验证。
 风险校准及零信号研究仍留在 Platform。来源见[第三方声明](../third-party-notices.zh-CN.md)。

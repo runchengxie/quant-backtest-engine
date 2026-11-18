@@ -61,19 +61,19 @@ output_root, rust_executable, rust_sha256))`。后端接口包括 `descriptor()`
 | reports | orders（订单终态） |
 | daily | daily_ledger |
 
-其他注册表均明确不可用。每日现金与净值观测不是现金流水账本，订单终态也不等于接纳或撤单事件。
+其他注册表标为不可用。daily 表提供每日现金与净值观测，reports 表提供订单终态。现金流水、接纳事件与撤单事件需要独立证据。
 费用保留在原生成交佣金和每日证据中，不再扣一次。归一化时钟为十进制整数字符串；
 完整原生字段，包括拒绝记录和整数时钟，均保留在原始工件中。
 
 原始工件保存 SDK 返回的完整已校验对象：UTF-8 JSON、键排序、紧凑分隔符和一个末尾换行。
-它不是子进程原始 stdout。`normalization.source_sha256` 对应这些实际落盘字节。
-`manifest_sha256` 使用同样的序列化规则计算请求编解码输出的摘要，不代表任意输入 JSON 空白格式的摘要。
+`normalization.source_sha256` 对应上述规范序列化后实际落盘的字节。原始 stdout 的身份需按其自身字节确认。
+`manifest_sha256` 使用同样的序列化规则计算请求编解码输出的摘要，原始输入 JSON 的字节摘要需另行保存。
 
 提供方 distribution/version 标识已安装的 core 适配器，未知 Git 提交为 null。
 `source_sha256` 按相对路径排序计算已安装 core 的 `.py` 文件：每个 UTF-8 路径加 NUL，
 再加文件字节和 NUL。已验证 Rust 可执行文件摘要放在 `artifact_sha256`，绝不称为 Rust 源码摘要。
 SDK 版本来自已安装包元数据。`required-*` 依赖键描述要求的原生契约和 Nautilus 0.66.0，
-并非实测的 Rust 包版本。原生结果校验 Nautilus 身份，但任意可执行文件摘要不能证明 Rust 包版本。
+实际 Rust 包版本需通过独立构建证据核实。原生结果校验 Nautilus 身份，可执行文件摘要用于绑定该二进制工件。
 不提供可执行文件时，能力查询中的 executable 身份为 null。
 准确的发布与源码回执，以及后续 Runtime 的完整依赖闭包，仍需分别记录。
 
@@ -90,7 +90,7 @@ SDK 版本来自已安装包元数据。`required-*` 依赖键描述要求的原
 | `python.daily` | 源码已实现，发布待完成 | `[daily]`；显式 CNY/上海目标、日历和单位；不支持恢复 |
 
 见[场景合同与精确收据](scenarios.zh-CN.md)，包括声明谱系和隐藏状态限制。
-Core 0.3.0 源码版本本身不代表已经合并发布。
+Core 0.3.0 的发布身份需同时核对已合并源码与实际产物回执。
 
 [日频输入契约](daily-inputs.zh-CN.md)与[完整输出](../reference/outputs/backtest-outputs.zh-CN.md)说明理想、容量、调整及序列执行的边界。容量诊断支持流动性/参与率与交易许可、执行窗口及连续零成交中止；拒绝涨跌停、上市状态、T+1 和买卖整手约束。该模式没有股数/现金/费用账本；期间诊断是独立 Python API，不属于可执行后端能力。
 

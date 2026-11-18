@@ -93,7 +93,7 @@ null 只省略对应的不可用关系。effective、report、valuation 可能�
 `0.22`、`"NaN"` 和指数形式会被拒绝。该输入配置的数量和基点也用
 十进制字符串。通用经济字段名见 `validation.DECIMAL_FIELDS`；
 其他 JSON 元数据可以包含整数或有限浮点数。后端行结构必须明确声明额外
-经济字段，新增元数据名称本身不构成财务语义。
+经济字段，新增元数据按契约字段解释，财务语义需由相应执行能力定义。
 例如 `cash: CNY` 是显式单位声明，会与所选提供方声明的单位比较。
 货币、股份口径、日历和时区各自独立表达。
 
@@ -123,7 +123,7 @@ SDK 校验以下完整结构，但不因此声称已安装可执行适配器。
 对于文件输入和 tape，SDK 解析仅检查引用结构及必需名称。
 适配器须在核对哈希并读取文件后，将内容替入并再次调用
 `validate_rust_session`，然后执行原生语义校验。
-解析 URI 并不代表文件内容已通过校验。
+URI 解析后继续校验文件内容。
 
 未知输入 schema 可以作为通用 DTO 表示，但没有配置校验或执行许可。
 `require_capabilities(manifest, descriptor)` 拒绝未注册的 schema、
@@ -150,8 +150,8 @@ unavailable 必须没有行，并给出非空原因，例如：
 {"name": "rights", "status": "unavailable", "rows": [], "reason": "not reported by this provider"}
 ```
 
-不可用不等于余额为零、受支持的空账本，也不是推算出的成交。
-注册表列出证据类别，不代表每个提供方都具备这些能力：
+不可用状态表示相应证据缺失，余额、空账本与成交均需各自的明确结果。
+注册表列出证据类别，各提供方的支持范围分别声明。
 
 | 表名 | 证据类别 |
 | --- | --- |
@@ -174,7 +174,7 @@ unavailable 必须没有行，并给出非空原因，例如：
 行字段和会计含义由所选提供方及归一化源 schema 决定，
 不得用虚构的零值填补不支持的字段。
 成交价格中已计入的冲击和现金费用各自只计一次；
-描述性的基准或机会成本不是额外扣款。
+基准与机会成本用于描述对照结果，现金扣款沿用原记账规则。
 
 `NormalizationReceipt` 包含 schema `backtest-normalization.v1` 及
 `adapter_version, source_schema, source_sha256, unavailable_fields`；
