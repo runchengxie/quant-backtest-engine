@@ -1,1 +1,19 @@
-.reference-document{max-width:78rem;margin:2rem auto;line-height:1.7}.reference-document pre{overflow:auto;padding:1rem;background:var(--panel,#eee)}.reference-document table{display:block;overflow:auto;border-collapse:collapse}.reference-document td,.reference-document th{padding:.5rem;border:1px solid #8886}.reference-document .admonition,.reference-document details{padding:1rem;border-inline-start:3px solid #7184a5;margin:1rem 0}.reference-document img{max-width:100%}.reference-navigation ul{columns:2}.reference-search{margin:1rem 0}.reference-search input{margin-inline:1rem;padding:.4rem}.reference-legacy-anchors{display:flex;flex-wrap:wrap;gap:1px}.reference-anchor{display:block;min-width:1px;min-height:1px;scroll-margin-top:6rem}html[data-theme=dark] .reference-document pre{background:#202636}@media(max-width:700px){.reference-navigation ul{columns:1}} 
+/* Reference reading uses the same paper, ink and row rules as the diagrams. */
+.reference-document {max-width:78rem;margin:2rem auto;line-height:1.85}
+.reference-document h1 {font-weight:500;letter-spacing:-.025em;line-height:1.35}
+.reference-document h2 {font-size:1.25rem;font-weight:550;line-height:1.5;margin-top:2.4rem}
+.reference-document h3 {font-size:1.06rem;font-weight:550}
+.reference-document p,.reference-document li {max-width:76ch}
+.reference-document pre {overflow:auto;padding:1.2rem;background:var(--surface);border-inline-start:2px solid var(--border);border-radius:0}
+.reference-document code {font-family:ui-monospace,monospace;font-size:.87em;overflow-wrap:anywhere}
+.reference-document table {display:block;overflow:auto;border-collapse:collapse;margin-block:1.4rem}
+.reference-document td,.reference-document th {padding:.8rem 1rem .8rem 0;border:0;border-bottom:1px solid var(--border);vertical-align:top;white-space:normal;min-width:7rem;font-size:.88rem}
+.reference-document th {font-weight:550;border-bottom-color:var(--ink)}
+.reference-document .admonition,.reference-document details {padding:.85rem 1rem;border-inline-start:2px solid var(--border);margin:1.2rem 0;background:transparent}
+.reference-document img {max-width:100%}
+.reference-navigation ul {columns:2}
+.reference-search {margin:1rem 0}
+.reference-search input {margin-inline:1rem;padding:.5rem;background:var(--panel);color:var(--ink);border:1px solid var(--border);border-radius:2px}
+.reference-legacy-anchors {display:flex;flex-wrap:wrap;gap:1px}
+.reference-anchor {display:block;min-width:1px;min-height:1px;scroll-margin-top:6rem}
+@media(max-width:700px) {.reference-navigation ul{columns:1}.reference-document{margin-block:1.4rem}.reference-document td,.reference-document th{min-width:6rem}}

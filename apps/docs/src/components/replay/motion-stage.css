@@ -1055,3 +1055,40 @@
     font-size: 0.55rem;
   }
 }
+
+/* Completed holdings observations on common quantity and elapsed-time axes. */
+.path-scale {font-size:.75rem;color:var(--diagram-muted);margin:.9rem 0 1.2rem;line-height:1.8}
+.path-diagram[data-trajectory="true"] .path-axis {padding-inline:.8rem;font-size:.75rem}
+.path-diagram[data-trajectory="true"] .path-axis>div {display:block;position:relative;height:3rem}
+.path-diagram[data-trajectory="true"] .path-axis>div>span {position:absolute;transform:translateX(-50%);white-space:nowrap}
+.path-diagram[data-trajectory="true"] .path-axis small {font-size:.72rem}
+.path-diagram[data-trajectory="true"] .motion-paths {margin-left:0}
+.path-diagram[data-trajectory="true"] .motion-paths::before,
+.path-diagram[data-trajectory="true"] .path-lane::before {display:none}
+.path-diagram[data-trajectory="true"] .path-lane {padding:.75rem .8rem;gap:1.3rem}
+.path-diagram[data-trajectory="true"] .path-lane[data-active="true"] {background:var(--surface)}
+.path-plot {position:relative;min-width:0}
+.path-plot[data-trajectory="true"] {height:7.3rem}
+.path-plot[data-trajectory="true"] .path-events {display:block;height:100%}
+.path-plot[data-trajectory="true"] .path-events li {position:static}
+.path-plot[data-trajectory="true"] .path-events li::after {display:none}
+.path-plot[data-trajectory="true"] .path-events button {position:absolute;transform:translate(-50%,-11.5px);width:44px;min-height:44px;gap:.15rem;z-index:1}
+.path-trajectory {position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.path-trajectory line,.path-trajectory polyline {fill:none;stroke-linecap:round;stroke-linejoin:round}
+.path-zero {stroke:var(--diagram-line);stroke-width:1;stroke-dasharray:2 5}
+.path-record-line {stroke:var(--diagram-muted);stroke-width:1.25;opacity:.35}
+.path-observed-line {stroke:var(--diagram-ink);stroke-width:1.8}
+.path-lane[data-active="true"] .path-observed-line {stroke:var(--diagram-accent);stroke-width:2}
+.path-record-quantity {font-size:.75rem;line-height:1.4;color:var(--diagram-muted);max-width:8ch;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.path-events [data-active="true"] .path-record-quantity {color:var(--diagram-ink)}
+.motion-stage .path-summary dt {font-size:.74rem}
+.motion-stage .path-summary dd>strong {font-size:1.12rem}
+.path-diagram[data-trajectory="true"] .path-origin {padding-block:.6rem;border-block:1px solid var(--diagram-line)}
+@media(max-width:720px) {
+ .path-diagram[data-trajectory="true"] .path-lane {gap:.7rem;padding:1rem .5rem}
+ .path-plot[data-trajectory="true"] {height:8.4rem;margin-bottom:1.2rem}
+ .path-plot[data-trajectory="true"] .path-events button {width:72px}
+ .path-diagram[data-trajectory="true"] .path-summary {padding-block:.45rem}
+ .motion-stage .path-event-label {font-size:.7rem;white-space:nowrap;line-height:1.5}
+ .path-scale {font-size:.75rem}
+}

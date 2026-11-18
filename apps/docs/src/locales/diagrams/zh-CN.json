@@ -38,5 +38,6 @@
   "paths.origin": "给定的相同初始账户",
   "unit.synthetic": "合成金额单位",
   "unit.variance": "基点²",
-  "time.trial": "第 {value} 组"
+  "time.trial": "第 {value} 组",
+  "paths.scale": "持股数使用 0 至 {maximum} 的共同刻度。连线连接整段回放中的观察记录。"
 }
