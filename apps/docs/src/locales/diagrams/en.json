@@ -38,5 +38,6 @@
   "paths.origin": "Identical supplied starting accounts",
   "unit.synthetic": "Synthetic amount units",
   "unit.variance": "Squared basis points",
-  "time.trial": "Trial {value}"
+  "time.trial": "Trial {value}",
+  "paths.scale": "Recorded shares, common scale 0 to {maximum}. Lines connect observations from the completed replay."
 }
