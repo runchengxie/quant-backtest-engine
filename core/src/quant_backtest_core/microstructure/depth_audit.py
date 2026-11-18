@@ -90,6 +90,7 @@ def audit_depth(
         return DepthAudit("not_comparable", "snapshot_boundary_ambiguous")
     book = LimitOrderBook()
     seen = set()
+    created = set()
     for side, rows in ((1, start.bid_levels), (-1, start.ask_levels)):
         for price, volume in rows:
             oid = f"__depth_seed_{side}_{price}"
@@ -124,13 +125,14 @@ def audit_depth(
                 raise ValueError("order side must be 1 or -1")
             _levels(((e.price, e.volume),), e.side)
             seen.add(e.order_id)
+            created.add(e.order_id)
             book.apply_order(e.order_id, e.side, e.price, e.volume)
         elif e.kind == "cancel":
             if e.volume != 0:
                 return DepthAudit(
                     "not_comparable", "partial_cancel_unsupported", processed_events=index
                 )
-            if not book.has_order(e.order_id):
+            if e.order_id not in created or not book.has_order(e.order_id):
                 return DepthAudit("not_comparable", "unknown_cancel_id", processed_events=index)
             # Existing pack cancellation convention is full cancellation by ID.
             book.cancel_order(e.order_id)

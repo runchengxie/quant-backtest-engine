@@ -109,3 +109,8 @@ def test_known_cancel_and_readonly_depth():
     assert result.status == "matched"
     assert result.sequence_evidence == "unknown"
     assert result.trade_rows_reconciled is False
+
+
+def test_synthetic_snapshot_ids_cannot_be_used_as_historical_cancel_identity():
+    result = audit_depth(pack([E(1, "cancel", order_id="__depth_seed_1_100")]))
+    assert result.reason == "unknown_cancel_id"
