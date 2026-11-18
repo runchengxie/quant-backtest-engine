@@ -147,7 +147,9 @@
     "tutorial.zh-CN/index.html",
     "tutorial/index.html",
     "frontend-security/index.html",
-    "frontend-security.zh-CN/index.html"
+    "frontend-security.zh-CN/index.html",
+    "product/execution-fidelity/index.html",
+    "product/execution-fidelity.zh-CN/index.html"
   ],
   "mkdocs_html": [
     "404.html",
@@ -381,7 +383,9 @@
     "tutorial.zh-CN/index.html",
     "tutorial/index.html",
     "frontend-security/index.html",
-    "frontend-security.zh-CN/index.html"
+    "frontend-security.zh-CN/index.html",
+    "product/execution-fidelity/index.html",
+    "product/execution-fidelity.zh-CN/index.html"
   ],
   "astro_asset_files": [
     ".nojekyll",
