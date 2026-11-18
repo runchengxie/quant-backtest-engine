@@ -93,7 +93,7 @@ python -B "$SOURCE/project_tools/verify_deployed_site.py" \
   --revision "$MERGED_REVISION" --output "$TASK_DATA/deployed.json"
 ```
 
-The verifier checks every receipt-listed response's byte count and SHA256 and
+The verifier checks every public receipt-listed response's byte count and SHA256 and
 rechecks the receipt after downloading. A stale revision, changed file or mixed
 publication fails. This supplements browser behavior and CI; it is not a browser
 interaction test or independent authentication of the build's financial claims.
@@ -132,3 +132,5 @@ and historical-release retirement remain separate operator decisions.
   retirement and cleanup of earlier tasks are outside this delivery.
 
 [Execution fidelity and production gates](execution-fidelity.md)
+
+The public verifier checks every receipt-listed public file. The empty root `.nojekyll` is a Pages control artifact and is recorded separately as `artifact_only_files`; its absence over HTTP does not skip any public resource. A nonempty marker, any other missing file or any changed hash fails verification.
