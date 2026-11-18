@@ -110,3 +110,15 @@ Checkpoint restore retains its original complete source/dependency binding.
 Package relocation was compared within one unchanged numerical environment,
 reinstalling only the pre/post-move SDK/Core wheels. A different environment can
 change dependency-file hashes even when package versions match.
+
+## Reviewing upstream updates
+
+Dependabot checks the root Cargo workspace and GitHub Actions weekly. Review
+the NautilusTrader release notes and verify that the direct `nautilus-*` crates
+move together in the manifest and lockfile. If Dependabot cannot resolve the
+exact pins together, prepare a single upgrade PR for the crate set.
+
+Use the Rust regression tests, installed L2 depth acceptance, and synthetic
+assurance report in CI to review changes to fills, cancellations, commissions,
+cash, and positions. Compare financial output with the base revision and explain
+any intended differences in the PR before merging.
