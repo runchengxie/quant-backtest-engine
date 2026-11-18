@@ -185,5 +185,6 @@
   "visual.paths": "Use the resulting account for the next decision",
   "visual.risk": "Inspect the account after recovery or exit",
   "visual.selection": "Inspect every trial",
-  "learning.seek": "Choose a recorded step"
+  "learning.seek": "Choose a recorded step",
+  "learning.title.feedback": "Partial fills and portfolio feedback"
 }

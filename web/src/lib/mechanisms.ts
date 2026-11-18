@@ -1,7 +1,7 @@
 // Navigation groups do not change the source-bound lesson identities.
 export const mechanisms = [
   { id: 'portfolio', scene: 'lots', reference: 'concepts/impact-optimization-scenarios' },
-  { id: 'feedback', scene: 'book', reference: 'concepts/impact-planning' },
+  { id: 'feedback', scene: 'feedback', reference: 'concepts/impact-planning' },
   { id: 'cost', scene: 'cost', reference: 'backtest/cost-evidence' },
   { id: 'impact', scene: 'impact', reference: 'concepts/impact-optimization-scenarios' },
   { id: 'paths', scene: 'paths', reference: 'product/scenarios' },

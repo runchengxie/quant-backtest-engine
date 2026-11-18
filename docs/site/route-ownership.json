@@ -149,7 +149,11 @@
     "frontend-security/index.html",
     "frontend-security.zh-CN/index.html",
     "product/execution-fidelity/index.html",
-    "product/execution-fidelity.zh-CN/index.html"
+    "product/execution-fidelity.zh-CN/index.html",
+    "learn/feedback/index.html",
+    "learn/zh-CN/feedback/index.html",
+    "lab/feedback/index.html",
+    "lab/zh-CN/feedback/index.html"
   ],
   "mkdocs_html": [
     "404.html",

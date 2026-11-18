@@ -198,6 +198,13 @@ class LimitOrderBook:
             book.pop(price, None)
         return remaining < volume
 
+    def orders(self) -> tuple[tuple[str, int, int, int], ...]:
+        """Immutable resting IDs, side, price and quantity in FIFO arrival order."""
+        return tuple(
+            (o.order_id, o.side, o.price, o.volume)
+            for o in sorted(self._by_id.values(), key=lambda o: o.seq)
+        )
+
     def depth(self, side: int) -> tuple[tuple[int, int], ...]:
         """Return an immutable aggregated view; never expose mutable resting orders."""
         if side not in (1, -1):
