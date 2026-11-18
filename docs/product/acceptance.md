@@ -182,5 +182,6 @@ queue positions, calibrated latency and causal impact remain unverified.
 
 The historical `feat/method-pages-20261108` PR 19 closed without direct merge.
 PR 26 integrated the tutorial in Astro. Its eight original scene identifiers remain
-in the current fixtures, and source revision `4820af3` remains recorded. Preserve
-that historical branch/worktree until its owner explicitly retires it.
+in the current fixtures, and source revision `4820af3` remains recorded. The owner retired that branch/worktree on 2026-11-18 after verifying the annotated
+remote tag `archive/method-pages-20261108` resolves to full commit
+`4820af3b82940e7697cb8c92154315b1d59ee23d`. The tag preserves the original source.

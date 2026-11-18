@@ -1089,7 +1089,7 @@
   "scope": "synthetic_matching_only",
   "sources": {
     "packages/core/src/quant_backtest_core/microstructure/latency_replay.py": "f657d42739abc608596718e4c32f4f9f36ccfe18b5db988a5d3054d272fb5015",
-    "packages/core/src/quant_backtest_core/microstructure/matching.py": "55d2d6e98025244ac188dc6db296b8c065a600752f87ffe91b7ae72eda7d0dd5",
+    "packages/core/src/quant_backtest_core/microstructure/matching.py": "9810e89fb8808955896b2d24f678d5674b5d1499fb581185a7efec3550d2f8b7",
     "packages/core/src/quant_backtest_core/microstructure/ordering.py": "d5744eba37df981d3af9bd7fabc5dffb0d3afa095b2ca76eb109fe927f13db84",
     "packages/core/src/quant_backtest_core/microstructure/pack.py": "d9b049c508d005fac34c0d70505de8932b8548eb44a570847f820c0435a01f2b",
     "scripts/build/export_event_demo.py": "89b50c6460452aa84fd1e776e25917d317285203600857d630f0a346ae09bb70"

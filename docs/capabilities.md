@@ -82,8 +82,8 @@ Provider B now implements [paper accounts](backtest/paper-account.md),
 [neutral pending reservations](contracts/pending-allocation.md), and
 [execution-impact estimation](microstructure/impact-estimation.md).
 Use the `[planning]` optional core dependencies for pandas-based accounts and
-reservations. Replay/impact is standard-library-only; the optional native wheel
-still rejects impact estimation because per-fill evidence is unsupported. A supplied
+reservations. Replay/impact is standard-library-only; native wheel 0.2 supplies per-fill matching evidence for impact estimation.
+Core rejects older native wheels that lack the detailed API. A supplied
 optimizer owns full research validation; Engine supplies no OSQP optimizer.
 Core source is 0.2.0; whole-provider review, integration and exact merged artifacts precede consumer cutover. Old checkpoints retain their full pinned legacy environment.
 

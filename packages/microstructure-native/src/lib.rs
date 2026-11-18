@@ -3,6 +3,8 @@ use std::collections::{BTreeMap, HashMap, VecDeque};
 use pyo3::prelude::*;
 
 type Trade = (String, String, i64, i64);
+type DetailedTrade = (Trade, Vec<Trade>);
+type EvidenceTick = (i64, Level, Level, String, Vec<Trade>);
 type Level = Option<(i64, i64)>;
 type ReplayRow = (i64, i64, i64, i64, String);
 type Tick = (i64, Level, Level, String);
@@ -53,10 +55,23 @@ impl OrderBook {
     }
 
     fn apply(&mut self, id: String, side: i64, price: i64, volume: i64) -> Option<Trade> {
+        self.apply_record(id, side, price, volume, false)
+            .map(|(trade, _)| trade)
+    }
+
+    fn apply_record(
+        &mut self,
+        id: String,
+        side: i64,
+        price: i64,
+        volume: i64,
+        capture: bool,
+    ) -> Option<DetailedTrade> {
         if volume <= 0 {
             return None;
         }
         let mut remaining = volume;
+        let mut fills = Vec::new();
         let mut counterparty = String::new();
         let mut trade_price = 0;
         while let Some(p) = self.matching_price(side, price) {
@@ -69,6 +84,13 @@ impl OrderBook {
             while remaining > 0 {
                 let Some(top) = queue.front_mut() else { break };
                 let fill = top.volume.min(remaining);
+                if capture {
+                    fills.push(if side == 1 {
+                        (id.clone(), top.id.clone(), p, fill)
+                    } else {
+                        (top.id.clone(), id.clone(), p, fill)
+                    });
+                }
                 top.volume -= fill;
                 remaining -= fill;
                 counterparty.clone_from(&top.id);
@@ -89,11 +111,12 @@ impl OrderBook {
             self.add(id.clone(), side, price, remaining);
         }
         (remaining < volume).then(|| {
-            if side == 1 {
+            let trade = if side == 1 {
                 (id, counterparty, trade_price, volume - remaining)
             } else {
                 (counterparty, id, trade_price, volume - remaining)
-            }
+            };
+            (trade, fills)
         })
     }
 
@@ -141,7 +164,8 @@ impl OrderBook {
         &mut self,
         background: Vec<ReplayRow>,
         interventions: Vec<ReplayRow>,
-    ) -> Vec<Tick> {
+        capture: bool,
+    ) -> Vec<EvidenceTick> {
         let mut bg: Vec<_> = background.into_iter().enumerate().collect();
         let mut iv: Vec<_> = interventions.into_iter().enumerate().collect();
         bg.sort_by_key(|(_, row)| row.0);
@@ -164,12 +188,15 @@ impl OrderBook {
                 };
                 (row.0, row.1, row.2, row.3, id, "background")
             };
-            self.apply(id, side, price, volume);
+            let fills = self
+                .apply_record(id, side, price, volume, capture)
+                .map_or_else(Vec::new, |(_, fills)| fills);
             ticks.push((
                 time,
                 Self::level(&self.bids, true),
                 Self::level(&self.asks, false),
                 source.to_owned(),
+                fills,
             ));
         }
         ticks
@@ -191,6 +218,16 @@ impl OrderBook {
         volume: i64,
     ) -> Option<Trade> {
         self.apply(order_id, side, price, volume)
+    }
+
+    fn apply_order_with_fills(
+        &mut self,
+        order_id: String,
+        side: i64,
+        price: i64,
+        volume: i64,
+    ) -> Option<DetailedTrade> {
+        self.apply_record(order_id, side, price, volume, true)
     }
 
     #[pyo3(signature = (order_id, volume=None))]
@@ -245,7 +282,17 @@ impl OrderBook {
     }
 
     fn replay(&mut self, background: Vec<ReplayRow>, interventions: Vec<ReplayRow>) -> Vec<Tick> {
-        self.replay_rows(background, interventions)
+        self.replay_rows(background, interventions, false)
+            .into_iter()
+            .map(|(time, bid, ask, source, _)| (time, bid, ask, source))
+            .collect()
+    }
+    fn replay_with_fills(
+        &mut self,
+        background: Vec<ReplayRow>,
+        interventions: Vec<ReplayRow>,
+    ) -> Vec<EvidenceTick> {
+        self.replay_rows(background, interventions, true)
     }
 }
 

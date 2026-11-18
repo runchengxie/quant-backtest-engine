@@ -174,8 +174,8 @@ def test_replay_generated_ids_follow_sorted_background_position():
         assert rust_book.best_bid() == python_engine.lob.best_bid()
 
 
-def test_complete_supported_replay_outputs_and_explicit_missing_fill_evidence():
-    """Native v0.1 has ticks/aggregate trades, not per-fill evidence."""
+def test_complete_supported_replay_outputs_include_native_fill_evidence():
+    """Compare every tick and fill, including tied integer clocks above 2**53."""
     from dataclasses import asdict
 
     _native()
@@ -204,7 +204,7 @@ def test_complete_supported_replay_outputs_and_explicit_missing_fill_evidence():
             ("second", 4, "background"),
         ]
     ]
-    assert sessions[1].fills == []  # unavailable in this native API, not proof of zero fills
+    assert sessions[1].fills == sessions[0].fills
 
 
 def test_full_aggregate_trade_fields_and_multilevel_python_fills():
@@ -226,7 +226,7 @@ def test_full_aggregate_trade_fields_and_multilevel_python_fills():
             {"buy_id": "buy", "sell_id": "b", "price": 102, "volume": 3},
         ),
     )
-    assert asdict(rust_trade) == {**asdict(python_trade), "fills": ()}
+    assert asdict(rust_trade) == asdict(python_trade)
     assert engines[0].lob.best_ask() == engines[1].lob.best_ask() == (102, 1)
 
 
@@ -268,12 +268,104 @@ def test_duplicate_ids_retain_explicit_legacy_backend_difference():
     assert native_engine.lob.best_bid() == (100, 7)
 
 
-def test_native_impact_estimation_rejects_missing_fill_evidence():
+def test_native_impact_estimation_uses_fill_evidence():
     _native()
     from quant_backtest_core.microstructure.impact import ExecutionSchedule, ImpactEstimator
 
     session = ReplaySession(MatchingEngine(backend="rust"), (100, 50), (101, 40))
-    with pytest.raises(NotImplementedError, match="per-fill execution evidence"):
-        ImpactEstimator(session).estimate(ExecutionSchedule(1, 10))
-    assert session.engine.lob.best_ask() == (101, 40)
-    assert len(session.ticks) == 1
+    result = ImpactEstimator(session).estimate(ExecutionSchedule(1, 10))
+    assert result.filled_volume == 10
+    assert result.execution_vwap == 101
+    assert session.engine.lob.best_ask() == (101, 30)
+    assert len(session.fills) == 1
+
+
+def test_native_detailed_fills_preserve_fifo_prices_and_snapshot():
+    native = _native()
+    for side in (1, -1):
+        book = native.OrderBook()
+        for oid, price, qty in [
+            ("first", 100, 3),
+            ("second", 100, 4),
+            ("third", 101 if side == 1 else 99, 5),
+        ]:
+            book.apply_order(oid, -side, price, qty)
+        result = book.apply_order_with_fills("taker", side, 102 if side == 1 else 98, 10)
+        expected = (
+            [("taker", "first", 100, 3), ("taker", "second", 100, 4), ("taker", "third", 101, 3)]
+            if side == 1
+            else [
+                ("first", "taker", 100, 3),
+                ("second", "taker", 100, 4),
+                ("third", "taker", 99, 3),
+            ]
+        )
+        assert result[1] == expected
+        assert result[0] == (*expected[-1][:3], 10)
+        snapshot = list(result[1])
+        book.cancel_order("third")
+        assert result[1] == snapshot
+        assert book.apply_order_with_fills("zero", side, 100, 0) is None
+
+
+def test_public_native_detailed_randomized_parity():
+    _native()
+    for seed in range(12):
+        rng = random.Random(seed)
+        reference, native = MatchingEngine(), MatchingEngine("rust")
+        for i in range(250):
+            if i and rng.random() < 0.2:
+                oid, qty = str(rng.randrange(i)), rng.choice([None, 1, 7])
+                assert native.cancel_order(oid, qty) == reference.cancel_order(oid, qty)
+            else:
+                args = (str(i), rng.choice([-1, 1]), rng.randrange(97, 104), rng.randrange(1, 50))
+                assert native.apply_order(*args) == reference.apply_order(*args)
+            assert native.lob.best_bid() == reference.lob.best_bid()
+            assert native.lob.best_ask() == reference.lob.best_ask()
+
+
+def test_replay_native_keeps_per_fill_evidence_across_runs():
+    _native()
+    sessions = [ReplaySession(MatchingEngine(b), (99, 10), (101, 4)) for b in ("python", "rust")]
+    for session in sessions:
+        session.add_background(1, -1, 101, 3, "ask2")
+        session.add_background(1, -1, 102, 5, "ask3")
+        session.add_intervention(InterventionOrder(2, 1, 102, 10, "take"))
+        session.run()
+    assert sessions[0].fills == sessions[1].fills
+    assert len(sessions[1].fills) == 3
+    for session in sessions:
+        session.add_background(3, 1, 102, 2, "later")
+        session.run()
+    assert sessions[0].fills == sessions[1].fills
+    assert sessions[0].ticks == sessions[1].ticks
+
+
+@pytest.mark.parametrize("side", [1, -1])
+@pytest.mark.parametrize("children", [1, 3])
+def test_native_impact_estimate_matches_python(side, children):
+    _native()
+    from quant_backtest_core.microstructure.impact import ExecutionSchedule, ImpactEstimator
+
+    results = []
+    for backend in ("python", "rust"):
+        session = ReplaySession(MatchingEngine(backend), (100, 8), (101, 6))
+        session.add_background(1500, -side, 101 if side == 1 else 100, 5, "extra")
+        result = ImpactEstimator(session).estimate(
+            ExecutionSchedule(side, 20, children, start_time_ms=1000, end_time_ms=2000)
+        )
+        results.append(result)
+    assert results[0] == results[1]
+
+
+def test_old_native_wheel_rejected_before_order_mutation(monkeypatch):
+    import sys
+    from types import SimpleNamespace
+
+    class OldBook:
+        def apply_order(self, *args):
+            raise AssertionError("old book must not be mutated")
+
+    monkeypatch.setitem(sys.modules, "_microstructure_rs", SimpleNamespace(OrderBook=OldBook))
+    with pytest.raises(ImportError, match="per-fill evidence API"):
+        MatchingEngine("rust")

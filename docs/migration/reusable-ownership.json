@@ -12321,5 +12321,27 @@
     "resolver": "scripts/workspace.py",
     "checkpoint_policy": "original full source and numerical dependency binding retained",
     "immutable_exporters": 8
+  },
+  "native_fill_evidence_20261118": {
+    "base_revision": "4a8d3fa1b1dd2e38dcebd16aa02de2c1e464a34f",
+    "native_version": "0.2.0",
+    "source_files": [
+      "packages/microstructure-native/src/lib.rs",
+      "packages/microstructure-native/_microstructure_rs.pyi",
+      "packages/core/src/quant_backtest_core/microstructure/matching.py",
+      "packages/core/src/quant_backtest_core/microstructure/replay.py",
+      "packages/core/src/quant_backtest_core/microstructure/impact.py"
+    ],
+    "contract": "Additive detailed trade and replay APIs; legacy aggregate/tick methods preserved. Core requires detailed capability. One matching owner per run; no cash ledger added. Unique explicit order IDs required.",
+    "acceptance": [
+      "packages/core/tests/test_microstructure_native.py",
+      "tests/acceptance/verify_installed_microstructure.py"
+    ],
+    "docs": [
+      "docs/development/microstructure-rust.md",
+      "docs/development/microstructure-rust.zh-CN.md"
+    ],
+    "benchmark": "scripts/release/benchmark_microstructure.py",
+    "production_cutover": false
   }
 }

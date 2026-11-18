@@ -79,7 +79,7 @@ daily extra 已在提供方 C 源码中启用独立日频实现及 `python.daily
 
 ## Task 9 执行归属
 
-提供方 B 已实现[纸面账户](../backtest/paper-account.zh-CN.md)、[账户事件与完整检查点](../contracts/paper-account-events.zh-CN.md)、[外部对账](../backtest/capital-and-reconciliation.zh-CN.md)、[中立待成交预留](../contracts/pending-allocation.zh-CN.md)和[执行冲击估计](../microstructure/impact-estimation.zh-CN.md)。pandas 账户和预留使用 core 的 `[planning]` 可选依赖；回放/冲击只需标准库。可选原生 wheel 尚无逐笔证据，仍拒绝冲击估计。调用者优化器负责完整研究验证，Engine 不提供 OSQP 优化器。Core 0.3.0 提供方 C 与 Platform 消费者 C 已合并；确切源码、wheel 组合及其他调用方关卡见[验收指南](acceptance.zh-CN.md)；旧检查点保留完整固定旧环境。
+提供方 B 已实现[纸面账户](../backtest/paper-account.zh-CN.md)、[账户事件与完整检查点](../contracts/paper-account-events.zh-CN.md)、[外部对账](../backtest/capital-and-reconciliation.zh-CN.md)、[中立待成交预留](../contracts/pending-allocation.zh-CN.md)和[执行冲击估计](../microstructure/impact-estimation.zh-CN.md)。pandas 账户和预留使用 core 的 `[planning]` 可选依赖；回放/冲击只需标准库。原生 wheel 0.2 提供逐笔撮合证据，可用于冲击估计。Core 会拒绝缺少明细接口的旧原生包。调用者优化器负责完整研究验证，Engine 不提供 OSQP 优化器。Core 0.3.0 提供方 C 与 Platform 消费者 C 已合并；确切源码、wheel 组合及其他调用方关卡见[验收指南](acceptance.zh-CN.md)；旧检查点保留完整固定旧环境。
 
 ## 有界规划
 
