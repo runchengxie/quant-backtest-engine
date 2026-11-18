@@ -7,6 +7,6 @@ const {locale='en'}=Astro.props;const e=editorial(locale);
   <p class="learning-kicker">{e['home.eyebrow']}</p>
   <h1 id="product-learning">{e['home.title']}</h1>
   <p class="editorial-lede">{e['home.intro']}</p>
-  <div class="editorial-actions"><a class="learning-button" href={route('learn',locale,'flow')}>{e['home.start']} <span aria-hidden="true">↗</span></a><a href={route('reference',locale)}>{e['home.reference']}</a></div>
+  <div class="editorial-actions"><a href={route('reference',locale)}>{e['home.reference']}</a></div>
 </section>
 <section class="editorial-chapters" aria-labelledby="chapter-heading"><h2 id="chapter-heading">{e['home.chapters']}</h2><ol>{readingOrder.map((scene,index)=><li><a href={route('learn',locale,scene)}><span class="chapter-number" aria-hidden="true">{String(index+1).padStart(2,'0')}</span><span><h3>{e[scene+'.question']}</h3><p>{e[scene+'.summary']}</p></span><span class="chapter-arrow" aria-hidden="true">↗</span></a></li>)}</ol></section>
