@@ -24,7 +24,7 @@ best quote. If absent, use `int(mid_before + 1)` for buys or
 not by advancing the market to each child's future clock. The entire queued
 session then runs, including background events beyond the schedule's end.
 
-Validation and operation order are preserved: Python per-fill capability first,
+Validation and operation order are preserved: per-fill capability first,
 then schedule side/volume/count, pending queue validation, start/child clocks,
 pre-execution midpoint, fill cursor and child reservations. Reserved `IMPACT{i}`
 IDs avoid queued history, reserved names and live-book IDs. Explicit resting order
@@ -61,11 +61,13 @@ a synthetic replay intervention, not calibrated causal real-market impact.
 
 ## Native and empty-book limits
 
-Native replay currently lacks per-fill evidence. Selecting a non-Python engine
-raises the original `NotImplementedError` **before** schedule validation, ID
-reservation or book mutation. There is no aggregate substitution or silent
-fallback. The required-native rejection acceptance uses a real installed native
-wheel on Python 3.12 and 3.13; missing optional native execution is not parity.
+Native wheel 0.2 supplies ordered per-fill evidence through its detailed APIs.
+Both Python and native ReplaySession retain actual fills, and ImpactEstimator
+uses those fills for child attribution and execution VWAP. Core rejects older
+native wheels before order submission. A native engine without detailed replay
+capability raises `NotImplementedError` before schedule validation or mutation.
+Real installed-wheel parity covers native execution on Python 3.12 and 3.13.
+See [native scope and measurements](../development/microstructure-rust.md).
 
 `_mid` averages both best quotes, uses the sole quote if only one side exists,
 and returns raw sentinel **0.0** for an empty book. When the initial midpoint is
@@ -87,10 +89,11 @@ Platform-owned; no calibrated square-root impact law is claimed.
 
 ## Verification and ownership
 
-The full eleven original impact cases, two replay-clock admission cases, native
-per-fill rejection case and new empty-book characterization transfer together.
+The original impact and replay-clock admission cases retain their arithmetic.
+Current native tests verify per-fill parity, buy/sell schedules, passive fills and
+explicit rejection of old native interfaces. Empty-book characterization remains.
 Acceptance uses installed regular core wheels outside repositories with
-`TICKNET_REQUIRE_RUST=1`, all 15 impact tests and zero native skips. Source/output
+`TICKNET_REQUIRE_RUST=1`, the impact and native suites with zero native skips. Source/output
 parity permits owner identity only; replay arithmetic and price/clock units stay
 unchanged. Importing replay/impact requires only the standard library and the base
 SDK dependency, not scientific, training, Platform or Runtime packages.

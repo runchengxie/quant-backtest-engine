@@ -42,7 +42,7 @@ class BackgroundOrder:
 
 @dataclass(frozen=True)
 class ReplayFill(Fill):
-    """Actual execution evidence in replay order (Python backend only)."""
+    """Actual execution evidence in replay order (Python and native backends)."""
 
     time_ms: int
     source: str
@@ -121,7 +121,7 @@ class ReplaySession:
         return order_id
 
     def run(self) -> list[Tick]:
-        """Consume queued orders once; ticks and Python fill evidence are cumulative."""
+        """Consume queued orders once; ticks and per-fill evidence are cumulative."""
         self.validate_pending()
         for order in sorted(self._background, key=lambda o: o.time_ms):
             if not order.order_id:
@@ -134,7 +134,13 @@ class ReplaySession:
             interventions = [
                 (o.time_ms, o.side, o.price, o.volume, o.order_id) for o in self._interventions
             ]
-            self.ticks.extend(Tick(*row) for row in self.engine.replay(background, interventions))
+            for time, bid, ask, source, fills in self.engine.replay_with_fills(
+                background, interventions
+            ):
+                self.ticks.append(Tick(time, bid, ask, source))
+                self.fills.extend(
+                    ReplayFill(f.buy_id, f.sell_id, f.price, f.volume, time, source) for f in fills
+                )
             self._processed_time_ms = max(
                 (_integer_time_ms(o.time_ms) for o in self._background + self._interventions),
                 default=self._processed_time_ms,

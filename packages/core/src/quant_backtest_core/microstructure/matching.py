@@ -41,9 +41,31 @@ class Trade:
 
 
 class _RustOrderBook(Protocol):
+    def best_bid(self) -> tuple[int, int] | None: ...
+
+    def best_ask(self) -> tuple[int, int] | None: ...
+
     def apply_order(
         self, order_id: str, side: int, price: int, volume: int
     ) -> tuple[str, str, int, int] | None: ...
+
+    def apply_order_with_fills(
+        self, order_id: str, side: int, price: int, volume: int
+    ) -> tuple[tuple[str, str, int, int], list[tuple[str, str, int, int]]] | None: ...
+
+    def replay_with_fills(
+        self,
+        background: list[tuple[int, int, int, int, str]],
+        interventions: list[tuple[int, int, int, int, str]],
+    ) -> list[
+        tuple[
+            int,
+            tuple[int, int] | None,
+            tuple[int, int] | None,
+            str,
+            list[tuple[str, str, int, int]],
+        ]
+    ]: ...
 
     def cancel_order(self, order_id: str, volume: int | None = None) -> bool: ...
 
@@ -232,20 +254,33 @@ class MatchingEngine:
 
     def __init__(self, backend: Literal["python", "rust"] = "python") -> None:
         self.backend = backend
+        self.lob: LimitOrderBook | _RustOrderBook
         if backend == "rust":
             from _microstructure_rs import OrderBook
 
-            self.lob = OrderBook()
+            book = OrderBook()
+            if not callable(getattr(book, "apply_order_with_fills", None)) or not callable(
+                getattr(book, "replay_with_fills", None)
+            ):
+                raise ImportError(
+                    "Rust matching requires the native per-fill evidence API; rebuild the native wheel"
+                )
+            self.lob = book
         elif backend == "python":
             self.lob = LimitOrderBook()
         else:
             raise ValueError(f"unknown matching backend: {backend}")
 
     def apply_order(self, order_id: str, side: int, price: int, volume: int) -> Trade | None:
-        result = self.lob.apply_order(order_id, side, price, volume)
-        if self.backend == "rust" and result is not None:
-            return Trade(*cast(tuple[str, str, int, int], result))
-        return cast(Trade | None, result)
+        if self.backend == "rust":
+            result = cast(_RustOrderBook, self.lob).apply_order_with_fills(
+                order_id, side, price, volume
+            )
+            if result is None:
+                return None
+            aggregate, fills = result
+            return Trade(*aggregate, fills=tuple(Fill(*fill) for fill in fills))
+        return cast(Trade | None, self.lob.apply_order(order_id, side, price, volume))
 
     def cancel_order(self, order_id: str, volume: int | None = None) -> bool:
         return self.lob.cancel_order(order_id, volume)
@@ -261,6 +296,20 @@ class MatchingEngine:
         if self.backend != "rust":
             raise RuntimeError("Rust replay is only available with the rust backend")
         return cast(_RustOrderBook, self.lob).replay(background, interventions)
+
+    def replay_with_fills(
+        self,
+        background: list[tuple[int, int, int, int, str]],
+        interventions: list[tuple[int, int, int, int, str]],
+    ) -> list[tuple[int, tuple[int, int] | None, tuple[int, int] | None, str, tuple[Fill, ...]]]:
+        if self.backend != "rust":
+            raise RuntimeError("Rust replay is only available with the rust backend")
+        return [
+            (time, bid, ask, source, tuple(Fill(*f) for f in fills))
+            for time, bid, ask, source, fills in cast(_RustOrderBook, self.lob).replay_with_fills(
+                background, interventions
+            )
+        ]
 
     def consume(self, event: SimulatorEvent) -> Trade | None:
         if event.kind == "order":

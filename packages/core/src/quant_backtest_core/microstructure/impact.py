@@ -51,8 +51,10 @@ class ImpactEstimator:
         self.session = session
 
     def estimate(self, schedule: ExecutionSchedule) -> ImpactResult:
-        if self.session.engine.backend != "python":
-            raise NotImplementedError("ImpactEstimator requires Python per-fill execution evidence")
+        if self.session.engine.backend == "rust" and not callable(
+            getattr(self.session.engine.lob, "replay_with_fills", None)
+        ):
+            raise NotImplementedError("ImpactEstimator requires per-fill execution evidence")
         if schedule.side not in (-1, 1):
             raise ValueError("side must be 1 or -1")
         if schedule.total_volume < 0 or schedule.n_child < 1:

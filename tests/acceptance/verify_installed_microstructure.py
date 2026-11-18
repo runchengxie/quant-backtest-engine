@@ -56,7 +56,14 @@ def main() -> None:
             else:
                 raise AssertionError("missing native silently fell back")
     else:
-        assert MatchingEngine(backend="rust").lob.best_bid() is None
+        native = MatchingEngine(backend="rust")
+        assert native.lob.best_bid() is None
+        native.apply_order("ask1", -1, 101, 3)
+        native.apply_order("ask2", -1, 102, 4)
+        trade = native.apply_order("take", 1, 102, 6)
+        assert trade is not None
+        assert [(f.sell_id, f.price, f.volume) for f in trade.fills] == [
+            ("ask1", 101, 3), ("ask2", 102, 3)]
     print(json.dumps(receipts, indent=2))
 
 
