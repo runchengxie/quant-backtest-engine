@@ -25,8 +25,8 @@
     "check": "astro check",
     "test:unit": "node --experimental-strip-types --test tests/*.test.ts",
     "test:e2e": "node tests/e2e/run.mjs",
-    "audit:locked": "node ../scripts/build/frontend_security.cjs audit .",
-    "security:patch": "node ../scripts/build/frontend_security.cjs patch ."
+    "audit:locked": "node ../../scripts/build/frontend_security.cjs audit .",
+    "security:patch": "node ../../scripts/build/frontend_security.cjs patch ."
   },
   "overrides": {
     "picomatch": "4.0.7"

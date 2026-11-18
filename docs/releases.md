@@ -43,7 +43,7 @@ source directory, create a Python 3.11+ environment and install the client.
 
 ```sh
 python3 -m venv /absolute/external/engine-client-venv
-/absolute/external/engine-client-venv/bin/python -m pip install ./python
+/absolute/external/engine-client-venv/bin/python -m pip install ./packages/python-sdk
 ```
 
 The client requires no third-party Python runtime packages. It still needs the

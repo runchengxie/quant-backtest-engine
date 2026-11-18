@@ -29,9 +29,9 @@ Use external directories for environments, wheels, caches and generated results.
 `packages/core/uv.lock` fixes tested development and optional dependency resolutions.
 The numerical baseline is constrained to NumPy 2.2.6, pandas 3.0.6 and SciPy 1.18.1
 for later extraction parity; public extra ranges remain as declared below.
-Its `../python` source is a monorepo development convenience, not a release pin.
-Build SDK and core independently with `uv build --wheel --project python` and
-`uv build --wheel --project core`, each with an external `--out-dir`. Installed
+Its `../python-sdk` source is a monorepo development convenience, not a release pin.
+Build SDK and core independently with `uv build --wheel --project packages/python-sdk` and
+`uv build --wheel --project packages/core`, each with an external `--out-dir`. Installed
 acceptance uses wheel paths, `python -I` and no editable install or `PYTHONPATH`.
 Consumers must pin the exact merged revision or verified wheel hashes before cutover.
 

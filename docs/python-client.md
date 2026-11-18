@@ -7,7 +7,7 @@ SDK 0.3.0 adds standard-library product DTOs, strict JSON codecs and explicit ca
 The `quant-backtest-engine-client` distribution provides a standard-library-only Python 3.11+ client. It does not require quant-platform, pandas, NumPy, or the runtime service. Install from an engine source checkout.
 
 ```sh
-python -m pip install ./python
+python -m pip install ./packages/python-sdk
 ```
 
 Select an absolute executable path and a SHA256 digest verified against the release manifest.

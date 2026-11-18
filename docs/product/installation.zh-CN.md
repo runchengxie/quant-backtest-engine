@@ -26,8 +26,8 @@ SDK 继续拥有 `quant_backtest_engine`。Linux 主机需要系统 IANA 时区�
 
 环境、wheel、缓存和结果均放在仓库外。`packages/core/uv.lock` 固定实际验证的开发工具和
 可选依赖版本。为后续迁移的等价性验证，数值基线固定为 NumPy 2.2.6、pandas 3.0.6、
-SciPy 1.18.1；公开 extra 的范围仍如下表所列。其中 `../python` 用于同仓库开发，发布身份以已合并源码和验证过的产物为准。
-分别运行 `uv build --wheel --project python` 和 `uv build --wheel --project core`，
+SciPy 1.18.1；公开 extra 的范围仍如下表所列。其中 `../python-sdk` 用于同仓库开发，发布身份以已合并源码和验证过的产物为准。
+分别运行 `uv build --wheel --project packages/python-sdk` 和 `uv build --wheel --project packages/core`，
 各自指定仓库外的 `--out-dir`。安装验收使用 wheel 路径和 `python -I`，
 不使用可编辑安装或 `PYTHONPATH`。消费者切换前必须固定准确的合并提交或已验证的 wheel 摘要。
 

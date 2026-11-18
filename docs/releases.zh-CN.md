@@ -38,7 +38,7 @@ Alpha.2 的交易支持范围仍以[能力矩阵](capabilities.zh-CN.md)为准�
 
 ```sh
 python3 -m venv /absolute/external/engine-client-venv
-/absolute/external/engine-client-venv/bin/python -m pip install ./python
+/absolute/external/engine-client-venv/bin/python -m pip install ./packages/python-sdk
 ```
 
 客户端无需第三方 Python 运行时包，还需要单独的引擎程序。
