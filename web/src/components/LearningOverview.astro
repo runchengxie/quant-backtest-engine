@@ -1,7 +1,11 @@
 ---
-import {route} from '../lib/routes';
-import {editorial,readingOrder} from '../lib/editorial';
+import {route,base} from '../lib/routes';
+import {editorial} from '../lib/editorial';
+import {mechanisms,frameworkReferences} from '../lib/mechanisms';
+import FrameworkFlow from './FrameworkFlow.astro';
+import '../styles/mechanisms.css';
 const {locale='en'}=Astro.props;const e=editorial(locale);
+const reference=(path:string)=>base+path+(locale==='zh-CN'?'.zh-CN':'')+'/';
 ---
 <section class="editorial-introduction">
   <p class="learning-kicker">{e['home.eyebrow']}</p>
@@ -9,4 +13,7 @@ const {locale='en'}=Astro.props;const e=editorial(locale);
   <p class="editorial-lede">{e['home.intro']}</p>
   <div class="editorial-actions"><a href={route('reference',locale)}>{e['home.reference']}</a></div>
 </section>
-<section class="editorial-chapters" aria-labelledby="chapter-heading"><h2 id="chapter-heading">{e['home.chapters']}</h2><ol>{readingOrder.map((scene,index)=><li><a href={route('learn',locale,scene)}><span class="chapter-number" aria-hidden="true">{String(index+1).padStart(2,'0')}</span><span><h3>{e[scene+'.question']}</h3><p>{e[scene+'.summary']}</p></span><span class="chapter-arrow" aria-hidden="true">↗</span></a></li>)}</ol></section>
+<FrameworkFlow locale={locale}/>
+<section class="mechanism-index" aria-labelledby="chapter-heading"><h2 id="chapter-heading">{e['home.chapters']}</h2><ol>{mechanisms.map((m,index)=><li data-mechanism={m.id}><span class="chapter-number" aria-hidden="true">{String(index+1).padStart(2,'0')}</span><div><h3>{e[`mechanism.${m.id}.title`]}</h3><p>{e[`mechanism.${m.id}.summary`]}</p><p class="mechanism-scope">{e[`mechanism.${m.id}.scope`]}</p><div class="mechanism-links"><a href={route('learn',locale,m.scene)}>{e['mechanism.demo']}</a><a href={reference(m.reference)}>{e['mechanism.reference']}</a></div></div></li>)}</ol></section>
+<section class="framework-comparison" aria-labelledby="comparison-heading"><h2 id="comparison-heading">{e['comparison.title']}</h2><p class="section-intro">{e['comparison.intro']}</p><dl>{frameworkReferences.map(item=><div><dt><a href={item.href}>{e[`comparison.${item.id}.title`]}</a></dt><dd>{e[`comparison.${item.id}.summary`]}</dd></div>)}</dl><a href={reference('product/execution-fidelity')}>{e['comparison.acceptance']}</a></section>
+<details class="editorial-disclosure mechanism-advanced"><summary>{e['advanced.title']}</summary><p>{e['advanced.intro']}</p><ul>{['flow','selection','risk'].map(id=><li><a href={route('learn',locale,id)}>{e[id+'.question']}</a></li>)}</ul></details>

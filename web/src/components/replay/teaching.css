@@ -1,14 +1,14 @@
 .teaching-scenes {
-  --teaching-blue: #237a9b;
-  --teaching-amber: #b36a18;
+  --teaching-blue: var(--accent);
+  --teaching-amber: var(--muted);
   margin-block: 2rem;
 }
 .teaching-scenes section,
 .teaching-opportunity {
   margin-block: 1.8rem;
   padding: 1.2rem;
-  border: 1px solid var(--line, #ccd4da);
-  border-radius: 0.75rem;
+  border: 1px solid var(--line, var(--border));
+  border-radius: 2px;
 }
 .teaching-scenes h3 {
   margin-top: 0;
@@ -23,8 +23,8 @@
 }
 .teaching-map li {
   padding: 1rem;
-  border: 1px dashed #8695a0;
-  border-radius: 0.6rem;
+  border: 1px dashed var(--border);
+  border-radius: 2px;
   counter-increment: teaching;
 }
 .teaching-map li > strong::before {
@@ -62,8 +62,8 @@
 }
 .teaching-track {
   height: 1.5rem;
-  border: 1px solid #8495a0;
-  border-radius: 0.2rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
   overflow: hidden;
 }
 .teaching-bar {
@@ -76,7 +76,7 @@
   background: var(--teaching-amber);
 }
 .teaching-reported {
-  background: #4e835a;
+  background: var(--muted);
 }
 .teaching-bars strong {
   overflow-wrap: anywhere;
@@ -94,8 +94,8 @@
   width: 100%;
   text-align: start;
   padding: 0.8rem;
-  border: 1px solid #8695a0;
-  border-radius: 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
   background: transparent;
   color: inherit;
   cursor: pointer;
@@ -110,7 +110,9 @@
   outline-offset: 3px;
 }
 .teaching-scenes [data-active="true"] > button {
-  border: 3px solid var(--teaching-blue);
+  border-color: var(--teaching-blue);
+  outline: 1px solid var(--teaching-blue);
+  outline-offset: -2px;
 }
 .teaching-landscape {
   display: grid;
@@ -119,8 +121,8 @@
 }
 .teaching-landscape > div {
   padding: 0.8rem;
-  border: 1px dashed #9a8b7c;
-  border-radius: 0.4rem;
+  border: 1px dashed var(--border);
+  border-radius: 2px;
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
@@ -178,8 +180,8 @@
 }
 /* A single illustration sits on the page; supporting explanation opens on demand. */
 .teaching-scenes {
-  --teaching-blue: #176f72;
-  --teaching-amber: #bd6a2c;
+  --teaching-blue: var(--accent);
+  --teaching-amber: var(--muted);
 }
 .teaching-scenes section {
   border: 0;
@@ -192,7 +194,7 @@
 }
 .teaching-scenes details,
 .teaching-evidence {
-  border-block-start: 1px solid #d8d4ca;
+  border-block-start: 1px solid var(--border);
   padding-block: 0.8rem;
   margin-block: 1rem;
 }
@@ -203,7 +205,7 @@
 }
 .teaching-map li {
   border: 0;
-  border-inline-start: 2px solid #d8d4ca;
+  border-inline-start: 2px solid var(--border);
   border-radius: 0;
 }
 .teaching-map li[data-known="true"] {
@@ -248,7 +250,7 @@
 }
 .teaching-trials button {
   border: 0;
-  border-block-end: 2px solid #d8d4ca;
+  border-block-end: 2px solid var(--border);
   border-radius: 0;
   display: flex;
   flex-direction: column;
@@ -270,7 +272,7 @@
 }
 .teaching-paths button {
   border: 0;
-  border-inline-start: 2px solid #d8d4ca;
+  border-inline-start: 2px solid var(--border);
   border-radius: 0;
 }
 .teaching-values {
@@ -280,7 +282,7 @@
 }
 .teaching-values > div {
   flex-direction: column;
-  border-block-start: 1px solid #d8d4ca;
+  border-block-start: 1px solid var(--border);
 }
 .teaching-values dd {
   font-size: 1.3rem;
@@ -342,3 +344,5 @@
     gap: 0.4rem;
   }
 }
+
+.teaching-opportunity { border: 0; border-top: 1px solid var(--border); padding: 1rem 0; border-radius: 0; }

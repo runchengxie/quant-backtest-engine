@@ -198,6 +198,13 @@ class LimitOrderBook:
             book.pop(price, None)
         return remaining < volume
 
+    def depth(self, side: int) -> tuple[tuple[int, int], ...]:
+        """Return an immutable aggregated view; never expose mutable resting orders."""
+        if side not in (1, -1):
+            raise ValueError("side must be 1 or -1")
+        book = self._bids if side == 1 else self._asks
+        return tuple((p, sum(o.volume for o in book[p])) for p in sorted(book, reverse=side == 1))
+
     def best_bid(self) -> tuple[int, int] | None:
         if not self._bids:
             return None

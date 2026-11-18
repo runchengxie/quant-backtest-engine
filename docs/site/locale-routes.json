@@ -68,7 +68,8 @@
     "lab/lots/": "lab/zh-CN/lots/",
     "lab/paths/": "lab/zh-CN/paths/",
     "lab/selection/": "lab/zh-CN/selection/",
-    "lab/risk/": "lab/zh-CN/risk/"
+    "lab/risk/": "lab/zh-CN/risk/",
+    "product/execution-fidelity/": "product/execution-fidelity.zh-CN/"
   },
   "anchors": {
     "": {

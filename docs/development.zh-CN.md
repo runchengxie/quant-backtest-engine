@@ -50,3 +50,5 @@ SITE_DIR="$TASK_DATA/site-assembled" SITE_BASE=/quant-backtest-engine/ BROWSER_O
 主图进入屏幕后自动循环。手动换情景或调速度时，演示停在当前记录。上一步和下一步也会暂停。滚出主图或切到其他标签页后，需要按播放继续。系统开启减少动态效果时，使用手动步进。播放节奏用于阅读，事件时间和完整数值保留在原记录里。
 
 图和控制条的间距参考了 [Red Blob Games](https://www.redblobgames.com/pathfinding/a-star/introduction.html) 与 [Bartosz Ciechanowski](https://ciechanow.ski/mechanical-watch/)。正文使用本机中文无衬线字体，图中数字对齐。页面运行时无需下载外部字体或插画。
+
+机制首页与图表参考 quant-workspace-standards（参考版本 `e63f5d7`）的字体、细线和编号流程节点。每项机制旁保留实现范围，交互实验继续使用原始记录，旧链接保持可用。

@@ -130,3 +130,5 @@ and historical-release retirement remain separate operator decisions.
   They are not missing prerequisites for this arithmetic-preserving migration.
 - Tick acquisition, broker access, production activation, compatibility-alias
   retirement and cleanup of earlier tasks are outside this delivery.
+
+[Execution fidelity and production gates](execution-fidelity.md)
