@@ -12299,5 +12299,19 @@
         ]
       }
     ]
+  },
+  "native_lot_parity_20261118": {
+    "scope": "opt-in bounded buy-only oracle, no replacement of broader Python owners",
+    "rust_source": "src/lot_planning.rs",
+    "sdk_source": "python/src/quant_backtest_engine/lot_planning.py",
+    "python_reference": "core/src/quant_backtest_core/planning/discrete_oracle.py",
+    "wire": "engine_lot_request.v1",
+    "precision": "canonical decimal input scale<=4; exact derived scale<=8; bounded domain",
+    "acceptance": [
+      "tests/lot_planning.rs",
+      "python/tests/test_lot_planning.py",
+      "core/tests/test_synthetic_assurance.py"
+    ],
+    "compatibility": "Python public APIs, source notices and checkpoints unchanged; consumers opt in by content-pinned native executable"
   }
 }

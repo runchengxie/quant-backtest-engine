@@ -190,6 +190,17 @@ class EngineClient:
         _ledger_evidence(request, result, sessions, daily, fills_by_date, zone)
         return result
 
+    def plan_lots(self, request: dict) -> dict:
+        """Enumerate the bounded native buy-only lot grid using exact planning amounts."""
+        from .lot_planning import validate_request, validate_result
+        try:
+            validate_request(request)
+            return validate_result(request, self._invoke("plan-lots", request, "engine_lot_request.v1"))
+        except (ValueError, KeyError, TypeError, ArithmeticError) as exc:
+            if isinstance(exc, EngineProtocolError):
+                raise
+            raise EngineProtocolError(f"malformed lot request/result: {exc}") from exc
+
     def depth_capabilities(self) -> dict:
         """Query the actual pinned executable before advertising native depth support."""
         from .depth import CAPABILITIES

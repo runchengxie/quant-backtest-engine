@@ -1,0 +1,27 @@
+{
+  "schema_version": "engine_lot_request.v1",
+  "prices": [
+    "6",
+    "4"
+  ],
+  "target_quantities": [
+    "1.5",
+    "1.5"
+  ],
+  "max_lots": [
+    3,
+    3
+  ],
+  "lot_sizes": [
+    1,
+    1
+  ],
+  "cash_budget": "14",
+  "minimum_commission": "1",
+  "proportional_commission": "0",
+  "max_states": 100000,
+  "candidate_quantities": [
+    0,
+    2
+  ]
+}

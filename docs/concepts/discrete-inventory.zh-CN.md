@@ -100,3 +100,21 @@ python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/core/tests/test_d
 ```
 
 改编自 [Apache-2.0 固定原文](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/concepts/discrete-inventory.zh-CN.md)。当前实现位于尚未发布的 provider B 分支；Core 当前源码为 0.2.0，整体审查和合并仍待完成，消费者切换另行进行。
+
+## 原生买入整手组合枚举 {#native-lot-oracle}
+
+运行 `cargo run --locked -- plan-lots fixtures/lot-planning.json`，可以用 Rust 枚举有限买入组合。
+Python 通过固定二进制内容的 `EngineClient.plan_lots(request)` 调用。
+输入格式 `engine_lot_request.v1` 明确给出价格、目标股数、最大手数、每手股数和预算。
+每笔非零订单的手续费取最低收费与按比例收费中的较大值，目标是使股数偏差平方和最小。
+
+数值使用规范十进制字符串，最多四位小数。范围为 1 至 16 只证券、最多 10 万个候选组合，
+每只证券最多十亿股，价格最多一百万，现金最多一万亿。
+规划费用保留小于币种最小单位的部分，实际成交金额由执行后端按自己的规则舍入。
+
+结果保存输入摘要、精确支出和目标值，同时报告候选数量、给定方案的可行性与最优差距。
+同分时按股数向量的字典序选择第一个组合。搜索范围超限时返回 `search_limit`，结果中没有交易方案。
+SDK 使用八位定点整数独立核对最优解和同分顺序，这会增加一次调用的计算量。
+直接使用 Rust 库或命令行时，只执行原生计算。原有 Python Fraction 参考实现保留原行为。
+
+这个原生子集仅规划买入，卖出、初始库存、协方差和检查点由已有的对应模块承担。
