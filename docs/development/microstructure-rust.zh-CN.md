@@ -11,7 +11,7 @@
 | 可选订单簿 PyO3 | `MatchingEngine(backend="rust")` | `_microstructure_rs` 汇总成交及盘口轨迹；无逐笔成交证据 |
 | Nautilus Rust | `rust.nautilus.sessions` | 现有 CLI/Nautilus 财务会话 |
 
-两种订单簿模式均为底层 API，不是已注册的 ProductManifest 后端；也不提供学习式订单流或真实市场校准。
+两种订单簿模式通过底层 API 调用，ProductManifest 仍使用已注册的后端。学习式订单流与真实市场校准属于待补能力。
 Rust 订单簿选项不会选择 Nautilus。缺少 `_microstructure_rs` 时抛出 ImportError，不静默回退。
 `sort_simulator_events(events, backend="rust")` 遵循相同规则。
 

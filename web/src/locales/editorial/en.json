@@ -9,9 +9,9 @@
   "lesson.guide": "How to read this experiment",
   "lesson.evidence": "Check the source and assumptions",
   "lesson.tables": "Inspect every recorded value",
-  "lesson.previous": "Previous question",
-  "lesson.next": "Next question",
-  "lesson.map": "All eight questions",
+  "lesson.previous": "Previous demonstration",
+  "lesson.next": "Next demonstration",
+  "lesson.map": "Mechanism overview",
   "flow.question": "How do cash and shares change?",
   "flow.summary": "Step through a buy and a sell, then reconcile cash and cumulative fees.",
   "book.question": "Why did only part of the order fill?",
@@ -65,5 +65,8 @@
   "comparison.hft.summary": "A candidate independent comparator for queue position and latency. No production integration; historical replay has explicit own-impact limitations.",
   "comparison.backtrader.title": "Backtrader",
   "comparison.backtrader.summary": "Strategy backtesting with cost and slippage extensions. No integration planned; validate the existing execution foundation first.",
-  "comparison.acceptance": "Execution acceptance and remaining work"
+  "comparison.acceptance": "Execution acceptance and remaining work",
+  "lesson.category.example": "Interactive demonstration",
+  "lesson.category.account": "Account reconciliation",
+  "lesson.category.validation": "Further validation"
 }

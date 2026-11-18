@@ -36,7 +36,7 @@ U(a) = sum_j max(0, a[symbol_j] * p_j)
 
 端点区间 [lo, hi] 将 a @ b 约束为 [lo-L(a), hi-U(a)]，逐一用于因子、单资产和净敞口（a=1）。反向订单不相抵；同标的买卖各 0.1 的净增量为 [-0.1,0.1] 而非零，负载荷同样处理。`net_target` 仍约束基准净值权重，必填 `net_band` 约束端点区间；基准净值须在收紧区间内。独立成交使严格端点中性通常不可行，不能伪造中性解。
 
-总敞口以 sum(abs(b)) + sum(abs(p_j)) 保守上界，因此基准总上限扣除旧待单总绝对权重。三角界可能拒绝可行抵消，不是精确稳健总敞口优化器，但能覆盖所有旧成交角点；因子和净值区间为线性精确极值。
+总敞口以 sum(abs(b)) + sum(abs(p_j)) 保守上界，因此基准总上限扣除旧待单总绝对权重。三角界覆盖全部旧成交角点，也可能排除部分可行抵消。精确稳健总敞口优化需另行处理，因子和净值区间仍采用线性精确极值。
 
 ## 现金、卖出和借券
 
@@ -70,11 +70,11 @@ if result.status == "optimal":
     conditional_endpoint_net = result.endpoint_net_bounds
 ```
 
-`pending_allocation_envelope` 只生成包络。成功时 `base_result` 保留实际结构化结果及其研究特有字段，换手基于已送达持仓；端点净区间、因子区间、总敞口上界和新现金分别列示。优化目标仍为基准目标风险/收益，不是旧单所有角点最坏经济结果。因子回执只含已约束因子。无效观测抛 `ValueError`；资源不足或不可能包络为 `infeasible`；求解和残差失败为 `numerical_failure`，均不释放目标或新交易。价格与 NAV 只在单期固定；不覆盖逆向价格、净值变化、新单部分路径、保证金变化、公司行动、融资、快照后召回或多周期适应。始终 `paper_only=True`、`executable=False`。
+`pending_allocation_envelope` 只生成包络。成功时 `base_result` 保留实际结构化结果及其研究特有字段，换手基于已送达持仓；端点净区间、因子区间、总敞口上界和新现金分别列示。优化目标沿用基准目标的风险／收益，旧单所有角点的最坏经济结果需单独求解。因子回执只含已约束因子。无效观测抛 `ValueError`；资源不足或不可能包络为 `infeasible`；求解和残差失败为 `numerical_failure`，均不释放目标或新交易。价格与 NAV 只在单期固定；不覆盖逆向价格、净值变化、新单部分路径、保证金变化、公司行动、融资、快照后召回或多周期适应。始终 `paper_only=True`、`executable=False`。
 
 ## 优化器归属
 
-`PendingRequest` 仅暴露 `current_weights`、`lower_bounds`、`upper_bounds`、`expected_returns`、`factor_loadings`、`factor_bounds`、`gross_limit`、`net_target`、`information_time`、`decision_time`。Engine 校验这些执行字段、完整观察及返回端点的既有 `1e-7` 残差；不检查协方差、风险厌恶、期限、研究成本目标或因子估计。单独构造包络不等于完整研究请求验证。
+`PendingRequest` 仅暴露 `current_weights`、`lower_bounds`、`upper_bounds`、`expected_returns`、`factor_loadings`、`factor_bounds`、`gross_limit`、`net_target`、`information_time`、`decision_time`。Engine 校验这些执行字段、完整观察及返回端点的既有 `1e-7` 残差；不检查协方差、风险厌恶、期限、研究成本目标或因子估计。包络构造只验证所列执行字段，完整研究请求由研究调用方验证。
 
 `PendingOptimizer.validate(request)` 必须验证完整请求；`solve_pending_allocation` 在生成可能不可行的包络之前也先调用它，随后将同一请求对象原样传给 `solve_pending(request, *, envelope, cash_limit)`。cash_limit 为 `(available_cash / NAV, new_fee_rates.to_numpy(dtype=float))`。适配器实施收紧的资产、因子、总敞口界，并保留基准净值等式和完整验证。旧 Platform 适配器使用自身 `_validate`、dataclass `replace`、`_solve`；旧公开包络包装器也须先全量 `_validate` 再调 Engine 中立包络。这一消费者适配在提供方门之后的 Task 12 交付。Engine 不导入 OSQP 或有符号优化器。结果协议只要求 status、message、可选 weights；成功的 base_result 保留原对象而非重建通用结果。
 

@@ -27,8 +27,7 @@ Core 基础包依赖 SDK `>=0.3.0,<0.4`；仓库构建与消费者固定确切�
 ## 历史 M0 基线 — 2026-11-09
 
 M0 时，Engine Rust 为 0.2.0，SDK 为 0.2.0，Platform 为 0.0.1，Runtime 为 0.1.0。
-当时尚未迁入 Python 财务实现，可选 core 尚未实现或发布。这份注明日期的基线解释原始
-清单，不代表上文所述的当前提供方 A 实现状态。
+当时尚未迁入 Python 财务实现，可选 core 尚未实现或发布。这份基线记录 M0 时的原始清单。当前提供方 A 的实现状态见上文。
 
 清点的源码修订为 Engine
 [`c65548a`](https://github.com/runchengxie/quant-backtest-engine/tree/c65548a4ee1e938125cce1edbcc282c760c4c8f2)、
@@ -36,7 +35,7 @@ Platform [`7a618bd`](https://github.com/runchengxie/quant-platform/tree/7a618bdd
 和 Runtime [`01ed4c3`](https://github.com/runchengxie/quant-backtest-runtime/tree/01ed4c34f955ef6cd39d13aa073b6d61b610d321)。
 设计 PR 20 已合并为
 [`c5cbb88`](https://github.com/runchengxie/quant-backtest-engine/commit/c5cbb885a6abb90b7cc6b41e111be71bd8b41069)。
-这些是历史源码观察记录，不是当前发布版本或线上部署的认证。
+这些记录用于追溯历史源码。当前发布版本和线上部署以各自的产物及部署回执为准。
 
 ## 每次运行只有一个财务归属方
 
@@ -97,7 +96,7 @@ Engine 财务检查点不接管 Runtime 数据库职责。
 旧源码链接和注明日期的验收记录仍指向原修订。
 
 兼容别名至少保留**两个次版本周期，且所有已登记的受支持调用方均已迁移**。
-删除还需要发布说明、文档链接迁移和测试。静态导入次数不代表线上调用方或可退役范围。
+删除还需要发布说明、文档链接迁移和测试。静态导入次数用于源码盘点，线上调用方和可退役范围需结合部署记录确认。
 调用方群组包括分钟与公司行为、账户恢复、待成交反馈、有界规划、日频与持仓适配、
 Runtime 客户端、独立信号验收持仓重放、市场研究的分钟/日频/公司行为，以及工作台导入检查。
 每组切换前都需实际验证，或明确固定完整旧版本恢复路径。
@@ -141,4 +140,4 @@ git diff --check
 
 ## 纯期间与分腿财务闭包（Task 15P）
 
-Task 15P 补齐提供方 C PR #24 合并后发现的纯源闭包遗漏：显式输入的分腿构建、状态滚动、参与率表查询、期间汇总及独立的旧交易核算 API 原样迁入 Core 0.3.0。全部期间字段、默认值及 Core CostBreakdown 类身份保留；未知诊断仍为未知，费用只汇总一次。筛选、权重构建、研究投影与指标、编排仍属 Platform，多空诊断期间不增加每日现金、融券或保证金能力。[精确 API、兼容语义与证据](../guides/diagnostic-close-replay.zh-CN.md) 说明完整边界。后续提交须先复核、合并并提供精确产物，再恢复消费方 Task 15，然后执行 Astro Task 19；版本号本身不代表源身份，不涉及 PyPI 发布。
+Task 15P 补齐提供方 C PR #24 合并后发现的纯源闭包遗漏：显式输入的分腿构建、状态滚动、参与率表查询、期间汇总及独立的旧交易核算 API 原样迁入 Core 0.3.0。全部期间字段、默认值及 Core CostBreakdown 类身份保留；未知诊断仍为未知，费用只汇总一次。筛选、权重构建、研究投影与指标、编排仍属 Platform，多空诊断期间不增加每日现金、融券或保证金能力。[精确 API、兼容语义与证据](../guides/diagnostic-close-replay.zh-CN.md) 说明完整边界。后续提交须先复核、合并并提供精确产物，再恢复消费方 Task 15，然后执行 Astro Task 19；源身份以精确提交和产物回执确认，该任务通过源码与独立产物交付。

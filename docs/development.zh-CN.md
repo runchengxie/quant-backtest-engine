@@ -6,11 +6,11 @@
 
 ## 引擎检查
 
-执行 `cargo fmt --all --check`、`cargo clippy --locked --all-targets -- -D warnings`、`cargo test --locked`、`cargo run --locked -- run fixtures/roundtrip.json`，以及 `python -m unittest project_tools.test_reusable_ownership -v`、`python project_tools/check_reusable_ownership.py` 和 `git diff --check`。将 `CARGO_TARGET_DIR` 指向外部任务目录。这些检查不代表冲击参数已校准或交易所行为已完整复刻。
+执行 `cargo fmt --all --check`、`cargo clippy --locked --all-targets -- -D warnings`、`cargo test --locked`、`cargo run --locked -- run fixtures/roundtrip.json`，以及 `python -m unittest project_tools.test_reusable_ownership -v`、`python project_tools/check_reusable_ownership.py` 和 `git diff --check`。将 `CARGO_TARGET_DIR` 指向外部任务目录。这些检查覆盖实现与合成案例，冲击参数校准和完整交易所行为需独立验收。
 
 ## Astro 网站
 
-使用 Node26.13.0、npm12.2.2 和已提交的前端锁。Python3.13 只准备可信文章内容及引擎产出的教学证据，不是第二个整站渲染器，也不在浏览器里核算金融结果。正式构建不安装或运行 MkDocs。保留固定版本的 Python-Markdown / PyMdown，是为了兼容已有 Markdown 方言和精确的旧标题锚点；所有 HTML 路由、页面布局及最终生成均由 Astro 负责。
+使用 Node26.13.0、npm12.2.2 和已提交的前端锁。Python3.13 准备可信文章内容与引擎产出的教学证据，整站由 Astro 渲染，金融结果由引擎计算。正式构建不安装或运行 MkDocs。保留固定版本的 Python-Markdown / PyMdown，是为了兼容已有 Markdown 方言和精确的旧标题锚点；所有 HTML 路由、页面布局及最终生成均由 Astro 负责。
 
 在外部环境用 `uv pip sync --require-hashes` 安装 `docs/requirements/docs.lock` 和 `learning.lock`。前端依赖按不变的 `web/package-lock.json` 安装到任务独占目录，再把 `node_modules` 链接到 `web/`；Astro 生成文件和缓存也放在外部，不能与其他并行任务共用可写缓存。
 
@@ -35,7 +35,7 @@ SITE_DIR="$TASK_DATA/site-assembled" SITE_BASE=/quant-backtest-engine/ BROWSER_O
 
 八个基础说明页都以一个大白话问题和一个联动主图开始。完整数值、来源及所有表格放在原生可展开区域，学习和实验旧地址都继续可用。参考文档搜索、旧 URL、锚点和下载保留。默认英文，中文对照和显式语言偏好沿用既有路由与存储约定。主图在屏幕内自动循环，暂停按钮随时可用。系统开启减少动态效果时，读者用按钮逐步查看。禁用 JavaScript 时仍能展开完整记录表格。
 
-浏览器只回放引擎产出的合成证据、把数值映射成图形，不重算账户，不把未知值改成零，不给确定情景编造概率。机会损失不是现金手续费，永久冲击系数是模型假设，有限可行格点也不代表已求出通用非凸问题或 HJB 的全局解。概念流程里的预测阶段，不表示示例给定订单来自训练好的策略。
+浏览器回放引擎产出的合成证据，并将记录值映射为图形。账户由原执行器记账，未知值保留为未知，确定情景按给定假设展示。机会损失单独报告，现金手续费按原规则扣款。永久冲击系数采用模型假设，最优性结论限定在已验证的有限候选范围。通用非凸问题与 HJB 全局解需另行证明，示例订单直接由调用方给定。
 
 视觉与讲解方式参考 [Distill 的互动优化文章](https://distill.pub/2017/momentum/)及 [Seeing Theory](https://github.com/seeingtheory/Seeing-Theory)，没有复制其代码或图形资产。[Astro 内容组织](https://docs.astro.build/en/guides/content-collections/)和 [Starlight 自定义页面](https://starlight.astro.build/guides/pages/)用于理解参考阅读与实验页面的分工，没有增加 Starlight 依赖。
 
@@ -43,7 +43,7 @@ SITE_DIR="$TASK_DATA/site-assembled" SITE_BASE=/quant-backtest-engine/ BROWSER_O
 
 唯一发布入口为 `.github/workflows/docs.yml`。PR 验证但不发布，合并后的 main 只上传组装好的 Astro 产物到 GitHub Pages。`site-build.json` 绑定实际源码、锁、输入清单及最终文件字节；陈旧片段会被拒绝。保留原教学 PR19 提交 `4820af3b82940e7697cb8c92154315b1d59ee23d` 的来源记录，不提交生成后的网站，也不因换渲染器重写金融样例的身份。
 
-旧双渲染器和片段提取函数只作为历史测试工具保留，不构成隐含 MkDocs 构建依赖。许可原文与署名见[第三方说明](third-party-notices.zh-CN.md)、`LICENSE`、`COPYING`。
+旧双渲染器和片段提取函数保留作历史测试工具，当前构建由 Astro 独立完成。许可原文与署名见[第三方说明](third-party-notices.zh-CN.md)、`LICENSE`、`COPYING`。
 
 [网页构建依赖安全缓解](frontend-security.zh-CN.md)：全新安装后先应用补丁，再运行 Astro 和受验证的审计门禁。
 
@@ -52,3 +52,5 @@ SITE_DIR="$TASK_DATA/site-assembled" SITE_BASE=/quant-backtest-engine/ BROWSER_O
 图和控制条的间距参考了 [Red Blob Games](https://www.redblobgames.com/pathfinding/a-star/introduction.html) 与 [Bartosz Ciechanowski](https://ciechanow.ski/mechanical-watch/)。正文使用本机中文无衬线字体，图中数字对齐。页面运行时无需下载外部字体或插画。
 
 机制首页与图表参考 quant-workspace-standards（参考版本 `e63f5d7`）的字体、细线和编号流程节点。每项机制旁保留实现范围，交互实验继续使用原始记录，旧链接保持可用。
+
+记录图参考 [Observable Plot](https://observablehq.com/plot/) 的坐标与比较布局，以及 [Motion Canvas](https://motioncanvas.io/docs/) 的分步讲解节奏，没有增加运行时依赖。多路径按原始比较映射对齐，并核对时钟、阶段和币种。切换路径与步骤会同时暂停。时钟保留纳秒小数，ISO 时刻显示时明确标注上海时间。动画只改变图形，账户数值与前后状态始终来自记录。机制总览和底下的八个演示使用不同的导航层级。

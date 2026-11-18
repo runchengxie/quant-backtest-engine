@@ -20,7 +20,7 @@
 
 ## 执行模拟与容量 {#_4}
 
-日频 adjusted/sequenced/ideal 提供 daily、fills、fees 和终态 reports；capacity 仅提供 fills 和 reports，不声称现金/每日/费用账本。admissions、reservations、cash 交易流水、capital_flows 和独立 valuations 均不可用。原审计时间仍为合成日期标签，不是实际日内时钟。
+日频 adjusted/sequenced/ideal 提供 daily、fills、fees 和终态 reports；capacity 的可用表为 fills 和 reports，现金／每日／费用账本标为不可用。admissions、reservations、cash 交易流水、capital_flows 和独立 valuations 均不可用。原审计时间采用合成日期标签，实际日内时钟需独立记录。
 
 | Table | Columns |
 | --- | --- |
@@ -37,4 +37,4 @@
 
 ## 纯期间与分腿财务闭包（Task 15P）
 
-Task 15P 补齐提供方 C PR #24 合并后发现的纯源闭包遗漏：显式输入的分腿构建、状态滚动、参与率表查询、期间汇总及独立的旧交易核算 API 原样迁入 Core 0.3.0。全部期间字段、默认值及 Core CostBreakdown 类身份保留；未知诊断仍为未知，费用只汇总一次。筛选、权重构建、研究投影与指标、编排仍属 Platform，多空诊断期间不增加每日现金、融券或保证金能力。[精确 API、兼容语义与证据](../../guides/diagnostic-close-replay.zh-CN.md) 说明完整边界。后续提交须先复核、合并并提供精确产物，再恢复消费方 Task 15，然后执行 Astro Task 19；版本号本身不代表源身份，不涉及 PyPI 发布。
+Task 15P 补齐提供方 C PR #24 合并后发现的纯源闭包遗漏：显式输入的分腿构建、状态滚动、参与率表查询、期间汇总及独立的旧交易核算 API 原样迁入 Core 0.3.0。全部期间字段、默认值及 Core CostBreakdown 类身份保留；未知诊断仍为未知，费用只汇总一次。筛选、权重构建、研究投影与指标、编排仍属 Platform，多空诊断期间不增加每日现金、融券或保证金能力。[精确 API、兼容语义与证据](../../guides/diagnostic-close-replay.zh-CN.md) 说明完整边界。后续提交须先复核、合并并提供精确产物，再恢复消费方 Task 15，然后执行 Astro Task 19；源身份以精确提交和产物回执确认，该任务通过源码与独立产物交付。

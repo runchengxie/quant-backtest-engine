@@ -177,6 +177,7 @@ export default function ReplayWorkbench({
         ready={ready}
         label={t}
         select={(eventId) => send({ type: "SELECT_EVENT", eventId })}
+        selectPath={(presetId,eventId) => send({ type: "SELECT_PATH_EVENT", presetId, eventId })}
       />
       <details className="teaching-evidence">
         <summary>{teachingText(locale, "evidence")}</summary>

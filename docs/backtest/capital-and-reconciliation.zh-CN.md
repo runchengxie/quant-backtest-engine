@@ -14,4 +14,4 @@
 
 一致仅描述所提供的证据。接口不连接场所，不改账，不生成纠正成交，不认证来源或完整性声明。差异由所有者调查；内部检查点恢复不能替代外部对账。
 
-`quant_platform.portfolio.robust_uncertainty` 的 `conservative_score`、`box_worst_case_return`、`add_conservative_score` 及高级资本研究仍归 Platform，既有不确定性数学不代表新估计器或校准风险模型。本次只转移账户反馈和外部证据对账。
+`quant_platform.portfolio.robust_uncertainty` 的 `conservative_score`、`box_worst_case_return`、`add_conservative_score` 及高级资本研究仍归 Platform，这些接口保留既有不确定性数学，新估计器与风险模型校准仍属研究范围。本次只转移账户反馈和外部证据对账。

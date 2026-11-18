@@ -28,7 +28,7 @@
 以下是仍属于 Platform 的历史边界，Engine 没有迁入这里的旧净值订单处理器。
 [固定原始审查](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/concepts/impact-optimization-scenarios.md#existing-cost-accounting-audit)。
 
-旧成本和滑点 `cost(...)` 返回组合价值比例，不是账户金额或每股溢价。
+旧成本和滑点 `cost(...)` 采用组合价值比例口径，换算账户金额时乘一次组合价值。
 `_quote_trade_fee` 以 `notional/portfolio_value` 构造交易权重，将滑点比例乘以组合价值一次，
 再纳入成本明细。净值订单处理器买入扣参考成交额及 `total_cost`，卖出收参考所得减费用，
 不会同时为这项滑点改变成交价。`CostEvidence` 只描述账户金额，不指示再次扣款。
@@ -40,8 +40,8 @@
 ## 连续基线与离散参考
 
 Platform 的 SLSQP 风险后端用两资产凸二次风险加原权重二次惩罚的解析解核对。
-该惩罚是正则项，并非校准交易成本。半正定协方差、非负二次惩罚、线性约束保持凸性；
-求解成功和可行性不构成独立全局最优证书，原 `optimal` 诊断含义不升级。
+该惩罚用作正则项，交易成本校准需独立完成。半正定协方差、非负二次惩罚、线性约束保持凸性；
+求解成功与可行性分别报告，独立全局最优性仍需证书，原 `optimal` 诊断保持既有含义。
 
 `quant_backtest_core.planning.discrete_oracle.enumerate_lot_portfolios` 在有界、仅买入的整数手数
 网格上最小化股数目标平方误差。从纯现金开始，不能花费未成交卖出款。
@@ -57,7 +57,7 @@ Platform 的 SLSQP 风险后端用两资产凸二次风险加原权重二次惩�
 
 价格 (6,4)、目标 (1.5,1.5)、一股手数、上限 (3,3)、现金 14、最低佣金 1 的合成例子，
 选择 (1,1)，支出 12、目标 0.5。取整候选 (2,1) 超预算；可行 (0,2) 的目标为 2.5、差距 2。
-这些是正确性例子，不是收益声明或现实投资建议。
+这些例子用于核对计算正确性。收益表现与实际投资适用性需用独立证据评估。
 
 安装 SDK/Core wheel，显式选择 `planning` 并固定 NumPy 2.2.6、pandas 3.0.6、SciPy 1.18.1，
 在源码树外运行：

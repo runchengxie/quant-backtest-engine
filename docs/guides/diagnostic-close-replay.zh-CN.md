@@ -67,6 +67,6 @@ Core/SDK 保持 0.3.0，Rust 保持 0.2.0，原生扩展保持 0.1.0。Task 15P 
 验收在真实固定的旧所有者环境，以及 Python 3.12/3.13 的普通 Core wheel 安装
 环境执行合成显式调用，比较全部数据类字段和属性、Series 值及索引和 dtype、
 签名、查表异常及费用调用参数。`project_tools/verify_period_leg_parity.py`
-记录真实导入闭包；仅做静态源匹配不构成验收。
+记录真实导入闭包；验收同时要求真实导入闭包与执行结果，静态源匹配只用于源码核对。
 
 严格对比环境同时安装原有 PyArrow 26.0.1、pandas 3.0.6 与 NumPy 2.2.6。精简 daily/union 环境不安装 PyArrow；实际出现的 Arrow 到 Python 的 StringDtype 存储差异按 Series 索引逐项登记，只对这一明确存储差异转换后严格比较值和 dtype，不全局关闭 dtype 检查。

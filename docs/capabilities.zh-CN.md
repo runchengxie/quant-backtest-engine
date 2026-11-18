@@ -3,7 +3,7 @@
 [English](capabilities.md)
 
 当前状态为实验阶段，包版本 0.2.0，上游 NautilusTrader 固定为 0.66.0。
-已验证的运行环境为 Linux。下表的支持表示合成案例通过测试，不代表完整交易所规则或真实数据验证。
+已验证的运行环境为 Linux。下表记录合成案例的测试结果。完整交易所规则与真实数据适用性需单独验证。
 
 | 能力 | 状态 | 入口或边界 |
 | --- | --- | --- |
@@ -73,7 +73,7 @@ Core 0.2.0 包含[合成路径、压力与冲击](backtest/market-paths.zh-CN.md
 
 `[scenario]` 中的 `run_scenarios` 仅支持 `python.minute` / `scenario-minute-targets.v1`
 组合配置：消费外部实际目标，每次使用独立账户、策略和冲击实例，保留精确输入、目标与投影收据。
-risk 必须为 null，策略必须是已有的空配置目标权重身份。可用性是声明的合成收盘约定，并非观测到达时间。
+risk 必须为 null，策略必须是已有的空配置目标权重身份。可用性采用声明的合成收盘约定，真实观测到达时间需另行记录。
 原始 minute 与 Rust 守卫保持不变，任一后端都不继承 Python 叶子能力的并集。
 见[完整后端矩阵](product/backends.zh-CN.md)、[场景示例](product/scenarios.zh-CN.md)和
 [规划示例](concepts/impact-planning.zh-CN.md)。

@@ -9,6 +9,7 @@ export type ReplayState = {
 };
 export type ReplayAction =
   | { type: "SELECT_PRESET"; presetId: string }
+  | { type: "SELECT_PATH_EVENT"; presetId: string; eventId: string }
   | { type: "SELECT_EVENT"; eventId: string }
   | { type: "NEXT" | "PREVIOUS" | "RESET" | "PLAY" | "PAUSE" | "TICK" }
   | { type: "SET_SPEED"; speed: 0.5 | 1 | 2 }
@@ -33,6 +34,23 @@ export function reduceReplay(
   if (!trace) throw new Error("unknown selected preset");
   const last = trace.events.length - 1;
   switch (action.type) {
+    case "SELECT_PATH_EVENT": {
+      const target = index.get(action.presetId);
+      if (trace.scene_id !== "paths" || target?.scene_id !== "paths")
+        return state;
+      const ordinal = target.events.findIndex(
+        (e) => e.event_id === action.eventId,
+      );
+      return ordinal < 0
+        ? state
+        : {
+            ...state,
+            presetId: target.preset_id,
+            eventOrdinal: ordinal,
+            playing: false,
+            comparisonPresetIds: [],
+          };
+    }
     case "SELECT_PRESET":
       return index.has(action.presetId)
         ? {
@@ -62,13 +80,14 @@ export function reduceReplay(
     case "RESET":
       return { ...state, eventOrdinal: 0, playing: false };
     case "PLAY":
-      return state.reducedMotion
-        ? state
-        : { ...state, playing: true };
+      return state.reducedMotion ? state : { ...state, playing: true };
     case "TICK":
       return !state.playing || state.reducedMotion
         ? state
-        : { ...state, eventOrdinal: (state.eventOrdinal + 1) % trace.events.length };
+        : {
+            ...state,
+            eventOrdinal: (state.eventOrdinal + 1) % trace.events.length,
+          };
     case "PAUSE":
       return { ...state, playing: false };
     case "SET_SPEED":

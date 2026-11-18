@@ -34,7 +34,14 @@ for (const locale of ["", "zh-CN/"]) {
     for (const button of await page
       .locator(".teaching-paths [data-preset=deep] button")
       .all())
-      await expect(button).toBeDisabled();
+      await expect(button).toBeEnabled();
+    await page.locator(".teaching-paths [data-preset=deep] button").nth(1).click();
+    await expect(page.locator(".learning-workbench")).toHaveAttribute("data-current-event", "paths.deep.1");
+    await expect(page.locator(".learning-workbench")).toHaveAttribute("data-playing", "false");
+    await expect(page.locator('.path-lane[data-preset=deep] [data-field=quantity] strong')).toHaveAttribute('data-value','500');
+    await expect(page.locator('.path-lane[data-preset=thin] [data-field=quantity] strong')).toHaveAttribute('data-value','100');
+    await expect(page.locator('.path-lane[data-preset=feedback] [data-field=next_target] strong')).toHaveAttribute('data-value','0.1');
+    await expect(page.locator('.path-lane[data-preset=thin] [data-field=next_target] strong')).toHaveAttribute('data-value','');
     await page
       .locator(".teaching-paths [data-preset=thin] button")
       .last()
