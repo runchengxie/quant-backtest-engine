@@ -2,6 +2,9 @@
 
 [English](backends.md)
 
+新事件接口使用 `rust.nautilus.depth`，覆盖单证券多档盘口和账户反馈。输入、时钟与验收范围见[原生事件级深度回放](execution-fidelity.zh-CN.md#native-event-depth-profile)。原有会话命令沿用原行为。
+
+
 Core 0.3.0 注册 `rust.nautilus.sessions`、`python.minute` 和 `python.daily`。
 分钟输入、能力和可恢复接口见[财务恢复](recovery.zh-CN.md)。下文说明 Rust 后端。
 它只调用一次现有 `EngineClient.run_sessions`。NautilusTrader 0.66.0

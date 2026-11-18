@@ -68,3 +68,8 @@ The diagram and control spacing draws on [Red Blob Games](https://www.redblobgam
 The mechanism index and diagram styling follow the restrained typography, thin rules and numbered flow nodes of quant-workspace-standards (reference revision `e63f5d7`). Keep execution scope beside each mechanism; preserve the source-bound experiments and their legacy routes.
 
 The record diagrams borrow the restrained axes and comparison layout of [Observable Plot](https://observablehq.com/plot/) and the staged explanation rhythm of [Motion Canvas](https://motioncanvas.io/docs/), with no new runtime dependency. Paths align only through source comparison mappings with matching clock, stage and currency; selecting a path/event pauses atomically. Event clocks retain nanosecond fractions, and ISO instants display an explicit Shanghai time zone. Animation eases graphical geometry only; account labels and previous/current values remain recorded scalars. The mechanism overview and the eight underlying demonstrations have separate navigation labels.
+
+
+Select `rust.nautilus.depth` for the new single-instrument event profile. See [native event-depth scope](product/execution-fidelity.md#native-event-depth-profile) for contracts, clocks, limits and evidence. Existing session commands keep their original behavior.
+
+Rust owns the new native event execution path. TypeScript/TSX and Astro own the website. Python retains SDK validation, product orchestration, research interfaces and existing financial implementations. Move financial modules in individually verified batches with arithmetic and checkpoint compatibility checks.

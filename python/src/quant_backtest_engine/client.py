@@ -190,6 +190,86 @@ class EngineClient:
         _ledger_evidence(request, result, sessions, daily, fills_by_date, zone)
         return result
 
+    def depth_capabilities(self) -> dict:
+        """Query the actual pinned executable before advertising native depth support."""
+        from .depth import CAPABILITIES
+
+        result = self._invoke(
+            "depth-capabilities",
+            {"schema_version": "engine_depth_request.v1"},
+            "engine_depth_request.v1",
+        )
+        _require(
+            set(result)
+            == {"schema_version", "backend", "backend_version", "capabilities"},
+            "invalid depth capability receipt",
+        )
+        _require(
+            result["schema_version"] == "engine_depth_capabilities.v1"
+            and result["backend"] == "nautilus"
+            and result["backend_version"] == "0.66.0"
+            and result["capabilities"] == list(CAPABILITIES),
+            "unsupported pinned depth executable",
+        )
+        return result
+
+    def validate_depth(self, request: dict) -> dict:
+        """Validate through the pinned native depth validator without running a backtest."""
+        from .depth import CAPABILITIES, validate_request
+
+        try:
+            validate_request(request)
+            result = self._invoke("depth-validate", request, "engine_depth_request.v1")
+            _require(
+                set(result)
+                == {
+                    "schema_version",
+                    "backend",
+                    "backend_version",
+                    "request_sha256",
+                    "capabilities",
+                },
+                "invalid native depth validation receipt",
+            )
+            digest = hashlib.sha256(
+                json.dumps(
+                    request, sort_keys=True, separators=(",", ":"), ensure_ascii=False
+                ).encode()
+            ).hexdigest()
+            _require(
+                result["schema_version"] == "engine_depth_validation.v1"
+                and result["backend"] == "nautilus"
+                and result["backend_version"] == "0.66.0"
+                and result["request_sha256"] == digest
+                and result["capabilities"] == list(CAPABILITIES),
+                "native depth validation identity mismatch",
+            )
+            return result
+        except (ValueError, KeyError, TypeError, ArithmeticError) as exc:
+            if isinstance(exc, EngineProtocolError):
+                raise
+            raise EngineProtocolError(f"depth validation failure: {exc}") from exc
+
+    def run_depth(self, request: dict) -> dict:
+        """Run normalized depth/trade events through the content-pinned native owner."""
+        from .depth import validate_request, validate_result
+
+        try:
+            validate_request(request)
+            result = self._invoke("depth", request, "engine_depth_request.v1")
+            return validate_result(request, result)
+        except (
+            ValueError,
+            KeyError,
+            TypeError,
+            ArithmeticError,
+            IndexError,
+            AttributeError,
+        ) as exc:
+            if isinstance(exc, EngineProtocolError):
+                raise
+            raise EngineProtocolError(f"malformed depth request/result: {exc}") from exc
+
 
 def _sizing_balances(request: dict, result: dict, assets: dict) -> None:
     # Reconcile returned intents only; quantity planning remains engine-owned.

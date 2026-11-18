@@ -4,7 +4,7 @@ from .types import BackendDescriptor, ProductManifest
 # Daily admission is backed by the strict SDK profile and explicit core backend.
 PENDING_INPUT_SCHEMAS = frozenset()
 
-VALIDATED_INPUT_SCHEMAS = frozenset({"rust-session.v1", "minute-input.v1", "daily-input.v1"})
+VALIDATED_INPUT_SCHEMAS = frozenset({"rust-session.v1", "rust-depth.v1", "minute-input.v1", "daily-input.v1"})
 
 
 def require_capabilities(manifest: ProductManifest, descriptor: BackendDescriptor) -> None:

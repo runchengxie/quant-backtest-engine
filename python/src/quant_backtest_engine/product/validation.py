@@ -248,6 +248,9 @@ def _validate(obj):
             raise ValueError("timezone must identify an installed IANA zone") from exc
         if obj.input_schema == "rust-session.v1":
             validate_rust_session(obj)
+        elif obj.input_schema == "rust-depth.v1":
+            from .depth import validate_depth_input
+            validate_depth_input(obj)
         elif obj.input_schema == "minute-input.v1":
             from .minute import validate_minute_input
             validate_minute_input(obj)

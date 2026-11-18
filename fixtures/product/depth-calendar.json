@@ -1,0 +1,7 @@
+{
+  "schema": "event-calendar.v1",
+  "timezone": "Asia/Shanghai",
+  "sessions": [
+    "2025-01-01"
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": "engine_depth_request.v1",
+  "currency": "CNY",
+  "initial_cash": "10000",
+  "fee_bps": "10",
+  "instrument": {
+    "symbol": "AAA",
+    "price_precision": 2
+  },
+  "insert_latency_ns": 0,
+  "cancel_latency_ns": 0,
+  "end_ns": 1735689600000010000,
+  "events": [
+    {
+      "kind": "snapshot",
+      "ts_ns": 1735689600000000100,
+      "available_ns": 1735689600000000100,
+      "sequence": 1,
+      "bids": [
+        {
+          "price": "9.90",
+          "quantity": "100"
+        }
+      ],
+      "asks": [
+        {
+          "price": "10.00",
+          "quantity": "2"
+        },
+        {
+          "price": "10.10",
+          "quantity": "3"
+        }
+      ],
+      "trade_price": null,
+      "trade_quantity": null,
+      "aggressor": null,
+      "trade_id": null
+    }
+  ],
+  "commands": [
+    {
+      "id": "buy",
+      "event_sequence": 1,
+      "information_ts_ns": 1735689599999999999,
+      "action": "buy",
+      "quantity": "5",
+      "limit_price": "10.10",
+      "cancel_id": null
+    }
+  ],
+  "required_capabilities": [
+    "l2_depth_events",
+    "trade_events",
+    "account_feedback_targets"
+  ]
+}

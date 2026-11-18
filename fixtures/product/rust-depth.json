@@ -1,0 +1,93 @@
+{
+  "schema": "backtest-product.v1",
+  "backend_id": "rust.nautilus.depth",
+  "required_capabilities": [
+    "l2_depth_events",
+    "trade_events",
+    "account_feedback_targets"
+  ],
+  "model_versions": {},
+  "input_schema": "rust-depth.v1",
+  "inputs": {},
+  "inline_inputs": {
+    "instrument": {
+      "symbol": "AAA",
+      "price_precision": 2
+    }
+  },
+  "currency": "CNY",
+  "share_basis": "raw",
+  "calendar": {
+    "uri": "depth-calendar.json",
+    "sha256": "f8020d5e91e41e7fffb54b9057c03fd4514880fb50671ba7675f268606d3ec2a",
+    "media_type": "application/json"
+  },
+  "timezone": "Asia/Shanghai",
+  "units": {
+    "cash": "CNY"
+  },
+  "clocks": {
+    "available_ns": "1735689599999999999",
+    "information_ns": "1735689599999999999",
+    "decision_ns": "1735689600000000000",
+    "entry_ns": "1735689600000000000",
+    "effective_ns": null,
+    "report_ns": null,
+    "valuation_ns": "1735689600000010000"
+  },
+  "initial_account": {
+    "cash": "10000"
+  },
+  "settings": {
+    "fee_bps": "10",
+    "insert_latency_ns": "0",
+    "cancel_latency_ns": "0",
+    "end_ns": "1735689600000010000"
+  },
+  "tapes": {
+    "events": [
+      {
+        "kind": "snapshot",
+        "ts_ns": "1735689600000000100",
+        "available_ns": "1735689600000000100",
+        "sequence": 1,
+        "bids": [
+          {
+            "price": "9.90",
+            "quantity": "100"
+          }
+        ],
+        "asks": [
+          {
+            "price": "10.00",
+            "quantity": "2"
+          },
+          {
+            "price": "10.10",
+            "quantity": "3"
+          }
+        ],
+        "trade_price": null,
+        "trade_quantity": null,
+        "aggressor": null,
+        "trade_id": null
+      }
+    ],
+    "commands": [
+      {
+        "id": "buy",
+        "event_sequence": 1,
+        "information_ts_ns": "1735689599999999999",
+        "action": "buy",
+        "quantity": "5",
+        "limit_price": "10.10",
+        "cancel_id": null
+      }
+    ]
+  },
+  "policy": null,
+  "forecast": null,
+  "risk": null,
+  "scenario": null,
+  "output_uri": "depth-result.json"
+}

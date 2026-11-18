@@ -38,6 +38,16 @@ pub(crate) fn create_engine(
     currency: Currency,
     liquidity: bool,
 ) -> Result<Engine> {
+    create_engine_with_depth(request, currency, liquidity, BookType::L1_MBP, None)
+}
+
+pub(crate) fn create_engine_with_depth(
+    request: &Request,
+    currency: Currency,
+    liquidity: bool,
+    book_type: BookType,
+    latency: Option<nautilus_execution::models::latency::LatencyModelHandle>,
+) -> Result<Engine> {
     let config = BacktestEngineConfig {
         bypass_logging: true,
         logging: nautilus_common::logging::logger::LoggerConfig {
@@ -56,7 +66,8 @@ pub(crate) fn create_engine(
             .oms_type(OmsType::Netting)
             .account_type(AccountType::Cash)
             .base_currency(currency)
-            .book_type(BookType::L1_MBP)
+            .book_type(book_type)
+            .maybe_latency_model(latency)
             .liquidity_consumption(liquidity)
             .starting_balances(vec![Money::from_decimal(
                 decimal(&request.initial_cash)?,
