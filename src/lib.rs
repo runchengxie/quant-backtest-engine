@@ -96,3 +96,6 @@ pub fn run_depth(
         .join()
         .map_err(|_| anyhow::anyhow!("upstream depth engine panicked"))?
 }
+
+/// Bounded exact lot planning, independent of financial execution.
+pub mod lot_planning;

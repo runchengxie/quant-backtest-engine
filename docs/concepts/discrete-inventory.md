@@ -119,3 +119,27 @@ python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/core/tests/test_d
 ```
 
 Adapted from [pinned Apache-2.0 source](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/concepts/discrete-inventory.md). Implemented on the unreleased provider B branch; Core source is 0.2.0; whole-provider review and integration remain pending. Consumer cutover is separate.
+
+## Opt-in native buy-only lot oracle {#native-lot-oracle}
+
+`cargo run --locked -- plan-lots fixtures/lot-planning.json` runs the finite
+buy-only comparison in Rust. Python callers use the content-pinned
+`EngineClient.plan_lots(request)`. `engine_lot_request.v1` declares prices,
+target quantities, maximum lot counts, lot sizes, budget, per-order minimum
+commission and proportional commission. The objective is unweighted squared
+quantity error. Nonzero orders pay the larger commission term.
+
+Inputs use canonical decimal strings with at most four decimal places.
+The domain is 1–16 assets, at most 100,000 evaluated states, quantities at most
+one billion shares per asset, prices at most one million and cash at most
+one trillion. Exact planning fees retain fractional minor units; execution
+currency rounding belongs to the selected financial backend.
+
+Results bind the canonical request digest, exact decimal spent/objective,
+evaluation count, candidate feasibility/gap and lexicographically first optimum.
+An oversized domain returns `search_limit` without a plan. The SDK independently
+checks optimality and ties using bounded scale-eight integer arithmetic.
+This verification adds work to an SDK call. Native library/CLI callers execute
+the Rust calculation directly. The retained Python Fraction oracle is unchanged.
+This native subset has no sells, initial inventory, covariance or checkpoint;
+the broader inventory and account owners retain those responsibilities.

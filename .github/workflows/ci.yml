@@ -91,6 +91,13 @@ jobs:
         run: |
           uv pip install --python "$UV_PROJECT_ENVIRONMENT/bin/python" --reinstall --no-deps "$RUNNER_TEMP"/wheels/*.whl
           "$UV_PROJECT_ENVIRONMENT/bin/python" -I -B -m pytest core/tests -q -p no:cacheprovider
+      - name: Installed synthetic assurance report
+        run: '"$UV_PROJECT_ENVIRONMENT/bin/python" -I -B project_tools/synthetic_assurance.py --engine "$CARGO_TARGET_DIR/debug/quant-backtest-engine" --output "$RUNNER_TEMP/synthetic-assurance.json"'
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: synthetic-assurance-python-${{ matrix.python }}
+          path: ${{ runner.temp }}/synthetic-assurance.json
+          if-no-files-found: error
       - name: Installed optional planning closure
         run: |
           "$RUNNER_TEMP/core-base/bin/python" -I -B project_tools/verify_installed_planning.py --base

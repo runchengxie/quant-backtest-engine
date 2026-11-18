@@ -153,3 +153,34 @@ Account reconciliation and selection/risk diagnostics remain auxiliary topics. T
 home animation describes conceptual data flow; executable backend capabilities are
 validated separately. The [execution fidelity guide](execution-fidelity.md) records
 the new command replay contract and its bounds.
+
+## Synthetic algorithm assurance {#synthetic-assurance}
+
+Run `project_tools/synthetic_assurance.py --engine "$ENGINE" --output "$TASK_DATA/assurance.json" --seed 7`
+in an environment with the installed SDK/Core and planning dependencies.
+The output path is created exclusively. The report retains the executable hash,
+source revision, script/runtime source hashes, seed and individual assumptions.
+Use fresh outputs for additional seeds; shared data aliases are untouched.
+
+The suite compares native lot planning against retained Fraction enumeration,
+and inventory planning against independently enumerated feasible economics.
+It checks the impact model against an exponential-kernel quadratic cost, same-clock
+splitting and checkpoint restoration. Generated paths retain independent accounts,
+seed/batch/prefix reproducibility and frozen training cutoffs. Random native target,
+buy, sell and cancel sequences pass independent SDK fill-prefix/account checks.
+
+A feedback example observes four actual shares, cancels the remaining order,
+plans six more shares and deterministically replays the full prefix with that next
+command. Each run has one Nautilus account. This is prefix replay, with no claim
+of native checkpoint restore or an arbitrary in-engine optimization callback.
+
+Twelve assumed-market scenarios combine CNY 20m/50m capital, three depth settings
+and two insertion delays. Each records filled/unfilled quantity, fees and benchmark
+price difference. Opportunity loss uses an explicitly assumed terminal price of 11.
+These cases verify mechanics under supplied conditions. Market capacity, real
+queue positions, calibrated latency and causal impact remain unverified.
+
+The historical `feat/method-pages-20261108` PR 19 closed without direct merge.
+PR 26 integrated the tutorial in Astro. Its eight original scene identifiers remain
+in the current fixtures, and source revision `4820af3` remains recorded. Preserve
+that historical branch/worktree until its owner explicitly retires it.

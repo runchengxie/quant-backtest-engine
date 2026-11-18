@@ -15,6 +15,18 @@ use std::{
 fn execute() -> Result<()> {
     let args: Vec<_> = env::args_os().skip(1).collect();
     let output = match args.as_slice() {
+        [command, path] if command == "plan-lots" => {
+            let mut bytes = Vec::new();
+            fs::File::open(path)?
+                .take(1024 * 1024 + 1)
+                .read_to_end(&mut bytes)?;
+            anyhow::ensure!(
+                bytes.len() <= 1024 * 1024,
+                "lot request exceeds byte budget"
+            );
+            let request = serde_json::from_slice(&bytes)?;
+            serde_json::to_value(quant_backtest_engine::lot_planning::plan_lots(&request)?)?
+        }
         [command] | [command, _] if command == "depth-capabilities" => {
             serde_json::json!({"schema_version":"engine_depth_capabilities.v1","backend":"nautilus","backend_version":"0.66.0","capabilities":quant_backtest_engine::depth_contract::DEPTH_CAPABILITIES})
         }
@@ -82,7 +94,7 @@ fn execute() -> Result<()> {
         }
         _ => {
             bail!(
-                "usage: quant-backtest-engine depth REQUEST.json | depth-validate REQUEST.json | depth-capabilities | validate REQUEST.json|- | run REQUEST.json | size SIZING.json | capabilities | session-capabilities"
+                "usage: quant-backtest-engine plan-lots REQUEST.json | depth REQUEST.json | depth-validate REQUEST.json | depth-capabilities | validate REQUEST.json|- | run REQUEST.json | size SIZING.json | capabilities | session-capabilities"
             )
         }
     };
