@@ -23,7 +23,7 @@ client = EngineClient(
     timeout=30,
     source_revision='REPLACE_WITH_RELEASE_SOURCE_REVISION',
 )
-request = json.loads(Path('fixtures/sessions.json').read_text())
+request = json.loads(Path('tests/fixtures/sessions.json').read_text())
 result = client.run_sessions(request)
 print(result['final_nav'])
 ```

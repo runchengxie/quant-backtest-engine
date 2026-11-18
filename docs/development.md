@@ -10,9 +10,9 @@ Keep builds, environments, caches and results outside the checkout. Rust require
 cargo fmt --all --check
 cargo clippy --locked --all-targets -- -D warnings
 cargo test --locked
-cargo run --locked -- run fixtures/roundtrip.json
-python -m unittest project_tools.test_reusable_ownership -v
-python project_tools/check_reusable_ownership.py
+cargo run --locked -- run tests/fixtures/roundtrip.json
+python -m unittest scripts.verify.test_reusable_ownership -v
+python scripts/verify/check_reusable_ownership.py
 git diff --check
 ```
 
@@ -22,7 +22,7 @@ Set `CARGO_TARGET_DIR` to an external task build directory. These checks do not 
 
 Use Node 26.13.0/npm 12.2.2 and the committed frontend lock. Python 3.13 prepares trusted article content and owner-produced learning fixtures; it is not a second site renderer or browser financial engine. The active pipeline does not install or run MkDocs. Python-Markdown and PyMdown remain hash-locked to preserve the existing Markdown dialect and exact heading anchors; Astro owns every HTML route, layout and the final page generation.
 
-Install `docs/requirements/docs.lock` and `learning.lock` with `uv pip sync --require-hashes` into an external environment. Install the unchanged `web/package-lock.json` in a task-owned external dependency directory and link its `node_modules` into `web/`. Put generated Astro state and caches outside the checkout. Do not share mutable build caches across concurrent tasks.
+Install `docs/requirements/docs.lock` and `learning.lock` with `uv pip sync --require-hashes` into an external environment. Install the unchanged `apps/docs/package-lock.json` in a task-owned external dependency directory and link its `node_modules` into `apps/docs/`. Put generated Astro state and caches outside the checkout. Do not share mutable build caches across concurrent tasks.
 
 ## Learning site assembly
 
@@ -32,20 +32,20 @@ export SITE_INPUT_DIR="$TASK_DATA/reference-input"
 export ASTRO_OUT_DIR="$TASK_DATA/site-astro"
 export ASTRO_CACHE_DIR="$TASK_DATA/astro-cache"
 "$PYTHON" -m unittest discover -s project_tools -p 'test_method_*.py'
-"$PYTHON" -m unittest project_tools.test_prepare_reference project_tools.test_site_routes project_tools.test_reference_home project_tools.test_site_assembly project_tools.test_learning_assets project_tools.test_export_opportunity_example -v
-node --test project_tools/test_method_replay.cjs
-"$PYTHON" project_tools/validate_learning_assets.py --manifest docs/assets/learning/manifest.json
-npm --prefix web run check
-npm --prefix web run test:unit
-"$PYTHON" project_tools/prepare_reference.py --output "$SITE_INPUT_DIR"
-npm --prefix web run build
-"$PYTHON" project_tools/assemble_site.py --astro "$ASTRO_OUT_DIR" --learning docs/assets/learning --routes docs/site/route-ownership.json --output "$TASK_DATA/site-assembled"
-"$PYTHON" project_tools/check_docs.py --site-dir "$TASK_DATA/site-assembled"
-"$PYTHON" project_tools/check_assembled_site.py --site-dir "$TASK_DATA/site-assembled" --base /quant-backtest-engine/ --legacy docs/site/legacy-route-anchors.json
-SITE_DIR="$TASK_DATA/site-assembled" SITE_BASE=/quant-backtest-engine/ BROWSER_OUTPUT_DIR="$TASK_DATA/browser" npm --prefix web run test:e2e
+"$PYTHON" -m unittest scripts.build.test_prepare_reference scripts.build.test_site_routes scripts.build.test_reference_home scripts.build.test_site_assembly scripts.build.test_learning_assets scripts.build.test_export_opportunity_example -v
+node --test scripts/build/test_method_replay.cjs
+"$PYTHON" scripts/build/validate_learning_assets.py --manifest docs/assets/learning/manifest.json
+npm --prefix apps/docs run check
+npm --prefix apps/docs run test:unit
+"$PYTHON" scripts/build/prepare_reference.py --output "$SITE_INPUT_DIR"
+npm --prefix apps/docs run build
+"$PYTHON" scripts/build/assemble_site.py --astro "$ASTRO_OUT_DIR" --learning docs/assets/learning --routes docs/site/route-ownership.json --output "$TASK_DATA/site-assembled"
+"$PYTHON" scripts/verify/check_docs.py --site-dir "$TASK_DATA/site-assembled"
+"$PYTHON" scripts/verify/check_assembled_site.py --site-dir "$TASK_DATA/site-assembled" --base /quant-backtest-engine/ --legacy docs/site/legacy-route-anchors.json
+SITE_DIR="$TASK_DATA/site-assembled" SITE_BASE=/quant-backtest-engine/ BROWSER_OUTPUT_DIR="$TASK_DATA/browser" npm --prefix apps/docs run test:e2e
 ```
 
-Preparation/output directories must be fresh. Source changes invalidate prepared inputs, so regenerate before rebuilding. Install locked Playwright Chromium, or set `CHROME_EXECUTABLE` to a compatible local browser. The launcher serves the actual built artifact on an assigned loopback port and records it; no permanent preview server is required. Optional DOM tests use the separately locked `project_tools/method-tests` environment and `NODE_PATH`.
+Preparation/output directories must be fresh. Source changes invalidate prepared inputs, so regenerate before rebuilding. Install locked Playwright Chromium, or set `CHROME_EXECUTABLE` to a compatible local browser. The launcher serves the actual built artifact on an assigned loopback port and records it; no permanent preview server is required. Optional DOM tests use the separately locked `scripts/build/method-tests` environment and `NODE_PATH`.
 
 ## Theme maintenance
 
@@ -73,3 +73,40 @@ The record diagrams borrow the restrained axes and comparison layout of [Observa
 Select `rust.nautilus.depth` for the new single-instrument event profile. See [native event-depth scope](product/execution-fidelity.md#native-event-depth-profile) for contracts, clocks, limits and evidence. Existing session commands keep their original behavior.
 
 Rust owns the new native event execution path. TypeScript/TSX and Astro own the website. Python retains SDK validation, product orchestration, research interfaces and existing financial implementations. Move financial modules in individually verified batches with arithmetic and checkpoint compatibility checks.
+
+## Workspace layout {#workspace-layout}
+
+The root Cargo manifest selects `packages/engine` as the default workspace member.
+Run normal Cargo commands from the repository root. The independent PyO3 crate
+keeps its own lock and build entrypoint under `packages/microstructure-native`.
+
+```text
+apps/docs/                       Astro application
+packages/engine/src/             Rust engine
+packages/core/src/               Python financial library
+packages/python-sdk/src/         Python client
+packages/microstructure-native/  Optional PyO3 extension
+tests/fixtures/                  Shared synthetic inputs
+tests/acceptance/                Installed cross-package checks
+scripts/build/                  Site and fixture preparation
+scripts/verify/                 Validation and diagnostics
+scripts/release/                Packaging and performance tools
+```
+
+Each package keeps its own tests and package-specific examples. The Python
+packages retain separate build metadata and Core's numerical lock; the SDK can
+still be installed on Python 3.11 independently of Core. Paths recorded in
+historical evidence resolve through `workspace-layout.json` with root confinement.
+
+Immutable historical exporters are reproduction sources. Run
+`scripts/build/reproduce_method_fixtures.py --engine "$REGISTERED_ENGINE" --output "$TASK_DATA/method.json"`
+in the registered exact-owner environment. Add `--kind opportunity` and omit
+`--engine` for the opportunity example. The wrapper stages verified original
+sources and inputs in a fresh external legacy layout. Published fixture bytes
+and owner locks remain unchanged. The inactive MkDocs configuration is archived
+at `docs/site/legacy-mkdocs.yml`; Astro remains the sole active renderer.
+
+Checkpoint restore retains its original complete source/dependency binding.
+Package relocation was compared within one unchanged numerical environment,
+reinstalling only the pre/post-move SDK/Core wheels. A different environment can
+change dependency-file hashes even when package versions match.

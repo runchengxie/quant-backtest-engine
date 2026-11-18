@@ -10,7 +10,7 @@ compile speed, or a performance comparison with another implementation.
 Run from a source checkout with a trusted, prebuilt binary.
 
 ```bash
-python project_tools/benchmark.py \
+python scripts/release/benchmark.py \
   --engine /absolute/path/to/quant-backtest-engine \
   --engine-revision FULL_SOURCE_COMMIT --build-profile debug \
   --output /absolute/external/path/benchmark.json \
@@ -96,7 +96,7 @@ time. Results describe the specified host and workload, not production capacity.
 
 ## Broad universe and sparse execution
 
-`project_tools/sparse_workload.py` distinguishes the registered universe from
+`scripts/release/sparse_workload.py` distinguishes the registered universe from
 predetermined orders. Its synthetic book trades only `--active` names each
 session, buying one group and selling that same group in the following session,
 then rotating to another group. This is twenty orders per session, not a claim
@@ -167,7 +167,7 @@ with `cargo build --locked --release --example profile_sessions`, setting
 `CARGO_TARGET_DIR` outside the repository. Then run.
 
 ```sh
-python3 project_tools/profile_workload.py --engine /absolute/target/release/examples/profile_sessions \
+python3 scripts/release/profile_workload.py --engine /absolute/target/release/examples/profile_sessions \
   --output-dir /absolute/data/unique-workload-run --revision "$(git rev-parse HEAD)" \
   --build-profile release --sessions 63 --symbols 100 --quote-times 241
 ```

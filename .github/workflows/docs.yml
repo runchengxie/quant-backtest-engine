@@ -34,41 +34,41 @@ jobs:
           mkdir -p "$TASK_DATA/web-deps" "$TASK_DATA/method-dom" "$TASK_DATA/web-generated"
           uv venv --python 3.13 "$TASK_DATA/docs-env"
           uv pip sync --python "$TASK_DATA/docs-env/bin/python" docs/requirements/docs.lock docs/requirements/learning.lock --require-hashes
-          cp web/package*.json "$TASK_DATA/web-deps/"
+          cp apps/docs/package*.json "$TASK_DATA/web-deps/"
           npm ci --prefix "$TASK_DATA/web-deps" --no-audit --no-fund
-          ln -s "$TASK_DATA/web-deps/node_modules" web/node_modules
-          node project_tools/frontend_security.cjs patch web
-          node --test project_tools/test_frontend_security.cjs
+          ln -s "$TASK_DATA/web-deps/node_modules" apps/docs/node_modules
+          node scripts/build/frontend_security.cjs patch apps/docs
+          node --test scripts/build/test_frontend_security.cjs
           ln -s "$TASK_DATA/web-deps/node_modules" "$TASK_DATA/node_modules"
-          ln -s "$TASK_DATA/web-generated" web/.astro
-          cp project_tools/method-tests/package*.json "$TASK_DATA/method-dom/"
+          ln -s "$TASK_DATA/web-generated" apps/docs/.astro
+          cp scripts/build/method-tests/package*.json "$TASK_DATA/method-dom/"
           npm ci --prefix "$TASK_DATA/method-dom" --ignore-scripts --no-audit --no-fund
-          web/node_modules/.bin/playwright install --with-deps chromium
+          apps/docs/node_modules/.bin/playwright install --with-deps chromium
           test "$(npm --version)" = 12.2.2
       - name: Preserve ownership, fixture and legacy replay gates
         run: |
-          "$TASK_DATA/docs-env/bin/python" -m unittest project_tools.test_reusable_ownership -v
-          "$TASK_DATA/docs-env/bin/python" project_tools/check_reusable_ownership.py
-          "$TASK_DATA/docs-env/bin/python" -m unittest discover -s project_tools -p 'test_method_*.py'
-          node --test project_tools/test_method_replay.cjs
-          NODE_PATH="$TASK_DATA/method-dom/node_modules" node --test project_tools/test_method_dom.cjs
+          "$TASK_DATA/docs-env/bin/python" -m unittest scripts.verify.test_reusable_ownership -v
+          "$TASK_DATA/docs-env/bin/python" scripts/verify/check_reusable_ownership.py
+          "$TASK_DATA/docs-env/bin/python" -m unittest discover -s scripts/build -p 'test_method_*.py'
+          node --test scripts/build/test_method_replay.cjs
+          NODE_PATH="$TASK_DATA/method-dom/node_modules" node --test scripts/build/test_method_dom.cjs
       - name: Validate exact assets, route assembly and shared replay state
         run: |
-          "$TASK_DATA/docs-env/bin/python" -m unittest project_tools.test_deployed_site project_tools.test_site_routes project_tools.test_reference_home project_tools.test_prepare_reference project_tools.test_site_assembly project_tools.test_learning_assets project_tools.test_export_opportunity_example project_tools.test_event_demo -v
-          "$TASK_DATA/docs-env/bin/python" project_tools/validate_learning_assets.py --manifest docs/assets/learning/manifest.json
-          "$TASK_DATA/docs-env/bin/python" project_tools/export_event_demo.py --check
-          npm --prefix web run check
-          npm --prefix web run test:unit
-          FRONTEND_AUDIT_RECEIPT="$TASK_DATA/frontend-audit.json" npm --prefix web run audit:locked
+          "$TASK_DATA/docs-env/bin/python" -m unittest scripts.verify.test_deployed_site scripts.build.test_site_routes scripts.build.test_reference_home scripts.build.test_prepare_reference scripts.build.test_site_assembly scripts.build.test_learning_assets scripts.build.test_export_opportunity_example scripts.build.test_event_demo -v
+          "$TASK_DATA/docs-env/bin/python" scripts/build/validate_learning_assets.py --manifest docs/assets/learning/manifest.json
+          "$TASK_DATA/docs-env/bin/python" scripts/build/export_event_demo.py --check
+          npm --prefix apps/docs run check
+          npm --prefix apps/docs run test:unit
+          FRONTEND_AUDIT_RECEIPT="$TASK_DATA/frontend-audit.json" npm --prefix apps/docs run audit:locked
       - name: Build one Astro-owned artifact
         run: |
-          "$TASK_DATA/docs-env/bin/python" project_tools/prepare_reference.py --output "$SITE_INPUT_DIR"
-          npm --prefix web run build
-          "$TASK_DATA/docs-env/bin/python" project_tools/assemble_site.py --astro "$ASTRO_OUT_DIR" --learning docs/assets/learning --routes docs/site/route-ownership.json --output "$TASK_DATA/site-assembled"
-          "$TASK_DATA/docs-env/bin/python" project_tools/check_docs.py --site-dir "$TASK_DATA/site-assembled"
-          "$TASK_DATA/docs-env/bin/python" project_tools/check_assembled_site.py --site-dir "$TASK_DATA/site-assembled" --base /quant-backtest-engine/ --legacy docs/site/legacy-route-anchors.json
+          "$TASK_DATA/docs-env/bin/python" scripts/build/prepare_reference.py --output "$SITE_INPUT_DIR"
+          npm --prefix apps/docs run build
+          "$TASK_DATA/docs-env/bin/python" scripts/build/assemble_site.py --astro "$ASTRO_OUT_DIR" --learning docs/assets/learning --routes docs/site/route-ownership.json --output "$TASK_DATA/site-assembled"
+          "$TASK_DATA/docs-env/bin/python" scripts/verify/check_docs.py --site-dir "$TASK_DATA/site-assembled"
+          "$TASK_DATA/docs-env/bin/python" scripts/verify/check_assembled_site.py --site-dir "$TASK_DATA/site-assembled" --base /quant-backtest-engine/ --legacy docs/site/legacy-route-anchors.json
       - name: Real built-site browser acceptance
-        run: SITE_DIR="$TASK_DATA/site-assembled" SITE_BASE=/quant-backtest-engine/ npm --prefix web run test:e2e
+        run: SITE_DIR="$TASK_DATA/site-assembled" SITE_BASE=/quant-backtest-engine/ npm --prefix apps/docs run test:e2e
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         if: github.event_name != 'pull_request'
         with:

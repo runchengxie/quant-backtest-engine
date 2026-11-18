@@ -2,8 +2,8 @@
 
 ## Request `engine_request.v1`
 
-See [the complete synthetic request](https://github.com/runchengxie/quant-backtest-engine/blob/main/fixtures/roundtrip.json) and the public
-[Rust contract](https://github.com/runchengxie/quant-backtest-engine/blob/main/src/contract.rs). All fields are required. Unknown fields fail.
+See [the complete synthetic request](https://github.com/runchengxie/quant-backtest-engine/blob/main/tests/fixtures/roundtrip.json) and the public
+[Rust contract](https://github.com/runchengxie/quant-backtest-engine/blob/main/packages/engine/src/contract.rs). All fields are required. Unknown fields fail.
 
 | Field | Meaning |
 | --- | --- |

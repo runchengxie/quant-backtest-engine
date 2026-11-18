@@ -9,7 +9,7 @@ pins transitive dependencies. Linux is the first validated target.
 # Set CARGO_TARGET_DIR to your external build directory if required by your workspace.
 cargo build --locked
 cargo run --locked -- capabilities
-cargo run --locked -- run fixtures/roundtrip.json
+cargo run --locked -- run tests/fixtures/roundtrip.json
 ```
 
 `run` reads one JSON request file and writes one result JSON document to stdout.
@@ -27,7 +27,7 @@ with total commission of 0.22. These values are asserted against real upstream e
 use quant_backtest_engine::{Request, run};
 # fn main() -> anyhow::Result<()> {
 let request: Request = serde_json::from_str(
-    &std::fs::read_to_string("fixtures/roundtrip.json")?
+    &std::fs::read_to_string("tests/fixtures/roundtrip.json")?
 )?;
 let result = run(&request)?;
 println!("{}", result.equity);

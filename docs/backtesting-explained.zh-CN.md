@@ -141,12 +141,12 @@ large 预设同时改变数量（100 股变为 200 股）和间隔（60 秒变�
 正常的 Rust、独立 Python 客户端和文档构建都不依赖 Platform 或 Runtime。重新导出时，在独立环境中安装 `docs/assets/method/owner-lock.json` 登记的 Core、SDK、Platform 普通 wheel 和数值依赖，并提供字节哈希绑定的 Rust 可执行文件。导出器逐文件核对安装内容与 wheel，拒绝可编辑安装和源码树导入。Runtime 仅保留固定历史公开链接，不需要检出。环境、构建和输出目录放在源码仓库外。
 
 ```bash
-python project_tools/export_method_fixtures.py \
+python scripts/build/reproduce_method_fixtures.py \
   --engine "$ENGINE_BINARY" --output "$OUTPUT_DIR/fixtures.json"
 python -m unittest discover -s project_tools -p 'test_method_*.py'
-node --test project_tools/test_method_replay.cjs
+node --test scripts/build/test_method_replay.cjs
 ```
 
 设置 `METHOD_OWNER_PARITY=1`、`METHOD_PYTHON` 和 `QUANT_ENGINE_BINARY`，即可调用原实现重新导出，并与仓库样例逐字节比较。[开发与验证](development.zh-CN.md)说明锁定的文档构建和已有 Rust、客户端检查。[能力与兼容性](capabilities.zh-CN.md)列出 Engine 的准确支持范围。
 
-挂载控件测试使用单独的工具目录。把 `project_tools/method-tests/package.json` 及其锁文件复制过去，运行 `npm ci --ignore-scripts`，再把 `NODE_PATH` 指向该目录的 `node_modules`，执行 `node --test project_tools/test_method_dom.cjs`。这类 DOM 单元测试检查行为，不等同于真实浏览器验收。手动触发的 **Method fixture owner parity** 工作流需要一个 HTTPS 归档，包含已登记的发布 wheel 和可执行文件。哈希检查拒绝未登记产物；正常构建只读取已提交的公开样例。
+挂载控件测试使用单独的工具目录。把 `scripts/build/method-tests/package.json` 及其锁文件复制过去，运行 `npm ci --ignore-scripts`，再把 `NODE_PATH` 指向该目录的 `node_modules`，执行 `node --test scripts/build/test_method_dom.cjs`。这类 DOM 单元测试检查行为，不等同于真实浏览器验收。手动触发的 **Method fixture owner parity** 工作流需要一个 HTTPS 归档，包含已登记的发布 wheel 和可执行文件。哈希检查拒绝未登记产物；正常构建只读取已提交的公开样例。

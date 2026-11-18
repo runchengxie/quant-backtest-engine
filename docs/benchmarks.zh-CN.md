@@ -9,7 +9,7 @@
 先准备已经核实来源的引擎程序，再在源码目录运行下面的命令。
 
 ```bash
-python project_tools/benchmark.py \
+python scripts/release/benchmark.py \
   --engine /absolute/path/to/quant-backtest-engine \
   --engine-revision FULL_SOURCE_COMMIT --build-profile debug \
   --output /absolute/external/path/benchmark.json \
@@ -64,7 +64,7 @@ Linux 上若有 GNU `/usr/bin/time`，报告会记录单个子进程的最大常
 
 开发示例 `profile_sessions` 在现有逐交易日执行路径中加入可选计时，不改变请求和
 结果协议。运行方法见[下文](#session-profiler)
-中的 `project_tools/profile_workload.py`。默认输入为 63 个合成工作日、100 个证券、
+中的 `scripts/release/profile_workload.py`。默认输入为 63 个合成工作日、100 个证券、
 每日 241 个分钟时间点，共 1,518,300 行报价。每个证券每天提交一笔订单，买卖按日
 交替。该合成负载覆盖多证券加载、撮合、上游核算和每日账本提取。真实行情、公司行为、
 日内组合决策和大量竞争订单需要分别测试。
@@ -83,7 +83,7 @@ Linux 上若有 GNU `/usr/bin/time`，报告会记录单个子进程的最大常
 
 ## 广泛证券池与稀疏执行
 
-`project_tools/sparse_workload.py` 区分登记证券池和预先固定的订单。每个会话仅对
+`scripts/release/sparse_workload.py` 区分登记证券池和预先固定的订单。每个会话仅对
 `--active` 个合成证券下单，同一组在下一会话卖出，再轮换下一组。这是每日二十笔
 订单的测试，不表示每日轮换二十只持仓只需二十笔订单。独立数量规划探针也不包含
 全市场选股、风险估计和组合优化。
@@ -137,7 +137,7 @@ Rust 1.99.1 和 release 构建。每个二进制针对每组确定性输入分�
 
 ```sh
 cargo build --locked --release --example profile_sessions
-python3 project_tools/profile_workload.py --engine /absolute/target/release/examples/profile_sessions \
+python3 scripts/release/profile_workload.py --engine /absolute/target/release/examples/profile_sessions \
   --output-dir /absolute/data/unique-workload-run --revision "$(git rev-parse HEAD)" \
   --build-profile release --sessions 63 --symbols 100 --quote-times 241
 ```

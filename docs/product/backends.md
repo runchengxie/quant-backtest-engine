@@ -22,7 +22,7 @@ and `quote_liquidity`. Installing extras does not extend Rust capabilities.
 
 ## Run synthetic sessions
 
-Copy `fixtures/product/rust-session.json` and `synthetic-calendar.json` together
+Copy `tests/fixtures/product/rust-session.json` and `synthetic-calendar.json` together
 from the same source revision. The calendar profile is the exact object
 `{"schema":"synthetic-calendar.v1","timezone":"Asia/Shanghai","sessions":[...]}`
 with the ordered session dates in the manifest. It declares supplied sessions;
@@ -36,7 +36,7 @@ it does not generate exchange calendars or certify trading days.
 
 `$ENGINE` is an absolute path to the separately verified Rust executable;
 `$ENGINE_SHA256` is its lowercase SHA256. These are trusted host arguments, never
-manifest fields. The same arguments work through `examples/product/rust_session.py`.
+manifest fields. The same arguments work through `packages/core/examples/product/rust_session.py`.
 This 100-share CNY session fixture yields final cash and NAV `10197.8`, fees `2.2`.
 The separate native quote-v1 fixture remains `10000 -> 10019.78`, fees `0.22`.
 

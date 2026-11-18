@@ -96,7 +96,7 @@
 安装已构建的 SDK 与 Core wheel，显式选择 `planning` extra，固定 NumPy 2.2.6、pandas 3.0.6 和 SciPy 1.18.1。从源码树外使用已安装的解释器执行：
 
 ```bash
-python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/core/tests/test_sleeve_allocation.py" -q -p no:cacheprovider
+python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/packages/core/tests/test_sleeve_allocation.py" -q -p no:cacheprovider
 ```
 
 改编自 [Apache-2.0 固定原文](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/backtest/sleeve-allocation.zh-CN.md)。当前实现位于尚未发布的 provider B 分支；Core 当前源码为 0.2.0，整体审查和合并仍待完成，消费者切换另行进行。

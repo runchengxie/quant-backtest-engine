@@ -148,10 +148,10 @@ incorporated it. Earlier task resources require their own recorded closeout.
 ## Validate this record
 
 ```sh
-python -m unittest project_tools.test_reusable_ownership -v
-python project_tools/check_reusable_ownership.py
+python -m unittest scripts.verify.test_reusable_ownership -v
+python scripts/verify/check_reusable_ownership.py
 mkdocs build --strict --site-dir "$TASK_DATA/site"
-python project_tools/check_docs.py --site-dir "$TASK_DATA/site"
+python scripts/verify/check_docs.py --site-dir "$TASK_DATA/site"
 git diff --check
 ```
 

@@ -25,8 +25,8 @@ research, model training, task scheduling, job databases, or production datasets
 - Use task branches and isolated worktrees; deliver via PRs to this repository's main.
 - Validate with cargo fmt --all --check, cargo clippy --locked --all-targets -- -D warnings,
   cargo test --locked, the documented synthetic CLI example, and git diff --check.
-- Validate ownership with python -m unittest project_tools.test_reusable_ownership -v
-  and python project_tools/check_reusable_ownership.py; build strict docs with the
-  locked docs environment and run project_tools/check_docs.py on the external site.
+- Validate ownership with python -m unittest scripts.verify.test_reusable_ownership -v
+  and python scripts/verify/check_reusable_ownership.py; build strict docs with the
+  locked docs environment and run scripts/verify/check_docs.py on the external site.
 - Default documentation is English; provide linked Chinese counterparts.
 - Preserve upstream license notices and record the pinned upstream version.

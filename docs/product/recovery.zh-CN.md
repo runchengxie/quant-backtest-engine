@@ -9,8 +9,8 @@ Rust 是单独的后端，不因此获得恢复能力。
 
 ## 打开、观察、恢复和完成
 
-将同一提交中的合成文件 `fixtures/product/minute-session.json` 与
-`fixtures/product/minute-calendar.json` 复制到输入目录。恢复时保持 manifest 不变，使用新的输出目录。
+将同一提交中的合成文件 `tests/fixtures/product/minute-session.json` 与
+`tests/fixtures/product/minute-calendar.json` 复制到输入目录。恢复时保持 manifest 不变，使用新的输出目录。
 
 ```python
 from pathlib import Path
@@ -69,7 +69,7 @@ manifest 的可获知时钟；该时钟未知时使用首个事件时钟。`fini
 `owner_schema`、完整 `owner_state` 及其 SHA256，另有外层完整性摘要。
 其中没有任务、租约、SQLite 或调度器身份。恢复预期值均来自调用者 manifest，不能由检查点
 提供预期输入带或源码身份。绑定覆盖完整序列化输入、带、配置、延迟、冲击模型、日历、provider、
-所有已安装 core/SDK Python 辅助模块、Python 版本、实际依赖文件（含 NumPy/pandas 二进制），
+所有已安装 packages/core/SDK Python 辅助模块、Python 版本、实际依赖文件（含 NumPy/pandas 二进制），
 以及本地策略源码和初始状态。每次恢复重新校验输入文件，版本号不能替代来源身份。
 未经单独记录的 Git revision 为 null；来源和 wheel 收据确定发布身份，不使用自引用摘要。
 
@@ -95,11 +95,11 @@ null。费用留在成交和日度证据中，不重复扣现金；已经进入�
 合成例包含两次分批买入、一次 5 元父订单最低佣金、200 元分红、200 股新增股票和 50 元净入金。
 
 ```sh
-"$ENV/bin/python" -I -B project_tools/verify_installed_product.py --mode minute \
+"$ENV/bin/python" -I -B tests/acceptance/verify_installed_product.py --mode minute \
   --manifest "$INPUTS/minute-session.json" --artifact-root "$INPUTS" \
   --output-root "$OUTPUTS"
-"$ENV/bin/python" -I -B -m pytest core/tests/test_product_sessions.py \
-  core/tests/test_product_checkpoint.py -q -p no:cacheprovider
+"$ENV/bin/python" -I -B -m pytest packages/core/tests/test_product_sessions.py \
+  packages/core/tests/test_product_checkpoint.py -q -p no:cacheprovider
 ```
 
 验收使用独立安装的 wheel，检查命名空间隔离及禁用依赖，对每个成功事件边界恢复并比较完整

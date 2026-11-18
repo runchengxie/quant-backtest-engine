@@ -5,7 +5,7 @@
 无需数据源、模型库、平台服务或 runtime 数据库。
 
 ```sh
-python3 project_tools/tutorial.py \
+python3 scripts/release/tutorial.py \
   --engine /absolute/path/to/quant-backtest-engine \
   --output /absolute/external/path/new-tutorial-run
 ```

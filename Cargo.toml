@@ -1,25 +1,8 @@
-[package]
-name = "quant-backtest-engine"
-version = "0.2.0"
-edition = "2024"
-rust-version = "1.99.0"
-license = "LGPL-3.0-only"
-description = "Independent backtest library and CLI with a thin NautilusTrader adapter"
-repository = "https://github.com/runchengxie/quant-backtest-engine"
-
-[dependencies]
-anyhow = "1"
-sha2 = "0.11"
-jiff = "0.2"
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
-rust_decimal = { version = "1", features = ["serde-with-str"] }
-nautilus-backtest = "=0.66.0"
-nautilus-model = "=0.66.0"
-nautilus-trading = "=0.66.0"
-nautilus-common = "=0.66.0"
-nautilus-execution = "=0.66.0"
-nautilus-core = "=0.66.0"
+[workspace]
+members = ["packages/engine"]
+default-members = ["packages/engine"]
+exclude = ["packages/microstructure-native"]
+resolver = "3"
 
 [profile.dev]
 debug = 0

@@ -23,7 +23,7 @@
 
 ```sh
 export CARGO_TARGET_DIR=/path/to/your/data/engine-build
-cargo run --locked -- depth fixtures/depth.json
+cargo run --locked -- depth tests/fixtures/depth.json
 ```
 
 合成账户从 10,000 元开始，沿两个卖价档位买入五股。手续费合计 0.05 元，结果中的 `account.cash` 为 `"9949.65"`。查看 `account.fills`、订单状态和事件回执，可以逐笔核对成交。这个示例无需下载行情数据。
@@ -38,6 +38,10 @@ Python 安装与源码包使用方法见[安装说明](docs/product/installation
 - 参与开发，见[开发说明](docs/development.zh-CN.md)，其中收录架构、测试和语言分工。
 
 [quant-platform](https://github.com/runchengxie/quant-platform)承接策略研究，[quant-backtest-runtime](https://github.com/runchengxie/quant-backtest-runtime)管理持久任务。它们通过明确的接口调用本模块。
+
+## 源码目录
+
+`apps/` 收录网站，`packages/` 收录独立构建的库，`tests/` 保存共用验收输入，`scripts/` 放维护工具。每个包都有自己的 `src/`。构建命令和历史复现方式见[开发说明](docs/development.zh-CN.md#workspace-layout)。
 
 ## 许可证
 

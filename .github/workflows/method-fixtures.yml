@@ -20,7 +20,7 @@ jobs:
         run: |
           case "$OWNER_ARCHIVE_URL" in https://*) ;; *) exit 2 ;; esac
           curl --fail --location --proto '=https' --proto-redir '=https' "$OWNER_ARCHIVE_URL" --output "$RUNNER_TEMP/owners.zip"
-          python3 project_tools/unpack_method_owners.py --archive "$RUNNER_TEMP/owners.zip" --output "$RUNNER_TEMP/owners"
+          python3 scripts/build/unpack_method_owners.py --archive "$RUNNER_TEMP/owners.zip" --output "$RUNNER_TEMP/owners"
           uv venv --python 3.13 "$RUNNER_TEMP/method-owner-env"
           uv pip install --python "$RUNNER_TEMP/method-owner-env/bin/python" --no-deps "$RUNNER_TEMP"/owners/*.whl numpy==2.2.6 pandas==3.0.6 scipy==1.18.1 python-dateutil==2.9.0.post0 six==1.17.0 tzdata==2026.2
       - name: Reexport actual installed owners and compare all fixture bytes
@@ -28,4 +28,4 @@ jobs:
           METHOD_OWNER_PARITY: '1'
           METHOD_PYTHON: ${{ runner.temp }}/method-owner-env/bin/python
           QUANT_ENGINE_BINARY: ${{ runner.temp }}/owners/quant-backtest-engine
-        run: python3 -m unittest discover -s project_tools -p test_method_fixtures.py
+        run: python3 -m unittest discover -s scripts/build -p test_method_fixtures.py

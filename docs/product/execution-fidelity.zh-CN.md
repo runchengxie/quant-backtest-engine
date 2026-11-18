@@ -26,13 +26,13 @@ Nautilus 的 L1 会话与新增原生 L2 接口分别声明输入和验收范围
 调用方负责组合优化和路径生成。当前产品范围为单证券原始股数，企业行动、T+1 和策略模型输入由接口明确拒绝。
 
 ```sh
-cargo run --locked -- depth-validate fixtures/depth.json
-cargo run --locked -- depth fixtures/depth.json
+cargo run --locked -- depth-validate tests/fixtures/depth.json
+cargo run --locked -- depth tests/fixtures/depth.json
 ```
 
 合成示例以 10 元买入 2 股，以 10.1 元买入 3 股。结束现金为 9949.65 元，手续费为 0.05 元。
 SDK 的 `EngineClient` 通过二进制内容哈希固定执行器，提供 `validate_depth` 和 `run_depth`。
-产品示例在 `fixtures/product/rust-depth.json`，配套日历为 `depth-calendar.json`。
+产品示例在 `tests/fixtures/product/rust-depth.json`，配套日历为 `depth-calendar.json`。
 
 原始结果保留原生回执、模拟成交标识、成交观察顺序、决策时账户状态和输入摘要。
 统一产品表提供成交、持仓和报告，其余表明确标为不可用。
@@ -90,20 +90,20 @@ SDK 的 `EngineClient` 通过二进制内容哈希固定执行器，提供 `vali
 此诊断使用调用方给定的延迟，账户记账仍由原财务所有者负责。上文的独立原生深度接口提供事件级目标持仓反馈。
 真实延迟分布拟合仍需单独验收。请同时保留实现版本与输入摘要。
 
-网页订单簿演示由 `project_tools/export_event_demo.py` 调用该接口生成，构建时重算并核对来源哈希。
+网页订单簿演示由 `scripts/build/export_event_demo.py` 调用该接口生成，构建时重算并核对来源哈希。
 四个案例分别展示及时到达、晚到和两种撤单竞速结果，原有教学证据与协议保持原样。
 
 ## 排队与时间顺序验收
 
-`core/tests/test_execution_fidelity.py` 用手算情景核对给定到达顺序。
+`packages/core/tests/test_execution_fidelity.py` 用手算情景核对给定到达顺序。
 订单晚于成交到达，会错过这次排队机会。撤单到达前发生的成交仍然有效。
 逐档撮合同时核对每笔价格和数量。
 这些测试验证撮合基础行为，尚未实现网络延迟模型，也不能从聚合 L2 数据确认真实排队位置。
 
 ```sh
-PYTHONPATH=core/src:python/src python -m pytest \
-  core/tests/test_depth_audit.py core/tests/test_execution_fidelity.py \
-  core/tests/test_microstructure_matching.py -q -p no:cacheprovider
+PYTHONPATH=packages/core/src:packages/python-sdk/src python -m pytest \
+  packages/core/tests/test_depth_audit.py packages/core/tests/test_execution_fidelity.py \
+  packages/core/tests/test_microstructure_matching.py -q -p no:cacheprovider
 ```
 
 使用隔离的 Python 3.12 或 3.13 测试环境。生产验收还要核对正常安装的 wheel，步骤见[交付验收](acceptance.zh-CN.md)。
@@ -124,11 +124,11 @@ PYTHONPATH=core/src:python/src python -m pytest \
 
 ## 复现独立队列对照
 
-`examples/diagnostics/compare_queue.py` 使用隔离环境中的 `hftbacktest==2.4.4` 与 Python 3.13。
+`packages/core/examples/diagnostics/compare_queue.py` 使用隔离环境中的 `hftbacktest==2.4.4` 与 Python 3.13。
 通过 `PYTHONPATH` 加载本版本的订单簿模块。对照版本不符会报错，生产包不会导入对照依赖。
 
 ```sh
-PYTHONPATH=core/src:python/src python examples/diagnostics/compare_queue.py
+PYTHONPATH=packages/core/src:packages/python-sdk/src python packages/core/examples/diagnostics/compare_queue.py
 ```
 
 手算情景中，前面排着 5 股，自己挂 3 股，对手单数量为 7 股。

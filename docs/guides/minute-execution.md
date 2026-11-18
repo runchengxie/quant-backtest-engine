@@ -49,7 +49,7 @@ Complete snapshots supersede earlier pending orders, so the public target API
 normally has at most one pending parent per symbol. Fee sensitivity should be
 checked with fixed targets and sufficient cash headroom when isolating cost;
 with binding cash, fees can also change lot-rounded fills. Synthetic regression
-examples are in `core/tests/test_minute_execution_hardening.py`.
+examples are in `packages/core/tests/test_minute_execution_hardening.py`.
 
 ## Temporary nontrading mark provenance
 
@@ -75,7 +75,7 @@ or model-training dependency is imported. The product runner registers `python.m
 Run the repository’s synthetic CNY example against installed wheels:
 
 ```bash
-python -I -B examples/product/minute_session.py
+python -I -B packages/core/examples/product/minute_session.py
 ```
 
 It exercises actions, locks, delayed reports and external capital, checking complete

@@ -121,7 +121,7 @@ parity with that research dictionary.
 
 ## Product wire and example
 
-The complete synthetic request is fixtures/product/daily.json with daily-calendar.json. Inputs are exactly positions and pricing; an explicit corporate_actions tape is required. Settings contain mode, config, layout, decision_clocks, decision_timing and fee_model; unknown fields fail. Decimal config values, weights, prices, liquidity and fee rates are decimal strings; clocks are exact UTC-nanosecond strings.
+The complete synthetic request is tests/fixtures/product/daily.json with daily-calendar.json. Inputs are exactly positions and pricing; an explicit corporate_actions tape is required. Settings contain mode, config, layout, decision_clocks, decision_timing and fee_model; unknown fields fail. Decimal config values, weights, prices, liquidity and fee rates are decimal strings; clocks are exact UTC-nanosecond strings.
 
 Python layout.liquidity_units remains a mapping; the wire uses [{"column":"amount","unit":"CNY"}] to separate dynamic column names from monetary keys. Duplicate columns, unknown record fields and unrepresentable units fail. fee_model accepts only null, fixed detailed or dated structures, never module paths. portfolio_value equals initial cash. The product is restricted to CNY, Asia/Shanghai and explicit raw/adjusted share units.
 
@@ -133,8 +133,8 @@ Run the committed synthetic fixture using the matching ordinary wheels:
 
 ```sh
 quant-backtest capabilities python.daily
-quant-backtest run-manifest fixtures/product/daily.json \
-  --artifact-root fixtures/product --output-root "$DAILY_OUTPUT"
+quant-backtest run-manifest tests/fixtures/product/daily.json \
+  --artifact-root tests/fixtures/product --output-root "$DAILY_OUTPUT"
 ```
 
 The neutral adapter preserves explicit liquidity selectors and their unit declarations; it disables the legacy parser's automatic `amount` addition. A custom `turnover_cny` column needs only its own CNY unit, with no `amount` column. Direct legacy parser defaults remain unchanged.

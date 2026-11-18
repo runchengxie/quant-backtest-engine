@@ -8,7 +8,7 @@ require whole-provider review and integration before consumer cutover; the versi
 alone is not a merged release identity.
 
 ```sh
-python -I -B examples/product/scenarios.py --output-root "$DATA_ROOT/scenario-example"
+python -I -B packages/core/examples/product/scenarios.py --output-root "$DATA_ROOT/scenario-example"
 ```
 
 The output directory must be new. The executable example runs A, an unsupported

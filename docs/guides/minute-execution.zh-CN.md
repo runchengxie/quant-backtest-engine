@@ -40,7 +40,7 @@ OHLC 无法确定高低价出现顺序，不能据此推断止损与限价触发
 每次成交都会扣减该标的该 bar 的参与容量。完整快照会取消旧待执行订单，因此公开目标
 接口通常每个标的只有一个待执行母单。检验纯费用敏感性时应固定目标、保留现金余量。
 现金约束生效时，费用也会改变整手成交数量。合成回归例见
-`core/tests/test_minute_execution_hardening.py`。
+`packages/core/tests/test_minute_execution_hardening.py`。
 
 ## 临时不可交易估值的来源时间
 
@@ -61,7 +61,7 @@ Platform 当前仍保留原提供方；其类型、`LinearImpact` 与兼容别�
 从已安装 wheel 运行仓库中的合成 CNY 示例：
 
 ```bash
-python -I -B examples/product/minute_session.py
+python -I -B packages/core/examples/product/minute_session.py
 ```
 
 示例包含公司行动、数量锁、报告延迟与外部资金，验证检查点恢复后的完整财务表。

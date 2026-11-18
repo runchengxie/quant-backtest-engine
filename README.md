@@ -23,7 +23,7 @@ From a Linux source checkout with Rust 1.99 or newer, choose a directory outside
 
 ```sh
 export CARGO_TARGET_DIR=/path/to/your/data/engine-build
-cargo run --locked -- depth fixtures/depth.json
+cargo run --locked -- depth tests/fixtures/depth.json
 ```
 
 The synthetic account starts with CNY 10,000 and buys five shares across two ask levels. After CNY 0.05 in fees, `account.cash` is `"9949.65"`. Inspect `account.fills`, order statuses and event receipts to follow the result. The example requires no downloaded market data.
@@ -38,6 +38,10 @@ For Python installation and verified source-built packages, follow [installation
 - [Development](docs/development.md) for architecture, tests and language boundaries.
 
 [quant-platform](https://github.com/runchengxie/quant-platform) supplies research workflows. [quant-backtest-runtime](https://github.com/runchengxie/quant-backtest-runtime) manages durable jobs. Both can use this module through explicit interfaces.
+
+## Source layout
+
+`apps/` contains the website, `packages/` the independently built libraries, `tests/` shared acceptance inputs, and `scripts/` maintenance tools. Each package owns its `src/`. See [development](docs/development.md#workspace-layout) for commands and historical reproduction.
 
 ## License
 

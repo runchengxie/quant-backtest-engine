@@ -115,14 +115,14 @@ The original dated-fee and daily-owner variants of `test_both_plans_use_public_o
 Install the built SDK and Core wheels with the explicit `planning` extra and the extraction pins NumPy 2.2.6, pandas 3.0.6 and SciPy 1.18.1. From outside the source tree, run the installed interpreter:
 
 ```bash
-python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/core/tests/test_discrete_inventory.py" -q -p no:cacheprovider
+python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/packages/core/tests/test_discrete_inventory.py" -q -p no:cacheprovider
 ```
 
 Adapted from [pinned Apache-2.0 source](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/concepts/discrete-inventory.md). Implemented on the unreleased provider B branch; Core source is 0.2.0; whole-provider review and integration remain pending. Consumer cutover is separate.
 
 ## Opt-in native buy-only lot oracle {#native-lot-oracle}
 
-`cargo run --locked -- plan-lots fixtures/lot-planning.json` runs the finite
+`cargo run --locked -- plan-lots tests/fixtures/lot-planning.json` runs the finite
 buy-only comparison in Rust. Python callers use the content-pinned
 `EngineClient.plan_lots(request)`. `engine_lot_request.v1` declares prices,
 target quantities, maximum lot counts, lot sizes, budget, per-order minimum

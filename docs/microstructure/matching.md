@@ -56,7 +56,7 @@ This is not evidence of a total exchange order across channels or a complete fee
 
 ## Local checks {#local-checks}
 
-Run `uv run --project core --locked pytest core/tests/test_microstructure*.py -q`.
+Run `uv run --project core --locked pytest packages/core/tests/test_microstructure*.py -q`.
 Native cases skip only when the optional wheel is absent; set `TICKNET_REQUIRE_RUST=1`
 for the required native profile. See [native builds](../development/microstructure-rust.md)
 and [replay](replay.md). Tests use synthetic fixtures only.

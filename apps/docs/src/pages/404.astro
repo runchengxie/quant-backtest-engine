@@ -1,0 +1,8 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import legacy from '../../../../docs/site/legacy-route-anchors.json';
+import {base} from '../lib/routes';
+import {referenceUI} from '../lib/reference-ui';
+const en=referenceUI('en'),zh=referenceUI('zh-CN');
+---
+<SiteLayout locale="en" title="Page not found" counterpart={base+'index.zh-CN/'}><h1>{en.notFound} / {zh.notFound}</h1><p><a href={base+'reference/'}>{en.browse}</a> · <a href={base+'reference/zh-CN/'}>{zh.browse}</a></p><div class="reference-legacy-anchors">{legacy.html['404.html'].ids.map(id=><span id={id} class="reference-anchor"/>)}</div></SiteLayout>

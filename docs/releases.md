@@ -32,7 +32,7 @@ for published prereleases. Download all three assets from the same release.
 
 Extract the binary archive and run `./quant-backtest-engine capabilities` inside
 its directory. Pass a request JSON to `./quant-backtest-engine run REQUEST.json`.
-The source archive includes `fixtures/roundtrip.json` for a synthetic trial.
+The source archive includes `tests/fixtures/roundtrip.json` for a synthetic trial.
 Build metadata records the exact Git revision, lockfile hash, compiler, Cargo,
 platform and glibc. Linux binaries still depend on the system C runtime.
 
@@ -65,7 +65,7 @@ license notices when redistributing. See [third-party notices](third-party-notic
 Commit changes first, then run from a clean Linux x86_64 checkout with Python 3.11+.
 
 ```bash
-python3 project_tools/package_release.py --output /absolute/external/release-output
+python3 scripts/release/package_release.py --output /absolute/external/release-output
 ```
 
 Use the project's configured data directory for retained outputs. The script

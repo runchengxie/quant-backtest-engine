@@ -6,5 +6,10 @@
 __pycache__/
 
 # Task-local links to external frontend tooling/cache
-web/node_modules
-web/.astro
+apps/docs/node_modules
+apps/docs/.astro
+
+# Local tool state; configured task builds keep these outside source.
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/

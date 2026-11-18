@@ -141,12 +141,12 @@ Fixture configuration bindings include typed, fully resolved public-owner call d
 Normal Rust, standalone Python client and documentation builds do not require Platform or Runtime. To regenerate the optional fixtures, install the exact ordinary Core, SDK and Platform wheels plus the recorded numerical dependencies from `docs/assets/method/owner-lock.json` in a separate environment. Supply the byte-bound Rust executable. The exporter checks installed payloads against registered wheel archives and rejects editable/source-tree imports. Runtime is a fixed historical public reference, not a required checkout. Keep environment, build and output paths outside source repositories.
 
 ```bash
-python project_tools/export_method_fixtures.py \
+python scripts/build/reproduce_method_fixtures.py \
   --engine "$ENGINE_BINARY" --output "$OUTPUT_DIR/fixtures.json"
 python -m unittest discover -s project_tools -p 'test_method_*.py'
-node --test project_tools/test_method_replay.cjs
+node --test scripts/build/test_method_replay.cjs
 ```
 
 Set `METHOD_OWNER_PARITY=1`, `METHOD_PYTHON` and `QUANT_ENGINE_BINARY` to rerun the optional owner-export parity test against the checked-in fixture. The [development guide](development.md) covers the locked docs build and existing Rust/client checks. Continue to [capabilities](capabilities.md) for the exact supported Engine contract.
 
-For the optional mounted-control tests, copy `project_tools/method-tests/package.json` and its lockfile to a separate tooling directory, run `npm ci --ignore-scripts` there, and set `NODE_PATH` to that directory's `node_modules` when running `node --test project_tools/test_method_dom.cjs`. These DOM tests verify behavior without claiming real-browser acceptance. The manually dispatched **Method fixture owner parity** workflow requires an HTTPS archive of the registered release wheels and executable. Its hash checks reject unregistered artifacts; normal builds need only the committed public fixtures.
+For the optional mounted-control tests, copy `scripts/build/method-tests/package.json` and its lockfile to a separate tooling directory, run `npm ci --ignore-scripts` there, and set `NODE_PATH` to that directory's `node_modules` when running `node --test scripts/build/test_method_dom.cjs`. These DOM tests verify behavior without claiming real-browser acceptance. The manually dispatched **Method fixture owner parity** workflow requires an HTTPS archive of the registered release wheels and executable. Its hash checks reject unregistered artifacts; normal builds need only the committed public fixtures.

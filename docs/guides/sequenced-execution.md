@@ -12,6 +12,6 @@ Every entry needs supplied pricing/session coverage. Duplicate decision/symbol k
     result = run_daily(request)
     ledger = result.to_unified_ledger()
 
-The complete synthetic wire example is `fixtures/product/daily.json`; see [daily inputs](../product/daily-inputs.md). Select `python.daily` explicitly. There is no daily checkpoint/restore API or runtime database.
+The complete synthetic wire example is `tests/fixtures/product/daily.json`; see [daily inputs](../product/daily-inputs.md). Select `python.daily` explicitly. There is no daily checkpoint/restore API or runtime database.
 
 The old Platform `SequencedExecutionRequest` / `research.clock.v1` adapter and research bundle writer remain consumer concerns; serialized identifiers stay unchanged. A single-clock research bundle must still reject a multi-decision run. Supplied clocks and calendars do not authenticate historical input visibility.

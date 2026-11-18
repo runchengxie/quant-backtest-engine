@@ -26,7 +26,7 @@ pandas, NumPy, SciPy, Torch or model-training packages.
 ## Build and verify
 
 Use external directories for environments, wheels, caches and generated results.
-`core/uv.lock` fixes tested development and optional dependency resolutions.
+`packages/core/uv.lock` fixes tested development and optional dependency resolutions.
 The numerical baseline is constrained to NumPy 2.2.6, pandas 3.0.6 and SciPy 1.18.1
 for later extraction parity; public extra ranges remain as declared below.
 Its `../python` source is a monorepo development convenience, not a release pin.
@@ -36,14 +36,14 @@ acceptance uses wheel paths, `python -I` and no editable install or `PYTHONPATH`
 Consumers must pin the exact merged revision or verified wheel hashes before cutover.
 
 ```sh
-"$ENV/bin/python" -I -B project_tools/verify_installed_product.py --mode base
+"$ENV/bin/python" -I -B tests/acceptance/verify_installed_product.py --mode base
 for suite in packaging runner rust_adapter; do
-  "$ENV/bin/python" -I -B -m unittest discover -s core/tests -p "test_$suite.py" -v
+  "$ENV/bin/python" -I -B -m unittest discover -s packages/core/tests -p "test_$suite.py" -v
 done
 ```
 
-Development checks use the locked dev group: `ruff check core`, `ruff format
---check core`, and `mypy --config-file core/pyproject.toml core/src`. Set external
+Development checks use the locked dev group: `ruff check packages/core`, `ruff format
+--check core`, and `mypy --config-file packages/core/pyproject.toml packages/core/src`. Set external
 `UV_PROJECT_ENVIRONMENT`, `UV_CACHE_DIR`, `RUFF_CACHE_DIR`, `MYPY_CACHE_DIR`,
 `PYTHONPYCACHEPREFIX`, `TMPDIR` and `CARGO_TARGET_DIR` before local validation.
 
@@ -68,7 +68,7 @@ See [backend limits](backends.md) before choosing a manifest.
 
 For installed leaf acceptance, install the core wheel with `[minute,cost,scenario]`
 and pytest, resolving numerical packages from the locked baseline. Run
-`python -I -B -m pytest core/tests -q -p no:cacheprovider` with
+`python -I -B -m pytest packages/core/tests -q -p no:cacheprovider` with
 `QUANT_ENGINE_BINARY` pointing to the content-verified Rust binary for adapter
 regressions. Tests import installed wheels, never source-tree `PYTHONPATH`.
 Extracted legacy signatures remain unchanged: mypy still checks their bodies,
@@ -76,8 +76,8 @@ with narrowly scoped allowances for absent pandas/SciPy stubs and six
 dictionary-inference diagnostics (three transaction-audit locals and three minute-kernel locals). New typed quote/protocol code is checked.
 
 For minimal minute acceptance, install `[minute]` alone plus pytest and run
-`python -I -B -m pytest core/tests/test_minute*.py core/tests/test_quantity_locks.py -q`
-and `python -I -B examples/product/minute_session.py`. This install needs pandas
+`python -I -B -m pytest packages/core/tests/test_minute*.py packages/core/tests/test_quantity_locks.py -q`
+and `python -I -B packages/core/examples/product/minute_session.py`. This install needs pandas
 and its NumPy dependency, but no SciPy, Platform, Runtime or ML framework.
 
 Deterministic LOB matching/replay was implemented by provider B. [LOB Python / optional PyO3 modes](../development/microstructure-rust.md).
@@ -110,8 +110,8 @@ See [impact planning](../concepts/impact-planning.md),
 [sleeve allocation](../backtest/sleeve-allocation.md).
 
 The `[scenario]` extra also supports [independent typed-target composition](scenarios.md).
-Validate every extra separately with `project_tools/verify_installed_scenarios.py --profile EXTRA`,
+Validate every extra separately with `tests/acceptance/verify_installed_scenarios.py --profile EXTRA`,
 using independently installed wheels, and validate the union with `--profile all`.
 The `daily` extra enables the independent daily graph and `python.daily`.
 
-Daily acceptance: `python -I -B project_tools/verify_installed_daily.py` and `python -I -B -m pytest core/tests/daily -q -p no:cacheprovider`. Minimal daily deliberately excludes PyArrow. Pandas may choose Python rather than PyArrow string storage; this changes storage dtype only, including label indexes. Oracle parity additionally uses original PyArrow 26.0.1 and checks every dtype and table exactly. Numeric values, NA semantics, ordering and financial summaries must match in both profiles.
+Daily acceptance: `python -I -B tests/acceptance/verify_installed_daily.py` and `python -I -B -m pytest packages/core/tests/daily -q -p no:cacheprovider`. Minimal daily deliberately excludes PyArrow. Pandas may choose Python rather than PyArrow string storage; this changes storage dtype only, including label indexes. Oracle parity additionally uses original PyArrow 26.0.1 and checks every dtype and table exactly. Numeric values, NA semantics, ordering and financial summaries must match in both profiles.

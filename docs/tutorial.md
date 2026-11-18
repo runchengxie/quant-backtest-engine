@@ -6,7 +6,7 @@ all requests/results. Python 3 and a prebuilt engine are sufficient. No data fee
 model package, platform service or runtime database is needed.
 
 ```sh
-python3 project_tools/tutorial.py \
+python3 scripts/release/tutorial.py \
   --engine /absolute/path/to/quant-backtest-engine \
   --output /absolute/external/path/new-tutorial-run
 ```
