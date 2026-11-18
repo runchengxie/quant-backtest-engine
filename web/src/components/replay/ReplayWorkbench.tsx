@@ -20,12 +20,14 @@ export default function ReplayWorkbench({
   manifestHash,
   payloadHash,
   locale,
+  presentation,
 }: {
   traces: LearningTrace[];
   catalog: Record<string, string>;
   manifestHash: string;
   payloadHash: string;
   locale: string;
+  presentation?: "feedback";
 }) {
   const valid =
     traces.length > 0 &&
@@ -170,6 +172,7 @@ export default function ReplayWorkbench({
       </p>
 
       <TeachingScenes
+        presentation={presentation}
         trace={trace}
         traces={traces}
         event={event}

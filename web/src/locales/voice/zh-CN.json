@@ -185,5 +185,6 @@
   "visual.paths": "用成交后的账户做下一次决策",
   "visual.risk": "查看恢复或退出后的账户",
   "visual.selection": "查看每次尝试",
-  "learning.seek": "选择一个步骤"
+  "learning.seek": "选择一个步骤",
+  "learning.title.feedback": "部分成交与后续组合决策"
 }

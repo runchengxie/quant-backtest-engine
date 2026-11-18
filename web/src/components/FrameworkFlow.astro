@@ -1,8 +1,9 @@
 ---
+import FrameworkAnimation from './FrameworkAnimation';
 import {editorial} from '../lib/editorial';
-const e=editorial(Astro.props.locale ?? 'en');
+const locale=Astro.props.locale ?? 'en';const e=editorial(locale);
 ---
 <section class="framework-flow" aria-labelledby="framework-heading">
 <h2 id="framework-heading">{e['framework.title']}</h2>
-<figure><ol class="framework-track">{['market','plan','execute','account'].map((id,index)=><li><span class="framework-node" aria-hidden="true">{index+1}</span><span>{e['framework.'+id]}</span></li>)}</ol><div class="framework-return"><span aria-hidden="true">↶</span> {e['framework.feedback']}</div><figcaption>{e['framework.note']}</figcaption></figure>
+<FrameworkAnimation client:load locale={locale}/><p class="event-note">{e['framework.note']}</p>
 </section>

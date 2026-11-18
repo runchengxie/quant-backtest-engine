@@ -66,40 +66,35 @@ def probe(entry_latency):
         h.close()
 
 
-def own_probe(arrival):
-    from quant_backtest_core.microstructure.matching import MatchingEngine
+def own_probe(entry_latency):
+    from quant_backtest_core.microstructure.latency_replay import Command, replay_commands
 
-    engine = MatchingEngine()
-    engine.apply_order("ahead", 1, 100, 5)
-    engine.apply_order("lower", 1, 99, 10)
-    filled = 0
-    for _, kind in sorted([(arrival, "own"), (200, "sell")]):
-        trade = (
-            engine.apply_order("own", 1, 100, 3)
-            if kind == "own"
-            else engine.apply_order("seller", -1, 99, 7)
-        )
-        if trade:
-            filled += sum(f.volume for f in trade.fills if f.buy_id == "own")
-    return filled
+    result = replay_commands([
+        Command("ahead", "order", 100, 0, 0, 0, "ahead", 1, 100, 5),
+        Command("lower", "order", 100, 0, 0, 1, "lower", 1, 99, 10),
+        Command("own", "order", 110, entry_latency, 0, 2, "own", 1, 100, 3),
+        Command("seller", "order", 200, 0, 0, 3, "seller", -1, 99, 7),
+    ])
+    filled = sum(f.volume for e in result.events for f in e.fills if f.buy_id == "own")
+    return filled, result.input_sha256
 
 
 def main():
     cases = []
     for latency, expected in ((1, 2), (150, 0)):
         external = probe(latency)
-        own = own_probe(110 + latency)
+        own, own_hash = own_probe(latency)
         if external["executed"] != expected or own != expected:
             raise AssertionError(
                 {"external": external, "own": own, "expected": expected}
             )
-        cases.append({**external, "own_executed": own, "hand_oracle": expected})
+        cases.append({**external, "own_executed": own, "own_input_sha256": own_hash, "hand_oracle": expected})
     print(
         json.dumps(
             {
                 "hftbacktest": version("hftbacktest"),
                 "scope": "one passive queue hand oracle; not historical market-state parity",
-                "clock": "synthetic nanoseconds for HftBacktest; supplied arrival ordering for own book",
+                "clock": "synthetic nanoseconds; explicit send plus entry latency in both probes",
                 "model": "risk_adverse_queue_model / partial_fill_exchange",
                 "calibrated": False,
                 "cases": cases,

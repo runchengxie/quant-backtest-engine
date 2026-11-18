@@ -1,13 +1,30 @@
 import type { Event, LearningTrace, Scalar } from "../../lib/trace-schema";
 import { teachingText, type TeachingKey } from "../../lib/teaching-catalog";
+import FeedbackDiagram from "./FeedbackDiagram";
+import { eventText } from "../StepPlayer";
 import SceneIllustration from "./SceneIllustration";
 import OpportunityExample from "./OpportunityExample";
 import "./teaching.css";
-type Props = {trace: LearningTrace; traces: LearningTrace[]; event: Event; locale: string; ready: boolean; select: (id: string) => void; selectPath: (presetId: string, eventId: string) => void; label: (key: string) => string};
+type Props = {
+  presentation?: "feedback";
+  trace: LearningTrace;
+  traces: LearningTrace[];
+  event: Event;
+  locale: string;
+  ready: boolean;
+  select: (id: string) => void;
+  selectPath: (presetId: string, eventId: string) => void;
+  label: (key: string) => string;
+};
 export default function TeachingScenes(props: Props) {
-  const {trace,event,locale}=props;
-  const t=(key: TeachingKey)=>teachingText(locale,key);
-  const value=(v: Scalar|undefined)=>v==null?t("unknown"):typeof v==="boolean"?t(v?"true":"false"):v;
+  const { trace, event, locale } = props;
+  const t = (key: TeachingKey) => teachingText(locale, key);
+  const value = (v: Scalar | undefined) =>
+    v == null
+      ? t("unknown")
+      : typeof v === "boolean"
+        ? t(v ? "true" : "false")
+        : v;
   const nodes: { key: TeachingKey; fields: string[] }[] = [
     { key: "flow.forecast", fields: [] },
     { key: "flow.target", fields: [] },
@@ -34,11 +51,28 @@ export default function TeachingScenes(props: Props) {
     },
     { key: "flow.replan", fields: ["next_target"] },
   ];
-  return <div className="teaching-scenes" data-teaching-scene={trace.scene_id} data-event={event.event_id}>
-    <section className="teaching-main">
-      <h3>{t((trace.scene_id === "flow" ? "flow.visual" : trace.scene_id + ".title") as TeachingKey)}</h3>
-      <SceneIllustration {...props}/>
-    </section>
+  return (
+    <div
+      className="teaching-scenes"
+      data-teaching-scene={trace.scene_id}
+      data-event={event.event_id}
+    >
+      <section className="teaching-main">
+        <h3>
+          {props.presentation === "feedback"
+            ? eventText(locale)("feedback.title")
+            : t(
+                (trace.scene_id === "flow"
+                  ? "flow.visual"
+                  : trace.scene_id + ".title") as TeachingKey,
+              )}
+        </h3>
+        {props.presentation === "feedback" ? (
+          <FeedbackDiagram {...props} />
+        ) : (
+          <SceneIllustration {...props} />
+        )}
+      </section>
       <details className="teaching-map">
         <summary>{t("map")}</summary>
         <h3>{t("flow.title")}</h3>
@@ -83,5 +117,6 @@ export default function TeachingScenes(props: Props) {
           <p>{t("cost.formula")}</p>
         </details>
       )}
-  </div>;
+    </div>
+  );
 }

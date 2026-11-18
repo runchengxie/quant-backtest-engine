@@ -83,8 +83,7 @@ with zero or infer complete economic equivalence from final NAV alone.
 
 ## Verify publication
 
-The existing Documentation workflow remains the sole publisher. It builds both
-renderers, checks routes/legacy anchors and runs the real built-site browser suite.
+The existing Documentation workflow remains the sole publisher. It builds one Astro artifact, checks routes/legacy anchors and runs the real built-site browser suite.
 After a successful main deployment, verify the expected full merged commit:
 
 ```sh
@@ -134,3 +133,20 @@ and historical-release retirement remain separate operator decisions.
 [Execution fidelity and production gates](execution-fidelity.md)
 
 The public verifier checks every receipt-listed public file. The empty root `.nojekyll` is a Pages control artifact and is recorded separately as `artifact_only_files`; its absence over HTTP does not skip any public resource. A nonempty marker, any other missing file or any changed hash fails verification.
+
+## Algorithm follow-up inventory, 2026-11-18
+
+| Work | Current implementation | Concrete next gate |
+| --- | --- | --- |
+| Account feedback and independent scenarios | Merged financial owners, isolated accounts and supplied-policy target updates | Preserve exact caller/provider wheel identities for each release |
+| FIFO and command timing | Standalone supplied-latency replay, partial cancels, exact fills and distinct response clocks | Register a versioned product adapter and test its authoritative account outputs |
+| Nautilus L2 execution | Native adapter remains L1; pinned upstream source exposes depth/latency facilities | Define a versioned depth input, normalize snapshot/delta order, then verify multi-level fills, cancel races and exact fees/NAV in Nautilus |
+| Historical queue and CNY 50 million capacity | Snapshot depth audit and fixed-fill diagnostics | Obtain original target/order intent, initial account state, fee terms and normalized executable market events; report uncomparable intervals explicitly |
+| Impact and slippage calibration | Supplied-coefficient sensitivity and execution-cost evidence APIs | Identify own orders/fills and contemporaneous market observations; validate identification and out-of-sample cohorts |
+| General nonconvex optimization | Finite exact oracles, bounded joint execution and a conservative convex cash-bound planner | Specify the objective, constraints and oracle for each new solver before extending its guarantees |
+
+The website groups six primary mechanisms with distinct demonstration destinations.
+Account reconciliation and selection/risk diagnostics remain auxiliary topics. The
+home animation describes conceptual data flow; executable backend capabilities are
+validated separately. The [execution fidelity guide](execution-fidelity.md) records
+the new command replay contract and its bounds.
