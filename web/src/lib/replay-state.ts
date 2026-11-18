@@ -10,7 +10,7 @@ export type ReplayState = {
 export type ReplayAction =
   | { type: "SELECT_PRESET"; presetId: string }
   | { type: "SELECT_EVENT"; eventId: string }
-  | { type: "NEXT" | "PREVIOUS" | "RESET" | "PLAY" | "PAUSE" }
+  | { type: "NEXT" | "PREVIOUS" | "RESET" | "PLAY" | "PAUSE" | "TICK" }
   | { type: "SET_SPEED"; speed: 0.5 | 1 | 2 }
   | { type: "SET_COMPARISON"; presetIds: string[] }
   | { type: "SET_REDUCED_MOTION"; value: boolean };
@@ -62,14 +62,18 @@ export function reduceReplay(
     case "RESET":
       return { ...state, eventOrdinal: 0, playing: false };
     case "PLAY":
-      return state.reducedMotion || state.eventOrdinal === last
+      return state.reducedMotion
         ? state
         : { ...state, playing: true };
+    case "TICK":
+      return !state.playing || state.reducedMotion
+        ? state
+        : { ...state, eventOrdinal: (state.eventOrdinal + 1) % trace.events.length };
     case "PAUSE":
       return { ...state, playing: false };
     case "SET_SPEED":
       return [0.5, 1, 2].includes(action.speed)
-        ? { ...state, speed: action.speed }
+        ? { ...state, speed: action.speed, playing: false }
         : state;
     case "SET_COMPARISON":
       return {

@@ -1,17 +1,17 @@
 <h2 id="product-question">Question</h2>
 
-Why can rounding a desired portfolio produce a bad trade?
+With cash of 14, which whole-share portfolios can you afford?
 
-<h2 id="product-try">What changes</h2>
+<h2 id="product-try">Try it</h2>
 
-Compare no-minimum with minimum. Step from Heuristic to Bounded optimum and inspect the full grid. Each cell is one whole-share pair; feasible cells satisfy the recorded owner checks. Switch to grid for the other fixed target.
+Compare No minimum fee with Minimum fee 1. Step from Heuristic to Bounded optimum and inspect the full grid. A costs 6 and B costs 4. Each square represents one integer share pair, colored by recorded feasibility. Full 16-point grid uses another fixed target.
 
-<h2 id="product-read">What to notice</h2>
+<h2 id="product-read">Read the result</h2>
 
-With no minimum fee, the bounded result can hold one share of A and two of B. With a minimum fee, the recorded result changes to one of each. The extra cash cost changes which integer choices fit the budget. A point halfway between two grid cells may require fractional shares and is not an allowed choice: this is the discrete, nonconvex lesson.
+Without a minimum fee, the bounded result holds one A and two B, using all cash. With a minimum fee, it holds one of each, pays fees of 2 and retains cash of 2. Buying more A leaves less cash for B. Minimum fees also change which portfolios fit the budget.
 
-This is a portfolio choice: buying more A leaves less cash for B, and minimum charges can make the first share especially expensive. Compare the selected square with its neighbors and inspect their recorded cash and feasibility. The gaps are rejected choices, not an interpolated continuous cost surface.
+Inspect the selected square and its neighbors for cash and feasibility. A midpoint between whole-share portfolios may require half a share, outside the allowed choices. This discrete restriction gives a nonconvex feasible set. There are no continuous trading choices between grid points. Read failed feasibility checks as rejected choices.
 
-<h2 id="product-unknown">What remains unknown</h2>
+<h2 id="product-unknown">Evidence limits</h2>
 
-The domain is only {0,1,2,3}², with cash 14 and prices (6,4). “Optimum” means best within these 16 choices. There is no recorded continuous descent or general global-optimality proof.
+The search covers only {0,1,2,3}², or 16 choices. Optimality applies within that domain. No continuous descent is recorded, and the case supplies neither general global-optimality proof nor an HJB solution.

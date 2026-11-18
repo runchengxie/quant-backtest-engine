@@ -1,4 +1,6 @@
 import { test, expect } from "@playwright/test";
+// Exact-record assertions use manual mode; automatic playback has dedicated coverage.
+test.use({ reducedMotion: "reduce" });
 for (const locale of ["", "zh-CN/"]) {
   test(`teaching book event selection keeps exact state ${locale}`, async ({
     page,
@@ -105,7 +107,7 @@ test("impact SVG titles survive server rendering and hydration", async ({ page }
   page.on("pageerror", error => errors.push(error.message));
   await page.goto("learn/impact/");
   await expect(page.locator("[data-ready=true]")).toBeVisible();
-  await expect(page.locator(".teaching-curves circle title").first()).toHaveText("Transient displacement: 0.2");
+  await expect(page.locator(".teaching-curves circle title").first()).toHaveText("Transient impact 0.2");
   expect(errors).toEqual([]);
 });
 

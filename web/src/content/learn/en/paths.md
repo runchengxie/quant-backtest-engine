@@ -1,17 +1,17 @@
 <h2 id="product-question">Question</h2>
 
-Can the same forecast produce different holdings and cash?
+How do execution conditions change accounts with the same starting point?
 
-<h2 id="product-try">What changes</h2>
+<h2 id="product-try">Try it</h2>
 
-Choose thin, enable deep in Independent account comparison, and step to Account result. Both panels move to the matched event but read separate accounts. Then compare market-up and feedback, checking the stated change each time.
+Choose Same market, 10% participation and enable Same market, 50% participation in Independent account comparison. Step to Account result and compare cash and shares. Then inspect External price rises and Retain actual holdings after feedback, checking the changed condition each time.
 
-<h2 id="product-read">What to notice</h2>
+<h2 id="product-read">Read the result</h2>
 
-Deep participates more aggressively and ends with more shares and less cash than thin. Market-up changes the later external price. Feedback retains actual shares under its declared policy. A blank next target is unknown or absent as recorded; it is not a zero-weight order.
+The 10% account ends with 200 shares and cash of 8000. The 50% account has 1000 shares and zero cash. The external-price case changes the later price to 10.5. The feedback case retains 100 shares and cash of 9000 under its declared rule.
 
-Read the lanes as a branching thought experiment, changing only the declared execution or policy assumptions. Drawing paths side by side does not give them probabilities. Each later decision must use its own fills, cash and outstanding orders. Mixing one path’s cash with another path’s holdings would describe no recorded account.
+Each decision needs its own path’s fills and account records. A blank next target remains unknown or absent. Missing aligned events stay missing, and each account reads its own balance.
 
-<h2 id="product-unknown">What remains unknown</h2>
+<h2 id="product-unknown">Evidence limits</h2>
 
-Four prepared accounts show sensitivity to execution and policy assumptions. They are not four independent real-market samples and cannot supply outcome probabilities. Missing aligned events stay missing; the comparison never carries another account’s balance forward.
+These four paths are deterministic scenarios with no assigned probabilities. They compare execution and policy assumptions. A distribution of real-market outcomes needs independent evidence.

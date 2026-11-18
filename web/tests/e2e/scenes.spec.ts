@@ -1,4 +1,6 @@
 import { test, expect } from "@playwright/test";
+// Exact-record assertions use manual mode; automatic playback has dedicated coverage.
+test.use({ reducedMotion: "reduce" });
 const presets = {
   flow: ["roundtrip"],
   book: ["depth"],
@@ -39,22 +41,7 @@ for (const locale of ["en", "zh-CN"])
           "data-current-event",
           `${scene}.${id}.0`,
         );
-        await page
-          .getByRole("button", {
-            name: locale === "en" ? "Step" : "单步",
-            exact: true,
-          })
-          .count()
-          .then(async (count) => {
-            if (count)
-              await page
-                .getByRole("button", {
-                  name: locale === "en" ? "Step" : "单步",
-                  exact: true,
-                })
-                .click();
-            else await page.locator(".learning-controls button").nth(1).click();
-          });
+        await page.locator("[data-action=next]").click();
         const event = await page
           .locator(".learning-workbench")
           .getAttribute("data-current-event");
@@ -66,7 +53,7 @@ for (const locale of ["en", "zh-CN"])
           "data-event",
           event!,
         );
-        await page.locator(".learning-controls button").nth(2).click();
+        await page.locator("[data-action=reset]").click();
         await expect(page.locator(".learning-workbench")).toHaveAttribute(
           "data-current-event",
           `${scene}.${id}.0`,
@@ -93,8 +80,8 @@ test("comparison uses independently recorded account", async ({ page }) => {
   await page
     .getByRole("checkbox", { name: "Same market · 50% participation" })
     .check();
-  await page.locator(".learning-controls button").nth(1).click();
-  await page.locator(".learning-controls button").nth(1).click();
+  await page.locator("[data-action=next]").click();
+  await page.locator("[data-action=next]").click();
   await expect(
     page.locator("[data-view=comparison] [data-preset=deep]"),
   ).toHaveAttribute("data-event", "paths.deep.2");

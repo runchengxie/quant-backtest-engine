@@ -69,7 +69,7 @@ test("blocked storage cannot break hydration or explicit deep links", async ({
   await page.goto("lab/zh-CN/book/#product-book");
   await expect(page.locator("[data-ready=true]")).toBeVisible();
   expect(new URL(page.url()).hash).toBe("#product-book");
-  await page.locator(".learning-controls button").nth(1).click();
+  await page.locator("[data-action=next]").click();
   await expect(page.locator(".learning-workbench")).toHaveAttribute(
     "data-current-event",
     "book.depth.1",
@@ -101,7 +101,9 @@ test("playback pauses on hidden tab, does not resume, and navigation cleans time
 }) => {
   await page.goto("lab/impact/");
   await expect(page.locator("[data-ready=true]")).toBeVisible();
-  await page.getByRole("button", { name: "Play", exact: true }).click();
+  if (await page.locator("[data-action=play]").getAttribute("aria-pressed") === "false")
+    await page.locator("[data-action=play]").click();
+  await expect(page.locator("[data-action=play]")).toHaveAttribute("aria-pressed", "true");
   await page.evaluate(() => {
     Object.defineProperty(document, "hidden", {
       configurable: true,

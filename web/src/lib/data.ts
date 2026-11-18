@@ -4,6 +4,8 @@ import { resolve } from "node:path";
 import { createHash } from "node:crypto";
 import type { LearningTrace } from "./trace-schema";
 import { isLearningTrace } from "./trace-schema";
+import voiceEnglish from "../locales/voice/en.json";
+import voiceChinese from "../locales/voice/zh-CN.json";
 const root = pathToFileURL(resolve(process.cwd(), "../docs") + "/");
 function read(path: string) {
   return readFileSync(new URL(path, root));
@@ -18,6 +20,8 @@ export function catalog(locale: string): Record<string, string> {
   return {
     ...english,
     ...JSON.parse(read("assets/method/" + locale + ".json").toString()),
+    ...voiceEnglish,
+    ...(locale === "zh-CN" ? voiceChinese : {}),
   };
 }
 export function traces(scene: string): LearningTrace[] {

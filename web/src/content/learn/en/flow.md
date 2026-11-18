@@ -1,17 +1,17 @@
 <h2 id="product-question">Question</h2>
 
-Why can an account end above its starting cash even after fees?
+How do cash and shares change after a buy and a sell?
 
-<h2 id="product-try">What changes</h2>
+<h2 id="product-try">Try it</h2>
 
-Open the replay and press Step to move from the supplied order to the buy fill and then the sell fill. Watch Cash, Shares and Fees together. The initial “input” is a supplied-order setup, not a prediction discovered by the system.
+The chart loops automatically. Pause to step through the supplied order, buy and sell. Buying 10 shares reduces cash from 10000 to 9899.9. Then check shares and cumulative fees after the sale.
 
-<h2 id="product-read">What to notice</h2>
+<h2 id="product-read">Read the result</h2>
 
-At the final sell event, shares return to zero, fees remain paid, and the final cash can be checked against the original Rust result below. Read those fields together: a cash increase alone does not tell you whether inventory remains.
+The final account has zero shares, cumulative fees of 0.22 and cash of 10019.78. The buy price is 10 and the sell price is 12, so this price gain covers the fees. Check these values against the original result below to reconcile the round trip.
 
-The conceptual map connects prediction, portfolio target, order, execution, account and replanning. This supplied-order example starts after prediction and target selection; those stages remain unknown. Portfolio constraints shape intentions, execution determines actual holdings, and the resulting account informs the next decision. These public modeling ideas do not authenticate an unpublished proprietary algorithm.
+The conceptual map runs from prediction to the next decision. This example supplies orders directly. Prediction and target selection remain unrecorded. A later decision needs the resulting cash, actual holdings and outstanding orders.
 
-<h2 id="product-unknown">What remains unknown</h2>
+<h2 id="product-unknown">Evidence limits</h2>
 
-This is one synthetic round trip. It verifies the recorded accounting path; it cannot show whether a strategy forecasts prices well.
+This synthetic round trip checks the recorded accounting only. Forecasting ability remains unknown. The map explains public modeling ideas and the method recalled by the user. It cannot authenticate or reproduce an unpublished proprietary algorithm.
