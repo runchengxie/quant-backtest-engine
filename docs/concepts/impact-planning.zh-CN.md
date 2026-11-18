@@ -92,7 +92,7 @@ QP 通过绝对值辅助变量约束 `cash_lower[t] >= reserved_cash`，所有�
 
 ## 复现与限制
 
-`core/tests/test_impact_planning.py` 包含独立手算解、未来容量和收益变化、现金预留、
+`packages/core/tests/test_impact_planning.py` 包含独立手算解、未来容量和收益变化、现金预留、
 锁定持仓、精确请求绑定、撮合及状态恢复、失败拒绝等检查，也验证股数单位与货币
 缩放、衰减往返交易和同一时刻拆单的半增量约定。拆单不变性针对经济冲击成本。
 容量划分变化时，保守现金下界不保证相同。这些检查覆盖合成机制。市场冲击参数和实际市场中的最优性仍需独立验证。
@@ -100,7 +100,7 @@ QP 通过绝对值辅助变量约束 `cash_lower[t] >= reserved_cash`，所有�
 安装已构建的 SDK 与 Core wheel，显式选择 `planning` extra，固定 NumPy 2.2.6、pandas 3.0.6 和 SciPy 1.18.1。从源码树外使用已安装的解释器执行：
 
 ```bash
-python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/core/tests/test_impact_planning.py" -q -p no:cacheprovider
+python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/packages/core/tests/test_impact_planning.py" -q -p no:cacheprovider
 ```
 
 改编自 [Apache-2.0 固定原文](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/concepts/impact-planning.zh-CN.md)。当前实现位于尚未发布的 provider B 分支；Core 当前源码为 0.2.0，整体审查和合并仍待完成，消费者切换另行进行。
@@ -113,7 +113,7 @@ python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/core/tests/test_i
 假设的换仓可以规划卖 A 买 B，但真实卖出受阻后仍为十股 A、零现金。
 下一次请求据此填入真实状态和零卖出容量，不能买入 B。
 
-`core/tests/test_planning_session.py` 经 `sessions.open_session` 执行，保存完整源码绑定检查点，
+`packages/core/tests/test_planning_session.py` 经 `sessions.open_session` 执行，保存完整源码绑定检查点，
 再调用 `sessions.restore_session` 恢复后重新规划。一次一百股成交价 10.05，现金剩 8995，
 暂态状态为 0.1，精确 UTC 纳秒时钟为 1767576720000000000。十进制手算成交额为 1005；
 执行方原始二进制浮点成交额保留为 1005.0000000000001。恢复前后的完整检查点和最终结果
@@ -131,7 +131,7 @@ python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/core/tests/test_i
 借款、交易所队列或自动读取未来数据。只执行 `first_trade`，再按实际已送达状态重新规划。
 SLSQP 使用 ftol 1e-12、maxiter 2000；失败、非有限解或残差超过 1e-7 均报错。
 这个有限研究接口不提供独立数值最优证书。使用已安装解释器同时运行
-`core/tests/test_multiperiod.py`、`core/tests/test_planning_session.py` 和冲击规划测试。
+`packages/core/tests/test_multiperiod.py`、`packages/core/tests/test_planning_session.py` 和冲击规划测试。
 通用风险估计及带符号优化器仍属于 Platform。
 
 ## 独立场景组合

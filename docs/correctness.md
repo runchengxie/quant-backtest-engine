@@ -6,12 +6,12 @@ not evidence that every market mechanism or production dataset is correct.
 
 | Case | Expected behavior | Executable evidence |
 | --- | --- | --- |
-| Buy 10 at 10, sell at 12, fee 10 bps | Cash/NAV 10019.78. Fee 0.22 | `tests/engine.rs::upstream_roundtrip_accounts_for_fees_and_no_lookahead` |
-| Open holding marked at last quote | Cash 9899.9 + position 110 = NAV 10009.9 | `tests/engine.rs::upstream_marks_open_positions_and_is_repeatable` |
-| Exact cash cannot cover commission | Denial, no fabricated fill | `tests/engine.rs::cash_admission_includes_upstream_rounded_commission` |
-| 10% weight and configured T+1 | Day-one NAV 10099. Same-day denial. Final 10197.8 | [Executable walkthrough](tutorial.md) and `tests/sessions.rs` |
-| Insufficient displayed liquidity | Actual partial fill. IOC remainder canceled | `tests/sessions.rs::quote_liquidity_is_shared_and_ioc_does_not_invent_capacity` |
-| Missing/stale marks or adjusted prices | Explicit failure | `tests/sessions.rs::rejects_missing_or_stale_session_valuation_and_adjusted_prices` |
+| Buy 10 at 10, sell at 12, fee 10 bps | Cash/NAV 10019.78. Fee 0.22 | `packages/engine/tests/engine.rs::upstream_roundtrip_accounts_for_fees_and_no_lookahead` |
+| Open holding marked at last quote | Cash 9899.9 + position 110 = NAV 10009.9 | `packages/engine/tests/engine.rs::upstream_marks_open_positions_and_is_repeatable` |
+| Exact cash cannot cover commission | Denial, no fabricated fill | `packages/engine/tests/engine.rs::cash_admission_includes_upstream_rounded_commission` |
+| 10% weight and configured T+1 | Day-one NAV 10099. Same-day denial. Final 10197.8 | [Executable walkthrough](tutorial.md) and `packages/engine/tests/sessions.rs` |
+| Insufficient displayed liquidity | Actual partial fill. IOC remainder canceled | `packages/engine/tests/sessions.rs::quote_liquidity_is_shared_and_ioc_does_not_invent_capacity` |
+| Missing/stale marks or adjusted prices | Explicit failure | `packages/engine/tests/sessions.rs::rejects_missing_or_stale_session_valuation_and_adjusted_prices` |
 | Same inputs, repeated calls/processes | Identical normalized JSON | Engine tests and [batch digest checks](benchmarks.md) |
 | Quantity adjustment used as stock split | Does not rebase cost correctly | [Corporate-action conformance](migration/corporate-action-conformance.md). Continue using Python |
 
@@ -25,7 +25,7 @@ fail. Arithmetic consistency alone cannot establish price correctness.
 Run this command in a separate Python environment with `quant-platform` installed.
 
 ```sh
-/path/to/platform-python project_tools/compare_python.py \
+/path/to/platform-python scripts/release/compare_python.py \
   --engine /absolute/path/to/quant-backtest-engine \
   --output /absolute/external/path/new-comparison.json
 ```

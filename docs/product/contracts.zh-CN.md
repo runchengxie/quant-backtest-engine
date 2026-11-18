@@ -16,7 +16,7 @@ from pathlib import Path
 from quant_backtest_engine.product import loads_manifest, manifest_to_json
 
 # 仓库中的合成样例；使用时一并复制其日历文件。
-manifest = loads_manifest(Path("fixtures/product/rust-session.json").read_text())
+manifest = loads_manifest(Path("tests/fixtures/product/rust-session.json").read_text())
 wire = manifest_to_json(manifest)
 assert wire["clocks"]["available_ns"] == "1760000000000000001"
 assert wire["clocks"]["decision_ns"] == "1760000000000000002"
@@ -103,7 +103,7 @@ null 只省略对应的不可用关系。effective、report、valuation 可能�
 ## rust-session.v1 输入配置
 
 SDK 校验以下完整结构，但不因此声称已安装可执行适配器。
-样例对应 `fixtures/sessions.json`，只将时钟精确转换为字符串。
+样例对应 `tests/fixtures/sessions.json`，只将时钟精确转换为字符串。
 
 | 位置 | 必需键及值 |
 | --- | --- |

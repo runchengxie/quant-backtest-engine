@@ -144,7 +144,7 @@ or model-training dependency is imported. The product runner now registers `pyth
 Run the repository’s synthetic CNY example against installed wheels:
 
 ```bash
-python -I -B examples/product/minute_session.py
+python -I -B packages/core/examples/product/minute_session.py
 ```
 
 It exercises actions, locks, delayed reports and external capital, checking complete

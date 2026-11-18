@@ -19,7 +19,7 @@ Core 0.3.0 注册 `rust.nautilus.sessions`、`python.minute` 和 `python.daily`�
 
 ## 执行合成会话
 
-从同一源码提交一起复制 `fixtures/product/rust-session.json` 和
+从同一源码提交一起复制 `tests/fixtures/product/rust-session.json` 和
 `synthetic-calendar.json`。日历必须是精确对象
 `{"schema":"synthetic-calendar.v1","timezone":"Asia/Shanghai","sessions":[...]}`，
 日期与请求中的有序会话日期一致。它只声明已提供的会话，不生成交易所日历，也不证明这些日期是交易日。
@@ -31,7 +31,7 @@ Core 0.3.0 注册 `rust.nautilus.sessions`、`python.minute` 和 `python.daily`�
 ```
 
 `$ENGINE` 是另行验证过的 Rust 可执行文件绝对路径，`$ENGINE_SHA256` 是其小写 SHA256。
-二者是可信宿主参数，不来自请求。`examples/product/rust_session.py` 接受同样的参数。
+二者是可信宿主参数，不来自请求。`packages/core/examples/product/rust_session.py` 接受同样的参数。
 该 100 股 CNY 会话样例的最终现金和净值均为 `10197.8`，费用为 `2.2`。
 独立的原生 quote-v1 样例仍为 `10000 -> 10019.78`，费用为 `0.22`。
 

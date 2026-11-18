@@ -24,22 +24,22 @@ SDK 继续拥有 `quant_backtest_engine`。Linux 主机需要系统 IANA 时区�
 
 ## 构建与验证
 
-环境、wheel、缓存和结果均放在仓库外。`core/uv.lock` 固定实际验证的开发工具和
+环境、wheel、缓存和结果均放在仓库外。`packages/core/uv.lock` 固定实际验证的开发工具和
 可选依赖版本。为后续迁移的等价性验证，数值基线固定为 NumPy 2.2.6、pandas 3.0.6、
-SciPy 1.18.1；公开 extra 的范围仍如下表所列。其中 `../python` 用于同仓库开发，发布身份以已合并源码和验证过的产物为准。
-分别运行 `uv build --wheel --project python` 和 `uv build --wheel --project core`，
+SciPy 1.18.1；公开 extra 的范围仍如下表所列。其中 `../python-sdk` 用于同仓库开发，发布身份以已合并源码和验证过的产物为准。
+分别运行 `uv build --wheel --project packages/python-sdk` 和 `uv build --wheel --project packages/core`，
 各自指定仓库外的 `--out-dir`。安装验收使用 wheel 路径和 `python -I`，
 不使用可编辑安装或 `PYTHONPATH`。消费者切换前必须固定准确的合并提交或已验证的 wheel 摘要。
 
 ```sh
-"$ENV/bin/python" -I -B project_tools/verify_installed_product.py --mode base
+"$ENV/bin/python" -I -B tests/acceptance/verify_installed_product.py --mode base
 for suite in packaging runner rust_adapter; do
-  "$ENV/bin/python" -I -B -m unittest discover -s core/tests -p "test_$suite.py" -v
+  "$ENV/bin/python" -I -B -m unittest discover -s packages/core/tests -p "test_$suite.py" -v
 done
 ```
 
-开发检查使用锁定的 dev 依赖组：`ruff check core`、`ruff format --check core` 和
-`mypy --config-file core/pyproject.toml core/src`。本地验证前将
+开发检查使用锁定的 dev 依赖组：`ruff check packages/core`、`ruff format --check packages/core` 和
+`mypy --config-file packages/core/pyproject.toml packages/core/src`。本地验证前将
 `UV_PROJECT_ENVIRONMENT`、`UV_CACHE_DIR`、`RUFF_CACHE_DIR`、`MYPY_CACHE_DIR`、
 `PYTHONPYCACHEPREFIX`、`TMPDIR`、`CARGO_TARGET_DIR` 指向仓库外。
 
@@ -62,7 +62,7 @@ daily extra 已在提供方 C 源码中启用独立日频实现及 `python.daily
 
 安装包叶子模块验收须安装带 `[minute,cost,scenario]` 的 core wheel 及 pytest，
 数值依赖使用锁定基线。运行
-`python -I -B -m pytest core/tests -q -p no:cacheprovider`，并将
+`python -I -B -m pytest packages/core/tests -q -p no:cacheprovider`，并将
 `QUANT_ENGINE_BINARY` 指向已验证内容摘要的 Rust 可执行文件，以运行适配器回归。
 测试导入已安装 wheel，不使用源码树 `PYTHONPATH`。
 提取代码保留旧签名，mypy 仍检查函数体，仅对缺少 pandas/SciPy 类型桩及
@@ -70,8 +70,8 @@ daily extra 已在提供方 C 源码中启用独立日频实现及 `python.daily
 
 `minute` extra 现已提供直接[分钟会话及财务内核](../backtest/minute-session.zh-CN.md)。
 最小分钟验收只安装 `[minute]` 和 pytest，执行
-`python -I -B -m pytest core/tests/test_minute*.py core/tests/test_quantity_locks.py -q`
-及 `python -I -B examples/product/minute_session.py`。
+`python -I -B -m pytest packages/core/tests/test_minute*.py packages/core/tests/test_quantity_locks.py -q`
+及 `python -I -B packages/core/examples/product/minute_session.py`。
 它依赖 pandas 及其 NumPy 依赖，不需要 SciPy、Platform、Runtime 或机器学习框架。
 类型检查保留函数体检查；六处旧字典推断问题仅在各自模块内放宽：交易审计三处、分钟内核三处。
 
@@ -92,7 +92,7 @@ daily extra 已在提供方 C 源码中启用独立日频实现及 `python.daily
 和[策略分配](../backtest/sleeve-allocation.zh-CN.md)。
 
 `[scenario]` 额外支持[独立目标场景组合](scenarios.zh-CN.md)。每个 extra 应单独安装 wheel，
-运行 `project_tools/verify_installed_scenarios.py --profile EXTRA`，并以 `--profile all` 检查并集。
+运行 `tests/acceptance/verify_installed_scenarios.py --profile EXTRA`，并以 `--profile all` 检查并集。
 `daily` extra 启用独立日频计算及 `python.daily`；提供方 C 已合并，可按已验证源码独立构建 wheel；不表示已在 PyPI 发布。
 
-日频验收执行 `python -I -B project_tools/verify_installed_daily.py` 及 `python -I -B -m pytest core/tests/daily -q -p no:cacheprovider`。最小 daily 不依赖 PyArrow；pandas 字符串及标签索引的存储类型可能为 Python。原核算方严格对照另装 PyArrow 26.0.1，逐表逐 dtype 精确比较。两类环境均须保持数值、缺失值语义、顺序和财务汇总一致。
+日频验收执行 `python -I -B tests/acceptance/verify_installed_daily.py` 及 `python -I -B -m pytest packages/core/tests/daily -q -p no:cacheprovider`。最小 daily 不依赖 PyArrow；pandas 字符串及标签索引的存储类型可能为 Python。原核算方严格对照另装 PyArrow 26.0.1，逐表逐 dtype 精确比较。两类环境均须保持数值、缺失值语义、顺序和财务汇总一致。

@@ -4,7 +4,7 @@
 only supplied as-of prices. It does not execute orders or maintain a second account.
 
 ```sh
-cargo run --locked -- size fixtures/sizing.json
+cargo run --locked -- size tests/fixtures/sizing.json
 ```
 
 The fixture plans 99 shares from CNY 1000 at reference price 10 and 10 bps fees,

@@ -102,7 +102,7 @@ failed evaluations are never silently removed from an alleged complete grid.
 
 ## Synthetic acceptance
 
-`core/tests/test_joint_execution.py` includes a literal finite wealth oracle,
+`packages/core/tests/test_joint_execution.py` includes a literal finite wealth oracle,
 fees/lots and terminal risk changing the first choice, partial fills charging a
 parent commission minimum once, a blocked A sale that cannot fund tradable B,
 a funded B control, forecast timing and future capacity changing the first

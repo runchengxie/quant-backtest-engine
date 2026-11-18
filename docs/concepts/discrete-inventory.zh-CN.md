@@ -96,14 +96,14 @@
 安装已构建的 SDK 与 Core wheel，显式选择 `planning` extra，固定 NumPy 2.2.6、pandas 3.0.6 和 SciPy 1.18.1。从源码树外使用已安装的解释器执行：
 
 ```bash
-python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/core/tests/test_discrete_inventory.py" -q -p no:cacheprovider
+python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/packages/core/tests/test_discrete_inventory.py" -q -p no:cacheprovider
 ```
 
 改编自 [Apache-2.0 固定原文](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/concepts/discrete-inventory.zh-CN.md)。当前实现位于尚未发布的 provider B 分支；Core 当前源码为 0.2.0，整体审查和合并仍待完成，消费者切换另行进行。
 
 ## 原生买入整手组合枚举 {#native-lot-oracle}
 
-运行 `cargo run --locked -- plan-lots fixtures/lot-planning.json`，可以用 Rust 枚举有限买入组合。
+运行 `cargo run --locked -- plan-lots tests/fixtures/lot-planning.json`，可以用 Rust 枚举有限买入组合。
 Python 通过固定二进制内容的 `EngineClient.plan_lots(request)` 调用。
 输入格式 `engine_lot_request.v1` 明确给出价格、目标股数、最大手数、每手股数和预算。
 每笔非零订单的手续费取最低收费与按比例收费中的较大值，目标是使股数偏差平方和最小。

@@ -17,7 +17,7 @@ from pathlib import Path
 from quant_backtest_engine.product import loads_manifest, manifest_to_json
 
 # Synthetic repository fixture, copied with its calendar artifact.
-manifest = loads_manifest(Path("fixtures/product/rust-session.json").read_text())
+manifest = loads_manifest(Path("tests/fixtures/product/rust-session.json").read_text())
 wire = manifest_to_json(manifest)
 assert wire["clocks"]["available_ns"] == "1760000000000000001"
 assert wire["clocks"]["decision_ns"] == "1760000000000000002"
@@ -112,7 +112,7 @@ numbers, and validates the resulting native request.
 ## rust-session.v1 input profile
 
 This SDK profile validates the following complete shape, without claiming an
-installed executable adapter. The fixture mirrors `fixtures/sessions.json`
+installed executable adapter. The fixture mirrors `tests/fixtures/sessions.json`
 with clocks converted exactly to strings.
 
 | Location | Required keys and values |
@@ -214,7 +214,7 @@ provenance. Runtime v9 later needs stronger exact provider/dependency closure.
 
 The [ownership registry](../migration/reusable-ownership.json) records the real provider A
 implementation commit. Release availability and consumer cutover remain separate;
-later migration cohorts remain planned. No core/Platform/Runtime import, matching engine or extra cash
+later migration cohorts remain planned. No packages/core/Platform/Runtime import, matching engine or extra cash
 ledger is added by the SDK.
 
 

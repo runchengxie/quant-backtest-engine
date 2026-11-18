@@ -125,10 +125,10 @@ Runtime 客户端、独立信号验收持仓重放、市场研究的分钟/日�
 ## 校验本记录
 
 ```sh
-python -m unittest project_tools.test_reusable_ownership -v
-python project_tools/check_reusable_ownership.py
+python -m unittest scripts.verify.test_reusable_ownership -v
+python scripts/verify/check_reusable_ownership.py
 mkdocs build --strict --site-dir "$TASK_DATA/site"
-python project_tools/check_docs.py --site-dir "$TASK_DATA/site"
+python scripts/verify/check_docs.py --site-dir "$TASK_DATA/site"
 git diff --check
 ```
 

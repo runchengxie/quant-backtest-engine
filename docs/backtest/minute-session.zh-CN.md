@@ -126,7 +126,7 @@ Platform 当前仍保留原提供方；其类型、`LinearImpact` 与兼容别�
 从已安装 wheel 运行仓库中的合成 CNY 示例：
 
 ```bash
-python -I -B examples/product/minute_session.py
+python -I -B packages/core/examples/product/minute_session.py
 ```
 
 示例包含公司行动、数量锁、报告延迟与外部资金，验证检查点恢复后的完整财务表。

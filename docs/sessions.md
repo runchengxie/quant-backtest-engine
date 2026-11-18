@@ -7,7 +7,7 @@ preserving the v1 request/result wire contracts.
 
 ```sh
 cargo run --locked -- session-capabilities
-cargo run --locked -- run fixtures/sessions.json
+cargo run --locked -- run tests/fixtures/sessions.json
 ```
 
 The synthetic CNY example buys 100 at 10, denies a same-day sale under T+1, then sells

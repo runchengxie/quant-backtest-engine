@@ -7,7 +7,7 @@ SDK 0.3.0 新增标准库产品 DTO、严格 JSON 编解码和显式能力检查
 `quant-backtest-engine-client` 支持 Python 3.11 及以上版本，运行时只使用标准库，无需 quant-platform、pandas、NumPy 或 runtime 服务。在引擎源码目录运行下面的安装命令。
 
 ```sh
-python -m pip install ./python
+python -m pip install ./packages/python-sdk
 ```
 
 在 Python 中用 `from quant_backtest_engine import EngineClient, EngineProtocolError` 导入。

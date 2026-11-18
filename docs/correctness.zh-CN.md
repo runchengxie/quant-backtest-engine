@@ -5,12 +5,12 @@
 
 | 案例 | 预期行为 | 可执行证据 |
 | --- | --- | --- |
-| 以 10 买 10 股，以 12 卖出，每笔费率 10 bps | 最终现金及净资产 10019.78，费用 0.22 | `tests/engine.rs::upstream_roundtrip_accounts_for_fees_and_no_lookahead` |
-| 未平仓持仓按最后报价估值 | 现金 9899.9 + 持仓 110 = 净资产 10009.9 | `tests/engine.rs::upstream_marks_open_positions_and_is_repeatable` |
-| 现金恰好够本金但不够费用 | 拒单，不虚构成交 | `tests/engine.rs::cash_admission_includes_upstream_rounded_commission` |
-| 10% 权重与配置的 T+1 | 首日净资产 10099，当日卖出被拒，最终 10197.8 | [可运行教程](tutorial.zh-CN.md)和 `tests/sessions.rs` |
-| 显示报价数量不足 | 真实部分成交，IOC 未成交余量取消 | `tests/sessions.rs::quote_liquidity_is_shared_and_ioc_does_not_invent_capacity` |
-| 估值报价缺失、过期或使用复权价 | 明确失败 | `tests/sessions.rs::rejects_missing_or_stale_session_valuation_and_adjusted_prices` |
+| 以 10 买 10 股，以 12 卖出，每笔费率 10 bps | 最终现金及净资产 10019.78，费用 0.22 | `packages/engine/tests/engine.rs::upstream_roundtrip_accounts_for_fees_and_no_lookahead` |
+| 未平仓持仓按最后报价估值 | 现金 9899.9 + 持仓 110 = 净资产 10009.9 | `packages/engine/tests/engine.rs::upstream_marks_open_positions_and_is_repeatable` |
+| 现金恰好够本金但不够费用 | 拒单，不虚构成交 | `packages/engine/tests/engine.rs::cash_admission_includes_upstream_rounded_commission` |
+| 10% 权重与配置的 T+1 | 首日净资产 10099，当日卖出被拒，最终 10197.8 | [可运行教程](tutorial.zh-CN.md)和 `packages/engine/tests/sessions.rs` |
+| 显示报价数量不足 | 真实部分成交，IOC 未成交余量取消 | `packages/engine/tests/sessions.rs::quote_liquidity_is_shared_and_ioc_does_not_invent_capacity` |
+| 估值报价缺失、过期或使用复权价 | 明确失败 | `packages/engine/tests/sessions.rs::rejects_missing_or_stale_session_valuation_and_adjusted_prices` |
 | 相同输入重复运行 | 标准化 JSON 一致 | 引擎测试和[批量摘要核对](benchmarks.zh-CN.md) |
 | 用数量调整事件模拟送转股 | 成本没有正确重基 | [公司行动验证](migration/corporate-action-conformance.zh-CN.md)，继续保留 Python |
 
@@ -22,7 +22,7 @@
 在另一个已安装 `quant-platform` 的 Python 环境中运行下面的命令。
 
 ```sh
-/path/to/platform-python project_tools/compare_python.py \
+/path/to/platform-python scripts/release/compare_python.py \
   --engine /absolute/path/to/quant-backtest-engine \
   --output /absolute/external/path/new-comparison.json
 ```

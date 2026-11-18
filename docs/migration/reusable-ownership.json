@@ -12313,5 +12313,13 @@
       "core/tests/test_synthetic_assurance.py"
     ],
     "compatibility": "Python public APIs, source notices and checkpoints unchanged; consumers opt in by content-pinned native executable"
+  },
+  "workspace_layout_20261118": {
+    "map": "workspace-layout.json",
+    "source_revision": "ddbdc0ce75a964787511a30b7b5c855823f85422",
+    "scope": "physical package/tool paths only; historical provider_sources keep their original revision labels",
+    "resolver": "scripts/workspace.py",
+    "checkpoint_policy": "original full source and numerical dependency binding retained",
+    "immutable_exporters": 8
   }
 }

@@ -7,7 +7,7 @@ engine_request.v2 增加明确的交易日、人民币/美元账户和原始价�
 
 ```sh
 cargo run --locked -- session-capabilities
-cargo run --locked -- run fixtures/sessions.json
+cargo run --locked -- run tests/fixtures/sessions.json
 ```
 
 合成样例以 10 元买入 100 股，同日卖单因 T+1 被拒绝，下一交易日按 12 元卖出。

@@ -24,11 +24,11 @@ jobs:
           python-version: '3.11'
       - uses: dtolnay/rust-toolchain@1.99.1
       - name: Release assembly regression tests
-        run: python3 project_tools/test_package_release.py
+        run: python3 scripts/release/test_package_release.py
       - name: Native build prerequisites
         run: sudo apt-get update && sudo apt-get install -y build-essential
       - name: Build, verify offline sources, test and smoke archives
-        run: python3 project_tools/package_release.py --output "$RUNNER_TEMP/release"
+        run: python3 scripts/release/package_release.py --output "$RUNNER_TEMP/release"
       - name: Verify archive checksums
         working-directory: ${{ runner.temp }}/release
         run: sha256sum --check SHA256SUMS
@@ -59,7 +59,7 @@ jobs:
         run: |
           python3 - <<'PY'
           import os, re, tomllib
-          with open('Cargo.toml', 'rb') as source:
+          with open('packages/engine/Cargo.toml', 'rb') as source:
               version = tomllib.load(source)['package']['version']
           if not re.fullmatch(r'v' + re.escape(version) + r'-(alpha|beta|rc)\.[1-9][0-9]*', os.environ['RELEASE_TAG']):
               raise SystemExit('Tag must match Cargo version and alpha.N, beta.N or rc.N')

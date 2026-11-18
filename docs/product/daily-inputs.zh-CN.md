@@ -100,7 +100,7 @@ IC、alpha 和广泛研究统计仍归 Platform；Task 15 通过兼容封装从�
 
 ## 产品协议和示例
 
-完整合成请求见仓库 fixtures/product/daily.json，日历为 daily-calendar.json。输入必须恰好是 positions、pricing；corporate_actions 带必须显式存在。settings 包含 mode、config、layout、decision_clocks、decision_timing、fee_model，拒绝未知字段。配置十进制参数、权重、价格、流动性和费率使用十进制字符串；时钟是精确 UTC 纳秒字符串。
+完整合成请求见仓库 tests/fixtures/product/daily.json，日历为 daily-calendar.json。输入必须恰好是 positions、pricing；corporate_actions 带必须显式存在。settings 包含 mode、config、layout、decision_clocks、decision_timing、fee_model，拒绝未知字段。配置十进制参数、权重、价格、流动性和费率使用十进制字符串；时钟是精确 UTC 纳秒字符串。
 
 Python layout.liquidity_units 仍是映射；协议将其编码为 [{"column":"amount","unit":"CNY"}]，避免动态列名与金额键冲突。拒绝重复列、未知记录字段及单位不匹配。fee_model 仅接受 null、detailed 或 dated 固定结构，不接受模块路径。portfolio_value 必须等于初始现金。产品限定 CNY、Asia/Shanghai、显式原始/复权股数单位。
 
@@ -112,8 +112,8 @@ run_daily 不支持 policy、scenario、flow、risk 或 forecast 转换，也不
 
 ```sh
 quant-backtest capabilities python.daily
-quant-backtest run-manifest fixtures/product/daily.json \
-  --artifact-root fixtures/product --output-root "$DAILY_OUTPUT"
+quant-backtest run-manifest tests/fixtures/product/daily.json \
+  --artifact-root tests/fixtures/product --output-root "$DAILY_OUTPUT"
 ```
 
 中立适配器保留显式流动性列及其单位声明，不采用旧解析器自动追加 `amount` 的默认行为。自定义 `turnover_cny` 列只需声明自身的 CNY 单位，无需额外的 `amount` 列。直接调用旧解析器的默认行为保持不变。

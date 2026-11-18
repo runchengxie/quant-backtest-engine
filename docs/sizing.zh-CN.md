@@ -4,7 +4,7 @@
 它输出计划数量和预计现金，实际成交和账户余额由后续的回放引擎计算。
 
 ```sh
-cargo run --locked -- size fixtures/sizing.json
+cargo run --locked -- size tests/fixtures/sizing.json
 ```
 
 样例以人民币 1000 元、参考价 10 元、10 个基点费用规划买入。

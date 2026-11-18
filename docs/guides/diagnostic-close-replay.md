@@ -76,7 +76,7 @@ Acceptance executes synthetic prepared calls in the actual pinned original
 owner and ordinary installed Core wheels on Python 3.12/3.13, comparing every
 dataclass field/property, Series value/index/dtype, signature, lookup exception
 and cost-call argument. The executable
-`project_tools/verify_period_leg_parity.py` records the actual import closure;
+`tests/acceptance/verify_period_leg_parity.py` records the actual import closure;
 static source matching alone is not acceptance.
 
 The strict parity profile also installs the original PyArrow 26.0.1 alongside pandas 3.0.6 and NumPy 2.2.6. Lean daily/union profiles omit PyArrow: their concrete Arrow-to-Python StringDtype storage differences are inventoried per Series index, then compared with exact values and dtype checks after only that explicit storage conversion. No blanket dtype suppression is used.

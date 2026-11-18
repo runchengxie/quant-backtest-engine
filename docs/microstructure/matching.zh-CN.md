@@ -44,7 +44,7 @@ assert engine.lob.best_ask() == (101, 6)
 
 ## 本地验证 {#_3}
 
-运行 `uv run --project core --locked pytest core/tests/test_microstructure*.py -q`。
+运行 `uv run --project packages/core --locked pytest packages/core/tests/test_microstructure*.py -q`。
 仅在独立原生扩展未安装时跳过原生测试；必测原生环境设置 `TICKNET_REQUIRE_RUST=1`。
 参见[原生构建](../development/microstructure-rust.zh-CN.md)与[回放](replay.zh-CN.md)。
 测试仅使用合成样本。

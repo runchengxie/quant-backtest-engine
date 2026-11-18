@@ -7,7 +7,7 @@ Core 0.2.0 可将受信任的本地回调输出转为 `python.minute` 实际使�
 发布身份需同时核对已合并源码与实际产物。
 
 ```sh
-python -I -B examples/product/scenarios.py --output-root "$DATA_ROOT/scenario-example"
+python -I -B packages/core/examples/product/scenarios.py --output-root "$DATA_ROOT/scenario-example"
 ```
 
 输出目录必须尚不存在。示例依次执行 A、不支持的中间案例、B 和固定目标 B 对照。

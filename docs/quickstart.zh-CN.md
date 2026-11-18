@@ -6,7 +6,7 @@
 ```sh
 cargo build --locked
 cargo run --locked -- capabilities
-cargo run --locked -- run fixtures/roundtrip.json
+cargo run --locked -- run tests/fixtures/roundtrip.json
 ```
 
 合成样例初始资金为 10000 美元，以 10 美元买入 10 股，再以 12 美元卖出。

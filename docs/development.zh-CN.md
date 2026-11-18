@@ -6,13 +6,13 @@
 
 ## 引擎检查
 
-执行 `cargo fmt --all --check`、`cargo clippy --locked --all-targets -- -D warnings`、`cargo test --locked`、`cargo run --locked -- run fixtures/roundtrip.json`，以及 `python -m unittest project_tools.test_reusable_ownership -v`、`python project_tools/check_reusable_ownership.py` 和 `git diff --check`。将 `CARGO_TARGET_DIR` 指向外部任务目录。这些检查覆盖实现与合成案例，冲击参数校准和完整交易所行为需独立验收。
+执行 `cargo fmt --all --check`、`cargo clippy --locked --all-targets -- -D warnings`、`cargo test --locked`、`cargo run --locked -- run tests/fixtures/roundtrip.json`，以及 `python -m unittest scripts.verify.test_reusable_ownership -v`、`python scripts/verify/check_reusable_ownership.py` 和 `git diff --check`。将 `CARGO_TARGET_DIR` 指向外部任务目录。这些检查覆盖实现与合成案例，冲击参数校准和完整交易所行为需独立验收。
 
 ## Astro 网站
 
 使用 Node26.13.0、npm12.2.2 和已提交的前端锁。Python3.13 准备可信文章内容与引擎产出的教学证据，整站由 Astro 渲染，金融结果由引擎计算。正式构建不安装或运行 MkDocs。保留固定版本的 Python-Markdown / PyMdown，是为了兼容已有 Markdown 方言和精确的旧标题锚点；所有 HTML 路由、页面布局及最终生成均由 Astro 负责。
 
-在外部环境用 `uv pip sync --require-hashes` 安装 `docs/requirements/docs.lock` 和 `learning.lock`。前端依赖按不变的 `web/package-lock.json` 安装到任务独占目录，再把 `node_modules` 链接到 `web/`；Astro 生成文件和缓存也放在外部，不能与其他并行任务共用可写缓存。
+在外部环境用 `uv pip sync --require-hashes` 安装 `docs/requirements/docs.lock` 和 `learning.lock`。前端依赖按不变的 `apps/docs/package-lock.json` 安装到任务独占目录，再把 `node_modules` 链接到 `apps/docs/`；Astro 生成文件和缓存也放在外部，不能与其他并行任务共用可写缓存。
 
 完整命令见英文页；核心构建顺序如下，准备与输出目录必须是新的：
 
@@ -21,15 +21,15 @@ export PYTHON="$TASK_DATA/docs-env/bin/python"
 export SITE_INPUT_DIR="$TASK_DATA/reference-input"
 export ASTRO_OUT_DIR="$TASK_DATA/site-astro"
 export ASTRO_CACHE_DIR="$TASK_DATA/astro-cache"
-"$PYTHON" project_tools/prepare_reference.py --output "$SITE_INPUT_DIR"
-npm --prefix web run build
-"$PYTHON" project_tools/assemble_site.py --astro "$ASTRO_OUT_DIR" --learning docs/assets/learning --routes docs/site/route-ownership.json --output "$TASK_DATA/site-assembled"
-"$PYTHON" project_tools/check_docs.py --site-dir "$TASK_DATA/site-assembled"
-"$PYTHON" project_tools/check_assembled_site.py --site-dir "$TASK_DATA/site-assembled" --base /quant-backtest-engine/ --legacy docs/site/legacy-route-anchors.json
-SITE_DIR="$TASK_DATA/site-assembled" SITE_BASE=/quant-backtest-engine/ BROWSER_OUTPUT_DIR="$TASK_DATA/browser" npm --prefix web run test:e2e
+"$PYTHON" scripts/build/prepare_reference.py --output "$SITE_INPUT_DIR"
+npm --prefix apps/docs run build
+"$PYTHON" scripts/build/assemble_site.py --astro "$ASTRO_OUT_DIR" --learning docs/assets/learning --routes docs/site/route-ownership.json --output "$TASK_DATA/site-assembled"
+"$PYTHON" scripts/verify/check_docs.py --site-dir "$TASK_DATA/site-assembled"
+"$PYTHON" scripts/verify/check_assembled_site.py --site-dir "$TASK_DATA/site-assembled" --base /quant-backtest-engine/ --legacy docs/site/legacy-route-anchors.json
+SITE_DIR="$TASK_DATA/site-assembled" SITE_BASE=/quant-backtest-engine/ BROWSER_OUTPUT_DIR="$TASK_DATA/browser" npm --prefix apps/docs run test:e2e
 ```
 
-源码发生变化后要重新准备输入，再构建；旧内容凭据不能混用。验收还包括 `test_method_*`、`test_prepare_reference`、路由/首页/组装/学习资产测试、教学资产校验、`npm run check`、`npm run test:unit`、旧回放与 DOM 测试。DOM 工具使用单独锁定的 `project_tools/method-tests` 环境及 `NODE_PATH`。浏览器安装锁定 Playwright Chromium，或通过 `CHROME_EXECUTABLE` 使用兼容的本机浏览器。测试服务器只在已分配的本地端口运行并记录实际构建产物，无需长期预览服务。
+源码发生变化后要重新准备输入，再构建；旧内容凭据不能混用。验收还包括 `test_method_*`、`test_prepare_reference`、路由/首页/组装/学习资产测试、教学资产校验、`npm run check`、`npm run test:unit`、旧回放与 DOM 测试。DOM 工具使用单独锁定的 `scripts/build/method-tests` 环境及 `NODE_PATH`。浏览器安装锁定 Playwright Chromium，或通过 `CHROME_EXECUTABLE` 使用兼容的本机浏览器。测试服务器只在已分配的本地端口运行并记录实际构建产物，无需长期预览服务。
 
 ## 阅读与交互
 
@@ -59,3 +59,34 @@ SITE_DIR="$TASK_DATA/site-assembled" SITE_BASE=/quant-backtest-engine/ BROWSER_O
 新事件接口使用 `rust.nautilus.depth`，覆盖单证券多档盘口和账户反馈。输入、时钟与验收范围见[原生事件级深度回放](product/execution-fidelity.zh-CN.md#native-event-depth-profile)。原有会话命令沿用原行为。
 
 新增原生事件执行走 Rust，网站使用 TypeScript、TSX 和 Astro。Python 继续承担 SDK 校验、产品编排、研究接口和已有财务实现。财务模块按批迁移，每批核对金额运算与检查点兼容性。
+
+## 工作区目录 {#workspace-layout}
+
+根目录的 Cargo 清单默认选择 `packages/engine`，常用 Cargo 命令仍从仓库根目录运行。
+独立的 PyO3 扩展在 `packages/microstructure-native`，保留自己的锁文件和构建入口。
+
+```text
+apps/docs/                       Astro 网站
+packages/engine/src/             Rust 引擎
+packages/core/src/               Python 财务库
+packages/python-sdk/src/         Python 客户端
+packages/microstructure-native/  可选 PyO3 扩展
+tests/fixtures/                  共用合成输入
+tests/acceptance/                跨包安装验收
+scripts/build/                  网站和样例准备
+scripts/verify/                 校验与诊断
+scripts/release/                打包与性能工具
+```
+
+每个包保存自己的测试和调用示例。Python 包保留各自的构建清单，Core 继续使用原有数值依赖锁。
+SDK 仍可在 Python 3.11 单独安装。历史证据中的路径通过 `workspace-layout.json` 对应到新位置，
+路径解析始终限制在仓库内。
+
+历史导出器保留原始字节。复现机制样例时，在登记的完整依赖环境里运行
+`scripts/build/reproduce_method_fixtures.py --engine "$REGISTERED_ENGINE" --output "$TASK_DATA/method.json"`。
+机会成本样例加上 `--kind opportunity`，省略 `--engine`。
+包装入口会在仓库外新建临时目录，按旧布局摆放核对过的源码与输入，再调用原导出器。
+公开样例与所有者锁保留原始内容。旧 MkDocs 配置归档在 `docs/site/legacy-mkdocs.yml`，当前网站由 Astro 生成。
+
+检查点继续绑定完整源码和依赖文件。目录迁移的恢复对照保留了同一数值环境，只重新安装迁移前后的 SDK 与 Core 包。
+另建环境可能改变依赖文件哈希，即使版本号相同，也需要重新核对恢复条件。

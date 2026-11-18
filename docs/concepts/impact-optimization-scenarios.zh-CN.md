@@ -63,7 +63,7 @@ Platform 的 SLSQP 风险后端用两资产凸二次风险加原权重二次惩�
 在源码树外运行：
 
 ```bash
-python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/core/tests/test_discrete_oracle.py" "$CODE_ROOT/quant/quant-backtest-engine/core/tests/test_impact_scenarios.py" -q -p no:cacheprovider
+python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/packages/core/tests/test_discrete_oracle.py" "$CODE_ROOT/quant/quant-backtest-engine/packages/core/tests/test_impact_scenarios.py" -q -p no:cacheprovider
 ```
 
 通用风险优化器测试仍在[固定 Platform 测试](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/tests/test_impact_optimization_scenarios.py)。

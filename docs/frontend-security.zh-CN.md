@@ -4,13 +4,13 @@
 
 网站发布的是静态页面。构建工具目前对 [GHSA-fc5q-39xc-vjpf](https://github.com/advisories/GHSA-fc5q-39xc-vjpf) 使用一份本地缓解补丁，因为上游公告尚无已修复版本。补丁应用于锁定的上游版本，直接运行 `npm audit` 仍会报告该受影响版本。
 
-所有间接依赖统一锁定为 picomatch 4.0.7。全新安装后，`npm --prefix web run security:patch` 按 `web/security/picomatch.json` 核验原始包的全部文件，再加入明确拒绝所有重复扩展通配模式（`+(...)`、`*(...)`）的检查。普通通配符、递归通配符、花括号及非重复扩展模式继续可用。被拒绝的模式会报错，不会悄悄漏掉文件；转义或嵌套模式只要被解析为重复扩展模式，也会被拒绝。检查在可关闭递归分析的选项之前执行。这限制的是构建工具能力，不改变金融后端或网页数据。
+所有间接依赖统一锁定为 picomatch 4.0.7。全新安装后，`npm --prefix apps/docs run security:patch` 按 `apps/docs/security/picomatch.json` 核验原始包的全部文件，再加入明确拒绝所有重复扩展通配模式（`+(...)`、`*(...)`）的检查。普通通配符、递归通配符、花括号及非重复扩展模式继续可用。被拒绝的模式会报错，不会悄悄漏掉文件；转义或嵌套模式只要被解析为重复扩展模式，也会被拒绝。检查在可关闭递归分析的选项之前执行。这限制的是构建工具能力，不改变金融后端或网页数据。
 
 ```sh
-# 先在仓库外安装锁定的网页依赖，并链接 web/node_modules。
-npm --prefix web run security:patch
-node --test project_tools/test_frontend_security.cjs
-FRONTEND_AUDIT_RECEIPT="$TASK_DATA/frontend-audit.json" npm --prefix web run audit:locked
+# 先在仓库外安装锁定的网页依赖，并链接 apps/docs/node_modules。
+npm --prefix apps/docs run security:patch
+node --test scripts/build/test_frontend_security.cjs
+FRONTEND_AUDIT_RECEIPT="$TASK_DATA/frontend-audit.json" npm --prefix apps/docs run audit:locked
 ```
 
 安全清单记录 npm 压缩包完整性及原始、补丁后文件身份，不改包名或伪造新版本。重复安装补丁不会继续修改文件；未知字节会被拒绝。Astro 加载构建配置前，会检查全部安装副本和锁文件关系。每次全新安装后都必须先打补丁，再运行 Astro 检查或构建。

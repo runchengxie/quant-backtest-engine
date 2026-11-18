@@ -79,7 +79,7 @@ initial_nav - terminal_nav
 
 ## 合成验收
 
-`core/tests/test_joint_execution.py` 包含手算有限财富对照、费用和整手及期末风险改变首步、
+`packages/core/tests/test_joint_execution.py` 包含手算有限财富对照、费用和整手及期末风险改变首步、
 部分成交仅收一次母单最低佣金、A 无法卖出时不能为可交易 B 融资及有现金的 B 对照、
 预测信号时点和未来容量改变首步、精确输入绑定下的暂时与永久冲击恢复、报告延迟等待、
 输入不变性、未来可用时间拒绝和如实报告搜索预算。这些合成案例证明实现行为，

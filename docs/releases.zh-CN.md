@@ -29,7 +29,7 @@ Alpha.2 的交易支持范围仍以[能力矩阵](capabilities.zh-CN.md)为准�
 
 解压二进制包后，在其目录内运行 `./quant-backtest-engine capabilities`。
 使用 `./quant-backtest-engine run REQUEST.json` 执行请求。源码包内的
-`fixtures/roundtrip.json` 可用于合成数据试跑。构建元数据记录 Git 提交、
+`tests/fixtures/roundtrip.json` 可用于合成数据试跑。构建元数据记录 Git 提交、
 锁文件哈希、编译器、Cargo、平台和 glibc 版本。程序仍依赖系统 C 运行库。
 
 ## 从源码包安装 Python 客户端
@@ -38,7 +38,7 @@ Alpha.2 的交易支持范围仍以[能力矩阵](capabilities.zh-CN.md)为准�
 
 ```sh
 python3 -m venv /absolute/external/engine-client-venv
-/absolute/external/engine-client-venv/bin/python -m pip install ./python
+/absolute/external/engine-client-venv/bin/python -m pip install ./packages/python-sdk
 ```
 
 客户端无需第三方 Python 运行时包，还需要单独的引擎程序。
@@ -57,7 +57,7 @@ python3 -m venv /absolute/external/engine-client-venv
 先提交更改，确认 Linux x86_64 源码目录没有未提交内容，再用 Python 3.11 或更新版本运行下面的命令。
 
 ```bash
-python3 project_tools/package_release.py --output /absolute/external/release-output
+python3 scripts/release/package_release.py --output /absolute/external/release-output
 ```
 
 需要保留的产物应放在项目约定的数据目录。脚本从已提交的 Git 树取源码，

@@ -12,6 +12,6 @@
     result = run_daily(request)
     ledger = result.to_unified_ledger()
 
-完整合成示例为 `fixtures/product/daily.json`；参见[日频输入](../product/daily-inputs.zh-CN.md)。显式选择 `python.daily`；无日频检查点、恢复接口或运行数据库。
+完整合成示例为 `tests/fixtures/product/daily.json`；参见[日频输入](../product/daily-inputs.zh-CN.md)。显式选择 `python.daily`；无日频检查点、恢复接口或运行数据库。
 
 旧 Platform `SequencedExecutionRequest` / `research.clock.v1` 适配器和研究报告写入器仍由消费者维护，序列化标识不变。单时钟研究报告仍须拒绝多决策结果。调用方时钟和日历不能认证历史数据可见性。

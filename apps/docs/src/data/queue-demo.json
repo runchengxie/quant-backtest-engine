@@ -1,0 +1,1102 @@
+{
+  "cases": {
+    "cancel-fast": {
+      "commands": [
+        {
+          "event_id": "own",
+          "kind": "order",
+          "latency_ns": "0",
+          "order_id": "own",
+          "price": "100",
+          "quantity": "3",
+          "response_ns": "20",
+          "send_ns": "100",
+          "sequence": "0",
+          "side": "1"
+        },
+        {
+          "event_id": "cancel",
+          "kind": "cancel",
+          "latency_ns": "0",
+          "order_id": "own",
+          "price": "0",
+          "quantity": null,
+          "response_ns": "20",
+          "send_ns": "150",
+          "sequence": "1",
+          "side": "0"
+        },
+        {
+          "event_id": "seller",
+          "kind": "order",
+          "latency_ns": "0",
+          "order_id": "seller",
+          "price": "100",
+          "quantity": "3",
+          "response_ns": "20",
+          "send_ns": "200",
+          "sequence": "2",
+          "side": "-1"
+        }
+      ],
+      "events": [
+        {
+          "asks": [],
+          "bids": [
+            [
+              "100",
+              "3"
+            ]
+          ],
+          "cancelled_quantity": "0",
+          "effective_ns": "100",
+          "event_id": "own",
+          "fills": [],
+          "kind": "order",
+          "order_id": "own",
+          "queue": [
+            [
+              "own",
+              "1",
+              "100",
+              "3"
+            ]
+          ],
+          "sequence": "0",
+          "status": "resting"
+        },
+        {
+          "asks": [],
+          "bids": [],
+          "cancelled_quantity": "3",
+          "effective_ns": "150",
+          "event_id": "cancel",
+          "fills": [],
+          "kind": "cancel",
+          "order_id": "own",
+          "queue": [],
+          "sequence": "1",
+          "status": "cancelled"
+        },
+        {
+          "asks": [
+            [
+              "100",
+              "3"
+            ]
+          ],
+          "bids": [],
+          "cancelled_quantity": "0",
+          "effective_ns": "200",
+          "event_id": "seller",
+          "fills": [],
+          "kind": "order",
+          "order_id": "seller",
+          "queue": [
+            [
+              "seller",
+              "-1",
+              "100",
+              "3"
+            ]
+          ],
+          "sequence": "2",
+          "status": "resting"
+        }
+      ],
+      "input_sha256": "83e0997d218d32aee70c839f95e80e5e3c38610a19cbc6f8ed119fb42f695891",
+      "reports": [
+        {
+          "delivered_ns": "120",
+          "effective_ns": "100",
+          "event": {
+            "asks": [],
+            "bids": [
+              [
+                "100",
+                "3"
+              ]
+            ],
+            "cancelled_quantity": "0",
+            "effective_ns": "100",
+            "event_id": "own",
+            "fills": [],
+            "kind": "order",
+            "order_id": "own",
+            "queue": [
+              [
+                "own",
+                "1",
+                "100",
+                "3"
+              ]
+            ],
+            "sequence": "0",
+            "status": "resting"
+          },
+          "event_id": "own"
+        },
+        {
+          "delivered_ns": "170",
+          "effective_ns": "150",
+          "event": {
+            "asks": [],
+            "bids": [],
+            "cancelled_quantity": "3",
+            "effective_ns": "150",
+            "event_id": "cancel",
+            "fills": [],
+            "kind": "cancel",
+            "order_id": "own",
+            "queue": [],
+            "sequence": "1",
+            "status": "cancelled"
+          },
+          "event_id": "cancel"
+        },
+        {
+          "delivered_ns": "220",
+          "effective_ns": "200",
+          "event": {
+            "asks": [
+              [
+                "100",
+                "3"
+              ]
+            ],
+            "bids": [],
+            "cancelled_quantity": "0",
+            "effective_ns": "200",
+            "event_id": "seller",
+            "fills": [],
+            "kind": "order",
+            "order_id": "seller",
+            "queue": [
+              [
+                "seller",
+                "-1",
+                "100",
+                "3"
+              ]
+            ],
+            "sequence": "2",
+            "status": "resting"
+          },
+          "event_id": "seller"
+        }
+      ],
+      "schema": "command-latency.v1"
+    },
+    "cancel-late": {
+      "commands": [
+        {
+          "event_id": "own",
+          "kind": "order",
+          "latency_ns": "0",
+          "order_id": "own",
+          "price": "100",
+          "quantity": "3",
+          "response_ns": "20",
+          "send_ns": "100",
+          "sequence": "0",
+          "side": "1"
+        },
+        {
+          "event_id": "seller",
+          "kind": "order",
+          "latency_ns": "0",
+          "order_id": "seller",
+          "price": "100",
+          "quantity": "3",
+          "response_ns": "20",
+          "send_ns": "200",
+          "sequence": "2",
+          "side": "-1"
+        },
+        {
+          "event_id": "cancel",
+          "kind": "cancel",
+          "latency_ns": "100",
+          "order_id": "own",
+          "price": "0",
+          "quantity": null,
+          "response_ns": "20",
+          "send_ns": "150",
+          "sequence": "1",
+          "side": "0"
+        }
+      ],
+      "events": [
+        {
+          "asks": [],
+          "bids": [
+            [
+              "100",
+              "3"
+            ]
+          ],
+          "cancelled_quantity": "0",
+          "effective_ns": "100",
+          "event_id": "own",
+          "fills": [],
+          "kind": "order",
+          "order_id": "own",
+          "queue": [
+            [
+              "own",
+              "1",
+              "100",
+              "3"
+            ]
+          ],
+          "sequence": "0",
+          "status": "resting"
+        },
+        {
+          "asks": [],
+          "bids": [],
+          "cancelled_quantity": "0",
+          "effective_ns": "200",
+          "event_id": "seller",
+          "fills": [
+            {
+              "buy_id": "own",
+              "price": "100",
+              "sell_id": "seller",
+              "volume": "3"
+            }
+          ],
+          "kind": "order",
+          "order_id": "seller",
+          "queue": [],
+          "sequence": "2",
+          "status": "filled"
+        },
+        {
+          "asks": [],
+          "bids": [],
+          "cancelled_quantity": "0",
+          "effective_ns": "250",
+          "event_id": "cancel",
+          "fills": [],
+          "kind": "cancel",
+          "order_id": "own",
+          "queue": [],
+          "sequence": "1",
+          "status": "not_resting"
+        }
+      ],
+      "input_sha256": "d686c6a188e3b4d4cb4b8ef11dc8680439cd2e239888636d840065d0420b5916",
+      "reports": [
+        {
+          "delivered_ns": "120",
+          "effective_ns": "100",
+          "event": {
+            "asks": [],
+            "bids": [
+              [
+                "100",
+                "3"
+              ]
+            ],
+            "cancelled_quantity": "0",
+            "effective_ns": "100",
+            "event_id": "own",
+            "fills": [],
+            "kind": "order",
+            "order_id": "own",
+            "queue": [
+              [
+                "own",
+                "1",
+                "100",
+                "3"
+              ]
+            ],
+            "sequence": "0",
+            "status": "resting"
+          },
+          "event_id": "own"
+        },
+        {
+          "delivered_ns": "220",
+          "effective_ns": "200",
+          "event": {
+            "asks": [],
+            "bids": [],
+            "cancelled_quantity": "0",
+            "effective_ns": "200",
+            "event_id": "seller",
+            "fills": [
+              {
+                "buy_id": "own",
+                "price": "100",
+                "sell_id": "seller",
+                "volume": "3"
+              }
+            ],
+            "kind": "order",
+            "order_id": "seller",
+            "queue": [],
+            "sequence": "2",
+            "status": "filled"
+          },
+          "event_id": "seller"
+        },
+        {
+          "delivered_ns": "270",
+          "effective_ns": "250",
+          "event": {
+            "asks": [],
+            "bids": [],
+            "cancelled_quantity": "0",
+            "effective_ns": "250",
+            "event_id": "cancel",
+            "fills": [],
+            "kind": "cancel",
+            "order_id": "own",
+            "queue": [],
+            "sequence": "1",
+            "status": "not_resting"
+          },
+          "event_id": "cancel"
+        }
+      ],
+      "schema": "command-latency.v1"
+    },
+    "late": {
+      "commands": [
+        {
+          "event_id": "ahead",
+          "kind": "order",
+          "latency_ns": "0",
+          "order_id": "ahead",
+          "price": "100",
+          "quantity": "5",
+          "response_ns": "20",
+          "send_ns": "100",
+          "sequence": "0",
+          "side": "1"
+        },
+        {
+          "event_id": "lower",
+          "kind": "order",
+          "latency_ns": "0",
+          "order_id": "lower",
+          "price": "99",
+          "quantity": "10",
+          "response_ns": "20",
+          "send_ns": "100",
+          "sequence": "1",
+          "side": "1"
+        },
+        {
+          "event_id": "seller",
+          "kind": "order",
+          "latency_ns": "0",
+          "order_id": "seller",
+          "price": "99",
+          "quantity": "7",
+          "response_ns": "20",
+          "send_ns": "200",
+          "sequence": "3",
+          "side": "-1"
+        },
+        {
+          "event_id": "own",
+          "kind": "order",
+          "latency_ns": "150",
+          "order_id": "own",
+          "price": "100",
+          "quantity": "3",
+          "response_ns": "20",
+          "send_ns": "110",
+          "sequence": "2",
+          "side": "1"
+        }
+      ],
+      "events": [
+        {
+          "asks": [],
+          "bids": [
+            [
+              "100",
+              "5"
+            ]
+          ],
+          "cancelled_quantity": "0",
+          "effective_ns": "100",
+          "event_id": "ahead",
+          "fills": [],
+          "kind": "order",
+          "order_id": "ahead",
+          "queue": [
+            [
+              "ahead",
+              "1",
+              "100",
+              "5"
+            ]
+          ],
+          "sequence": "0",
+          "status": "resting"
+        },
+        {
+          "asks": [],
+          "bids": [
+            [
+              "100",
+              "5"
+            ],
+            [
+              "99",
+              "10"
+            ]
+          ],
+          "cancelled_quantity": "0",
+          "effective_ns": "100",
+          "event_id": "lower",
+          "fills": [],
+          "kind": "order",
+          "order_id": "lower",
+          "queue": [
+            [
+              "ahead",
+              "1",
+              "100",
+              "5"
+            ],
+            [
+              "lower",
+              "1",
+              "99",
+              "10"
+            ]
+          ],
+          "sequence": "1",
+          "status": "resting"
+        },
+        {
+          "asks": [],
+          "bids": [
+            [
+              "99",
+              "8"
+            ]
+          ],
+          "cancelled_quantity": "0",
+          "effective_ns": "200",
+          "event_id": "seller",
+          "fills": [
+            {
+              "buy_id": "ahead",
+              "price": "100",
+              "sell_id": "seller",
+              "volume": "5"
+            },
+            {
+              "buy_id": "lower",
+              "price": "99",
+              "sell_id": "seller",
+              "volume": "2"
+            }
+          ],
+          "kind": "order",
+          "order_id": "seller",
+          "queue": [
+            [
+              "lower",
+              "1",
+              "99",
+              "8"
+            ]
+          ],
+          "sequence": "3",
+          "status": "filled"
+        },
+        {
+          "asks": [],
+          "bids": [
+            [
+              "100",
+              "3"
+            ],
+            [
+              "99",
+              "8"
+            ]
+          ],
+          "cancelled_quantity": "0",
+          "effective_ns": "260",
+          "event_id": "own",
+          "fills": [],
+          "kind": "order",
+          "order_id": "own",
+          "queue": [
+            [
+              "lower",
+              "1",
+              "99",
+              "8"
+            ],
+            [
+              "own",
+              "1",
+              "100",
+              "3"
+            ]
+          ],
+          "sequence": "2",
+          "status": "resting"
+        }
+      ],
+      "input_sha256": "dfc5c22bc1cfcb47937b23b810b56379446adc66ffef990c5bb7e67ce903f2da",
+      "reports": [
+        {
+          "delivered_ns": "120",
+          "effective_ns": "100",
+          "event": {
+            "asks": [],
+            "bids": [
+              [
+                "100",
+                "5"
+              ]
+            ],
+            "cancelled_quantity": "0",
+            "effective_ns": "100",
+            "event_id": "ahead",
+            "fills": [],
+            "kind": "order",
+            "order_id": "ahead",
+            "queue": [
+              [
+                "ahead",
+                "1",
+                "100",
+                "5"
+              ]
+            ],
+            "sequence": "0",
+            "status": "resting"
+          },
+          "event_id": "ahead"
+        },
+        {
+          "delivered_ns": "120",
+          "effective_ns": "100",
+          "event": {
+            "asks": [],
+            "bids": [
+              [
+                "100",
+                "5"
+              ],
+              [
+                "99",
+                "10"
+              ]
+            ],
+            "cancelled_quantity": "0",
+            "effective_ns": "100",
+            "event_id": "lower",
+            "fills": [],
+            "kind": "order",
+            "order_id": "lower",
+            "queue": [
+              [
+                "ahead",
+                "1",
+                "100",
+                "5"
+              ],
+              [
+                "lower",
+                "1",
+                "99",
+                "10"
+              ]
+            ],
+            "sequence": "1",
+            "status": "resting"
+          },
+          "event_id": "lower"
+        },
+        {
+          "delivered_ns": "220",
+          "effective_ns": "200",
+          "event": {
+            "asks": [],
+            "bids": [
+              [
+                "99",
+                "8"
+              ]
+            ],
+            "cancelled_quantity": "0",
+            "effective_ns": "200",
+            "event_id": "seller",
+            "fills": [
+              {
+                "buy_id": "ahead",
+                "price": "100",
+                "sell_id": "seller",
+                "volume": "5"
+              },
+              {
+                "buy_id": "lower",
+                "price": "99",
+                "sell_id": "seller",
+                "volume": "2"
+              }
+            ],
+            "kind": "order",
+            "order_id": "seller",
+            "queue": [
+              [
+                "lower",
+                "1",
+                "99",
+                "8"
+              ]
+            ],
+            "sequence": "3",
+            "status": "filled"
+          },
+          "event_id": "seller"
+        },
+        {
+          "delivered_ns": "280",
+          "effective_ns": "260",
+          "event": {
+            "asks": [],
+            "bids": [
+              [
+                "100",
+                "3"
+              ],
+              [
+                "99",
+                "8"
+              ]
+            ],
+            "cancelled_quantity": "0",
+            "effective_ns": "260",
+            "event_id": "own",
+            "fills": [],
+            "kind": "order",
+            "order_id": "own",
+            "queue": [
+              [
+                "lower",
+                "1",
+                "99",
+                "8"
+              ],
+              [
+                "own",
+                "1",
+                "100",
+                "3"
+              ]
+            ],
+            "sequence": "2",
+            "status": "resting"
+          },
+          "event_id": "own"
+        }
+      ],
+      "schema": "command-latency.v1"
+    },
+    "timely": {
+      "commands": [
+        {
+          "event_id": "ahead",
+          "kind": "order",
+          "latency_ns": "0",
+          "order_id": "ahead",
+          "price": "100",
+          "quantity": "5",
+          "response_ns": "20",
+          "send_ns": "100",
+          "sequence": "0",
+          "side": "1"
+        },
+        {
+          "event_id": "lower",
+          "kind": "order",
+          "latency_ns": "0",
+          "order_id": "lower",
+          "price": "99",
+          "quantity": "10",
+          "response_ns": "20",
+          "send_ns": "100",
+          "sequence": "1",
+          "side": "1"
+        },
+        {
+          "event_id": "own",
+          "kind": "order",
+          "latency_ns": "1",
+          "order_id": "own",
+          "price": "100",
+          "quantity": "3",
+          "response_ns": "20",
+          "send_ns": "110",
+          "sequence": "2",
+          "side": "1"
+        },
+        {
+          "event_id": "seller",
+          "kind": "order",
+          "latency_ns": "0",
+          "order_id": "seller",
+          "price": "99",
+          "quantity": "7",
+          "response_ns": "20",
+          "send_ns": "200",
+          "sequence": "3",
+          "side": "-1"
+        }
+      ],
+      "events": [
+        {
+          "asks": [],
+          "bids": [
+            [
+              "100",
+              "5"
+            ]
+          ],
+          "cancelled_quantity": "0",
+          "effective_ns": "100",
+          "event_id": "ahead",
+          "fills": [],
+          "kind": "order",
+          "order_id": "ahead",
+          "queue": [
+            [
+              "ahead",
+              "1",
+              "100",
+              "5"
+            ]
+          ],
+          "sequence": "0",
+          "status": "resting"
+        },
+        {
+          "asks": [],
+          "bids": [
+            [
+              "100",
+              "5"
+            ],
+            [
+              "99",
+              "10"
+            ]
+          ],
+          "cancelled_quantity": "0",
+          "effective_ns": "100",
+          "event_id": "lower",
+          "fills": [],
+          "kind": "order",
+          "order_id": "lower",
+          "queue": [
+            [
+              "ahead",
+              "1",
+              "100",
+              "5"
+            ],
+            [
+              "lower",
+              "1",
+              "99",
+              "10"
+            ]
+          ],
+          "sequence": "1",
+          "status": "resting"
+        },
+        {
+          "asks": [],
+          "bids": [
+            [
+              "100",
+              "8"
+            ],
+            [
+              "99",
+              "10"
+            ]
+          ],
+          "cancelled_quantity": "0",
+          "effective_ns": "111",
+          "event_id": "own",
+          "fills": [],
+          "kind": "order",
+          "order_id": "own",
+          "queue": [
+            [
+              "ahead",
+              "1",
+              "100",
+              "5"
+            ],
+            [
+              "lower",
+              "1",
+              "99",
+              "10"
+            ],
+            [
+              "own",
+              "1",
+              "100",
+              "3"
+            ]
+          ],
+          "sequence": "2",
+          "status": "resting"
+        },
+        {
+          "asks": [],
+          "bids": [
+            [
+              "100",
+              "1"
+            ],
+            [
+              "99",
+              "10"
+            ]
+          ],
+          "cancelled_quantity": "0",
+          "effective_ns": "200",
+          "event_id": "seller",
+          "fills": [
+            {
+              "buy_id": "ahead",
+              "price": "100",
+              "sell_id": "seller",
+              "volume": "5"
+            },
+            {
+              "buy_id": "own",
+              "price": "100",
+              "sell_id": "seller",
+              "volume": "2"
+            }
+          ],
+          "kind": "order",
+          "order_id": "seller",
+          "queue": [
+            [
+              "lower",
+              "1",
+              "99",
+              "10"
+            ],
+            [
+              "own",
+              "1",
+              "100",
+              "1"
+            ]
+          ],
+          "sequence": "3",
+          "status": "filled"
+        }
+      ],
+      "input_sha256": "0d9ccfa8245983d03faa5c4bb6a9978511309cef49f24d6320d2329ba86e178d",
+      "reports": [
+        {
+          "delivered_ns": "120",
+          "effective_ns": "100",
+          "event": {
+            "asks": [],
+            "bids": [
+              [
+                "100",
+                "5"
+              ]
+            ],
+            "cancelled_quantity": "0",
+            "effective_ns": "100",
+            "event_id": "ahead",
+            "fills": [],
+            "kind": "order",
+            "order_id": "ahead",
+            "queue": [
+              [
+                "ahead",
+                "1",
+                "100",
+                "5"
+              ]
+            ],
+            "sequence": "0",
+            "status": "resting"
+          },
+          "event_id": "ahead"
+        },
+        {
+          "delivered_ns": "120",
+          "effective_ns": "100",
+          "event": {
+            "asks": [],
+            "bids": [
+              [
+                "100",
+                "5"
+              ],
+              [
+                "99",
+                "10"
+              ]
+            ],
+            "cancelled_quantity": "0",
+            "effective_ns": "100",
+            "event_id": "lower",
+            "fills": [],
+            "kind": "order",
+            "order_id": "lower",
+            "queue": [
+              [
+                "ahead",
+                "1",
+                "100",
+                "5"
+              ],
+              [
+                "lower",
+                "1",
+                "99",
+                "10"
+              ]
+            ],
+            "sequence": "1",
+            "status": "resting"
+          },
+          "event_id": "lower"
+        },
+        {
+          "delivered_ns": "131",
+          "effective_ns": "111",
+          "event": {
+            "asks": [],
+            "bids": [
+              [
+                "100",
+                "8"
+              ],
+              [
+                "99",
+                "10"
+              ]
+            ],
+            "cancelled_quantity": "0",
+            "effective_ns": "111",
+            "event_id": "own",
+            "fills": [],
+            "kind": "order",
+            "order_id": "own",
+            "queue": [
+              [
+                "ahead",
+                "1",
+                "100",
+                "5"
+              ],
+              [
+                "lower",
+                "1",
+                "99",
+                "10"
+              ],
+              [
+                "own",
+                "1",
+                "100",
+                "3"
+              ]
+            ],
+            "sequence": "2",
+            "status": "resting"
+          },
+          "event_id": "own"
+        },
+        {
+          "delivered_ns": "220",
+          "effective_ns": "200",
+          "event": {
+            "asks": [],
+            "bids": [
+              [
+                "100",
+                "1"
+              ],
+              [
+                "99",
+                "10"
+              ]
+            ],
+            "cancelled_quantity": "0",
+            "effective_ns": "200",
+            "event_id": "seller",
+            "fills": [
+              {
+                "buy_id": "ahead",
+                "price": "100",
+                "sell_id": "seller",
+                "volume": "5"
+              },
+              {
+                "buy_id": "own",
+                "price": "100",
+                "sell_id": "seller",
+                "volume": "2"
+              }
+            ],
+            "kind": "order",
+            "order_id": "seller",
+            "queue": [
+              [
+                "lower",
+                "1",
+                "99",
+                "10"
+              ],
+              [
+                "own",
+                "1",
+                "100",
+                "1"
+              ]
+            ],
+            "sequence": "3",
+            "status": "filled"
+          },
+          "event_id": "seller"
+        }
+      ],
+      "schema": "command-latency.v1"
+    }
+  },
+  "schema": "queue-demo.v1",
+  "scope": "synthetic_matching_only",
+  "sources": {
+    "packages/core/src/quant_backtest_core/microstructure/latency_replay.py": "f657d42739abc608596718e4c32f4f9f36ccfe18b5db988a5d3054d272fb5015",
+    "packages/core/src/quant_backtest_core/microstructure/matching.py": "55d2d6e98025244ac188dc6db296b8c065a600752f87ffe91b7ae72eda7d0dd5",
+    "packages/core/src/quant_backtest_core/microstructure/ordering.py": "d5744eba37df981d3af9bd7fabc5dffb0d3afa095b2ca76eb109fe927f13db84",
+    "packages/core/src/quant_backtest_core/microstructure/pack.py": "d9b049c508d005fac34c0d70505de8932b8548eb44a570847f820c0435a01f2b",
+    "scripts/build/export_event_demo.py": "89b50c6460452aa84fd1e776e25917d317285203600857d630f0a346ae09bb70"
+  },
+  "units": {
+    "clock": "elapsed_ns",
+    "price": "CNY_cent",
+    "quantity": "raw_share"
+  }
+}

@@ -22,7 +22,7 @@ The following are distinct identities, not interchangeable package-version claim
 | Runtime Engine v9 | `eb00e0b85459d64719d6dc05bc93a94a4ffbce95` (PR 60) | Runtime 0.2.0 fixed Engine provider; actual process-death recovery validated |
 | Runtime retained baseline | `01ed4c34f955ef6cd39d13aa073b6d61b610d321` | Historical recovery retains its complete original release and dependency closure |
 
-The tutorial revision does not change the provider's `core/`, `python/`, Rust
+The tutorial revision does not change the provider's `packages/core/`, `packages/python-sdk/`, Rust
 sources or Cargo lock. Independent wheel acceptance records the actual build
 revision and SHA256; it does not rename old checkpoint identities. Build both wheels
 from one clean reviewed revision as described in [installation](installation.md).
@@ -55,27 +55,27 @@ Use the locked numerical baseline from the installation guide.
 | Check | Installed environment | Acceptance |
 | --- | --- | --- |
 | SDK/base | SDK only / SDK + core without extras | `verify_installed_product.py --mode sdk` / `--mode base`; source namespaces stay separate and no numerical/framework dependencies appear |
-| Minute account | `[minute]` | `examples/product/minute_session.py`: two fills, CNY 50 net external capital, all recovery ledgers and summary equal uninterrupted execution |
-| Independent scenarios | `[scenario]` | `examples/product/scenarios.py --output-root NEW_DIRECTORY`: one invalid case fails independently; the hand oracle buys 100 shares at 10 with zero remaining cash |
+| Minute account | `[minute]` | `packages/core/examples/product/minute_session.py`: two fills, CNY 50 net external capital, all recovery ledgers and summary equal uninterrupted execution |
+| Independent scenarios | `[scenario]` | `packages/core/examples/product/scenarios.py --output-root NEW_DIRECTORY`: one invalid case fails independently; the hand oracle buys 100 shares at 10 with zero remaining cash |
 | Bounded planning | `[planning]` | `verify_installed_planning.py`: exhaustive finite oracle selects `(1, 1)`, spends 12 and reports objective 0.5 |
-| Daily financial graph | `[daily]` | `verify_installed_daily.py`, followed by `core/tests/daily`: real installed ownership, complete financial/action/fee/valuation and product regressions |
+| Daily financial graph | `[daily]` | `verify_installed_daily.py`, followed by `packages/core/tests/daily`: real installed ownership, complete financial/action/fee/valuation and product regressions |
 | Python order book | `[microstructure]` | `verify_installed_microstructure.py --native absent`: real match behavior and explicit missing-native failure |
-| Union | `[all]` | Full installed `core/tests`; Rust/native execution checks additionally need their real executable/extension |
+| Union | `[all]` | Full installed `packages/core/tests`; Rust/native execution checks additionally need their real executable/extension |
 
-All `verify_installed_*.py` scripts above are under `project_tools/` in `SOURCE`.
+All `verify_installed_*.py` scripts above are under `scripts/` in `SOURCE`.
 They import the installed wheels, not an editable source tree. For example:
 
 ```sh
 cd "$TASK_DATA"
-"$ENV/bin/python" -I -B "$SOURCE/examples/product/minute_session.py"
-"$ENV/bin/python" -I -B "$SOURCE/project_tools/verify_installed_daily.py"
+"$ENV/bin/python" -I -B "$SOURCE/packages/core/examples/product/minute_session.py"
+"$ENV/bin/python" -I -B "$SOURCE/tests/acceptance/verify_installed_daily.py"
 "$ENV/bin/python" -I -B -m pytest "$SOURCE/core/tests/daily" -q -p no:cacheprovider
 ```
 
 Use separate minute and daily environments for those commands. The existing
 [Rust target-weight walkthrough](../tutorial.md) checks sizing, T+1 rejection,
 both fills, fees and daily cash + positions = NAV. Its final NAV is 10197.8 with
-2.2 commission. The smaller quote-only `fixtures/roundtrip.json` instead ends at
+2.2 commission. The smaller quote-only `tests/fixtures/roundtrip.json` instead ends at
 10019.78 with 0.22 commission; these are different fixtures.
 
 Preserve commands, exit codes, Python/dependency versions, source revisions,
@@ -90,7 +90,7 @@ The existing Documentation workflow remains the sole publisher. It builds one As
 After a successful main deployment, verify the expected full merged commit:
 
 ```sh
-python -B "$SOURCE/project_tools/verify_deployed_site.py" \
+python -B "$SOURCE/scripts/verify/verify_deployed_site.py" \
   --url https://runchengxie.github.io/quant-backtest-engine/ \
   --revision "$MERGED_REVISION" --output "$TASK_DATA/deployed.json"
 ```
@@ -156,7 +156,7 @@ the new command replay contract and its bounds.
 
 ## Synthetic algorithm assurance {#synthetic-assurance}
 
-Run `project_tools/synthetic_assurance.py --engine "$ENGINE" --output "$TASK_DATA/assurance.json" --seed 7`
+Run `scripts/verify/synthetic_assurance.py --engine "$ENGINE" --output "$TASK_DATA/assurance.json" --seed 7`
 in an environment with the installed SDK/Core and planning dependencies.
 The output path is created exclusively. The report retains the executable hash,
 source revision, script/runtime source hashes, seed and individual assumptions.

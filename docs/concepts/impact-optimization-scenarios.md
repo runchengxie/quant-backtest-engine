@@ -93,7 +93,7 @@ Install the built SDK/Core wheels with `planning` and NumPy 2.2.6, pandas 3.0.6,
 SciPy 1.18.1. Run from outside the source tree:
 
 ```bash
-python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/core/tests/test_discrete_oracle.py" "$CODE_ROOT/quant/quant-backtest-engine/core/tests/test_impact_scenarios.py" -q -p no:cacheprovider
+python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/packages/core/tests/test_discrete_oracle.py" "$CODE_ROOT/quant/quant-backtest-engine/packages/core/tests/test_impact_scenarios.py" -q -p no:cacheprovider
 ```
 
 The retained general risk optimizer test belongs to [pinned Platform tests](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/tests/test_impact_optimization_scenarios.py).

@@ -10,8 +10,8 @@ package is imported. Rust remains a separate, non-resumable backend.
 
 ## Open, observe, recover and finish
 
-Copy the synthetic `fixtures/product/minute-session.json` and
-`fixtures/product/minute-calendar.json` from the same revision into an input directory.
+Copy the synthetic `tests/fixtures/product/minute-session.json` and
+`tests/fixtures/product/minute-calendar.json` from the same revision into an input directory.
 Use fresh output directories; recovery keeps the manifest unchanged.
 
 ```python
@@ -82,7 +82,7 @@ manifest/binding SHA256, cursor, policy id/version/state schema, `owner_schema` 
 It contains no job, lease, SQLite or scheduler identity. The manifest supplies all expected
 inputs on restore; saved content never supplies an expected tape or source identity.
 The binding covers complete serialized inputs/tapes/config/delay/impact/calendar,
-provider identity, every installed core/SDK Python helper, Python version, actual
+provider identity, every installed packages/core/SDK Python helper, Python version, actual
 installed dependency files (including NumPy/pandas binaries), and local policy source
 and initial state. Each restore reads the expected artifacts again. A version label
 alone is insufficient. Provider Git revision is null unless independently recorded;
@@ -117,11 +117,11 @@ string-safe clocks. The synthetic fixture has two partial buys, one 5 CNY parent
 200 CNY distribution, 200 new shares, and 50 CNY net external capital.
 
 ```sh
-"$ENV/bin/python" -I -B project_tools/verify_installed_product.py --mode minute \
+"$ENV/bin/python" -I -B tests/acceptance/verify_installed_product.py --mode minute \
   --manifest "$INPUTS/minute-session.json" --artifact-root "$INPUTS" \
   --output-root "$OUTPUTS"
-"$ENV/bin/python" -I -B -m pytest core/tests/test_product_sessions.py \
-  core/tests/test_product_checkpoint.py -q -p no:cacheprovider
+"$ENV/bin/python" -I -B -m pytest packages/core/tests/test_product_sessions.py \
+  packages/core/tests/test_product_checkpoint.py -q -p no:cacheprovider
 ```
 
 Acceptance uses separate installed wheels, verifies namespace separation and forbidden

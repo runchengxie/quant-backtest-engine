@@ -111,7 +111,7 @@ minute matcher, restore its state, and check single cash charging.
 
 ## Reproduction and limits
 
-`core/tests/test_impact_planning.py` includes independent hand solutions, capacity and
+`packages/core/tests/test_impact_planning.py` includes independent hand solutions, capacity and
 alpha sensitivity, cash reservations, locked inventory, exact request binding,
 owner matching and restoration, and failure rejection. It checks share-unit and
 currency scaling, decaying round trips, and same-clock half-own-increment slicing.
@@ -122,7 +122,7 @@ mechanics, not market impact estimates or evidence of real-market optimality.
 Install the built SDK and Core wheels with the explicit `planning` extra and the extraction pins NumPy 2.2.6, pandas 3.0.6 and SciPy 1.18.1. From outside the source tree, run the installed interpreter:
 
 ```bash
-python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/core/tests/test_impact_planning.py" -q -p no:cacheprovider
+python -I -B -m pytest "$CODE_ROOT/quant/quant-backtest-engine/packages/core/tests/test_impact_planning.py" -q -p no:cacheprovider
 ```
 
 Adapted from [pinned Apache-2.0 source](https://github.com/runchengxie/quant-platform/blob/7a618bddd8fdeee5dbe37fe5b54a9698e0de5355/docs/concepts/impact-planning.md). Implemented on the unreleased provider B branch; Core source is 0.2.0; whole-provider review and integration remain pending. Consumer cutover is separate.
@@ -137,7 +137,7 @@ The blocked-sale test starts with ten A shares and zero cash: a hypothetical rot
 can plan a sale and purchase, but the blocked actual sale leaves zero cash and ten A.
 The next request uses those actual facts and zero sale capacity; it cannot buy B.
 
-`core/tests/test_planning_session.py` uses `sessions.open_session`, a full source-bound
+`packages/core/tests/test_planning_session.py` uses `sessions.open_session`, a full source-bound
 checkpoint and `sessions.restore_session` before replanning. One 100-share fill at
 10.05 leaves cash 8995 and transient state 0.1 at exact UTC ns 1767576720000000000.
 The decimal hand notional is 1005; the owner's preserved raw binary gross is
@@ -159,7 +159,7 @@ There is no terminal liquidation, shorts, borrowing, exchange queue or automatic
 future-data access. Execute only `first_trade`, then replan from delivered state.
 SLSQP uses ftol 1e-12/maxiter 2000; failed/nonfinite or residual >1e-7 results raise.
 This bounded research interface offers no independent numerical optimum certificate.
-Run the installed `core/tests/test_multiperiod.py` and `core/tests/test_planning_session.py`
+Run the installed `packages/core/tests/test_multiperiod.py` and `packages/core/tests/test_planning_session.py`
 alongside the impact suite. Generic risk estimation and signed optimizers remain Platform.
 
 ## Independent scenario composition
