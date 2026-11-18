@@ -49,7 +49,7 @@ Preparation/output directories must be fresh. Source changes invalidate prepared
 
 ## Theme maintenance
 
-Each of the eight lessons starts with one plain question and one event-linked visual. Advanced charts, original values, source bindings and complete tables remain available through native disclosures. Both learning and lab URLs work. Reference search, old page paths, fragment identifiers and downloads remain preserved. English is the default; Chinese counterparts and the explicit language preference retain their established routes and storage contract. Motion remains optional and respects reduced-motion settings; no-JavaScript users retain complete recorded tables.
+Each of the eight lessons starts with one plain question and one event-linked visual. Advanced charts, original values, source bindings and complete tables remain available through native disclosures. Both learning and lab URLs work. Reference search, old page paths, fragment identifiers and downloads remain preserved. English is the default; Chinese counterparts and the explicit language preference retain their established routes and storage contract. Visible lesson diagrams loop automatically. Previous, Step, Reset, direct seeking and scenario or speed changes pause on an exact recorded event. Leaving the viewport or hiding the page pauses playback until explicit Play. Reduced-motion users use manual controls. No-JavaScript users retain complete recorded tables.
 
 The browser replays owner-produced synthetic evidence and draws geometry. It does not recompute accounting, invent missing outcomes or turn deterministic scenarios into probabilities. Opportunity shortfall is distinct from cash fees; permanent-impact parameters are assumptions; the displayed finite feasible grid is not a general global nonconvex/HJB certificate. The conceptual prediction stage does not claim supplied orders came from a trained strategy.
 
@@ -62,3 +62,5 @@ The sole deployment owner is `.github/workflows/docs.yml`. PRs validate without 
 Retired two-renderer/extraction helpers are historical tested utilities, not a hidden MkDocs build dependency. License originals and notices remain in [third-party notices](third-party-notices.md), `LICENSE` and `COPYING`.
 
 [Frontend build security mitigation](frontend-security.md): patch fresh installs before Astro and use the verified audit gate.
+
+The diagram and control spacing draws on [Red Blob Games](https://www.redblobgames.com/pathfinding/a-star/introduction.html) and [Bartosz Ciechanowski](https://ciechanow.ski/mechanical-watch/). The page uses a local CJK sans stack and tabular figures. Transitions connect recorded states for reading, while source event times and exact values remain in the evidence. Chinese teaching prose follows the requested direct-action style. No external artwork or fonts are downloaded at runtime.

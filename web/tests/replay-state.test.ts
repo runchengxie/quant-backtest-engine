@@ -30,7 +30,16 @@ test("bounds, explicit seeks, final playback, reset and reduced motion", () => {
   assert.equal(s.playing, false);
   for (let i = 0; i < 20; i++) s = reduceReplay(s, { type: "NEXT" }, index);
   assert.equal(s.eventOrdinal, traces[0].events.length - 1);
-  assert.equal(reduceReplay(s, { type: "PLAY" }, index).playing, false);
+  s = reduceReplay(s, { type: "PLAY" }, index);
+  assert.equal(s.playing, true);
+  s = reduceReplay(s, { type: "TICK" }, index);
+  assert.equal(s.eventOrdinal, 0);
+  assert.equal(s.playing, true);
+  s = reduceReplay(s, { type: "SET_SPEED", speed: 2 }, index);
+  assert.equal(s.playing, false);
+  assert.equal(s.speed, 2);
+  s = reduceReplay(s, { type: "PAUSE" }, index);
+  assert.equal(reduceReplay(s, { type: "TICK" }, index).eventOrdinal, 0);
   s = reduceReplay(s, { type: "RESET" }, index);
   assert.equal(s.eventOrdinal, 0);
   s = reduceReplay(s, { type: "SET_REDUCED_MOTION", value: true }, index);

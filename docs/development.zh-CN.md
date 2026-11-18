@@ -33,7 +33,7 @@ SITE_DIR="$TASK_DATA/site-assembled" SITE_BASE=/quant-backtest-engine/ BROWSER_O
 
 ## 阅读与交互
 
-八个基础说明页都以一个大白话问题和一个联动主图开始。完整数值、来源及所有表格放在原生可展开区域，学习和实验旧地址都继续可用。参考文档搜索、旧 URL、锚点和下载保留；默认英文，中文对照和显式语言偏好沿用既有路由与存储约定。动画是可选项，尊重减少动态效果设置；禁用 JavaScript 时仍能展开完整记录表格。
+八个基础说明页都以一个大白话问题和一个联动主图开始。完整数值、来源及所有表格放在原生可展开区域，学习和实验旧地址都继续可用。参考文档搜索、旧 URL、锚点和下载保留。默认英文，中文对照和显式语言偏好沿用既有路由与存储约定。主图在屏幕内自动循环，暂停按钮随时可用。系统开启减少动态效果时，读者用按钮逐步查看。禁用 JavaScript 时仍能展开完整记录表格。
 
 浏览器只回放引擎产出的合成证据、把数值映射成图形，不重算账户，不把未知值改成零，不给确定情景编造概率。机会损失不是现金手续费，永久冲击系数是模型假设，有限可行格点也不代表已求出通用非凸问题或 HJB 的全局解。概念流程里的预测阶段，不表示示例给定订单来自训练好的策略。
 
@@ -46,3 +46,7 @@ SITE_DIR="$TASK_DATA/site-assembled" SITE_BASE=/quant-backtest-engine/ BROWSER_O
 旧双渲染器和片段提取函数只作为历史测试工具保留，不构成隐含 MkDocs 构建依赖。许可原文与署名见[第三方说明](third-party-notices.zh-CN.md)、`LICENSE`、`COPYING`。
 
 [网页构建依赖安全缓解](frontend-security.zh-CN.md)：全新安装后先应用补丁，再运行 Astro 和受验证的审计门禁。
+
+主图进入屏幕后自动循环。手动换情景或调速度时，演示停在当前记录。上一步和下一步也会暂停。滚出主图或切到其他标签页后，需要按播放继续。系统开启减少动态效果时，使用手动步进。播放节奏用于阅读，事件时间和完整数值保留在原记录里。
+
+图和控制条的间距参考了 [Red Blob Games](https://www.redblobgames.com/pathfinding/a-star/introduction.html) 与 [Bartosz Ciechanowski](https://ciechanow.ski/mechanical-watch/)。正文使用本机中文无衬线字体，图中数字对齐。页面运行时无需下载外部字体或插画。
