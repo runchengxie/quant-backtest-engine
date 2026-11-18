@@ -6,22 +6,23 @@ engines do not share market-state semantics; this is not historical feed parity.
 No product financial backend or production dependency is registered.
 """
 
-import json
 import hashlib
+import json
 from importlib.metadata import version
+
 import numpy as np
 from hftbacktest import (
-    BacktestAsset,
-    HashMapMarketDepthBacktest,
+    BUY_EVENT,
     DEPTH_EVENT,
-    TRADE_EVENT,
     EXCH_EVENT,
     LOCAL_EVENT,
-    BUY_EVENT,
     SELL_EVENT,
+    TRADE_EVENT,
+    BacktestAsset,
+    HashMapMarketDepthBacktest,
 )
-from hftbacktest.types import event_dtype
 from hftbacktest.order import GTC, LIMIT
+from hftbacktest.types import event_dtype
 
 
 def probe(entry_latency):

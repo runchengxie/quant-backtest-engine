@@ -3,6 +3,7 @@
 import json
 
 import pandas as pd
+
 from quant_backtest_core.backtest.impact import LinearImpact
 from quant_backtest_core.backtest.minute import (
     CapitalFlow,

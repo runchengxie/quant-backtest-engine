@@ -11,10 +11,11 @@ from dataclasses import asdict
 from decimal import Decimal
 from pathlib import Path
 
+from quant_backtest_engine.product import ArtifactRef, ScenarioIdentity, parse_manifest
+
 from quant_backtest_core import BackendContext
 from quant_backtest_core.artifacts import json_bytes
 from quant_backtest_core.scenarios import run_scenarios
-from quant_backtest_engine.product import ArtifactRef, ScenarioIdentity, parse_manifest
 
 ROOT = Path(__file__).resolve().parents[4]
 
