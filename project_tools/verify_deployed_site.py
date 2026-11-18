@@ -1,4 +1,4 @@
-"""Verify an exact merged revision and every receipt-listed public site byte."""
+"""Verify public site bytes; record the empty Pages marker as artifact-only."""
 
 from __future__ import annotations
 
@@ -55,6 +55,8 @@ def verify_deployed_site(base_url: str, expected_revision: str) -> dict:
     files = receipt.get("files")
     if not isinstance(files, dict) or not files:
         raise ValueError("empty or invalid delivered file map")
+    artifact_only = {}
+    public_files = {}
     for name, record in files.items():
         if (not isinstance(name, str) or name == "site-build.json"
                 or any(c in name for c in "\\%?#:")
@@ -67,6 +69,16 @@ def verify_deployed_site(base_url: str, expected_revision: str) -> dict:
             raise ValueError(f"invalid file size: {name}")
         if not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest):
             raise ValueError(f"invalid file digest: {name}")
+        if name == ".nojekyll":
+            # Pages does not expose this root control artifact on the public site.
+            # Only the empty marker has this exception; never skip generic 404s.
+            if record["bytes"] != 0 or digest != hashlib.sha256(b"").hexdigest():
+                raise ValueError("Pages marker must be empty")
+            artifact_only[name] = record
+        else:
+            public_files[name] = record
+    if not public_files:
+        raise ValueError("receipt contains no public files")
 
     def check(item):
         name, record = item
@@ -78,7 +90,7 @@ def verify_deployed_site(base_url: str, expected_revision: str) -> dict:
         return name, actual
 
     with ThreadPoolExecutor(max_workers=8) as pool:
-        verified = dict(pool.map(check, sorted(files.items())))
+        verified = dict(pool.map(check, sorted(public_files.items())))
     # Detect publication during the check rather than combining two deployments.
     if fetch_bytes(base_url + "site-build.json") != raw:
         raise ValueError("deployed receipt changed during verification")
@@ -89,6 +101,7 @@ def verify_deployed_site(base_url: str, expected_revision: str) -> dict:
         "checked_at": datetime.now(timezone.utc).isoformat(),
         "receipt_sha256": hashlib.sha256(raw).hexdigest(),
         "verified_files": len(verified),
+        "artifact_only_files": artifact_only,
         "files": verified,
     }
 

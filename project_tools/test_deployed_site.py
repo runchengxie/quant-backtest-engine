@@ -33,6 +33,29 @@ class DeployedSiteTests(unittest.TestCase):
         self.assertEqual(result["verified_files"], 3)
         self.assertEqual(result["source_revision"], self.revision)
 
+    def test_empty_pages_marker_is_artifact_only(self):
+        self.receipt["files"][".nojekyll"] = {"sha256": hashlib.sha256(b"").hexdigest(), "bytes": 0}
+        # No HTTP payload exists for this artifact control file.
+        result = self.run_check()
+        self.assertEqual(result["verified_files"], 3)
+        self.assertEqual(list(result["artifact_only_files"]), [".nojekyll"])
+
+    def test_marker_alone_is_not_a_public_site(self):
+        self.receipt["files"] = {".nojekyll": {"sha256": hashlib.sha256(b"").hexdigest(), "bytes": 0}}
+        with self.assertRaisesRegex(ValueError, "no public files"):
+            self.run_check()
+
+    def test_nonempty_pages_marker_is_rejected(self):
+        for size in (0, 7):
+            self.receipt["files"][".nojekyll"] = {"sha256": hashlib.sha256(b"payload").hexdigest(), "bytes": size}
+            with self.subTest(size=size), self.assertRaisesRegex(ValueError, "marker"):
+                self.run_check()
+
+    def test_other_missing_files_are_not_skipped(self):
+        self.receipt["files"]["assets/missing.js"] = {"sha256": hashlib.sha256(b"").hexdigest(), "bytes": 0}
+        with self.assertRaises(KeyError):
+            self.run_check()
+
     def test_stale_source_fails(self):
         self.receipt["identity"]["source_revision"] = "b" * 40
         with self.assertRaisesRegex(ValueError, "revision"):
