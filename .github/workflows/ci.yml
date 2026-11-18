@@ -75,6 +75,8 @@ jobs:
       - run: uv pip install --python "$RUNNER_TEMP/core-base/bin/python" --no-deps "$RUNNER_TEMP"/wheels/*.whl
       - run: '"$RUNNER_TEMP/core-base/bin/python" -I -B project_tools/verify_installed_product.py --mode base'
       - run: cargo build --locked
+      - name: Installed L2 depth product acceptance
+        run: '"$RUNNER_TEMP/core-base/bin/python" -I -B project_tools/verify_installed_depth.py --engine "$RUNNER_TEMP/target/debug/quant-backtest-engine" --output "$RUNNER_TEMP/depth-acceptance"'
       - name: Installed Rust adapter and regression suite
         env:
           QUANT_ENGINE_BINARY: ${{ runner.temp }}/target/debug/quant-backtest-engine

@@ -2,6 +2,9 @@
 
 [简体中文](backends.zh-CN.md)
 
+Select `rust.nautilus.depth` for the new single-instrument event profile. See [native event-depth scope](execution-fidelity.md#native-event-depth-profile) for contracts, clocks, limits and evidence. Existing session commands keep their original behavior.
+
+
 Core 0.3.0 registers `rust.nautilus.sessions`, `python.minute` and `python.daily`.
 For the minute profile, explicit capabilities and resumable API, see [financial recovery](recovery.md).
 The following sections describe the Rust backend.

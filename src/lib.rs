@@ -82,3 +82,17 @@ where
 }
 
 pub mod session_stream;
+
+mod depth;
+pub mod depth_contract;
+mod depth_strategy;
+/// Opt-in normalized L2 event replay with upstream matching and accounting.
+pub fn run_depth(
+    request: &depth_contract::DepthRequest,
+) -> anyhow::Result<depth_contract::DepthResult> {
+    request.validate()?;
+    let request = request.clone();
+    std::thread::spawn(move || depth::execute(&request))
+        .join()
+        .map_err(|_| anyhow::anyhow!("upstream depth engine panicked"))?
+}

@@ -54,3 +54,8 @@ SITE_DIR="$TASK_DATA/site-assembled" SITE_BASE=/quant-backtest-engine/ BROWSER_O
 机制首页与图表参考 quant-workspace-standards（参考版本 `e63f5d7`）的字体、细线和编号流程节点。每项机制旁保留实现范围，交互实验继续使用原始记录，旧链接保持可用。
 
 记录图参考 [Observable Plot](https://observablehq.com/plot/) 的坐标与比较布局，以及 [Motion Canvas](https://motioncanvas.io/docs/) 的分步讲解节奏，没有增加运行时依赖。多路径按原始比较映射对齐，并核对时钟、阶段和币种。切换路径与步骤会同时暂停。时钟保留纳秒小数，ISO 时刻显示时明确标注上海时间。动画只改变图形，账户数值与前后状态始终来自记录。机制总览和底下的八个演示使用不同的导航层级。
+
+
+新事件接口使用 `rust.nautilus.depth`，覆盖单证券多档盘口和账户反馈。输入、时钟与验收范围见[原生事件级深度回放](product/execution-fidelity.zh-CN.md#native-event-depth-profile)。原有会话命令沿用原行为。
+
+新增原生事件执行走 Rust，网站使用 TypeScript、TSX 和 Astro。Python 继续承担 SDK 校验、产品编排、研究接口和已有财务实现。财务模块按批迁移，每批核对金额运算与检查点兼容性。

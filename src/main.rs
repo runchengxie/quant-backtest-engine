@@ -9,12 +9,33 @@ use quant_backtest_engine::{
 };
 use std::{
     env, fs,
-    io::{self, Write},
+    io::{self, Read, Write},
     process::ExitCode,
 };
 fn execute() -> Result<()> {
     let args: Vec<_> = env::args_os().skip(1).collect();
     let output = match args.as_slice() {
+        [command] | [command, _] if command == "depth-capabilities" => {
+            serde_json::json!({"schema_version":"engine_depth_capabilities.v1","backend":"nautilus","backend_version":"0.66.0","capabilities":quant_backtest_engine::depth_contract::DEPTH_CAPABILITIES})
+        }
+        [command, path] if command == "depth" || command == "depth-validate" => {
+            let mut bytes = Vec::new();
+            fs::File::open(path)?
+                .take(64 * 1024 * 1024 + 1)
+                .read_to_end(&mut bytes)?;
+            anyhow::ensure!(
+                bytes.len() <= 64 * 1024 * 1024,
+                "depth request exceeds 64 MiB"
+            );
+            let request: quant_backtest_engine::depth_contract::DepthRequest =
+                serde_json::from_slice(&bytes)?;
+            if command == "depth-validate" {
+                request.validate()?;
+                serde_json::json!({"schema_version":"engine_depth_validation.v1","backend":"nautilus","backend_version":"0.66.0","request_sha256":quant_backtest_engine::depth_contract::request_digest(&request)?,"capabilities":quant_backtest_engine::depth_contract::DEPTH_CAPABILITIES})
+            } else {
+                serde_json::to_value(quant_backtest_engine::run_depth(&request)?)?
+            }
+        }
         [command] if command == "session-stream" => {
             return quant_backtest_engine::session_stream::serve(
                 io::BufReader::new(io::stdin()),
@@ -61,7 +82,7 @@ fn execute() -> Result<()> {
         }
         _ => {
             bail!(
-                "usage: quant-backtest-engine validate REQUEST.json|- | run REQUEST.json | size SIZING.json | capabilities | session-capabilities"
+                "usage: quant-backtest-engine depth REQUEST.json | depth-validate REQUEST.json | depth-capabilities | validate REQUEST.json|- | run REQUEST.json | size SIZING.json | capabilities | session-capabilities"
             )
         }
     };

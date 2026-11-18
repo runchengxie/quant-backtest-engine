@@ -11,6 +11,7 @@ are exercised, not that all exchange rules or real-world data have been validate
 | Independent library / CLI | Supported | No platform or runtime dependency |
 | USD snapshot, quote market orders | Supported | `engine_request.v1` / runtime v5 |
 | CNY/USD daily ledger | Supported | `engine_request.v2` / runtime v6 |
+| Aggregate L2 events, limit/cancel latency and account-feedback targets | Supported in separate native profile | `engine_depth_request.v1` / `rust.nautilus.depth`; single instrument, supplied venue clocks, raw CNY product |
 | Target-weight quantity planning | Supported, separate estimate | `size`. Sale proceeds are projected, not guaranteed |
 | Long-only cash account and uniform fee | Supported | Fee-inclusive cash admission. Explicit fee bps |
 | Configured T+1 and buy lots | Supported in v2 | Caller supplies sessions, flag and lot sizes |
@@ -98,3 +99,6 @@ See the [complete backend matrix](product/backends.md#provider-b-capability-matr
 [scenario example](product/scenarios.md) and [planner example](concepts/impact-planning.md#installed-planner-example).
 
 The learning frontend replays 21 fixed synthetic presets across eight topics. It adds no execution backend, market calibration or browser financial calculation. Recorded solver evidence covers the bounded grid; continuous solver iterates remain unavailable.
+
+
+Select `rust.nautilus.depth` for the new single-instrument event profile. See [native event-depth scope](product/execution-fidelity.md#native-event-depth-profile) for contracts, clocks, limits and evidence. Existing session commands keep their original behavior.

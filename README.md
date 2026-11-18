@@ -1,72 +1,44 @@
-# quant-backtest-engine
+# Quant Backtest Engine
 
-[中文说明](README.zh-CN.md) · [Documentation](https://runchengxie.github.io/quant-backtest-engine/)
+[简体中文](README.zh-CN.md) · [Documentation and interactive examples](https://runchengxie.github.io/quant-backtest-engine/)
 
-Test how a set of stock orders would fill and how they would change an account.
-Give this engine quotes, planned orders and starting cash. It returns fills,
-fees, positions and account balances. It uses NautilusTrader for execution and
-accounting, with a Rust library, command-line tool and independent Python client.
+Replay historical market data and trading decisions to see what fills, what it costs, and how the account changes. Use the resulting holdings and available cash to make the next decision, or repeat the experiment under different execution conditions.
 
-Use it when you already know which orders to test. For a first experiment, the
-included synthetic example needs no market data, strategy code or runtime service.
+This is a reusable backtest module for other projects. Supply your own strategy and data, then call it through Rust, the command line or Python. It runs independently of the companion research platform and job runner.
 
-Optional Python core 0.3.0 provides independent minute and daily execution,
-account recovery, bounded planning and scenario APIs. SDK 0.3.0 keeps the
-standard-library client namespace. Start with [installation](docs/product/installation.md)
-and the [delivery acceptance guide](docs/product/acceptance.md).
-Reviewed merged source and independently built wheels are available; this does
-not imply a PyPI release or production service activation.
+## What you can test
 
-## Try a small backtest
+| Question | Available building blocks |
+| --- | --- |
+| How would orders execute? | Quote-based sessions, L2 depth and trade-event replay, limit orders, cancels and supplied command latency |
+| What happens after a partial fill? | Actual holdings and cash, working-order checks and target-position decisions based on account feedback |
+| How do costs and constraints change a decision? | Fees, slippage and impact assumptions, discrete portfolio constraints and bounded planning |
+| How sensitive is the result? | Independent scenario accounts, supplied market paths, account reconciliation and recovery checks |
 
-From a source checkout, use Rust 1.99.0 or newer on Linux. Dependencies are locked,
-including NautilusTrader 0.66.0. Choose a build directory outside the checkout.
+Each entry point has its own supported inputs and rules. The [capability guide](docs/capabilities.md) and [execution fidelity guide](docs/product/execution-fidelity.md) describe the Rust and Python implementations separately. Market-impact parameters and real queue positions need their own calibration evidence.
+
+## Run an event-level example
+
+From a Linux source checkout with Rust 1.99 or newer, choose a directory outside the repository for build files.
 
 ```sh
-export CARGO_TARGET_DIR=/absolute/external/engine-build
-cargo run --locked -- run fixtures/roundtrip.json
+export CARGO_TARGET_DIR=/path/to/your/data/engine-build
+cargo run --locked -- depth fixtures/depth.json
 ```
 
-Replace the example build path with your own. The first run compiles the engine.
-The fixture starts with USD 10,000, buys 10 shares at 10 and sells them at 12.
-After fees, the JSON result has `cash` and `equity` of `"10019.78"` and
-`commission` of `"0.22"`. A completed run can still contain rejected orders.
-Check order statuses when trying your own inputs.
+The synthetic account starts with CNY 10,000 and buys five shares across two ask levels. After CNY 0.05 in fees, `account.cash` is `"9949.65"`. Inspect `account.fills`, order statuses and event receipts to follow the result. The example requires no downloaded market data.
 
-For a prebuilt executable, follow the [experimental release guide](docs/releases.md).
-The documented alpha.2 release includes the static validator. Alpha.1 does not.
+For Python installation and verified source-built packages, follow [installation](docs/product/installation.md). The native adapter uses pinned NautilusTrader 0.66.0 for execution and accounting. Python also provides minute/daily execution, planning and scenario interfaces.
 
-## What it covers
+## Choose your next step
 
-This is experimental software for synthetic cash equities and L1 quotes (best bid
-and ask). It accepts precomputed market orders. Callers choose trades and build
-portfolios. The session interface adds USD/CNY daily account records and explicitly
-configured rules such as T+1 and buy lots. The Rust backend does not support corporate actions, delistings or full
-market parity. The separate Python minute backend supports explicit corporate-action
-tapes within its documented scope. See the [capability matrix](docs/capabilities.md)
-before using it for a new scenario.
+- [Quick start](docs/quickstart.md) and [Python client](docs/python-client.md) for calling the module.
+- [Interactive mechanisms](https://runchengxie.github.io/quant-backtest-engine/learn/) for understanding fills, costs and account feedback.
+- [Contracts](docs/product/contracts.md) and [acceptance](docs/product/acceptance.md) for inputs, evidence and remaining validation.
+- [Development](docs/development.md) for architecture, tests and language boundaries.
 
-The engine runs a backtest. [quant-backtest-runtime](https://github.com/runchengxie/quant-backtest-runtime)
-adds queues, job status, cancellation, resource limits and saved results.
-[quant-platform](https://github.com/runchengxie/quant-platform) retains the Python
-backends currently used for compatibility and unsupported scenarios. The [reusable product migration](docs/migration/reusable-product.md) records the
-implemented financial owners and remaining consumer gates. Core 0.3.0 includes the independent
-[daily execution graph](docs/product/daily-inputs.md). Platform consumer C merged
-in PR 200; Runtime and other consumer gates are tracked separately.
-You can use this engine without either repository.
-
-## Next steps
-
-- [Quick start and Rust API](docs/quickstart.md), or [Python client](docs/python-client.md)
-- [Target-weight walkthrough](docs/tutorial.md). Plan orders and inspect a session ledger
-- [Contracts](docs/contracts.md) and [execution assumptions](docs/execution.md). Interpret inputs and results
-- [Runtime integration](docs/runtime.md). Validate requests and submit engine jobs
-- [Benchmarks and profiling](docs/benchmarks.md), or [development checks](docs/development.md)
+[quant-platform](https://github.com/runchengxie/quant-platform) supplies research workflows. [quant-backtest-runtime](https://github.com/runchengxie/quant-backtest-runtime) manages durable jobs. Both can use this module through explicit interfaces.
 
 ## License
 
-LGPL-3.0-only. See [LICENSE](LICENSE), [COPYING](COPYING) and
-[third-party notices](docs/third-party-notices.md). Upstream dependencies retain
-their own copyright and licensing obligations.
-
-Deterministic LOB matching/replay is included in merged provider B source. [LOB Python / optional PyO3 modes](docs/development/microstructure-rust.md).
+LGPL-3.0-only. See [LICENSE](LICENSE), [COPYING](COPYING) and [third-party notices](docs/third-party-notices.md). Dependencies retain their own licenses.

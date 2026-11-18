@@ -2,6 +2,9 @@
 
 [简体中文](acceptance.zh-CN.md)
 
+Select `rust.nautilus.depth` for the new single-instrument event profile. See [native event-depth scope](execution-fidelity.md#native-event-depth-profile) for contracts, clocks, limits and evidence. Existing session commands keep their original behavior.
+
+
 Use the standalone Engine first. Its merged Python core owns minute and daily
 financial execution, recovery, bounded planning and independent scenarios. Strategy
 selection, training and general optimization remain with the caller. The bilingual
@@ -140,7 +143,7 @@ The public verifier checks every receipt-listed public file. The empty root `.no
 | --- | --- | --- |
 | Account feedback and independent scenarios | Merged financial owners, isolated accounts and supplied-policy target updates | Preserve exact caller/provider wheel identities for each release |
 | FIFO and command timing | Standalone supplied-latency replay, partial cancels, exact fills and distinct response clocks | Register a versioned product adapter and test its authoritative account outputs |
-| Nautilus L2 execution | Native adapter remains L1; pinned upstream source exposes depth/latency facilities | Define a versioned depth input, normalize snapshot/delta order, then verify multi-level fills, cancel races and exact fees/NAV in Nautilus |
+| Nautilus L2 execution | Separate versioned profile covers multi-level fills, command latency and actual account feedback with receipts and input digest | Real-feed semantic admission, historical queue calibration and Runtime release integration |
 | Historical queue and CNY 50 million capacity | Snapshot depth audit and fixed-fill diagnostics | Obtain original target/order intent, initial account state, fee terms and normalized executable market events; report uncomparable intervals explicitly |
 | Impact and slippage calibration | Supplied-coefficient sensitivity and execution-cost evidence APIs | Identify own orders/fills and contemporaneous market observations; validate identification and out-of-sample cohorts |
 | General nonconvex optimization | Finite exact oracles, bounded joint execution and a conservative convex cash-bound planner | Specify the objective, constraints and oracle for each new solver before extending its guarantees |
