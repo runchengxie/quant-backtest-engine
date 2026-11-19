@@ -141,6 +141,7 @@ def _binding(targets, bars, config, policy, locks, tapes):
         Path(__file__),
         Path(__file__).with_name("minute_session.py"),
         Path(__file__).with_name("minute.py"),
+        Path(__file__).with_name("execution_policies.py"),
         Path(inspect.getfile(LinearImpact)),
         Path(inspect.getfile(QuantityLock)),
         *[

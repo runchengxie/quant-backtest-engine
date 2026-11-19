@@ -19,6 +19,7 @@ from typing import cast
 
 import pandas as pd
 
+from ..backtest.execution_policies import released_quantity
 from ._minute_state import MinuteDecisionState as MinuteDecisionState
 from ._minute_validation import (
     _validate as _validate,
@@ -569,16 +570,17 @@ class _MinuteSimulation:
         released = sum(elapsed > i * spacing for i in range(self.config.release_slices))
         weights = self.config.forecast_slice_weights
         if weights is None:
-            released_lots = math.floor(
-                order["quantity"] * released / self.config.release_slices / self.config.lot_size
+            quantity = (
+                math.floor(
+                    order["quantity"] * released / self.config.release_slices / self.config.lot_size
+                )
+                * self.config.lot_size
             )
         else:
-            released_lots = int(
-                Decimal(str(order["quantity"]))
-                * sum(weights[:released])
-                // (sum(weights) * self.config.lot_size)
+            quantity = released_quantity(
+                Decimal(str(order["quantity"])), self.config.lot_size, weights, released
             )
-        available = released_lots * self.config.lot_size - order["filled_quantity"]
+        available = quantity - order["filled_quantity"]
         if order["side"] == "sell" and released == self.config.release_slices:
             available = math.floor(order["quantity"] - order["filled_quantity"])
         return available
