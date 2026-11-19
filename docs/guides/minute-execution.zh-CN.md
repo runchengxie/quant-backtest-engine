@@ -67,3 +67,5 @@ python -I -B packages/core/examples/product/minute_session.py
 示例包含公司行动、数量锁、报告延迟与外部资金，验证检查点恢复后的完整财务表。
 [会话与资金流契约](../backtest/minute-session.zh-CN.md)说明时钟和恢复限制。
 旧 `minute-session.v2` 必须使用原先固定的完整提供方环境，不允许改写摘要或静默迁移。
+
+预测成交量切单和历史盘口计算见[下单规则](execution-policies.zh-CN.md)。

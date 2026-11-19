@@ -12343,5 +12343,12 @@
     ],
     "benchmark": "scripts/release/benchmark_microstructure.py",
     "production_cutover": false
+  },
+  "historical_execution_projection": {
+    "source_revision": "b926125dd1edb9055da28aec8c8de1800fc066f0",
+    "source": "quant-research/src/strategy_research/l2_50m_projection.py",
+    "provider": "packages/core/src/quant_backtest_core/microstructure/historical_projection.py",
+    "acceptance": "packages/core/tests/test_execution_policies.py",
+    "consumer_transition": "Provider first. Research import compatibility and lock update are separate from historical evidence replay."
   }
 }

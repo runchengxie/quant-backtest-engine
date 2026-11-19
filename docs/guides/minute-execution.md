@@ -82,3 +82,6 @@ It exercises actions, locks, delayed reports and external capital, checking comp
 financial tables after recovery. See the [session and capital-flow contract](../backtest/minute-session.md)
 for clock and recovery semantics. Old `minute-session.v2` state requires its original
 complete pinned provider environment; rewriting digests or silent migration is unsupported.
+
+See [execution policies](execution-policies.md) for forecast-volume slicing and
+the separate historical projection helpers.

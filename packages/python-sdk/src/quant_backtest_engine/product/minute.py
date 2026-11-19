@@ -34,12 +34,18 @@ def validate_minute_input(manifest):
     _decimal(manifest.initial_account["cash"], "cash")
     _shape(manifest.settings, ("config", "report_delay_seconds", "impact"))
     config = manifest.settings["config"]
-    _shape(config, CONFIG_DECIMALS + CONFIG_INTS)
+    _shape(config, CONFIG_DECIMALS + CONFIG_INTS, ("forecast_slice_weights",))
     for key in CONFIG_DECIMALS:
         _decimal(config[key], key)
     for key in CONFIG_INTS:
         if type(config[key]) is not int:
             raise ValueError(f"{key} must be an integer")
+    if "forecast_slice_weights" in config:
+        weights = _array(config["forecast_slice_weights"], "forecast_slice_weights")
+        if len(weights) != config["release_slices"] or not any(weights) or any(
+            type(value) is not int or value < 0 for value in weights
+        ):
+            raise ValueError("forecast_slice_weights must give one nonnegative integer per slice")
     _decimal(manifest.settings["report_delay_seconds"], "report_delay_seconds")
     impact = manifest.settings["impact"]
     if impact is not None:

@@ -13,6 +13,7 @@ from __future__ import annotations
 import math
 from collections.abc import Mapping
 from dataclasses import dataclass, field
+from decimal import Decimal
 from types import MappingProxyType
 from typing import cast
 
@@ -66,6 +67,7 @@ class MinuteExecutionConfig:
     latency_minutes: int = 1
     commission_minimum_cny: float = 0.0
     sell_tax_bp: float = 0.0
+    forecast_slice_weights: tuple[int, ...] | None = None
 
     def __post_init__(self):
         for name in (
@@ -86,6 +88,18 @@ class MinuteExecutionConfig:
             value = getattr(self, name)
             if not isinstance(value, int) or value <= 0:
                 raise ValueError(f"{name} must be a positive integer")
+        if self.forecast_slice_weights is not None:
+            weights = self.forecast_slice_weights
+            if (
+                not isinstance(weights, (tuple, list))
+                or len(weights) != self.release_slices
+                or any(type(weight) is not int or weight < 0 for weight in weights)
+                or not any(weights)
+            ):
+                raise ValueError(
+                    "forecast_slice_weights must give one nonnegative integer per slice"
+                )
+            object.__setattr__(self, "forecast_slice_weights", tuple(weights))
         if self.sell_tax_bp > self.sell_fee_bp:
             raise ValueError("sell_tax_bp cannot exceed sell_fee_bp")
         if self.sell_fee_bp >= 10000:
@@ -553,13 +567,18 @@ class _MinuteSimulation:
         ).total_seconds() / 60 - self.config.latency_minutes
         spacing = self.config.execution_minutes / self.config.release_slices
         released = sum(elapsed > i * spacing for i in range(self.config.release_slices))
-        available = (
-            math.floor(
+        weights = self.config.forecast_slice_weights
+        if weights is None:
+            released_lots = math.floor(
                 order["quantity"] * released / self.config.release_slices / self.config.lot_size
             )
-            * self.config.lot_size
-            - order["filled_quantity"]
-        )
+        else:
+            released_lots = int(
+                Decimal(str(order["quantity"]))
+                * sum(weights[:released])
+                // (sum(weights) * self.config.lot_size)
+            )
+        available = released_lots * self.config.lot_size - order["filled_quantity"]
         if order["side"] == "sell" and released == self.config.release_slices:
             available = math.floor(order["quantity"] - order["filled_quantity"])
         return available
