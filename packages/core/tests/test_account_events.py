@@ -5,6 +5,7 @@ import json
 import pandas as pd
 import pytest
 
+from quant_backtest_core.backtest import account_events
 from quant_backtest_core.backtest.account_events import (
     AccountEvent,
     AccountEventAdapter,
@@ -523,3 +524,33 @@ def test_cashflows_and_late_fee_are_atomic_delayed_and_event_idempotent():
     restored = AccountEventAdapter.restore(b.checkpoint(), b.config)
     restored.deliver(T)
     assert restored.visible.cash == 93
+
+
+@pytest.mark.parametrize("phase", ["apply", "deliver"])
+def test_late_validation_cannot_change_checkpoint(monkeypatch, phase):
+    adapter = account()
+    admit(adapter)
+    fill = event("fill", "f", delay=10, order_id="o", quantity=4, price=9, inputs=inputs())
+    delivery_time = T + pd.Timedelta(seconds=10)
+    if phase == "deliver":
+        adapter.apply(fill)
+    before = adapter.checkpoint()
+
+    def fail_validation(_candidate):
+        raise ValueError("injected post-mutation failure")
+
+    with monkeypatch.context() as patch:
+        patch.setattr(account_events, "_validate_data", fail_validation)
+        with pytest.raises(ValueError, match="post-mutation"):
+            if phase == "apply":
+                adapter.apply(fill)
+            else:
+                adapter.deliver(delivery_time)
+
+    assert adapter.checkpoint() == before
+    restored = adapter.restore(before, adapter.config)
+    for instance in (adapter, restored):
+        if phase == "apply":
+            instance.apply(fill)
+        instance.deliver(delivery_time)
+    assert adapter.checkpoint() == restored.checkpoint()
