@@ -36,3 +36,28 @@ def test_historical_projections_keep_decimal_notional():
     outcome = tape.project(0, 2, D(2), D(".05"), D(10000))
     assert D(outcome["projected_notional_cny"]) == D("20.50")
     assert sweep_depth([(D(10), 1), (D(11), 1)], D(2))["visible_notional_cny"] == "21"
+
+
+def test_cash_allocation_uses_distinct_fee_inclusive_lot_costs():
+    from quant_backtest_core.backtest.execution_policies import BuyLotRequest, allocate_buy_lots
+
+    requests = {
+        "a": BuyLotRequest(4, D("12.50"), D(100)),
+        "b": BuyLotRequest(4, D("5.00"), D(200)),
+    }
+    assert allocate_buy_lots(requests, D(25), "fixed") == {"a": 2, "b": 0}
+    assert allocate_buy_lots(requests, D(25), "pro_rata") == {"a": 1, "b": 2}
+    assert allocate_buy_lots(requests, D(25), "largest_gap") == {"a": 0, "b": 4}
+    assert allocate_buy_lots(requests, D("4.99"), "fixed") == {"a": 0, "b": 0}
+    with pytest.raises(ValueError):
+        BuyLotRequest(1, D(0))
+
+
+def test_weighted_release_preserves_fractional_parent_and_rounds_down():
+    from quant_backtest_core.backtest.execution_policies import released_quantity
+
+    assert released_quantity(D("1050"), 100, (6598, 3402), 1) == 600
+    assert released_quantity(D("1050"), 100, (6598, 3402), 2) == 1000
+    assert released_quantity(D("195"), 100, (9, 1), 1) == 100
+    with pytest.raises(ValueError):
+        released_quantity(D(100), 100, (3, 7), 3)

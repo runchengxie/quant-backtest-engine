@@ -116,3 +116,20 @@ trade prints using an exact cumulative volume and Decimal prices.
 `sweep_depth` traverses one supplied snapshot in caller-specified order. Neither
 helper advances market or account state. Research retains sample selection,
 input admission, market feature estimation and comparisons across strategies.
+
+### Shared cash and weighted releases
+
+Use `released_quantity` from `backtest.execution_policies` to apply the same
+cumulative whole-lot release calculation across minute and event adapters.
+Callers choose which slices have become eligible at the decision clock.
+
+`BuyLotRequest` carries the executable lot cap, a conservative fee-inclusive
+cash reservation per lot and an optional target gap in a common unit.
+`allocate_buy_lots` supports fixed priority, proportional sizing followed by
+fixed-priority top-up, and largest-gap priority. It plans from available
+cash and does not reserve it. The account remains responsible for current
+cash, open orders, sale availability, and the actual submission reservation.
+The per-lot input assumes a linear reservation bound. Callers with a minimum
+commission must include a conservative bound or reserve the full actual order
+through the account. Checkpoints bind the release implementation as well as
+the existing simulator sources.

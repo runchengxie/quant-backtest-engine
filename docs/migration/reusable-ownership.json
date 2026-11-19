@@ -12350,5 +12350,11 @@
     "provider": "packages/core/src/quant_backtest_core/microstructure/historical_projection.py",
     "acceptance": "packages/core/tests/test_execution_policies.py",
     "consumer_transition": "Provider first. Research import compatibility and lock update are separate from historical evidence replay."
+  },
+  "shared_execution_policy": {
+    "provider": "packages/core/src/quant_backtest_core/backtest/execution_policies.py",
+    "source": "Private Research shared-account replay allocation; public API uses synthetic input and exact cash bounds.",
+    "acceptance": "packages/core/tests/test_execution_policies.py",
+    "scope": "Pure weighted release and cash-capped allocation. Reservation and fills remain in the account owner."
   }
 }
