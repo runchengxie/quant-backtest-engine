@@ -33,6 +33,7 @@ CAPABILITIES = (
     "quantity_locks",
     "delayed_reports",
     "linear_impact",
+    "forecast_volume_slicing",
 )
 
 
