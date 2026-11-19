@@ -20,17 +20,26 @@ class TradeTape:
 
     @classmethod
     def build(cls, quantities: Sequence[int], prices: Sequence[int]) -> Self:
-        quantities = np.asarray(quantities, dtype=np.int64)
-        prices = np.asarray(prices, dtype=np.int64)
-        if len(quantities) != len(prices) or np.any(quantities <= 0) or np.any(prices <= 0):
+        quantity_array = np.asarray(quantities, dtype=np.int64)
+        price_array = np.asarray(prices, dtype=np.int64)
+        if (
+            len(quantity_array) != len(price_array)
+            or np.any(quantity_array <= 0)
+            or np.any(price_array <= 0)
+        ):
             raise ValueError("trade quantities/prices must be positive integer arrays")
-        volume = sum(map(int, quantities))
+        volume = sum(map(int, quantity_array))
         if volume > np.iinfo(np.int64).max:
             raise ValueError("volume exceeds supported exact cumulative range")
-        safe = not len(prices) or int(prices.max()) * volume <= np.iinfo(np.int64).max
-        raw_amount = quantities * prices if safe else quantities.astype(object) * prices
+        safe = not len(price_array) or int(price_array.max()) * volume <= np.iinfo(np.int64).max
+        raw_amount = (
+            quantity_array * price_array if safe else quantity_array.astype(object) * price_array
+        )
         return cls(
-            quantities, prices, np.r_[0, np.cumsum(quantities)], np.r_[0, np.cumsum(raw_amount)]
+            quantity_array,
+            price_array,
+            np.r_[0, np.cumsum(quantity_array)],
+            np.r_[0, np.cumsum(raw_amount)],
         )
 
     def project(
