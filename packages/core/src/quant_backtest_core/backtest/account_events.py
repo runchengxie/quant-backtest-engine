@@ -412,7 +412,16 @@ class AccountEventAdapter:
             raise ValueError("event occurrence clock regressed")
         if available < pd.Timestamp(self._data["delivery_clock"]):
             raise ValueError("new event report predates already delivered knowledge")
-        candidate = deepcopy(self._data)
+        candidate = self._data.copy()
+        # Old reports remain immutable. Stage a new queue and isolate economic state.
+        candidate["queue"] = self._data["queue"].copy()
+        candidate["processed"] = self._data["processed"].copy()
+        candidate["actual"] = deepcopy(self._data["actual"])
+        candidate["orders"] = deepcopy(self._data["orders"])
+        candidate["fills"] = deepcopy(self._data["fills"])
+        candidate["entitlements"] = deepcopy(self._data["entitlements"])
+        candidate["settlement"] = deepcopy(self._data["settlement"])
+        candidate["reductions"] = deepcopy(self._data["reductions"])
         try:
             effects = self._apply_event(candidate, event.kind, payload, occurred, event.event_id)
             self._update_margin(candidate)
@@ -668,7 +677,10 @@ class AccountEventAdapter:
         at = self._mutation_clock(as_of)
         if at < pd.Timestamp(self._data["delivery_clock"]):
             raise ValueError("delivery clock regressed")
-        data = deepcopy(self._data)
+        data = self._data.copy()
+        # Delivery consumes reports and adjusts pending reservations only.
+        data["queue"] = self._data["queue"].copy()
+        data["pending"] = deepcopy(self._data["pending"])
         while data["queue"] and pd.Timestamp(data["queue"][0]["available_at"]) <= at:
             report = data["queue"].pop(0)
             data["visible"] = report["actual"]
