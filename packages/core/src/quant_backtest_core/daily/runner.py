@@ -179,22 +179,21 @@ def run_daily(request: DailyReplayRequest) -> ExecutionAdjustedNavResult | Execu
         )
     if result.summary.get("status") != "ok":
         raise ValueError(f"daily execution failed: {result.summary.get('status')}")
-    # Conservative endpoint evidence: every target has a current finite positive
-    # mark. A carried-forward owner NAV cannot establish an interval endpoint.
-    table = request.pricing.pivot(index="trade_date", columns="symbol", values=layout.price_col)
-    symbols = sorted(set(request.positions.symbol))
-    marks = tuple(
-        bool(np.isfinite(values).all() and (values > 0).all())
-        for values in (
-            pd.to_numeric(
-                table.reindex(index=[pd.Timestamp(day).date().isoformat()], columns=symbols).iloc[
-                    0
-                ],
-                errors="coerce",
-            )
-            for day in result.daily.trade_date
+    # Only the live financial owner can attest endpoint exposure. Missing or
+    # misaligned evidence fails closed; target/fill reconstruction is not proof.
+    coverage = result.valuation_marks
+    if coverage is None:
+        marks = (False,) * len(result.daily)
+    else:
+        if (
+            len(coverage) != len(result.daily)
+            or coverage.trade_date.tolist() != result.daily.trade_date.tolist()
+        ):
+            raise ValueError("owner valuation evidence must align with daily rows")
+        marks = tuple(
+            value is True or isinstance(value, np.bool_) and bool(value)
+            for value in coverage.endpoint_complete
         )
-    )
     # These fresh-run owners start with configured cash, no holdings or receivables;
     # there is no restoration or external-flow input in this neutral profile.
     initial_cash_complete = bool(np.isfinite(config.portfolio_value) and config.portfolio_value > 0)

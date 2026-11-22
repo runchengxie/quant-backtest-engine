@@ -104,7 +104,7 @@ IC、alpha 和广泛研究统计仍归 Platform；Task 15 通过兼容封装从�
 
 Python layout.liquidity_units 仍是映射；协议将其编码为 [{"column":"amount","unit":"CNY"}]，避免动态列名与金额键冲突。拒绝重复列、未知记录字段及单位不匹配。fee_model 仅接受 null、detailed 或 dated 固定结构，不接受模块路径。portfolio_value 必须等于初始现金。产品限定 CNY、Asia/Shanghai、显式原始/复权股数单位。
 
-run_daily 不支持 policy、scenario、flow、risk 或 forecast 转换，也不支持检查点/恢复。ideal 不能带交易限制；capacity 支持流动性/参与率限制、通用或分买卖方向的交易许可、执行窗口及连续零成交中止，但在执行前拒绝 `enforce_price_limits`、`enforce_listing_status`、`enforce_t1`、非空 `round_lot`/`sell_round_lot`、公司行动及费用。capacity 要求 `unfilled_buy_action=keep_cash` 和 `unfilled_sell_action=keep_position`，拒绝其他策略；该模式没有股数/现金/费用账本；调整/顺序模式保留真实模拟股数和现金路径。每个收益区间要求期初和期末估值均完整。新运行以有限正数的配置现金开始，没有持仓或应收项；后续区间要求相邻两个账本日的所有目标证券都有正的有限当前价格。缺价使当期和下一期收益均未知，两个端点再次完整后才恢复支持。原有沿用价格的净值和收益仍原样保留在原始表中。调整/顺序模式在执行前拒绝启用 `enforce_listing_status`，因为保留的买入路径未实现该约束。
+run_daily 不支持 policy、scenario、flow、risk 或 forecast 转换，也不支持检查点/恢复。ideal 不能带交易限制；capacity 支持流动性/参与率限制、通用或分买卖方向的交易许可、执行窗口及连续零成交中止，但在执行前拒绝 `enforce_price_limits`、`enforce_listing_status`、`enforce_t1`、非空 `round_lot`/`sell_round_lot`、公司行动及费用。capacity 要求 `unfilled_buy_action=keep_cash` 和 `unfilled_sell_action=keep_position`，拒绝其他策略；该模式没有股数/现金/费用账本；调整/顺序模式保留真实模拟股数和现金路径。每个收益区间要求期初和期末估值均完整。新运行以有限正数的配置现金开始，没有持仓或应收项；后续区间要求相邻两个账本日的实际持股及未到账股票权益都有正的有限当前价格；未来目标及已卖出的零持仓证券不需要价格。缺价使当期和下一期收益均未知，两个端点再次完整后才恢复支持。原有沿用价格的净值和收益仍原样保留在原始表中。调整/顺序模式在执行前拒绝启用 `enforce_listing_status`，因为保留的买入路径未实现该约束。
 
 ## 已安装合成样例
 
@@ -117,3 +117,31 @@ quant-backtest run-manifest tests/fixtures/product/daily.json \
 ```
 
 中立适配器保留显式流动性列及其单位声明，不采用旧解析器自动追加 `amount` 的默认行为。自定义 `turnover_cny` 列只需声明自身的 CNY 单位，无需额外的 `amount` 列。直接调用旧解析器的默认行为保持不变。
+
+## 实际持仓端点估值证据
+
+`ExecutionAdjustedNavResult.valuation_marks` 是新增的可选 DataFrame，
+旧构造方式默认得到 `None`。成功的 ideal、adjusted 和 sequenced 执行方在
+每日执行完成后，直接从自身股数、现金及权益账本生成一条证据，与 `daily`
+逐行对应。不会通过重放目标或成交推导持仓，原有日表、订单、成交、现金及
+公司行动算术保持不变。
+
+字段为 `trade_date`（与日表一致的 YYYYMMDD）、`held_symbols`、
+`held_count`、`stock_receivable_symbols`、`required_marks`、`current_marks`、
+`missing_symbols`、`cash_complete`、`receivables_complete`、`endpoint_complete`
+及 `reason`。证券集合是排序后的元组，在 JSON 中为数组。需要价格的是正持股
+与正的未到账股票权益的并集。只有当日提供的正有限价格才算完整；沿用的旧价格
+可以维持原始净值，但不能证明当日缺失价格完整。
+
+现金、应收现金及应收股票价值必须有限。已卖出持股但保留已知应收现金时，
+不再要求该股票价格；未到账股票权益仍须有当前原始价格，原有公司行动
+缺价拒绝规则继续生效。成功原因是 `current_marks`、`cash_only` 或
+`cash_and_receivables`；失败原因以分号连接，可为 `missing_current_price`、
+`invalid_position_quantity`、`nonfinite_cash` 或 `nonfinite_receivable`。
+
+`run_daily` 遇到缺失的执行方证据时保留未知，逐行不对齐时拒绝。收益区间
+必须相邻两个端点均完整；首个期初使用新运行已知的初始现金状态。因此缺价
+恢复当日，以上一个不完整端点为起点的收益仍未知。证据只检查提供的价格，
+不独立认证数据来源。产品在原始 `tables` 和 `owner_tables` 中保留
+`valuation_marks`，标准化经济事件表 `valuations` 仍不可用。capacity
+没有对应账本，不因此获得估值完整认证。

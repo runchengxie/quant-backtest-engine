@@ -1,6 +1,14 @@
 {
   "schema": "engine-ownership.v1",
   "scope": "Ownership ledger with provider A implementation evidence; release availability and consumer cutover are separate. Future-route commitments remain in force.",
+  "daily_valuation_evidence": {
+    "owner": "quant_backtest_core.daily.execution_sim",
+    "baseline_revision": "292a67a",
+    "scope": "Additive live-ledger endpoint mark coverage; no accounting transfer or second ledger",
+    "contract": "docs/product/daily-inputs.md#held-position-endpoint-coverage",
+    "contract_zh_CN": "docs/product/daily-inputs.zh-CN.md#实际持仓端点估值证据",
+    "synthetic_tests": "packages/core/tests/daily/test_held_position_marks.py"
+  },
   "observed_versions": {
     "engine_source": "c65548a4ee1e938125cce1edbcc282c760c4c8f2",
     "engine_rust": "0.2.0",

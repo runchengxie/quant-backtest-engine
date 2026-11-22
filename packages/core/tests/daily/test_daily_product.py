@@ -59,6 +59,11 @@ def test_daily_product_preserves_all_raw_tables_and_unknown_evidence(tmp_path):
         "turnover_breakdown",
     }
     assert native["tables"]["actions"] is None
+    assert all(row["endpoint_complete"] for row in native["tables"]["valuation_marks"]["rows"])
+    assert (
+        native["owner_tables"]["valuation_marks"]["columns"]
+        == native["tables"]["valuation_marks"]["columns"]
+    )
     assert result.summary["cumulative_return"] == "0.0"
     assert parse_result(result_to_json(result)) == result
     with pytest.raises(Exception, match="overwrite"):
