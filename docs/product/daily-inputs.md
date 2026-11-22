@@ -125,7 +125,7 @@ The complete synthetic request is tests/fixtures/product/daily.json with daily-c
 
 Python layout.liquidity_units remains a mapping; the wire uses [{"column":"amount","unit":"CNY"}] to separate dynamic column names from monetary keys. Duplicate columns, unknown record fields and unrepresentable units fail. fee_model accepts only null, fixed detailed or dated structures, never module paths. portfolio_value equals initial cash. The product is restricted to CNY, Asia/Shanghai and explicit raw/adjusted share units.
 
-run_daily has no policy/scenario/flow/risk/forecast transformation and no checkpoint/restore. Ideal rejects trading controls; capacity accepts liquidity/participation limits, general or side-specific tradability, execution windows and zero-fill abort, but rejects `enforce_price_limits`, `enforce_listing_status`, `enforce_t1`, non-null `round_lot`/`sell_round_lot`, corporate actions and fees before execution. Capacity requires `unfilled_buy_action=keep_cash` and `unfilled_sell_action=keep_position`; alternatives are rejected; it has no share/cash/fee ledger; adjusted/sequenced retain the original modeled cash/share path. Each return requires complete opening and closing valuations. The fresh run opens with finite positive configured cash and no holdings or receivables. Later interval endpoints require positive finite current marks for every target symbol on both adjacent ledger dates. A missing mark makes that interval and the next interval unknown; support resumes after two complete endpoints. Original carried NAV/returns remain unchanged in raw owner tables. Adjusted/sequenced reject active `enforce_listing_status` before execution because the preserved buy path does not enforce it.
+run_daily has no policy/scenario/flow/risk/forecast transformation and no checkpoint/restore. Ideal rejects trading controls; capacity accepts liquidity/participation limits, general or side-specific tradability, execution windows and zero-fill abort, but rejects `enforce_price_limits`, `enforce_listing_status`, `enforce_t1`, non-null `round_lot`/`sell_round_lot`, corporate actions and fees before execution. Capacity requires `unfilled_buy_action=keep_cash` and `unfilled_sell_action=keep_position`; alternatives are rejected; it has no share/cash/fee ledger; adjusted/sequenced retain the original modeled cash/share path. Each return requires complete opening and closing valuations. The fresh run opens with finite positive configured cash and no holdings or receivables. Later interval endpoints require positive finite current marks for actual held shares and outstanding stock rights on both adjacent ledger dates. Future targets and exited zero-share symbols do not require marks. A missing mark makes that interval and the next interval unknown; support resumes after two complete endpoints. Original carried NAV/returns remain unchanged in raw owner tables. Adjusted/sequenced reject active `enforce_listing_status` before execution because the preserved buy path does not enforce it.
 
 ## Installed synthetic example
 
@@ -138,3 +138,35 @@ quant-backtest run-manifest tests/fixtures/product/daily.json \
 ```
 
 The neutral adapter preserves explicit liquidity selectors and their unit declarations; it disables the legacy parser's automatic `amount` addition. A custom `turnover_cny` column needs only its own CNY unit, with no `amount` column. Direct legacy parser defaults remain unchanged.
+
+## Held-position endpoint coverage
+
+`ExecutionAdjustedNavResult.valuation_marks` is an additive optional DataFrame
+(default `None` for older constructors). Successful ideal, adjusted and sequenced
+owners emit one row per `daily` row, after execution, directly from the live
+shares, cash and rights ledger. No targets or fills are replayed to infer holdings.
+The original daily, order, fill, cash and corporate-action arithmetic is unchanged.
+
+Rows contain `trade_date` (the same YYYYMMDD label as `daily`), `held_symbols`,
+`held_count`, `stock_receivable_symbols`, `required_marks`, `current_marks`,
+`missing_symbols`, `cash_complete`, `receivables_complete`, `endpoint_complete`
+and `reason`. Symbol collections are sorted tuples (arrays on the JSON wire).
+Required marks cover the union of positive held shares and positive outstanding
+stock rights. Only the current supplied finite positive quote counts; a cached
+last price may preserve raw NAV but never certifies a missing current mark.
+
+Cash and cash/stock receivable amounts must be finite. A known cash receivable
+after selling the shares needs no stock quote. Pending stock rights still need
+their current raw mark; existing corporate-action rejection rules remain active.
+Success reasons are `current_marks`, `cash_only` or `cash_and_receivables`.
+Failures are semicolon-separated `missing_current_price`,
+`invalid_position_quantity`, `nonfinite_cash` or `nonfinite_receivable`.
+
+`run_daily` fails closed when owner coverage is absent and rejects misaligned
+rows. It certifies an interval only when both adjacent endpoints are complete,
+using the known fresh-run cash state for the first opening endpoint. Recovery
+therefore leaves the return from the last incomplete endpoint unknown. This
+evidence checks supplied prices, not their independent source authenticity.
+The product preserves `valuation_marks` in raw `tables` and `owner_tables`;
+the normalized economic `valuations` event ledger remains unavailable. Capacity
+has no such ledger and does not gain valuation certification.

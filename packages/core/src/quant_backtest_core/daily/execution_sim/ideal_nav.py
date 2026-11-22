@@ -33,6 +33,7 @@ from .table_preparation import (
     _build_execution_tables,
     _prepare_long_only_execution_positions,
 )
+from .valuation import VALUATION_MARK_COLUMNS, endpoint_marks
 
 TradeFeeModel = SupportedTradeFeeModel
 
@@ -92,10 +93,12 @@ def simulate_ideal_daily_nav(
     if status is not None:
         return _empty_adjusted_nav_result(config, status=status, extra=extra)
 
+    valuation_rows: list[dict[str, Any]] = []
     daily, orders, fills = _run_ideal_daily_nav_ledger(
         config=config,
         tables=tables,
         targets_by_entry=targets_by_entry,
+        valuation_rows=valuation_rows,
         cost_rate=max(float(transaction_cost_bps), 0.0) / 10_000.0,
         trade_fee_model=trade_fee_model,
     )
@@ -109,7 +112,13 @@ def simulate_ideal_daily_nav(
         trade_fee_model=trade_fee_model,
     )
     summary["mode"] = "ideal_daily_nav"
-    return ExecutionAdjustedNavResult(summary=summary, daily=daily, orders=orders, fills=fills)
+    return ExecutionAdjustedNavResult(
+        summary=summary,
+        daily=daily,
+        orders=orders,
+        fills=fills,
+        valuation_marks=pd.DataFrame(valuation_rows, columns=VALUATION_MARK_COLUMNS),
+    )
 
 
 def _prepare_ideal_nav_targets(
@@ -169,6 +178,7 @@ def _run_ideal_daily_nav_ledger(
     targets_by_entry: dict[pd.Timestamp, tuple[pd.Timestamp, dict[str, float]]],
     cost_rate: float,
     trade_fee_model: DetailedTradeFeeModel | None = None,
+    valuation_rows: list[dict[str, Any]] | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     if tables is None:
         return (
@@ -236,6 +246,16 @@ def _run_ideal_daily_nav_ledger(
                 portfolio_value=config.portfolio_value,
             )
         )
+
+        if valuation_rows is not None:
+            valuation_rows.append(
+                endpoint_marks(
+                    day=trade_date,
+                    shares=shares,
+                    cash=cash,
+                    price_table=tables.price_table,
+                )
+            )
 
     daily = pd.DataFrame(daily_rows, columns=_executed_daily_columns())
     orders = pd.DataFrame(order_rows, columns=_nav_order_columns())

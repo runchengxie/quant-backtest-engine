@@ -49,6 +49,7 @@ class ExecutionAdjustedNavResult:
     fills: pd.DataFrame
     actions: pd.DataFrame | None = None
     holdings: pd.DataFrame | None = None
+    valuation_marks: pd.DataFrame | None = None
 
     def to_cost_evidence(
         self, *, source_id: str, source_revision: str, currency: str | None = None

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
+from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -50,6 +51,7 @@ from .table_preparation import (
     _prepare_execution_tables,
     _prepare_long_only_execution_positions,
 )
+from .valuation import VALUATION_MARK_COLUMNS, endpoint_marks
 
 TradeFeeModel = SupportedTradeFeeModel
 
@@ -344,6 +346,7 @@ def _run_adjusted_nav_ledger(
     config: ExecutionSimConfig,
     trade_fee_model: TradeFeeModel | None,
     corporate_actions: _CorporateActionLedger | None = None,
+    valuation_rows: list[dict[str, Any]] | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     ledger = _initial_adjusted_nav_ledger(config)
     ledger.corporate_actions = corporate_actions
@@ -355,6 +358,23 @@ def _run_adjusted_nav_ledger(
             config=config,
             trade_fee_model=trade_fee_model,
         )
+        if valuation_rows is not None:
+            row = ledger.daily_rows[-1]
+            valuation_rows.append(
+                endpoint_marks(
+                    day=plan.tables.trade_dates[trade_idx],
+                    shares=ledger.shares,
+                    cash=ledger.cash,
+                    price_table=plan.tables.price_table,
+                    stock_receivables=(
+                        corporate_actions.stock_by_symbol()
+                        if corporate_actions is not None
+                        else None
+                    ),
+                    cash_receivable=row.get("cash_receivable", 0.0),
+                    stock_receivable_value=row.get("stock_receivable_value", 0.0),
+                )
+            )
 
     if ledger.open_orders:
         final_date = plan.tables.trade_dates[-1]
@@ -448,11 +468,13 @@ def simulate_execution_adjusted_nav(
         if events is not None
         else None
     )
+    valuation_rows: list[dict[str, Any]] = []
     daily, orders, fills = _run_adjusted_nav_ledger(
         plan=plan,
         config=config,
         trade_fee_model=trade_fee_model,
         corporate_actions=action_ledger,
+        valuation_rows=valuation_rows,
     )
     summary = _summarize_adjusted_nav(
         config,
@@ -474,6 +496,7 @@ def simulate_execution_adjusted_nav(
         fills=fills,
         actions=action_frame,
         holdings=holdings,
+        valuation_marks=pd.DataFrame(valuation_rows, columns=VALUATION_MARK_COLUMNS),
     )
 
 
