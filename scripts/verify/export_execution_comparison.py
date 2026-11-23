@@ -28,37 +28,37 @@ def main() -> None:
         for n in (8, 16, 32, 64):
             plan = solve(model, (3.0,) * n)
             convergence.append(
-                dict(
-                    risk=risk,
-                    periods=n,
-                    cost=plan.cost,
-                    analytic_cost=evaluate(model, 0).remaining_value,
-                    excess_cost=plan.cost - evaluate(model, 0).remaining_value,
-                    max_inventory_error=max(
+                {
+                    "risk": risk,
+                    "periods": n,
+                    "cost": plan.cost,
+                    "analytic_cost": evaluate(model, 0).remaining_value,
+                    "excess_cost": plan.cost - evaluate(model, 0).remaining_value,
+                    "max_inventory_error": max(
                         abs(x - evaluate(model, i * 2 / n).inventory)
                         for i, x in enumerate(plan.inventory)
                     ),
-                )
+                }
             )
     root = Path(__file__).resolve().parents[2]
     sources = sorted(
         (root / "packages/core/src/quant_backtest_core/planning").glob("*.py")
     )
-    value = dict(
-        schema="synthetic-execution-comparison.v1",
-        source_revision=subprocess.check_output(
+    value = {
+        "schema": "synthetic-execution-comparison.v1",
+        "source_revision": subprocess.check_output(
             ["git", "rev-parse", "HEAD"], cwd=root, text=True
         ).strip(),
-        source_sha256={
+        "source_sha256": {
             str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest()
             for p in sources
         },
-        python=sys.version,
-        scope="schedule-cost functional; no cash ledger or net returns",
-        terminal_comparison="Rank objectives only among completed paths. Residual paths report accrued cost only.",
-        convergence=convergence,
-        rows=[dataclasses.asdict(r) for r in fixed_study()],
-    )
+        "python": sys.version,
+        "scope": "schedule-cost functional; no cash ledger or net returns",
+        "terminal_comparison": "Rank objectives only among completed paths. Residual paths report accrued cost only.",
+        "convergence": convergence,
+        "rows": [dataclasses.asdict(r) for r in fixed_study()],
+    }
     args.output.write_text(json.dumps(value, indent=2, allow_nan=False) + "\n")
 
 
