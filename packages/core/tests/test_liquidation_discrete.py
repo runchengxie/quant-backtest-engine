@@ -72,3 +72,14 @@ class DiscreteLiquidationTests(unittest.TestCase):
         model = LiquidationModel(1, 1, 1, 0, 1e200)
         self.assertEqual(objective(model, [0.5, 0.5]), 1)
         self.assertAlmostEqual(solve(model, [1, 1]).cost, 1)
+
+    def test_numerical_failure_is_rejected_without_repair(self):
+        from types import SimpleNamespace
+        from unittest.mock import patch
+
+        import numpy as np
+
+        result = SimpleNamespace(success=False, x=np.array([0.5, 0.5]), message="iteration limit")
+        with patch("scipy.optimize.minimize", return_value=result):
+            with self.assertRaisesRegex(ValueError, "iteration limit"):
+                solve(LiquidationModel(1, 1, 1, 0, 1), [1, 1])
