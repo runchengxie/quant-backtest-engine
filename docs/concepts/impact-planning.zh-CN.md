@@ -265,5 +265,6 @@ eta 0.5、零风险且无停顿时，三种方法都完成，成本12.5。前两
 
 没有新增现金账本、随机价格模拟、训练预测或净收益结论。在锁定安装的Core环境
 运行 `python scripts/verify/export_execution_comparison.py --output <external.json>`
-导出全部行及源码身份。[配对实施计划](../superpowers/plans/2026-11-24-execution-comparison.zh-CN.md)
+导出全部行及源码身份。源码中的配对实施计划
+`docs/superpowers/plans/2026-11-24-execution-comparison.zh-CN.md`
 保留了结果产生前固定的协议。

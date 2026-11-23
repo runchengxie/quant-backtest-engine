@@ -312,5 +312,6 @@ At risk 1 without an outage, once and rolling cost 101.571275 versus TWAP
 There is no new cash ledger, stochastic price simulation, learned forecast or
 net-return claim. Export every row and source identity in the locked installed
 Core environment with `python scripts/verify/export_execution_comparison.py
---output <external.json>`. The [paired implementation plan](../superpowers/plans/2026-11-24-execution-comparison.md)
-records the fixed protocol before results.
+--output <external.json>`. The paired implementation plan at
+`docs/superpowers/plans/2026-11-24-execution-comparison.md` records the fixed
+protocol before results.
