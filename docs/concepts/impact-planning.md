@@ -196,3 +196,72 @@ print({"first_action": plan.first_action, "conditional_cash": plan.cash,
        "request_digest": plan.request_digest})
 PY
 ```
+
+## Continuous-control reference and decision roadmap
+
+Engine already has multi-period planning: `planning.multiperiod` and
+`planning.impact_planning` implement bounded numerical planning with supplied
+forecasts; the latter includes transient impact and conservative cash bounds.
+Execute only a first action after owner checks, then replan. This is the MPC
+interpretation described by [Boyd et al., Multi-Period Trading via Convex
+Optimization](https://web.stanford.edu/~boyd/papers/cvx_portfolio.html), not a
+promise that Engine estimates forecasts.
+
+The independent standard-library module
+`quant_backtest_core.planning.liquidation_reference` supplies an analytic
+single-asset continuous-control benchmark. Its objective is
+
+```text
+min integral from 0 to T of [eta*v(t)^2 + lambda*sigma^2*x(t)^2] dt
+subject to x'(t)=-v(t), x(0)=X>=0, x(T)=0.
+```
+
+Here time is seconds, inventory is raw shares, volatility `sigma` is absolute
+price volatility in currency/(share*sqrt(second)), `lambda` is 1/currency, and
+`eta` is currency*second/share². Objective and remaining value are currency;
+`v` is shares/second. There is no hidden factor of one half. This is a simplified
+risk/temporary-impact tradeoff in the spirit of [Almgren and Chriss, Optimal
+execution of portfolio transactions](https://doi.org/10.21314/JOR.2001.041),
+not that paper's complete execution specification or a calibrated market model.
+
+For `a=lambda*sigma²` and `k=sqrt(a/eta)`, the exact mathematical solution is
+`x(t)=X*sinh(k*(T-t))/sinh(k*T)` and
+`v(t)=X*k*cosh(k*(T-t))/sinh(k*T)`. Its value function for arbitrary current
+inventory `y` before maturity is `V(t,y)=A(t)*y²`, where
+`A(t)=eta*k*coth(k*(T-t))`. It solves
+`V_t + a*y² - V_y²/(4*eta)=0`, or `A'=A²/eta-a`, with a singular
+hard-liquidation terminal boundary: `V(T,0)=0` and `V(T,y>0)=infinity`.
+With zero risk the limits are TWAP `x=X*(T-t)/T`, `v=X/T`, and
+`A=eta/(T-t)`. `evaluate` returns the remaining value **along this initial
+optimal path**, not a value for arbitrary realized inventory.
+
+```python
+from quant_backtest_core.planning.liquidation_reference import LiquidationModel, evaluate
+
+model = LiquidationModel(100.0, 10.0, 2.0, 0.0, 3.0)
+point = evaluate(model, 4.0)
+assert (point.inventory, point.sell_rate, point.remaining_value) == (60.0, 10.0, 1200.0)
+```
+
+At maturity inventory/value are zero and rate is the left limit. The module
+uses exponential ratios to avoid hyperbolic overflow, uses the TWAP limit for
+`k*T < 1e-8` (roundoff-scale corrections), and permits tiny late tails to
+underflow to zero. Nonfinite or invalid inputs, nonfinite derived coefficient/time
+scales, positive subnormal/underflowed risk, initial-rate or initial-cost scale intermediates, and unrepresentable
+initial objective or outputs raise `ValueError`.
+This is floating-point planning evidence; decimal account arithmetic is unchanged.
+
+| Question | Existing capability / benchmark | Next evidence needed |
+| --- | --- | --- |
+| Does planning across periods help? | Supplied-forecast multi-period/QP/MPC; synthetic regression cases | Compare out-of-sample first actions with identical forecasts, constraints and owner fills |
+| Is an execution cost/risk schedule correct in a tractable case? | Analytic LQ reference; hand-computed zero-risk TWAP, cost quadrature, along-path HJB residual, terminal and extreme-scale tests | Match units and objective before comparing a discretization's convergence |
+| Does a transient-impact planner match the reference? | Different model: per-fill transient costs include `k*q²/2`, decay and state | Do not equate that coefficient with rate-cost `eta`; derive the time-step conversion and remove transient/cash/forecast differences first |
+| Are stochastic control or general HJB PDEs solved? | Not implemented; the reference is a closed-form special case | Specify state, actions, stochastic dynamics, boundaries and independent convergence checks before adding a solver |
+| Should market-making quotes use this schedule? | No quote/fill-arrival model in this reference | [Avellaneda–Stoikov](https://math.nyu.edu/inmemoriam/avellaneda/HighFrequencyTrading.pdf) concerns inventory-sensitive bid/ask quoting and arrival intensities; validate that separate market-making problem explicitly |
+
+The next useful step is benchmark agreement and sensitivity analysis with
+synthetic coefficients. Any empirical parameter estimation stays outside this
+reference. It adds no cash ledger, execution fills, alpha learning, lots,
+participation limits, fees, permanent impact, transient-impact state, or
+production-order integration. Passing these tests proves this bounded example;
+it provides no general HJB optimality certificate or realized-profit claim.
