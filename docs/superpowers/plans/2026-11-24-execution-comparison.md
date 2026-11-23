@@ -1,6 +1,6 @@
 # Execution comparison implementation plan
 
-[简体中文](2026-11-32-execution-comparison.zh-CN.md)
+[简体中文](2026-11-24-execution-comparison.zh-CN.md)
 
 Goal: compare a discrete hard-terminal liquidation reference with the continuous
 LQ solution, and compare fixed synthetic execution schedules on one cost functional.
@@ -56,7 +56,6 @@ inventory error. There is no hidden cost-factor adjustment. Zero-risk single-per
 inventory 3, horizon 2 and eta 1.5 costs 6.75. Positive-risk objective errors should
 shrink approximately fourfold when the uniform grid doubles; numerical tolerance
 sets a floor for the zero-risk solution.
-
 
 The initial implementation used “once” for a fixed optimized schedule. That arm is
 now named `open_loop`. To cover literal immediate execution, `immediate` requests

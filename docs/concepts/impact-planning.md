@@ -278,7 +278,7 @@ separate from the supplied-forecast transient-impact planner above.
 
 The fixed convergence case uses inventory 3, horizon 2 seconds, eta 1.5,
 volatility 0.8. Zero risk gives TWAP with objective 6.75 on all four grids.
-At risk aversion 0.7, the analytic objective is 9.325677060235423:
+At risk aversion 0.7, the analytic objective is 9.245677060235423:
 
 | Periods | Discrete objective excess | Maximum inventory-node error |
 | --- | --- | --- |
@@ -300,7 +300,7 @@ Rolling replans from delivered inventory and observes only past fills, without
 future actual capacity. Infeasible replans record a failure and submit zero;
 there is no forced final sweep.
 
-For eta 0.5 and zero risk, without an outage all three complete at cost 12.5.
+For eta 0.5 and zero risk, without an outage open-loop, TWAP and rolling complete at cost 12.5.
 With the two-period outage, open-loop and TWAP leave 2.5 shares (accrued cost 9.375),
 while rolling completes at cost 16.666667. The lower partial cost is **not** a
 better liquidation objective. Compare objectives only among completed schedules
@@ -313,9 +313,8 @@ There is no new cash ledger, stochastic price simulation, learned forecast or
 net-return claim. Export every row and source identity in the locked installed
 Core environment with `python scripts/verify/export_execution_comparison.py
 --output <external.json>`. The paired implementation plan at
-`docs/superpowers/plans/2026-11-32-execution-comparison.md` records the fixed
+`docs/superpowers/plans/2026-11-24-execution-comparison.md` records the fixed
 protocol before results.
-
 
 The initial implementation used “once” for a fixed optimized schedule. That arm is
 now named `open_loop`. To cover literal immediate execution, `immediate` requests
