@@ -104,16 +104,15 @@ def solve(model: LiquidationModel, capacities: Sequence[float]) -> LiquidationPl
     lower = np.tril(np.ones((n, n)), -1)
     upper = lower + np.eye(n)
     scale = max(a, b)
+    a, b = a / scale, b / scale
 
     def fun(q: NDArray[np.float64]) -> float:
         before, after = 1 - lower @ q, 1 - upper @ q
-        return float((a * (q @ q) + b * (before @ before + before @ after + after @ after)) / scale)
+        return float(a * (q @ q) + b * (before @ before + before @ after + after @ after))
 
     def jac(q: NDArray[np.float64]) -> NDArray[np.float64]:
         before, after = 1 - lower @ q, 1 - upper @ q
-        return (
-            2 * a * q - b * (lower.T @ (2 * before + after) + upper.T @ (before + 2 * after))
-        ) / scale
+        return 2 * a * q - b * (lower.T @ (2 * before + after) + upper.T @ (before + 2 * after))
 
     bounds = np.minimum(np.asarray(caps), x) / x
     initial = bounds / bounds.sum()

@@ -92,3 +92,11 @@ class DiscreteLiquidationTests(unittest.TestCase):
             plan = solve(LiquidationModel(1e-100, 1, 1e200, 0, 1), [1e308])
         self.assertEqual(plan.sales, (1e-100,))
         self.assertAlmostEqual(plan.cost, 1)
+
+    def test_representable_large_cost_has_finite_normalized_gradient(self):
+        import warnings
+
+        with warnings.catch_warnings():
+            warnings.simplefilter("error", RuntimeWarning)
+            plan = solve(LiquidationModel(1, 1, 5e307, 0, 1), [1, 1])
+        self.assertEqual(plan.cost, 5e307)
