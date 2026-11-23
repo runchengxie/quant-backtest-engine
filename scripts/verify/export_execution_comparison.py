@@ -10,7 +10,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from quant_backtest_core.planning.execution_comparison import fixed_study
+from quant_backtest_core.planning.execution_comparison import compare, fixed_study
 from quant_backtest_core.planning.liquidation_discrete import solve
 from quant_backtest_core.planning.liquidation_reference import (
     LiquidationModel,
@@ -54,6 +54,36 @@ def main() -> None:
             for p in sources
         },
         "python": sys.version,
+        "protocol": {
+            "objective": "sum eta*q^2/dt + lambda*sigma^2*dt*(x^2+x*y+y^2)/3",
+            "constraints": "nonnegative sales, per-period quantity capacity, no oversell, hard terminal zero in planning",
+            "study": {
+                "initial_inventory": 10,
+                "horizon_seconds": 4,
+                "periods": 8,
+                "volatility": 1,
+                "eta_grid": [0.5, 2],
+                "risk_grid": [0, 1],
+                "forecast_capacity": [2] * 8,
+                "alpha": [0] * 8,
+            },
+            "convergence": {
+                "initial_inventory": 3,
+                "horizon_seconds": 2,
+                "temporary_cost": 1.5,
+                "volatility": 0.8,
+                "risk_grid": [0, 0.7],
+                "period_grid": [8, 16, 32, 64],
+                "capacity_per_period": 3,
+            },
+            "once": "fixed optimal quantities submitted once, no retry",
+            "twap": "1.25 each period submitted once, no retry",
+            "rolling": "replan delivered inventory; past fills only; infeasible submits zero and records failure",
+            "solver": {"method": "SLSQP", "ftol": 1e-13, "maxiter": 2000},
+        },
+        "infeasibility_diagnostic": [
+            dataclasses.asdict(r) for r in compare(0.5, 1, (0, 0, 0, 0, 2, 2, 2, 2))
+        ],
         "scope": "schedule-cost functional; no cash ledger or net returns",
         "terminal_comparison": "Rank objectives only among completed paths. Residual paths report accrued cost only.",
         "convergence": convergence,
