@@ -15,7 +15,8 @@ class ComparisonRow:
     risk: float
     actual_capacity: tuple[float, ...]
     fills: tuple[float, ...]
-    planned_cost: float
+    planned_capacity_feasible: bool
+    planned_cost: float | None
     realized_cost: float
     residual: float
     completed: bool
@@ -36,8 +37,11 @@ def compare(
     model = LiquidationModel(10, 4, eta, risk, 1)
     initial = solve(model, (2,) * 8)
     rows = []
-    for policy in ("once", "twap", "rolling"):
+    for policy in ("immediate", "open_loop", "twap", "rolling"):
         planned = initial.sales if policy != "twap" else (1.25,) * 8
+        if policy == "immediate":
+            planned = (10.0,) + (0.0,) * 7
+        capacity_feasible = all(q <= 2 for q in planned)
         residual = 10.0
         fills, failures = [], []
         for j, cap in enumerate(actual):
@@ -51,7 +55,7 @@ def compare(
                 except ValueError as exc:
                     failures.append(f"period {j}: {exc}")
                     submitted = 0.0
-            fill = min(submitted, cap, max(0.0, residual))
+            fill = min(submitted, cap, 2.0, max(0.0, residual))
             fills.append(fill)
             residual -= fill
         rows.append(
@@ -61,7 +65,8 @@ def compare(
                 risk,
                 actual,
                 tuple(fills),
-                objective(model, planned),
+                capacity_feasible,
+                objective(model, planned) if capacity_feasible else None,
                 objective(model, fills, require_terminal=False),
                 residual,
                 abs(residual) < 1e-8,
@@ -72,7 +77,7 @@ def compare(
 
 
 def fixed_study() -> tuple[ComparisonRow, ...]:
-    """Prespecified 2 cost × 2 risk × 2 capacity × 3 policies; retain every row."""
+    """Prespecified 2 cost × 2 risk × 2 capacity × 4 policies; retain every row."""
     return tuple(
         row
         for eta in (0.5, 2.0)
