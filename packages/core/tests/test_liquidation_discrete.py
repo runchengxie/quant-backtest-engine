@@ -61,3 +61,14 @@ class DiscreteLiquidationTests(unittest.TestCase):
         plan = solve(LiquidationModel(3, 2, 1.5, 0, 0.8), [3])
         self.assertEqual(plan.sales, (3,))
         self.assertEqual(plan.cost, 6.75)
+
+    def test_tiny_inventory_is_not_terminal_or_sellable_twice(self):
+        model = LiquidationModel(1e-10, 1, 1, 0, 1)
+        for sales in ([0], [1e-9]):
+            with self.assertRaises(ValueError):
+                objective(model, sales)
+
+    def test_zero_risk_large_volatility(self):
+        model = LiquidationModel(1, 1, 1, 0, 1e200)
+        self.assertEqual(objective(model, [0.5, 0.5]), 1)
+        self.assertAlmostEqual(solve(model, [1, 1]).cost, 1)

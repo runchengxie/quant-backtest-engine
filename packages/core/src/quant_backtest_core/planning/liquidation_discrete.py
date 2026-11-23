@@ -41,6 +41,14 @@ def _validate_model(model: LiquidationModel) -> None:
     evaluate(model, 0)
 
 
+def _risk_coefficient(model: LiquidationModel) -> float:
+    scale = math.sqrt(model.risk_aversion) * model.volatility
+    coefficient = scale * scale
+    if not math.isfinite(coefficient) or (scale > 0 and coefficient == 0):
+        raise ValueError("risk coefficient is unrepresentable")
+    return coefficient
+
+
 def objective(
     model: LiquidationModel, sales: Sequence[float], *, require_terminal: bool = True
 ) -> float:
@@ -52,16 +60,19 @@ def objective(
     _validate_model(model)
     q = _vector(sales)
     dt = model.horizon_seconds / len(q)
+    if dt == 0:
+        raise ValueError("period duration underflows")
+    risk = _risk_coefficient(model)
     x = model.initial_inventory
     total = 0.0
     for fill in q:
         y = x - fill
-        if y < -1e-8 * max(1, model.initial_inventory):
+        if y < -1e-8 * model.initial_inventory:
             raise ValueError("sales exceed available inventory")
         total += model.temporary_cost * fill * fill / dt
-        total += model.risk_aversion * model.volatility**2 * dt * (x * x + x * y + y * y) / 3
+        total += risk * dt * (x * x + x * y + y * y) / 3
         x = y
-    if require_terminal and abs(x) > 1e-8 * max(1, model.initial_inventory):
+    if require_terminal and abs(x) > 1e-8 * model.initial_inventory:
         raise ValueError("hard terminal liquidation required")
     if not math.isfinite(total):
         raise ValueError("objective is unrepresentable")
@@ -84,8 +95,10 @@ def solve(model: LiquidationModel, capacities: Sequence[float]) -> LiquidationPl
     # Optimize fractions for consistent tolerances across inventory units.
     n = len(caps)
     dt = model.horizon_seconds / n
+    if dt == 0:
+        raise ValueError("period duration underflows")
     a = model.temporary_cost * x * x / dt
-    b = model.risk_aversion * model.volatility**2 * dt * x * x / 3
+    b = _risk_coefficient(model) * dt * x * x / 3
     if not all(math.isfinite(v) and v >= 0 for v in (a, b)) or a == 0:
         raise ValueError("quadratic coefficient domain is unrepresentable")
     lower = np.tril(np.ones((n, n)), -1)
@@ -118,8 +131,8 @@ def solve(model: LiquidationModel, capacities: Sequence[float]) -> LiquidationPl
         not result.success
         or not np.all(np.isfinite(q))
         or np.any(q < 0)
-        or np.any(q > np.asarray(caps) + 1e-9)
-        or abs(q.sum() - x) > 1e-8 * max(1, x)
+        or np.any(q > np.asarray(caps) + 1e-9 * x)
+        or abs(q.sum() - x) > 1e-8 * x
     ):
         raise ValueError(f"uncertified numerical solution: {result.message}")
     sales = tuple(float(v) for v in q)
