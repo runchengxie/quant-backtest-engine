@@ -115,7 +115,7 @@ def solve(model: LiquidationModel, capacities: Sequence[float]) -> LiquidationPl
             2 * a * q - b * (lower.T @ (2 * before + after) + upper.T @ (before + 2 * after))
         ) / scale
 
-    bounds = np.minimum(np.asarray(caps) / x, 1)
+    bounds = np.minimum(np.asarray(caps), x) / x
     initial = bounds / bounds.sum()
     result = minimize(
         fun,

@@ -83,3 +83,12 @@ class DiscreteLiquidationTests(unittest.TestCase):
         with patch("scipy.optimize.minimize", return_value=result):
             with self.assertRaisesRegex(ValueError, "iteration limit"):
                 solve(LiquidationModel(1, 1, 1, 0, 1), [1, 1])
+
+    def test_large_nonbinding_capacity_does_not_overflow_ratio(self):
+        import warnings
+
+        with warnings.catch_warnings():
+            warnings.simplefilter("error", RuntimeWarning)
+            plan = solve(LiquidationModel(1e-100, 1, 1e200, 0, 1), [1e308])
+        self.assertEqual(plan.sales, (1e-100,))
+        self.assertAlmostEqual(plan.cost, 1)
