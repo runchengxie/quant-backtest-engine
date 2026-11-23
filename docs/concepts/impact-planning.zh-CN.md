@@ -166,3 +166,63 @@ print({"first_action": plan.first_action, "conditional_cash": plan.cash,
        "request_digest": plan.request_digest})
 PY
 ```
+
+## 连续控制参考与后续路线
+
+Engine 已有多期规划：`planning.multiperiod` 和 `planning.impact_planning`
+使用调用者提供的预测进行有限范围数值规划，后者还包含瞬态冲击与保守现金边界。
+首个动作经账户所有者复核后执行，再重新规划。这与
+[Boyd 等人的多期凸优化交易框架](https://web.stanford.edu/~boyd/papers/cvx_portfolio.html)
+中的 MPC 思路一致，并不表示 Engine 负责预测估计。
+
+独立模块 `quant_backtest_core.planning.liquidation_reference` 只依赖标准库，
+提供单资产连续控制的解析基准，求解
+
+```text
+最小化 0 到 T 上 [eta*v(t)^2 + lambda*sigma^2*x(t)^2] 的积分
+约束 x'(t)=-v(t)，x(0)=X>=0，x(T)=0。
+```
+
+时间单位为秒，库存为原始股数，`sigma` 为绝对价格波动率，单位为
+币种/(股*sqrt(秒))，`lambda` 为 1/币种，`eta` 为币种*秒/股²。
+目标值及剩余目标值以同一币种计量，`v` 为股/秒；公式没有隐含的二分之一。
+这个简化案例体现了 [Almgren–Chriss 的执行成本与风险权衡](https://doi.org/10.21314/JOR.2001.041)，
+并不复现该论文的全部设定，也不是经过市场数据校准的模型。
+
+记 `a=lambda*sigma²`，`k=sqrt(a/eta)`，数学上的精确解为
+`x(t)=X*sinh(k*(T-t))/sinh(k*T)`、
+`v(t)=X*k*cosh(k*(T-t))/sinh(k*T)`。
+到期前、任意当前库存 `y` 的价值函数为 `V(t,y)=A(t)*y²`，其中
+`A(t)=eta*k*coth(k*(T-t))`。它满足
+`V_t + a*y² - V_y²/(4*eta)=0`，即 `A'=A²/eta-a`，
+终端边界为 `V(T,0)=0`、`V(T,y>0)=infinity`。
+风险为零时取 TWAP 极限：`x=X*(T-t)/T`、`v=X/T`、`A=eta/(T-t)`。
+`evaluate` 返回的是从初始状态出发、沿最优路径的剩余目标值，
+不能将其解释为任意实际成交后库存的价值。
+
+```python
+from quant_backtest_core.planning.liquidation_reference import LiquidationModel, evaluate
+
+model = LiquidationModel(100.0, 10.0, 2.0, 0.0, 3.0)
+point = evaluate(model, 4.0)
+assert (point.inventory, point.sell_rate, point.remaining_value) == (60.0, 10.0, 1200.0)
+```
+
+到期库存和剩余值为零，卖出速率取左极限。实现采用指数比值避免双曲函数溢出，
+在 `k*T < 1e-8` 时采用 TWAP 极限（修正量处于舍入误差尺度），
+允许极小的尾部库存下溢为零。非有限或非法输入、不可表示的系数与时间尺度、
+正风险、初始速率或初始成本尺度的次正规或下溢中间值、溢出的初始目标值或输出均明确抛出 `ValueError`。
+这些是浮点规划结果，不改变账户的十进制定点金额运算。
+
+| 要回答的问题 | 已有能力或基准 | 下一步所需证据 |
+| --- | --- | --- |
+| 多期规划是否有帮助？ | 给定预测的多期/QP/MPC 与合成回归案例 | 用相同预测、约束及账户成交规则比较样本外首个动作 |
+| 简单案例的成本风险清算是否正确？ | 解析 LQ 参考；手算零风险 TWAP、成本数值积分、沿路径 HJB 残差、终端与极端尺度测试 | 先统一单位与目标函数，再验证离散化收敛 |
+| 瞬态冲击规划是否应与参考相同？ | 模型不同：逐笔瞬态成本包含 `k*q²/2`、衰减及状态 | 不能直接等同于速率成本 `eta`；先推导时间步转换并消除瞬态、现金与预测差异 |
+| 是否已解一般随机控制或 HJB PDE？ | 尚未实现；此处只是闭式特例 | 增加求解器前先定义状态、动作、随机动态、边界及独立收敛检查 |
+| 做市报价能否直接采用清算路径？ | 参考没有报价与成交到达模型 | [Avellaneda–Stoikov](https://math.nyu.edu/inmemoriam/avellaneda/HighFrequencyTrading.pdf) 研究库存相关的双边报价和到达强度，需单独验证做市问题 |
+
+下一步应先用合成参数检查基准一致性与敏感性。实证参数估计仍在本参考之外。
+这里不增加现金账本、成交、学习型 alpha、整手约束、参与率上限、费用、永久冲击、
+瞬态冲击状态或生产订单接入。测试通过只支持这个有限案例，不能推出一般 HJB
+最优性或实际盈利。
