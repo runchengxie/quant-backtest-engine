@@ -221,6 +221,16 @@ class DailyReplayRequest:
         if layout.quantity_unit != quantity or layout.price_unit != f"{layout.currency}/{quantity}":
             raise ValueError("price and quantity units must agree with currency and share basis")
         selected = {layout.price_col}
+        if config.valuation_policy == "suspended_last_quote":
+            column = config.valuation_suspension_col
+            if column in {
+                layout.price_col,
+                layout.tradable_col,
+                layout.buy_tradable_col,
+                layout.sell_tradable_col,
+            }:
+                raise ValueError("valuation suspension requires a separate selected column")
+            selected.add(str(column))
         selected.update(
             v
             for v in (layout.tradable_col, layout.buy_tradable_col, layout.sell_tradable_col)

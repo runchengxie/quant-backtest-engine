@@ -20,6 +20,15 @@ from .summary import summarize_execution
 
 def validate_request(request: DailyReplayRequest) -> None:
     positions, pricing = request.positions, request.pricing
+    if request.config.valuation_policy == "suspended_last_quote":
+        if (
+            request.mode not in {"adjusted", "sequenced"}
+            or request.price_basis != "adjusted"
+            or request.corporate_actions
+        ):
+            raise ValueError(
+                "suspended valuation requires adjusted/sequenced adjusted prices without corporate actions"
+            )
     if not request.config.enabled:
         raise ValueError("daily execution requires an enabled simulator")
     if request.calendar.timezone != "Asia/Shanghai":

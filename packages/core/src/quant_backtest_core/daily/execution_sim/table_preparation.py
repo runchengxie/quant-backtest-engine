@@ -162,6 +162,12 @@ def _build_execution_tables(
         limit_up_table=limit_up_table,
         limit_down_table=limit_down_table,
         listing_status_table=listing_status_table,
+        valuation_suspension_col=config.valuation_suspension_col,
+        suspension_table=(
+            pricing.pivot(index="trade_date", columns="symbol", values=config.valuation_suspension_col)
+            if config.valuation_policy == "suspended_last_quote"
+            else None
+        ),
     )
 
 

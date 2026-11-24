@@ -29,6 +29,8 @@ def simulate_capacity_execution(
     limit_down_col: str | None = None,
     listing_status_col: str | None = None,
 ) -> ExecutionSimResult:
+    if config.valuation_policy != "current_mark_only":
+        raise ValueError("capacity mode does not support suspended valuation")
     if config.sell_round_lot is not None:
         raise ValueError(
             "execution_sim.sell_round_lot requires a share ledger; "

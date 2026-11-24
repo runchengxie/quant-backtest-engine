@@ -115,3 +115,5 @@ and hidden-state limits. Core 0.3.0 source does not by itself imply merged relea
 [Daily input contract](daily-inputs.md) and [complete owner outputs](../reference/outputs/backtest-outputs.md) describe ideal, capacity, adjusted and sequenced limits. Capacity accepts liquidity/participation and tradability controls, execution windows and zero-fill abort; price-limit, listing-status, T+1 and buy/sell lot enforcement are rejected. Capacity has no share/cash/fee ledger; diagnostic period replay is a separate Python API, not an executable backend capability.
 
 Adjusted and sequenced neutral requests reject `enforce_listing_status=True` before owner execution. The historical buy path does not enforce this rule; direct legacy APIs retain their original behavior.
+
+Explicit adjusted-unit suspension valuation is an opt-in over the existing ledger, with a separate Boolean suspension selector and a bounded session age. It does not supply executable quotes or extend raw-share/action support. See [the policy and endpoint evidence](daily-inputs.md#explicit-suspension-valuation).

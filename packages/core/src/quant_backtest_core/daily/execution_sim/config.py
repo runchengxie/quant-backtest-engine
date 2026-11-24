@@ -48,7 +48,25 @@ class ExecutionSimConfig:
     # Independent opt-in raw-share sell policy; round_lot applies to buys only.
     sell_round_lot: int | None = None
 
+    valuation_policy: str = "current_mark_only"
+    valuation_suspension_col: str | None = None
+    valuation_max_stale_sessions: int | None = None
+
     def __post_init__(self) -> None:
+        if self.valuation_policy not in ("current_mark_only", "suspended_last_quote"):
+            raise ValueError("unsupported execution_sim.valuation_policy")
+        column = self.valuation_suspension_col
+        if column is not None and (
+            not isinstance(column, str) or not column or column.strip() != column
+        ):
+            raise ValueError("valuation_suspension_col must be normalized nonempty text")
+        age = self.valuation_max_stale_sessions
+        if age is not None and (type(age) is not int or age <= 0):
+            raise ValueError("valuation_max_stale_sessions must be a positive integer")
+        if self.valuation_policy == "suspended_last_quote" and (column is None or age is None):
+            raise ValueError(
+                "suspended_last_quote valuation requires suspension column and age limit"
+            )
         value = self.sell_round_lot
         if value is not None and (type(value) is not int or value <= 0):
             raise ValueError("execution_sim.sell_round_lot must be a positive integer or None.")
@@ -138,6 +156,9 @@ def build_execution_sim_config(
         unfilled_buy_action=unfilled_buy_action,
         unfilled_sell_action=unfilled_sell_action,
         sell_round_lot=sim_cfg.get("sell_round_lot"),
+        valuation_policy=sim_cfg.get("valuation_policy", "current_mark_only"),
+        valuation_suspension_col=sim_cfg.get("valuation_suspension_col"),
+        valuation_max_stale_sessions=sim_cfg.get("valuation_max_stale_sessions"),
         round_lot=market_rules.round_lot,
         enforce_t1=market_rules.enforce_t1,
         enforce_price_limits=market_rules.enforce_price_limits,
@@ -181,6 +202,8 @@ def required_execution_sim_columns(
     if not config.enabled:
         return set()
     columns = {str(price_col), *config.liquidity_cols}
+    if config.valuation_policy == "suspended_last_quote":
+        columns.add(str(config.valuation_suspension_col))
     if config.enforce_price_limits:
         columns.update(column for column in (config.limit_up_col, config.limit_down_col) if column)
     if config.enforce_listing_status and config.listing_status_col:
@@ -190,6 +213,9 @@ def required_execution_sim_columns(
 
 def describe_execution_sim_config(config: ExecutionSimConfig) -> dict[str, Any]:
     return {
+        "valuation_policy": config.valuation_policy,
+        "valuation_suspension_col": config.valuation_suspension_col,
+        "valuation_max_stale_sessions": config.valuation_max_stale_sessions,
         "enabled": bool(config.enabled),
         "portfolio_value": float(config.portfolio_value),
         "participation_rate": float(config.participation_rate),

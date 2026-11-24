@@ -369,3 +369,122 @@ def test_product_listing_enforcement_rejected_on_actual_entry(mode, status, tmp_
             DailyBackend(context).run(parse_manifest(value), context)
         owner.assert_not_called()
     assert not context.output_root.exists()
+
+
+def _suspension_wire():
+    value = wire()
+    value["share_basis"] = "adjusted"
+    value["settings"]["layout"].update(
+        quantity_unit="adjusted_share", price_unit="CNY/adjusted_share"
+    )
+    value["settings"]["config"].update(
+        valuation_policy="suspended_last_quote",
+        valuation_suspension_col="suspended",
+        valuation_max_stale_sessions=2,
+    )
+    for row in value["inline_inputs"]["pricing"]:
+        row["suspended"] = row["symbol"] == "A" and row["trade_date"] != "2020-01-03"
+        if row["suspended"]:
+            row["close"] = None
+    return value
+
+
+def test_suspension_sdk_backend_and_owner_round_trip(tmp_path):
+    value = _suspension_wire()
+    manifest = parse_manifest(value)
+    assert manifest_to_json(manifest) == value
+    context = BackendContext(FIXTURES, tmp_path)
+    backend = DailyBackend(context)
+    request = backend._prepare(manifest, context)
+    direct = run_daily(request)
+    result = backend.run(manifest, context)
+    assert parse_result(result_to_json(result)) == result
+    raw = json.loads((tmp_path / result.raw_result.uri).read_text())
+    assert raw["owner_tables"]["valuation_marks"] == _owner_frame(direct.valuation_marks)
+    rows = raw["tables"]["valuation_marks"]["rows"]
+    assert rows[0]["policy_valued_symbols"] == []
+    assert rows[0]["policy_quote_dates"] == rows[0]["policy_quote_ages"] == []
+    assert rows[1]["policy_valued_symbols"] == ["A"]
+    assert rows[1]["policy_quote_dates"] == ["2020-01-03"]
+    assert rows[1]["policy_quote_ages"] == ["1"]
+    assert rows[2]["policy_quote_ages"] == ["2"]
+    assert all(row["endpoint_complete"] for row in rows)
+    assert result.summary["valuation_complete"]
+    assert direct.fills.trade_date.tolist() == ["20200103"]
+
+
+def test_historical_manifest_omission_equals_explicit_current_mark_only(tmp_path):
+    historical = wire()
+    assert not any(key.startswith("valuation_") for key in historical["settings"]["config"])
+    explicit = copy.deepcopy(historical)
+    explicit["settings"]["config"].update(
+        valuation_policy="current_mark_only",
+        valuation_suspension_col=None,
+        valuation_max_stale_sessions=None,
+    )
+    context = BackendContext(FIXTURES, tmp_path)
+    backend = DailyBackend(context)
+    old = run_daily(backend._prepare(parse_manifest(historical), context))
+    new = run_daily(backend._prepare(parse_manifest(explicit), context))
+    assert old.summary == new.summary
+    for name in ("daily", "orders", "fills", "valuation_marks"):
+        pd.testing.assert_frame_equal(getattr(old, name), getattr(new, name))
+
+
+@pytest.mark.parametrize(
+    "change",
+    [
+        lambda w: w["settings"]["config"].update(valuation_policy="unknown"),
+        lambda w: w["settings"]["config"].update(valuation_suspension_col=None),
+        lambda w: w["settings"]["config"].update(valuation_max_stale_sessions=None),
+        lambda w: w["settings"]["config"].update(valuation_max_stale_sessions=True),
+        lambda w: w["settings"]["config"].update(valuation_max_stale_sessions=0),
+        lambda w: w["settings"]["config"].update(valuation_max_stale_sessions="2"),
+        lambda w: w["settings"]["config"].update(valuation_suspension_col="sell"),
+        lambda w: w["inline_inputs"]["pricing"][0].update(suspended="true"),
+        lambda w: w["inline_inputs"]["pricing"][0].pop("suspended"),
+        lambda w: w.update(share_basis="raw"),
+        lambda w: w["settings"].update(mode="ideal"),
+        lambda w: w["settings"].update(mode="capacity"),
+    ],
+)
+def test_sdk_suspension_admission_rejects_malformed_or_unsupported(change):
+    value = _suspension_wire()
+    change(value)
+    with pytest.raises(ValueError):
+        parse_manifest(value)
+
+
+@pytest.mark.parametrize("has_event", [False, True])
+def test_suspension_action_artifact_is_checked_after_loading(tmp_path, has_event):
+    value = _suspension_wire()
+    (tmp_path / "daily-calendar.json").write_bytes((FIXTURES / "daily-calendar.json").read_bytes())
+    action = dict(
+        event_id="cash",
+        symbol="A",
+        available_date="2020-01-02",
+        record_date="2020-01-03",
+        ex_date="2020-01-06",
+        cash_per_share="1",
+        cash_pay_date="2020-01-07",
+        stock_per_share="0",
+        stock_tradable_date=None,
+        withholding_rate="0",
+    )
+    payload = json.dumps([action] if has_event else []).encode()
+    (tmp_path / "actions.json").write_bytes(payload)
+    value["tapes"]["corporate_actions"] = dict(
+        uri="actions.json",
+        media_type="application/json",
+        sha256=hashlib.sha256(payload).hexdigest(),
+    )
+    manifest = parse_manifest(value)
+    context = BackendContext(tmp_path, tmp_path / "outputs")
+    backend = DailyBackend(context)
+    if has_event:
+        with pytest.raises(ValueError, match="corporate actions"):
+            backend._prepare(manifest, context)
+    else:
+        request = backend._prepare(manifest, context)
+        assert request.corporate_actions == ()
+        assert run_daily(request).summary["execution_summary"]["valuation_complete"]
