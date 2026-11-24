@@ -265,3 +265,64 @@ reference. It adds no cash ledger, execution fills, alpha learning, lots,
 participation limits, fees, permanent impact, transient-impact state, or
 production-order integration. Passing these tests proves this bounded example;
 it provides no general HJB optimality certificate or realized-profit claim.
+
+## Discrete convergence and paired schedule evidence
+
+The optional planning module `planning.liquidation_discrete.solve(model, capacities)`
+adds a scalar, sell-only, hard-terminal reference. Each capacity is a maximum
+quantity for one equal-length period. It rejects infeasible capacities and failed
+numerical solutions. For inventory endpoints `x,y` and sale `q=x-y`, its exact
+piecewise-linear integral is `eta*q*q/dt + lambda*sigma*sigma*dt*(x*x+x*y+y*y)/3`.
+This matches the continuous reference's objective, including every factor. It is
+separate from the supplied-forecast transient-impact planner above.
+
+The fixed convergence case uses inventory 3, horizon 2 seconds, eta 1.5,
+volatility 0.8. Zero risk gives TWAP with objective 6.75 on all four grids.
+At risk aversion 0.7, the analytic objective is 9.245677060235423:
+
+| Periods | Discrete objective excess | Maximum inventory-node error |
+| --- | --- | --- |
+| 8 | 0.003603958 | 0.000285046 |
+| 16 | 0.000902730 | 0.000071120 |
+| 32 | 0.000225791 | 0.000017805 |
+| 64 | 0.000056455 | 0.000004410 |
+
+Doubling the grid reduces positive-risk objective error approximately fourfold.
+These bounded numerical checks are not a general HJB/PDE solver or calibration.
+
+`planning.execution_comparison.fixed_study()` retains 32 prespecified synthetic
+rows: target 10, horizon 4 seconds, eight periods, volatility 1, eta 0.5 or 2,
+risk aversion 0 or 1, actual capacity either 2 every period or zero for the first
+two periods then 2. All policies initially forecast capacity 2 every period and
+zero alpha. Open-loop submits the optimized schedule; TWAP submits 1.25 each period.
+Both submit each scheduled quantity once and never retry clipped quantities.
+Rolling replans from delivered inventory and observes only past fills, without
+future actual capacity. Infeasible replans record a failure and submit zero;
+there is no forced final sweep.
+
+For eta 0.5 and zero risk, without an outage open-loop, TWAP and rolling complete at cost 12.5.
+With the two-period outage, open-loop and TWAP leave 2.5 shares (accrued cost 9.375),
+while rolling completes at cost 16.666667. The lower partial cost is **not** a
+better liquidation objective. Compare objectives only among completed schedules
+with matching initial state and horizon. Rolling's outage result measures
+adaptation as well as optimization; completion is conditional on capacity.
+At risk 1 without an outage, open-loop and rolling cost 101.571275 versus TWAP
+145.833333; this describes the assumed cost functional, not investment returns.
+
+There is no new cash ledger, stochastic price simulation, learned forecast or
+net-return claim. Export every row and source identity in the locked installed
+Core environment with `python scripts/verify/export_execution_comparison.py
+--output <external.json>`. The paired implementation plan at
+`docs/superpowers/plans/2026-11-24-execution-comparison.md` records the fixed
+protocol before results.
+
+The initial implementation used “once” for a fixed optimized schedule. That arm is
+now named `open_loop`. To cover literal immediate execution, `immediate` requests
+10 shares in period zero and submits zero thereafter. The same forecast and actual
+capacity caps apply, so it fills only 2 shares without an outage (residual 8), or
+zero during the initial outage (residual 10). Its intended schedule violates the
+forecast capacity: `planned_capacity_feasible=false`, `planned_cost=null`. Every
+other arm also reports the capacity feasibility flag. No fictitious full immediate
+fill is compared with completed schedules. This corrects the requested policy
+scope without changing cost, risk, capacities or the old 24 path outcomes. The
+main grid now retains 32 rows and the infeasibility diagnostic retains four rows.
