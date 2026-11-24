@@ -190,8 +190,9 @@ total-return units, with no corporate-action events. Raw-share, ideal and capaci
 requests reject it. Referenced action tapes are loaded and checked before
 execution; only an empty tape is accepted. Direct `simulate_execution_adjusted_nav` callers must pass
 `price_basis="adjusted"` and leave `corporate_actions=None`; direct adjusted `()`
-retains its existing rejection. A suspension column must differ from the price
-and general/directional tradability selectors. It is a caller assertion of
+retains its existing rejection. A suspension column must differ from all declared execution inputs: price,
+general/directional tradability, price-limit and listing selectors, liquidity
+columns, `trade_date` and `symbol`. It is a caller assertion of
 suspension, never inferred from a missing quote or blocked buy/sell permission.
 On the wire the selected column is required on each pricing row and accepts
 Boolean or null values. Missing rows, nulls and unknown native values do not
@@ -216,7 +217,15 @@ configured limit. Age counts all supplied replay sessions, including sessions
 with no quote for that symbol; the previous session has age 1. The owner checks
 only strictly prior dates and never substitutes a future observation.
 `prepare_execution_tables` must enable the policy and use the suspension selector
-declared by the replay; tables prepared without this evidence are rejected.
+declared by the replay. Prepared tables bind their reserved execution selectors;
+missing or conflicting projection metadata is rejected even when replay kwargs
+omit the original trading controls.
+
+Opt-in table preparation normalizes a copy of pricing keys to daily session
+labels for validation, then rejects every duplicate `(trade_date, symbol)` key before deduplication, including
+identical rows and contradictory suspension flags in either order. The direct
+default policy retains legacy first-row handling; neutral replay requests already
+reject duplicate pricing keys. Validation does not change executable date parsing.
 
 This policy attests existing ledger valuation and changes no cash, holdings,
 fees, target sizing, fill logic or executable price. A missing executable quote
@@ -239,3 +248,12 @@ remains in `missing_symbols` but leaves `unresolved_symbols`. The success reason
 can also include `missing_current_price`. Both adjacent endpoint requirements
 still apply to summary returns. The normalized `valuations` event table remains
 unavailable.
+
+
+The native `execution_summary` and normalized product `summary` both include
+`valuation_policy` and `policy_valued_endpoints`. The latter counts closing
+endpoints with at least one separately reported carried mark, including mixed
+endpoints that remain incomplete for another symbol. It is zero for the default
+policy. The native count is an integer; the product wire uses a decimal string.
+Consumers must retain these fields with `valuation_complete`: policy-complete
+valuation does not imply that every mark was current.

@@ -290,3 +290,45 @@ def _coerce_positive_int(value: Any, *, label: str) -> int:
     if number <= 0:
         raise ValueError(f"{label} must be a positive integer.")
     return number
+
+
+def _validate_valuation_selectors(
+    config: ExecutionSimConfig,
+    *,
+    price_col: str,
+    tradable_col: str | None = None,
+    buy_tradable_col: str | None = None,
+    sell_tradable_col: str | None = None,
+    limit_up_col: str | None = None,
+    limit_down_col: str | None = None,
+    listing_status_col: str | None = None,
+) -> tuple[str, ...]:
+    """Bind suspension evidence to a column separate from execution inputs.
+
+    Keep the projection's reserved selectors with prepared tables: replay kwargs
+    alone cannot prove which control columns those tables actually contain.
+    """
+    columns = {"trade_date", "symbol", price_col, *config.liquidity_cols}
+    columns.update(
+        column
+        for column in (
+            tradable_col,
+            buy_tradable_col,
+            sell_tradable_col,
+            limit_up_col,
+            limit_down_col,
+            listing_status_col,
+            config.limit_up_col,
+            config.limit_down_col,
+            config.listing_status_col,
+        )
+        if column is not None
+    )
+    if (
+        config.valuation_policy == "suspended_last_quote"
+        and config.valuation_suspension_col in columns
+    ):
+        raise ValueError(
+            "valuation suspension requires a separate column from all execution inputs"
+        )
+    return tuple(sorted(columns))

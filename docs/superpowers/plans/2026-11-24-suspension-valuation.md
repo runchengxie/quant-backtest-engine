@@ -11,3 +11,8 @@ Review focus: unknown suspension metadata, prior quotes that the ledger never he
 
 
 Implementation evidence: synthetic policy and prepared-selector regressions were observed RED before their fixes; action-artifact admission was separately observed RED→GREEN. The existing ledger and executable quote table remain unchanged. Homogeneous parallel tuple metadata passed both all-empty and mixed-row Parquet round trips. Ordinary wheels are used for isolated `python -I` full-suite validation; the initial source-PYTHONPATH preflight could not satisfy isolated packaging imports. Final source, gate logs and wheel receipts are retained outside Git. Fresh whole-branch review and publication remain the root coordinator's responsibility.
+
+
+Final review fix pass: 20 material regressions failed before fixes, covering execution-selector aliases and prepared-table provenance, order-dependent normalized quote duplicates, and missing applied-policy context in normalized summaries. Centralized selector validation and bound projection metadata close native/direct/prepared bypasses; opt-in preparation rejects all duplicate normalized daily keys; native and normalized summaries retain the applied policy and carried-endpoint count. Additional acceptance covers identical duplicates, missing/conflicting projection metadata and default duplicate compatibility. Earlier validation at eaab873 predates these fixes; final installed-wheel and affected gates are recorded separately outside Git. No second review was dispatched.
+
+The fix pass also observed a RED regression proving duplicate-key normalization must not create executable dates from timestamp labels. Normalization is now confined to validation keys; original executable-date parsing remains unchanged.

@@ -290,3 +290,146 @@ def test_invalid_current_quotes_never_become_current_evidence(bad_quote):
     row = run_daily(req).valuation_marks.iloc[1]
     assert row.endpoint_complete and row.current_marks == 0
     assert row.policy_valued_symbols == ("A",)
+
+
+@pytest.mark.parametrize("selector", ["limit_up", "limit_down", "amount", "trade_date", "symbol"])
+def test_native_request_rejects_suspension_aliases_of_execution_inputs(selector):
+    req = replay()
+    prices = req.pricing.assign(limit_up=True, limit_down=False)
+    config = replace(
+        req.config,
+        valuation_suspension_col=selector,
+        enforce_price_limits=True,
+        limit_up_col="limit_up",
+        limit_down_col="limit_down",
+    )
+    with pytest.raises(ValueError, match="separate"):
+        run_daily(replace(req, pricing=prices, config=config))
+
+
+@pytest.mark.parametrize("selector", ["limit_up", "limit_down", "amount", "trade_date", "symbol"])
+def test_direct_rejects_suspension_aliases_of_execution_inputs(selector):
+    req = replay()
+    prices = req.pricing.assign(limit_up=True, limit_down=False)
+    config = replace(
+        req.config,
+        valuation_suspension_col=selector,
+        enforce_price_limits=True,
+        limit_up_col="limit_up",
+        limit_down_col="limit_down",
+    )
+    with pytest.raises(ValueError, match="separate"):
+        simulate_execution_adjusted_nav(
+            req.positions,
+            prices,
+            config,
+            price_col="close",
+            price_basis="adjusted",
+            limit_up_col="limit_up",
+            limit_down_col="limit_down",
+        )
+
+
+def test_preparation_rejects_directional_alias_before_default_replay_can_hide_it():
+    from quant_backtest_core.daily.execution_sim import prepare_execution_tables
+
+    req = replay()
+    with pytest.raises(ValueError, match="separate"):
+        prepared = prepare_execution_tables(
+            req.pricing, req.config, price_col="close", sell_tradable_col="suspended"
+        )
+        simulate_execution_adjusted_nav(
+            req.positions,
+            req.pricing,
+            req.config,
+            price_col="close",
+            price_basis="adjusted",
+            prepared_tables=prepared,
+        )
+
+
+@pytest.mark.parametrize("reverse", [False, True])
+@pytest.mark.parametrize("prepared", [False, True])
+def test_opt_in_rejects_duplicate_normalized_quote_keys_in_both_orders(reverse, prepared):
+    from quant_backtest_core.daily.execution_sim import prepare_execution_tables
+
+    req = replay()
+    row = req.pricing.loc[req.pricing.trade_date.eq(DAYS[1]) & req.pricing.symbol.eq("A")]
+    contradictory = row.assign(trade_date=DAYS[1].replace("-", ""), suspended=False)
+    prices = pd.concat([req.pricing, contradictory], ignore_index=True)
+    if reverse:
+        prices = prices.iloc[::-1]
+    with pytest.raises(ValueError, match="duplicate.*normalized"):
+        if prepared:
+            prepare_execution_tables(prices, req.config, price_col="close")
+        else:
+            simulate_execution_adjusted_nav(
+                req.positions, prices, req.config, price_col="close", price_basis="adjusted"
+            )
+
+
+def test_native_summary_names_applied_policy_and_carried_endpoint_count():
+    carried = run_daily(replay())
+    ordinary = run_daily(request("adjusted"))
+    assert carried.summary["execution_summary"]["valuation_policy"] == "suspended_last_quote"
+    assert carried.summary["execution_summary"]["policy_valued_endpoints"] == 1
+    assert ordinary.summary["execution_summary"]["valuation_policy"] == "current_mark_only"
+    assert ordinary.summary["execution_summary"]["policy_valued_endpoints"] == 0
+
+
+@pytest.mark.parametrize("metadata", [None, (), ("suspended",)])
+def test_prepared_replay_requires_distinct_projection_metadata(metadata):
+    from quant_backtest_core.daily.execution_sim import prepare_execution_tables
+
+    req = replay()
+    prepared = prepare_execution_tables(req.pricing, req.config, price_col="close")
+    assert {"close", "amount", "trade_date", "symbol"} <= set(prepared.valuation_execution_columns)
+    with pytest.raises(ValueError, match="valuation suspension evidence"):
+        simulate_execution_adjusted_nav(
+            req.positions,
+            req.pricing,
+            req.config,
+            price_col="close",
+            price_basis="adjusted",
+            prepared_tables=replace(prepared, valuation_execution_columns=metadata),
+        )
+
+
+def test_default_policy_preserves_legacy_first_duplicate_price_row():
+    req = request("adjusted")
+    duplicate = req.pricing.iloc[[0]].assign(close=99)
+    baseline = simulate_execution_adjusted_nav(
+        req.positions, req.pricing, req.config, price_col="close"
+    )
+    actual = simulate_execution_adjusted_nav(
+        req.positions, pd.concat([req.pricing, duplicate]), req.config, price_col="close"
+    )
+    pd.testing.assert_frame_equal(actual.daily, baseline.daily)
+    pd.testing.assert_frame_equal(actual.fills, baseline.fills)
+    pd.testing.assert_frame_equal(actual.valuation_marks, baseline.valuation_marks)
+
+
+@pytest.mark.parametrize("reverse", [False, True])
+def test_opt_in_rejects_even_identical_duplicate_price_rows(reverse):
+    from quant_backtest_core.daily.execution_sim import prepare_execution_tables
+
+    req = replay()
+    prices = pd.concat([req.pricing, req.pricing.iloc[[0]]], ignore_index=True)
+    if reverse:
+        prices = prices.iloc[::-1]
+    with pytest.raises(ValueError, match="duplicate.*normalized"):
+        prepare_execution_tables(prices, req.config, price_col="close")
+
+
+def test_policy_duplicate_validation_never_creates_executable_session_dates():
+    req = replay(missing=())
+    prices = req.pricing.copy()
+    prices["trade_date"] = prices.trade_date + "T12:00:00"
+    default = replace(req.config, valuation_policy="current_mark_only")
+    baseline = simulate_execution_adjusted_nav(req.positions, prices, default, price_col="close")
+    selected = simulate_execution_adjusted_nav(
+        req.positions, prices, req.config, price_col="close", price_basis="adjusted"
+    )
+    assert baseline.summary["status"] == "no_executable_entry_dates"
+    assert selected.summary["status"] == baseline.summary["status"]
+    assert selected.fills.empty

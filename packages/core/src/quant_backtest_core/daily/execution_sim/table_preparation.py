@@ -6,7 +6,11 @@ from typing import Any
 
 import pandas as pd
 
-from .config import ExecutionSimConfig, required_execution_sim_columns
+from .config import (
+    ExecutionSimConfig,
+    _validate_valuation_selectors,
+    required_execution_sim_columns,
+)
 from .models import _ExecutionTables
 
 
@@ -44,8 +48,32 @@ def _prepare_execution_tables(
     limit_down_col: str | None = None,
     listing_status_col: str | None = None,
 ) -> tuple[_ExecutionTables | None, str | None, dict[str, Any] | None]:
-    pricing = pricing_data.drop_duplicates(subset=["trade_date", "symbol"]).copy()
-    pricing["trade_date"] = pd.to_datetime(pricing["trade_date"], errors="coerce")
+    _validate_valuation_selectors(
+        config,
+        price_col=price_col,
+        tradable_col=tradable_col,
+        buy_tradable_col=buy_tradable_col,
+        sell_tradable_col=sell_tradable_col,
+        limit_up_col=limit_up_col,
+        limit_down_col=limit_down_col,
+        listing_status_col=listing_status_col,
+    )
+    if config.valuation_policy == "suspended_last_quote":
+        pricing = pricing_data.copy()
+        keys = pricing[["trade_date", "symbol"]].copy()
+        keys["trade_date"] = pd.to_datetime(
+            keys["trade_date"], errors="coerce", format="mixed"
+        ).dt.normalize()
+        if keys.duplicated(subset=["trade_date", "symbol"]).any():
+            raise ValueError(
+                "duplicate normalized pricing keys are unsupported for suspended valuation"
+            )
+        # Key validation must not create executable dates or alter quote parsing.
+        pricing["trade_date"] = pd.to_datetime(pricing["trade_date"], errors="coerce")
+    else:
+        # Preserve the legacy first-row behavior only for the default policy.
+        pricing = pricing_data.drop_duplicates(subset=["trade_date", "symbol"]).copy()
+        pricing["trade_date"] = pd.to_datetime(pricing["trade_date"], errors="coerce")
     pricing = pricing.dropna(subset=["trade_date", "symbol"])
     required_cols = required_execution_sim_columns(
         config,
@@ -163,8 +191,20 @@ def _build_execution_tables(
         limit_down_table=limit_down_table,
         listing_status_table=listing_status_table,
         valuation_suspension_col=config.valuation_suspension_col,
+        valuation_execution_columns=_validate_valuation_selectors(
+            config,
+            price_col=price_col,
+            tradable_col=tradable_col,
+            buy_tradable_col=buy_tradable_col,
+            sell_tradable_col=sell_tradable_col,
+            limit_up_col=limit_up_col,
+            limit_down_col=limit_down_col,
+            listing_status_col=listing_status_col,
+        ),
         suspension_table=(
-            pricing.pivot(index="trade_date", columns="symbol", values=config.valuation_suspension_col)
+            pricing.pivot(
+                index="trade_date", columns="symbol", values=config.valuation_suspension_col
+            )
             if config.valuation_policy == "suspended_last_quote"
             else None
         ),

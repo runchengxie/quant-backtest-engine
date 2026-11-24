@@ -488,3 +488,30 @@ def test_suspension_action_artifact_is_checked_after_loading(tmp_path, has_event
         request = backend._prepare(manifest, context)
         assert request.corporate_actions == ()
         assert run_daily(request).summary["execution_summary"]["valuation_complete"]
+
+
+@pytest.mark.parametrize("column", ["limit_up", "amount", "trade_date", "symbol"])
+def test_sdk_rejects_execution_input_aliases_for_suspension(column):
+    value = _suspension_wire()
+    value["settings"]["config"].update(
+        valuation_suspension_col=column,
+        enforce_price_limits=True,
+        limit_up_col="limit_up",
+        limit_down_col="limit_down",
+    )
+    for row in value["inline_inputs"]["pricing"]:
+        row.update(limit_up=True, limit_down=False)
+    with pytest.raises(ValueError, match="separate"):
+        parse_manifest(value)
+
+
+def test_normalized_summary_preserves_applied_valuation_policy(tmp_path):
+    value = _suspension_wire()
+    manifest = parse_manifest(value)
+    context = BackendContext(FIXTURES, tmp_path)
+    result = DailyBackend(context).run(manifest, context)
+    assert result.summary["valuation_complete"]
+    assert result.summary["valuation_policy"] == "suspended_last_quote"
+    assert result.summary["policy_valued_endpoints"] == "2"
+    restored = parse_result(result_to_json(result))
+    assert restored.summary == result.summary

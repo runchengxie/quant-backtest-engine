@@ -212,8 +212,14 @@ def run_daily(request: DailyReplayRequest) -> ExecutionAdjustedNavResult | Execu
     )
     evidence = DailySummaryEvidence("available", "available", intervals, (True,) * len(marks))
     summary = dict(result.summary)
-    summary["execution_summary"] = asdict(
-        summarize_execution(result.daily, result.fills, evidence=evidence)
-    )
+    summary["execution_summary"] = {
+        **asdict(summarize_execution(result.daily, result.fills, evidence=evidence)),
+        "valuation_policy": config.valuation_policy,
+        "policy_valued_endpoints": (
+            sum(bool(symbols) for symbols in coverage.policy_valued_symbols)
+            if coverage is not None and "policy_valued_symbols" in coverage
+            else 0
+        ),
+    }
     summary["audit_time_semantics"] = "legacy date labels; not observed intraday clocks"
     return replace(result, summary=summary)

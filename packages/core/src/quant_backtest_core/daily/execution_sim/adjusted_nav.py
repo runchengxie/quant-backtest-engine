@@ -17,7 +17,7 @@ from ..dated_fees import DatedTradeFeeModel
 from ..execution import DetailedTradeFeeModel, SlippageModel
 from ..types import CostBreakdown
 from .capacity import _positions_value, _refresh_last_prices
-from .config import ExecutionSimConfig
+from .config import ExecutionSimConfig, _validate_valuation_selectors
 from .corporate_actions import RECEIVABLE_COLUMNS, _action_conventions, _CorporateActionLedger
 from .models import (
     SupportedTradeFeeModel,
@@ -420,13 +420,16 @@ def simulate_execution_adjusted_nav(
     price_basis: str | None = None,
 ) -> ExecutionAdjustedNavResult:
     if config.valuation_policy == "suspended_last_quote":
-        if config.valuation_suspension_col in {
-            price_col,
-            tradable_col,
-            buy_tradable_col,
-            sell_tradable_col,
-        }:
-            raise ValueError("valuation suspension requires a separate selected column")
+        _validate_valuation_selectors(
+            config,
+            price_col=price_col,
+            tradable_col=tradable_col,
+            buy_tradable_col=buy_tradable_col,
+            sell_tradable_col=sell_tradable_col,
+            limit_up_col=limit_up_col,
+            limit_down_col=limit_down_col,
+            listing_status_col=listing_status_col,
+        )
         if price_basis != "adjusted" or corporate_actions is not None:
             raise ValueError(
                 "suspended valuation requires adjusted prices without corporate actions"
@@ -434,6 +437,8 @@ def simulate_execution_adjusted_nav(
         if prepared_tables is not None and (
             prepared_tables.suspension_table is None
             or prepared_tables.valuation_suspension_col != config.valuation_suspension_col
+            or not prepared_tables.valuation_execution_columns
+            or config.valuation_suspension_col in prepared_tables.valuation_execution_columns
         ):
             raise ValueError("prepared tables require explicit valuation suspension evidence")
     if config.sell_round_lot is not None and price_basis not in (None, "raw"):

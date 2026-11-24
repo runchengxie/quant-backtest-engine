@@ -210,6 +210,7 @@ class _ExecutionTables:
     listing_status_table: pd.DataFrame | None = None
     suspension_table: pd.DataFrame | None = None
     valuation_suspension_col: str | None = None
+    valuation_execution_columns: tuple[str, ...] | None = None
 
 
 # Public type alias for callers that want to prepare immutable execution tables

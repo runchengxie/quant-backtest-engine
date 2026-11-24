@@ -37,6 +37,8 @@
 
 原始 `valuation_marks` 表分别记录当前报价数量和声明策略下的估值。`valuation_policy`、排序后的 `policy_valued_symbols`、同序对应的 `policy_quote_dates`/`policy_quote_ages` 数组及 `unresolved_symbols` 展示有年龄上限的停牌旧价证据；所有数组均可为空。默认仍只认证当前价格，收益仍要求期初期末都完整。详见[可选策略及限制](../../product/daily-inputs.zh-CN.md#explicit-suspension-valuation)。
 
+标准化财务摘要显式保留 `valuation_policy` 和 `policy_valued_endpoints`（产品协议中为十进制字符串数量）。`suspended_last_quote` 下的 `valuation_complete=True` 不能被展示为所有价格均为当前报价。
+
 ## 纯期间与分腿财务闭包（Task 15P）
 
 Task 15P 补齐提供方 C PR #24 合并后发现的纯源闭包遗漏：显式输入的分腿构建、状态滚动、参与率表查询、期间汇总及独立的旧交易核算 API 原样迁入 Core 0.3.0。全部期间字段、默认值及 Core CostBreakdown 类身份保留；未知诊断仍为未知，费用只汇总一次。筛选、权重构建、研究投影与指标、编排仍属 Platform，多空诊断期间不增加每日现金、融券或保证金能力。[精确 API、兼容语义与证据](../../guides/diagnostic-close-replay.zh-CN.md) 说明完整边界。后续提交须先复核、合并并提供精确产物，再恢复消费方 Task 15，然后执行 Astro Task 19；源身份以精确提交和产物回执确认，该任务通过源码与独立产物交付。

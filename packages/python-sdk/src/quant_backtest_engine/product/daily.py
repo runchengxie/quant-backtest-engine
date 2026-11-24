@@ -225,8 +225,12 @@ def validate_daily_input(manifest):
     if config["enforce_price_limits"]:
         controls.update((config["limit_up_col"], config["limit_down_col"]))
     if policy == "suspended_last_quote":
-        if suspension_column in controls or suspension_column == layout["price_col"]:
-            raise ValueError("valuation suspension requires a separate selected column")
+        # Match Core's projection guard without importing the optional owner.
+        reserved = {"trade_date", "symbol", layout["price_col"], *config["liquidity_cols"], *controls}
+        reserved.update(config[key] for key in ("limit_up_col", "limit_down_col", "listing_status_col")
+                        if config[key] is not None)
+        if suspension_column in reserved:
+            raise ValueError("valuation suspension requires a separate column from all execution inputs")
         controls.add(suspension_column)
     numbers = {layout["price_col"], *config["liquidity_cols"]}
     columns = {"trade_date", "symbol"} | numbers | controls

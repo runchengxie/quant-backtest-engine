@@ -37,6 +37,8 @@ Execution summaries report returns only when both opening and closing valuations
 
 The raw `valuation_marks` table preserves current-quote counts separately from declared-policy valuation. `valuation_policy`, sorted `policy_valued_symbols`, aligned `policy_quote_dates`/`policy_quote_ages` arrays and `unresolved_symbols` expose bounded suspension carry. All arrays may be empty. Default current-only certification and both-endpoint return requirements remain. See [the opt-in policy and limitations](../../product/daily-inputs.md#explicit-suspension-valuation).
 
+Normalized financial summaries explicitly retain `valuation_policy` and `policy_valued_endpoints` (a decimal-string count on the product wire). A true `valuation_complete` under `suspended_last_quote` must not be presented as all-current-price evidence.
+
 ## Pure period-leg financial closure (Task 15P)
 
 Task 15P closes a pure-source omission discovered after provider C PR #24. Explicit-input leg construction, state rollover, supplied participation lookup, period aggregation and the separate legacy trade accounting APIs move to Core 0.3.0 unchanged. Every period field/default and the owned CostBreakdown identity remain; unknown diagnostics stay unknown and costs aggregate once. Selection, weight construction, research projection/metrics and orchestration remain Platform. Diagnostic long/short periods add no daily cash, borrow or margin capability. [Exact APIs, compatibility semantics and evidence](../../guides/diagnostic-close-replay.md) describe the boundary. Review/merge and exact follow-up artifacts precede Task 15 consumer resumption, then Astro Task 19; versions alone are not source identity. No PyPI publication.

@@ -20,7 +20,7 @@ from quant_backtest_core._minute.corporate_actions import (
     normalize_corporate_actions,
 )
 
-from .execution_sim.config import ExecutionSimConfig
+from .execution_sim.config import ExecutionSimConfig, _validate_valuation_selectors
 
 _NS = re.compile(r"-?(0|[1-9][0-9]*)\Z")
 
@@ -223,13 +223,13 @@ class DailyReplayRequest:
         selected = {layout.price_col}
         if config.valuation_policy == "suspended_last_quote":
             column = config.valuation_suspension_col
-            if column in {
-                layout.price_col,
-                layout.tradable_col,
-                layout.buy_tradable_col,
-                layout.sell_tradable_col,
-            }:
-                raise ValueError("valuation suspension requires a separate selected column")
+            _validate_valuation_selectors(
+                config,
+                price_col=layout.price_col,
+                tradable_col=layout.tradable_col,
+                buy_tradable_col=layout.buy_tradable_col,
+                sell_tradable_col=layout.sell_tradable_col,
+            )
             selected.add(str(column))
         selected.update(
             v
