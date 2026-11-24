@@ -32,8 +32,12 @@
 
 统一账本八表：targets、orders、fills、daily_positions、daily_cash、daily_nav、cost_breakdown、turnover_breakdown。后两者保留按买卖方向及 total 聚合的原成本/成交额；不重新扣费。公司行动的 cash_receivable、stock_receivable_value 和生命周期回执须单独检查。
 
-执行摘要只在期初和期末估值均完整、且已知外部净流入为零时报告收益；全序列完整才复合。首期期初以有限正数的配置现金开始，没有持仓或应收项。缺价使当期的期末和下一期的期初均不完整；当前价格恢复本身不能补齐期初证据。原有净值和收益表保持不变。仅按成交表已知 commission/stamp/transfer 三项求总费用，换手率未知。不以日频汇总补齐缺失成交，也不将机会损失再次扣款。
+执行摘要只在期初和期末估值均完整、且已知外部净流入为零时报告收益；全序列完整才复合。首期期初以有限正数的配置现金开始，没有持仓或应收项。默认只认证当前价格时，缺价使当期的期末和下一期的期初均不完整；当前价格恢复本身不能补齐期初证据。原有净值和收益表保持不变。仅按成交表已知 commission/stamp/transfer 三项求总费用，换手率未知。不以日频汇总补齐缺失成交，也不将机会损失再次扣款。
 
+
+原始 `valuation_marks` 表分别记录当前报价数量和声明策略下的估值。`valuation_policy`、排序后的 `policy_valued_symbols`、同序对应的 `policy_quote_dates`/`policy_quote_ages` 数组及 `unresolved_symbols` 展示有年龄上限的停牌旧价证据；所有数组均可为空。默认仍只认证当前价格，收益仍要求期初期末都完整。详见[可选策略及限制](../../product/daily-inputs.zh-CN.md#explicit-suspension-valuation)。
+
+标准化财务摘要显式保留 `valuation_policy` 和 `policy_valued_endpoints`（产品协议中为十进制字符串数量）。`suspended_last_quote` 下的 `valuation_complete=True` 不能被展示为所有价格均为当前报价。
 
 ## 纯期间与分腿财务闭包（Task 15P）
 

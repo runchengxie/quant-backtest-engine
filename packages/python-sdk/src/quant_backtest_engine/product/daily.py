@@ -1,9 +1,9 @@
 """Standard-library daily-input.v1 transport validation; no core import."""
 
 import math
+from collections.abc import Mapping
 from datetime import date
 from decimal import Decimal
-from collections.abc import Mapping
 
 from .types import ArtifactRef, ClockSet
 from .validation import _array, _decimal, _nonempty, _ns, _shape
@@ -105,7 +105,24 @@ def validate_daily_input(manifest):
         + CONFIG_INTS
         + CONFIG_TEXT
         + ("liquidity_cols", "sell_max_days"),
+        ("valuation_policy", "valuation_suspension_col", "valuation_max_stale_sessions"),
     )
+    policy = config.get("valuation_policy", "current_mark_only")
+    suspension_column = config.get("valuation_suspension_col")
+    age = config.get("valuation_max_stale_sessions")
+    if policy not in ("current_mark_only", "suspended_last_quote"):
+        raise ValueError("unsupported valuation_policy")
+    if suspension_column is not None:
+        _nonempty(suspension_column, "valuation_suspension_col")
+        if suspension_column.strip() != suspension_column:
+            raise ValueError("valuation_suspension_col must be normalized")
+    if age is not None and (type(age) is not int or age <= 0):
+        raise ValueError("valuation_max_stale_sessions must be a positive integer")
+    if policy == "suspended_last_quote":
+        if suspension_column is None or age is None:
+            raise ValueError("suspended valuation requires explicit column and age limit")
+        if settings["mode"] not in ("adjusted", "sequenced") or manifest.share_basis != "adjusted":
+            raise ValueError("suspended valuation requires adjusted/sequenced adjusted prices")
     for key in CONFIG_DECIMALS:
         _number(config[key], key)
     for key in CONFIG_BOOLEANS:
@@ -207,6 +224,14 @@ def validate_daily_input(manifest):
     }
     if config["enforce_price_limits"]:
         controls.update((config["limit_up_col"], config["limit_down_col"]))
+    if policy == "suspended_last_quote":
+        # Match Core's projection guard without importing the optional owner.
+        reserved = {"trade_date", "symbol", layout["price_col"], *config["liquidity_cols"], *controls}
+        reserved.update(config[key] for key in ("limit_up_col", "limit_down_col", "listing_status_col")
+                        if config[key] is not None)
+        if suspension_column in reserved:
+            raise ValueError("valuation suspension requires a separate column from all execution inputs")
+        controls.add(suspension_column)
     numbers = {layout["price_col"], *config["liquidity_cols"]}
     columns = {"trade_date", "symbol"} | numbers | controls
     if config["enforce_listing_status"]:
@@ -225,6 +250,8 @@ def validate_daily_input(manifest):
     if set(tapes) != {"corporate_actions"}:
         raise ValueError("daily requires explicit corporate_actions tape only")
     actions = tapes["corporate_actions"]
+    if policy == "suspended_last_quote" and not isinstance(actions, ArtifactRef) and actions:
+        raise ValueError("suspended valuation does not support corporate actions")
     if not isinstance(actions, ArtifactRef):
         for row in actions:
             _shape(

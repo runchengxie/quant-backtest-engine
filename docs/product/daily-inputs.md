@@ -25,7 +25,7 @@ The manifest adapter must compare currency and share basis against these
 declarations. Native metadata alone is not manifest admission.
 
 Lot sizes, T+1, liquidity multiplier and price-limit/listing selectors remain
-solely in `ExecutionSimConfig`. Its parser and class are transferred unchanged
+solely in `ExecutionSimConfig`. Its parser and class were transferred
 from Platform commit `7a618bddd8fdeee5dbe37fe5b54a9698e0de5355`, with a
 NumPy-only dependency closure. Missing selected columns and enabled rule inputs
 fail without source defaults. Instrument/rule columns must be supplied by the
@@ -125,7 +125,7 @@ The complete synthetic request is tests/fixtures/product/daily.json with daily-c
 
 Python layout.liquidity_units remains a mapping; the wire uses [{"column":"amount","unit":"CNY"}] to separate dynamic column names from monetary keys. Duplicate columns, unknown record fields and unrepresentable units fail. fee_model accepts only null, fixed detailed or dated structures, never module paths. portfolio_value equals initial cash. The product is restricted to CNY, Asia/Shanghai and explicit raw/adjusted share units.
 
-run_daily has no policy/scenario/flow/risk/forecast transformation and no checkpoint/restore. Ideal rejects trading controls; capacity accepts liquidity/participation limits, general or side-specific tradability, execution windows and zero-fill abort, but rejects `enforce_price_limits`, `enforce_listing_status`, `enforce_t1`, non-null `round_lot`/`sell_round_lot`, corporate actions and fees before execution. Capacity requires `unfilled_buy_action=keep_cash` and `unfilled_sell_action=keep_position`; alternatives are rejected; it has no share/cash/fee ledger; adjusted/sequenced retain the original modeled cash/share path. Each return requires complete opening and closing valuations. The fresh run opens with finite positive configured cash and no holdings or receivables. Later interval endpoints require positive finite current marks for actual held shares and outstanding stock rights on both adjacent ledger dates. Future targets and exited zero-share symbols do not require marks. A missing mark makes that interval and the next interval unknown; support resumes after two complete endpoints. Original carried NAV/returns remain unchanged in raw owner tables. Adjusted/sequenced reject active `enforce_listing_status` before execution because the preserved buy path does not enforce it.
+run_daily has no policy/scenario/flow/risk/forecast transformation and no checkpoint/restore. Ideal rejects trading controls; capacity accepts liquidity/participation limits, general or side-specific tradability, execution windows and zero-fill abort, but rejects `enforce_price_limits`, `enforce_listing_status`, `enforce_t1`, non-null `round_lot`/`sell_round_lot`, corporate actions and fees before execution. Capacity requires `unfilled_buy_action=keep_cash` and `unfilled_sell_action=keep_position`; alternatives are rejected; it has no share/cash/fee ledger; adjusted/sequenced retain the original modeled cash/share path. Each return requires complete opening and closing valuations. The fresh run opens with finite positive configured cash and no holdings or receivables. Under the default valuation policy, later interval endpoints require positive finite current marks for actual held shares and outstanding stock rights on both adjacent ledger dates. Future targets and exited zero-share symbols do not require marks. A missing mark makes that interval and the next interval unknown; support resumes after two complete endpoints. Original carried NAV/returns remain unchanged in raw owner tables. Adjusted/sequenced reject active `enforce_listing_status` before execution because the preserved buy path does not enforce it.
 
 ## Installed synthetic example
 
@@ -152,8 +152,10 @@ Rows contain `trade_date` (the same YYYYMMDD label as `daily`), `held_symbols`,
 `missing_symbols`, `cash_complete`, `receivables_complete`, `endpoint_complete`
 and `reason`. Symbol collections are sorted tuples (arrays on the JSON wire).
 Required marks cover the union of positive held shares and positive outstanding
-stock rights. Only the current supplied finite positive quote counts; a cached
-last price may preserve raw NAV but never certifies a missing current mark.
+stock rights. Under the default `current_mark_only` policy, only the current supplied finite
+positive quote certifies an endpoint. A cached last price may preserve raw NAV
+but does not count as a current mark. The explicit suspension policy below can
+certify an endpoint using separately reported carried-price evidence.
 
 Cash and cash/stock receivable amounts must be finite. A known cash receivable
 after selling the shares needs no stock quote. Pending stock rights still need
@@ -170,3 +172,88 @@ evidence checks supplied prices, not their independent source authenticity.
 The product preserves `valuation_marks` in raw `tables` and `owner_tables`;
 the normalized economic `valuations` event ledger remains unavailable. Capacity
 has no such ledger and does not gain valuation certification.
+
+
+## Explicit suspension valuation {#explicit-suspension-valuation}
+
+`ExecutionSimConfig` accepts three optional fields. Old `daily-input.v1`
+manifests may omit all three and retain the default behavior.
+
+| Field | Default | Opt-in requirement |
+| --- | --- | --- |
+| `valuation_policy` | `current_mark_only` | `suspended_last_quote` |
+| `valuation_suspension_col` | `None` | A normalized, nonempty separate Boolean column |
+| `valuation_max_stale_sessions` | `None` | A positive integer, excluding Boolean values |
+
+The opt-in applies only to `adjusted`/`sequenced` replay using adjusted synthetic
+total-return units, with no corporate-action events. Raw-share, ideal and capacity
+requests reject it. Referenced action tapes are loaded and checked before
+execution; only an empty tape is accepted. Direct `simulate_execution_adjusted_nav` callers must pass
+`price_basis="adjusted"` and leave `corporate_actions=None`; direct adjusted `()`
+retains its existing rejection. A suspension column must differ from all declared execution inputs: price,
+general/directional tradability, price-limit and listing selectors, liquidity
+columns, `trade_date` and `symbol`. It is a caller assertion of
+suspension, never inferred from a missing quote or blocked buy/sell permission.
+On the wire the selected column is required on each pricing row and accepts
+Boolean or null values. Missing rows, nulls and unknown native values do not
+prove suspension; only an actual Boolean `True` qualifies.
+
+For example, synthetic callers can explicitly choose:
+
+```python
+config = ExecutionSimConfig(
+    enabled=True,
+    valuation_policy="suspended_last_quote",
+    valuation_suspension_col="is_suspended",
+    valuation_max_stale_sessions=2,
+)
+```
+
+A positive finite current quote always wins. With no valid current quote, an
+actual held symbol qualifies only when its suspension flag is explicitly true,
+the live ledger already holds a positive finite cached price matching the
+latest actual strictly prior valid quote, and its age does not exceed the
+configured limit. Age counts all supplied replay sessions, including sessions
+with no quote for that symbol; the previous session has age 1. The owner checks
+only strictly prior dates and never substitutes a future observation.
+`prepare_execution_tables` must enable the policy and use the suspension selector
+declared by the replay. Prepared tables bind their reserved execution selectors;
+missing or conflicting projection metadata is rejected even when replay kwargs
+omit the original trading controls.
+
+Opt-in table preparation normalizes a copy of pricing keys to daily session
+labels for validation, then rejects every duplicate `(trade_date, symbol)` key before deduplication, including
+identical rows and contradictory suspension flags in either order. The direct
+default policy retains legacy first-row handling; neutral replay requests already
+reject duplicate pricing keys. Validation does not change executable date parsing.
+
+This policy attests existing ledger valuation and changes no cash, holdings,
+fees, target sizing, fill logic or executable price. A missing executable quote
+still produces no fill. Suspended prices can be stale; a complete endpoint means
+complete **under the declared policy**, not independently verified fair value or
+liquidation proceeds. Corporate actions, stock rights, delisting recovery values
+and unknown suspension metadata are outside this opt-in. Raw-share support would
+need a separate corporate-action and rights valuation contract.
+
+`valuation_marks` additionally reports `valuation_policy`,
+`policy_valued_symbols`, `policy_quote_dates`, `policy_quote_ages` and
+`unresolved_symbols`. The policy symbols are sorted; quote dates (ISO date
+labels) and integer session ages are parallel tuples in the same symbol order.
+Empty collections are `()`, represented as arrays on JSON transport, so columns
+remain compatible with Parquet even when all rows have no carried marks.
+Numeric ages use decimal strings on the product result wire. `current_marks`
+and `missing_symbols` retain their current-quote meanings; a carried symbol
+remains in `missing_symbols` but leaves `unresolved_symbols`. The success reason
+`suspended_last_quote` identifies carried evidence; incomplete mixed endpoints
+can also include `missing_current_price`. Both adjacent endpoint requirements
+still apply to summary returns. The normalized `valuations` event table remains
+unavailable.
+
+
+The native `execution_summary` and normalized product `summary` both include
+`valuation_policy` and `policy_valued_endpoints`. The latter counts closing
+endpoints with at least one separately reported carried mark, including mixed
+endpoints that remain incomplete for another symbol. It is zero for the default
+policy. The native count is an integer; the product wire uses a decimal string.
+Consumers must retain these fields with `valuation_complete`: policy-complete
+valuation does not imply that every mark was current.

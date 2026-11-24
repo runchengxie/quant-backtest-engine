@@ -32,8 +32,12 @@ Adjusted/sequenced/ideal provide daily, fills, fees and terminal reports. Capaci
 
 UnifiedLedger fields: targets, orders, fills, daily_positions, daily_cash, daily_nav, cost_breakdown and turnover_breakdown. The last two preserve original buy/sell/total cost and filled-notional aggregation without another debit. Inspect corporate-action cash_receivable, stock_receivable_value and lifecycle receipts separately.
 
-Execution summaries report returns only when both opening and closing valuations are complete and external flows are known zero; compounding requires the entire sequence. The supported first opening is finite positive configured cash with no holdings or receivables. A missing mark invalidates both its closing interval and the following opening interval; a recovered current mark alone cannot repair that opening. Raw owner NAV and returns are preserved unchanged. Total fees use known actual-fill commission/stamp/transfer components only; turnover is unknown. Daily aggregates never fill missing execution evidence and opportunity shortfall is never another debit.
+Execution summaries report returns only when both opening and closing valuations are complete and external flows are known zero; compounding requires the entire sequence. The supported first opening is finite positive configured cash with no holdings or receivables. Under the default current-only policy, a missing mark invalidates both its closing interval and the following opening interval; a recovered current mark alone cannot repair that opening. Raw owner NAV and returns are preserved unchanged. Total fees use known actual-fill commission/stamp/transfer components only; turnover is unknown. Daily aggregates never fill missing execution evidence and opportunity shortfall is never another debit.
 
+
+The raw `valuation_marks` table preserves current-quote counts separately from declared-policy valuation. `valuation_policy`, sorted `policy_valued_symbols`, aligned `policy_quote_dates`/`policy_quote_ages` arrays and `unresolved_symbols` expose bounded suspension carry. All arrays may be empty. Default current-only certification and both-endpoint return requirements remain. See [the opt-in policy and limitations](../../product/daily-inputs.md#explicit-suspension-valuation).
+
+Normalized financial summaries explicitly retain `valuation_policy` and `policy_valued_endpoints` (a decimal-string count on the product wire). A true `valuation_complete` under `suspended_last_quote` must not be presented as all-current-price evidence.
 
 ## Pure period-leg financial closure (Task 15P)
 

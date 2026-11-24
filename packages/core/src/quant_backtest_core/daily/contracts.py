@@ -20,7 +20,7 @@ from quant_backtest_core._minute.corporate_actions import (
     normalize_corporate_actions,
 )
 
-from .execution_sim.config import ExecutionSimConfig
+from .execution_sim.config import ExecutionSimConfig, _validate_valuation_selectors
 
 _NS = re.compile(r"-?(0|[1-9][0-9]*)\Z")
 
@@ -221,6 +221,16 @@ class DailyReplayRequest:
         if layout.quantity_unit != quantity or layout.price_unit != f"{layout.currency}/{quantity}":
             raise ValueError("price and quantity units must agree with currency and share basis")
         selected = {layout.price_col}
+        if config.valuation_policy == "suspended_last_quote":
+            column = config.valuation_suspension_col
+            _validate_valuation_selectors(
+                config,
+                price_col=layout.price_col,
+                tradable_col=layout.tradable_col,
+                buy_tradable_col=layout.buy_tradable_col,
+                sell_tradable_col=layout.sell_tradable_col,
+            )
+            selected.add(str(column))
         selected.update(
             v
             for v in (layout.tradable_col, layout.buy_tradable_col, layout.sell_tradable_col)

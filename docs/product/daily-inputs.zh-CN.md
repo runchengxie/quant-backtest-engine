@@ -24,7 +24,7 @@ Core 0.3.0 已实现独立日频图、daily-input.v1 校验和 python.daily 后�
 
 手数、T+1、流动性倍数及涨跌停、上市状态选择器仅保留在 `ExecutionSimConfig`。
 类和解析器从 Platform 提交 `7a618bddd8fdeee5dbe37fe5b54a9698e0de5355`
-原样迁移，依赖闭包只有 NumPy。缺失选中列或已启用规则所需输入时报错，不使用源默认值补齐。
+迁移，基础依赖闭包只有 NumPy。缺失选中列或已启用规则所需输入时报错，不使用源默认值补齐。
 证券和规则列由调用方提供。未纳入请求的旧模式参数保留在直接 API 中；
 适配器必须拒绝无法表达的设置。稀疏目标不表示可以补造缺失交易日。
 
@@ -104,7 +104,7 @@ IC、alpha 和广泛研究统计仍归 Platform；Task 15 通过兼容封装从�
 
 Python layout.liquidity_units 仍是映射；协议将其编码为 [{"column":"amount","unit":"CNY"}]，避免动态列名与金额键冲突。拒绝重复列、未知记录字段及单位不匹配。fee_model 仅接受 null、detailed 或 dated 固定结构，不接受模块路径。portfolio_value 必须等于初始现金。产品限定 CNY、Asia/Shanghai、显式原始/复权股数单位。
 
-run_daily 不支持 policy、scenario、flow、risk 或 forecast 转换，也不支持检查点/恢复。ideal 不能带交易限制；capacity 支持流动性/参与率限制、通用或分买卖方向的交易许可、执行窗口及连续零成交中止，但在执行前拒绝 `enforce_price_limits`、`enforce_listing_status`、`enforce_t1`、非空 `round_lot`/`sell_round_lot`、公司行动及费用。capacity 要求 `unfilled_buy_action=keep_cash` 和 `unfilled_sell_action=keep_position`，拒绝其他策略；该模式没有股数/现金/费用账本；调整/顺序模式保留真实模拟股数和现金路径。每个收益区间要求期初和期末估值均完整。新运行以有限正数的配置现金开始，没有持仓或应收项；后续区间要求相邻两个账本日的实际持股及未到账股票权益都有正的有限当前价格；未来目标及已卖出的零持仓证券不需要价格。缺价使当期和下一期收益均未知，两个端点再次完整后才恢复支持。原有沿用价格的净值和收益仍原样保留在原始表中。调整/顺序模式在执行前拒绝启用 `enforce_listing_status`，因为保留的买入路径未实现该约束。
+run_daily 不支持 policy、scenario、flow、risk 或 forecast 转换，也不支持检查点/恢复。ideal 不能带交易限制；capacity 支持流动性/参与率限制、通用或分买卖方向的交易许可、执行窗口及连续零成交中止，但在执行前拒绝 `enforce_price_limits`、`enforce_listing_status`、`enforce_t1`、非空 `round_lot`/`sell_round_lot`、公司行动及费用。capacity 要求 `unfilled_buy_action=keep_cash` 和 `unfilled_sell_action=keep_position`，拒绝其他策略；该模式没有股数/现金/费用账本；调整/顺序模式保留真实模拟股数和现金路径。每个收益区间要求期初和期末估值均完整。新运行以有限正数的配置现金开始，没有持仓或应收项；默认估值策略下，后续区间要求相邻两个账本日的实际持股及未到账股票权益都有正的有限当前价格；未来目标及已卖出的零持仓证券不需要价格。缺价使当期和下一期收益均未知，两个端点再次完整后才恢复支持。原有沿用价格的净值和收益仍原样保留在原始表中。调整/顺序模式在执行前拒绝启用 `enforce_listing_status`，因为保留的买入路径未实现该约束。
 
 ## 已安装合成样例
 
@@ -130,8 +130,9 @@ quant-backtest run-manifest tests/fixtures/product/daily.json \
 `held_count`、`stock_receivable_symbols`、`required_marks`、`current_marks`、
 `missing_symbols`、`cash_complete`、`receivables_complete`、`endpoint_complete`
 及 `reason`。证券集合是排序后的元组，在 JSON 中为数组。需要价格的是正持股
-与正的未到账股票权益的并集。只有当日提供的正有限价格才算完整；沿用的旧价格
-可以维持原始净值，但不能证明当日缺失价格完整。
+与正的未到账股票权益的并集。默认 `current_mark_only` 策略只使用当日提供的正有限价格认证端点。沿用的旧价格
+可以维持原始净值，但不计作当前价格。下述显式停牌策略可以通过单独记录的
+旧价格证据认证端点。
 
 现金、应收现金及应收股票价值必须有限。已卖出持股但保留已知应收现金时，
 不再要求该股票价格；未到账股票权益仍须有当前原始价格，原有公司行动
@@ -145,3 +146,69 @@ quant-backtest run-manifest tests/fixtures/product/daily.json \
 不独立认证数据来源。产品在原始 `tables` 和 `owner_tables` 中保留
 `valuation_marks`，标准化经济事件表 `valuations` 仍不可用。capacity
 没有对应账本，不因此获得估值完整认证。
+
+
+## 显式停牌估值 {#explicit-suspension-valuation}
+
+`ExecutionSimConfig` 接受三个可选字段。旧 `daily-input.v1` 请求可以全部省略，
+保持默认行为。
+
+| 字段 | 默认值 | 启用要求 |
+| --- | --- | --- |
+| `valuation_policy` | `current_mark_only` | `suspended_last_quote` |
+| `valuation_suspension_col` | `None` | 独立、非空且无首尾空格的布尔列名 |
+| `valuation_max_stale_sessions` | `None` | 正整数，布尔值不算整数 |
+
+该策略仅适用于 `adjusted`/`sequenced` 模式下的复权合成总回报单位，且不能有公司行动事件。
+原始股数、ideal 和 capacity 请求会被拒绝。公司行动引用先加载再校验，只有空事件表才能执行。
+直接调用 `simulate_execution_adjusted_nav`
+时须传入 `price_basis="adjusted"`，并保持 `corporate_actions=None`；直接接口对复权口径
+下 `()` 的原有拒绝行为不变。停牌列必须与所有声明的执行输入不同，包括价格、通用及分买卖方向的交易许可、涨跌停、
+上市状态选择器、流动性列以及 `trade_date`、`symbol`。
+该列是调用方提供的停牌声明，不从缺价或买卖受限推断。协议要求每条价格记录带有所选列，
+值为布尔值或 null。缺行、null 及原生输入中的未知值都不证明停牌，只有实际布尔值 `True`
+才能满足条件。
+
+例如，合成数据调用方可以明确选择：
+
+```python
+config = ExecutionSimConfig(
+    enabled=True,
+    valuation_policy="suspended_last_quote",
+    valuation_suspension_col="is_suspended",
+    valuation_max_stale_sessions=2,
+)
+```
+
+当日有正有限价格时始终使用当日价格。没有有效当前价格时，实际持有的证券须同时满足：
+停牌标志明确为真、实际账本已有正有限缓存价格、该价格与严格早于当日的最近一条有效报价
+一致，且价格年龄不超过配置上限。年龄按整个回放提供的交易日计算，包含该证券没有报价的
+交易日；前一个交易日的年龄为 1。只查询严格早于当日的日期，不用未来观察值补齐。
+`prepare_execution_tables` 须启用停牌策略，并使用与回放一致的停牌列。预处理表绑定当时保留的
+执行选择器；即使回放参数省略原来的交易许可，缺少或冲突的投影元数据仍会被拒绝。
+
+启用策略后，预处理将价格键的副本归一为日频交易日标签进行校验，再拒绝所有重复的 `(trade_date, symbol)`
+键，包括完全相同的记录及任意顺序的矛盾停牌标志，不先保留第一行。默认策略下的直接接口
+保留原有第一行处理方式；中立回放请求原本就会拒绝重复价格键。此校验不改变可执行日期的解析。
+
+该策略只认证原有账本估值，不改变现金、持仓、费用、目标规模、成交逻辑或可执行价格。
+缺少可执行报价时仍然不能成交。停牌价格可能已经失真；端点完整只表示**在声明策略下完整**，
+不证明公允价值或实际清算所得。公司行动、股票权益、退市回收价值及未知停牌信息均不在此
+策略的支持范围内。原始股数支持需要另行定义公司行动和权益估值契约。
+
+`valuation_marks` 新增 `valuation_policy`、`policy_valued_symbols`、
+`policy_quote_dates`、`policy_quote_ages` 和 `unresolved_symbols`。
+策略估值证券按名称排序；报价日期（ISO 日期标签）和整数交易日年龄为同序对应的元组。
+空集合为 `()`，JSON 中为数组，即使所有行都没有沿用价格，也能保存为 Parquet。
+产品结果协议中的数值年龄使用十进制字符串。`current_marks` 和 `missing_symbols` 仍然只
+描述当前报价；沿用旧价的证券仍留在 `missing_symbols`，但从 `unresolved_symbols` 移除。
+成功原因 `suspended_last_quote` 标识旧价证据；部分完整的混合端点还可能包含
+`missing_current_price`。摘要收益仍要求相邻两个端点均完整。标准化的 `valuations`
+事件表仍不可用。
+
+
+原生 `execution_summary` 和标准化产品 `summary` 均提供 `valuation_policy` 和
+`policy_valued_endpoints`。后者统计至少有一个沿用旧价证券的期末端点数量，也包含因其他证券
+仍缺证据而不完整的混合端点；默认策略下为零。原生数量是整数，产品协议使用十进制字符串。
+消费者必须将这两个字段与 `valuation_complete` 一同保留：声明策略下完整，不表示所有价格
+都是当前报价。

@@ -98,3 +98,5 @@ Core 0.3.0 的发布身份需同时核对已合并源码与实际产物回执。
 [日频输入契约](daily-inputs.zh-CN.md)与[完整输出](../reference/outputs/backtest-outputs.zh-CN.md)说明理想、容量、调整及序列执行的边界。容量诊断支持流动性/参与率与交易许可、执行窗口及连续零成交中止；拒绝涨跌停、上市状态、T+1 和买卖整手约束。该模式没有股数/现金/费用账本；期间诊断是独立 Python API，不属于可执行后端能力。
 
 调整和顺序模式的中立请求在执行前拒绝 `enforce_listing_status=True`。旧买入路径未实现该约束；直接调用旧 API 的行为保持不变。
+
+复权单位的显式停牌估值是现有账本上的可选策略，要求独立布尔停牌列和交易日年龄上限；不会补充可执行报价，也不扩大原始股数或公司行动支持范围。参见[策略及端点证据](daily-inputs.zh-CN.md#explicit-suspension-valuation)。

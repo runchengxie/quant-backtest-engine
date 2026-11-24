@@ -17,7 +17,7 @@ from ..dated_fees import DatedTradeFeeModel
 from ..execution import DetailedTradeFeeModel, SlippageModel
 from ..types import CostBreakdown
 from .capacity import _positions_value, _refresh_last_prices
-from .config import ExecutionSimConfig
+from .config import ExecutionSimConfig, _validate_valuation_selectors
 from .corporate_actions import RECEIVABLE_COLUMNS, _action_conventions, _CorporateActionLedger
 from .models import (
     SupportedTradeFeeModel,
@@ -366,6 +366,10 @@ def _run_adjusted_nav_ledger(
                     shares=ledger.shares,
                     cash=ledger.cash,
                     price_table=plan.tables.price_table,
+                    config=config,
+                    last_prices=ledger.last_prices,
+                    suspension_table=plan.tables.suspension_table,
+                    trade_dates=plan.tables.trade_dates,
                     stock_receivables=(
                         corporate_actions.stock_by_symbol()
                         if corporate_actions is not None
@@ -415,6 +419,28 @@ def simulate_execution_adjusted_nav(
     corporate_actions: Iterable[CorporateAction] | None = None,
     price_basis: str | None = None,
 ) -> ExecutionAdjustedNavResult:
+    if config.valuation_policy == "suspended_last_quote":
+        _validate_valuation_selectors(
+            config,
+            price_col=price_col,
+            tradable_col=tradable_col,
+            buy_tradable_col=buy_tradable_col,
+            sell_tradable_col=sell_tradable_col,
+            limit_up_col=limit_up_col,
+            limit_down_col=limit_down_col,
+            listing_status_col=listing_status_col,
+        )
+        if price_basis != "adjusted" or corporate_actions is not None:
+            raise ValueError(
+                "suspended valuation requires adjusted prices without corporate actions"
+            )
+        if prepared_tables is not None and (
+            prepared_tables.suspension_table is None
+            or prepared_tables.valuation_suspension_col != config.valuation_suspension_col
+            or not prepared_tables.valuation_execution_columns
+            or config.valuation_suspension_col in prepared_tables.valuation_execution_columns
+        ):
+            raise ValueError("prepared tables require explicit valuation suspension evidence")
     if config.sell_round_lot is not None and price_basis not in (None, "raw"):
         raise ValueError("execution_sim.sell_round_lot requires raw share prices.")
     events = normalize_corporate_actions(corporate_actions, price_basis)
