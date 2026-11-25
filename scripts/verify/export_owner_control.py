@@ -41,7 +41,8 @@ def fresh_output(path: Path, code: Path, data: Path) -> Path:
     if data.is_relative_to(code) or not path.is_relative_to(data) or path == data:
         raise ValueError("output must be a fresh child of external project data root")
     if path.is_relative_to(code) or any(
-        (p / ".git").exists() for p in (path, *path.parents)
+        ((p / ".git").is_file() or (p / ".git/HEAD").is_file())
+        for p in (path, *path.parents)
     ):
         raise ValueError("output cannot be inside a source checkout")
     if path.exists():
