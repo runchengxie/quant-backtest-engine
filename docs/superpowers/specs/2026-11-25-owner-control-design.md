@@ -1,5 +1,7 @@
 # Owner-backed execution control evidence
 
+[简体中文](2026-11-25-owner-control-design.zh-CN.md)
+
 ## Scope and chosen approach
 
 Implement the four agreed tasks in one additive synthetic Engine study: controller

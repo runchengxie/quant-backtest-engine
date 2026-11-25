@@ -1,5 +1,7 @@
 # Owner control study implementation plan
 
+[简体中文](2026-11-25-owner-control.zh-CN.md)
+
 **Goal:** Connect fixed execution controls to one financial owner and test stress/recovery.
 **Architecture:** Synthetic fixtures and policy bridge into existing MinuteSession;
 post-run metrics consume owner tables only. External artifacts bind source/inputs.
