@@ -326,3 +326,10 @@ other arm also reports the capacity feasibility flag. No fictitious full immedia
 fill is compared with completed schedules. This corrects the requested policy
 scope without changing cost, risk, capacities or the old 24 path outcomes. The
 main grid now retains 32 rows and the infeasibility diagnostic retains four rows.
+
+## Owner-backed controls
+
+[Owner-backed execution evidence](owner-control-evidence.md) connects the discrete
+control proxy to actual minute matching/accounting, fixed misspecification/capacity
+panels and exhaustive recovery checks. Synthetic costs remain distinct from
+calibrated market performance.
