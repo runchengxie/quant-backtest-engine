@@ -252,7 +252,16 @@ class DailyBackend:
 
         owned = run_daily(request)
         raw: dict[str, Any] = {"summary": _wire(owned.summary), "tables": {}}
-        for name in ("daily", "orders", "fills", "actions", "holdings", "valuation_marks"):
+        for name in (
+            "daily",
+            "orders",
+            "fills",
+            "actions",
+            "holdings",
+            "valuation_marks",
+            "symbol_attribution",
+            "daily_attribution",
+        ):
             frame = getattr(owned, name, None)
             raw["tables"][name] = (
                 None
@@ -269,7 +278,16 @@ class DailyBackend:
         }
         raw["owner_tables"] = {
             name: _owner_frame(getattr(owned, name, None))
-            for name in ("daily", "orders", "fills", "actions", "holdings", "valuation_marks")
+            for name in (
+                "daily",
+                "orders",
+                "fills",
+                "actions",
+                "holdings",
+                "valuation_marks",
+                "symbol_attribution",
+                "daily_attribution",
+            )
         }
         raw["owner_unified_ledger"] = {
             name: _owner_frame(getattr(ledger, name)) for name in ledger.__dataclass_fields__

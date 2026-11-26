@@ -401,6 +401,10 @@ def test_suspension_sdk_backend_and_owner_round_trip(tmp_path):
     assert parse_result(result_to_json(result)) == result
     raw = json.loads((tmp_path / result.raw_result.uri).read_text())
     assert raw["owner_tables"]["valuation_marks"] == _owner_frame(direct.valuation_marks)
+    for name in ("symbol_attribution", "daily_attribution"):
+        assert raw["owner_tables"][name] == _owner_frame(getattr(direct, name))
+        assert raw["tables"][name]["columns"] == list(getattr(direct, name).columns)
+        assert all(row["status"] == "complete" for row in raw["tables"][name]["rows"])
     rows = raw["tables"]["valuation_marks"]["rows"]
     assert rows[0]["policy_valued_symbols"] == []
     assert rows[0]["policy_quote_dates"] == rows[0]["policy_quote_ages"] == []
