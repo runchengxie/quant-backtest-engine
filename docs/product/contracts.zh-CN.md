@@ -208,3 +208,41 @@ SDK 不新增 core、Platform 或 Runtime 导入，不新增撮合引擎或额�
 ## 分钟输入配置
 
 SDK 不依赖 pandas 即可校验 `minute-input.v1`。精确十进制与字符串时钟、显式输入带和固定策略注册表见[恢复与完整字段语义](recovery.zh-CN.md)。
+
+## 日频逐证券收益归因
+
+调整净值和顺序执行路径会在 `ExecutionAdjustedNavResult` 末尾增加可选的
+`symbol_attribution`、`daily_attribution` DataFrame。原有构造参数和财务表含义不变。
+理想、容量路径以及提前返回的空结果不提供这些表（`None`）。日频后端也会在 owner
+产物中导出两张表。
+
+财务 owner 直接读取实时持仓数量和有效估值价格，记录每日终点持仓价值，再读取当日
+已有成交。归因不重建持仓，也不维护另一套现金账本。金额服从输入的价格和数量单位；
+调整后的全收益价格对应合成单位，并非原始股数。全收益价格中已含的分红不得再次计入现金。
+
+`symbol_attribution` 字段为 `trade_date`、`symbol`、`opening_value`、
+`closing_value`、`buy_principal`、`sell_principal`、`fees`、`net_pnl`、
+`policy_valued`、`status`。恒等式为：
+
+```text
+net_pnl = closing_value - opening_value - buy_principal + sell_principal - fees
+```
+
+期初价值取上一终点价值，首次为零，并非当日开盘报价。买卖本金为按方向汇总的正值成交金额；
+费用为实际建模交易成本，包含单独扣除的价差和冲击项。已退出证券、当日往返交易以及
+只有费用的成交证券仍会保留。`policy_valued` 标记当日收盘采用并获配置政策认可的估值。
+历史证券的零价值记录可能保留。
+
+`daily_attribution` 字段为 `trade_date`、`opening_equity`、`closing_equity`、
+`symbol_net_pnl`、`cash_pnl`、`receivable_pnl`、`residual`、`status`。
+支持范围为从现金开始、没有外部资金流、现金利息或公司行动的账户。此时现金和应收权利
+损益明确为零，逐证券损益之和应等于原有账户权益变化。`residual` 为权益变化减去
+证券损益之和，仅保留差异证据，不分摊到任何证券。容差为
+`1e-8 + 1e-10 * max(abs(opening_equity), abs(closing_equity), 1)`。
+
+状态包括 `complete`、`incomplete_valuation`（任一终点缺少可信估值）、
+`unsupported_corporate_actions`、`unreconciled`。非完整状态下，逐证券 `net_pnl`
+和汇总损益为 NaN。不支持或估值不完整时，差异也为 NaN；核对失败时保留实际差异。
+期初期末价值与交易本金仍是 owner 观测记录，并非已认证收益。报价恢复不能修复上一段
+缺失估值的收益区间。汇总贡献前必须检查完整覆盖，不得静默跳过 NaN；不得将无法解释的
+现金、应收权利或核对差异分配给证券。
