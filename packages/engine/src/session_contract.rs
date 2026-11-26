@@ -273,7 +273,7 @@ pub(crate) fn session_date(ts: u64, currency: &str) -> anyhow::Result<String> {
         jiff::tz::TimeZone::UTC
     };
     Ok(jiff::Timestamp::from_nanosecond(ts.into())?
-        .to_zoned(zone)
+        .to_zoned_datetime(zone)
         .date()
         .to_string())
 }
@@ -298,4 +298,25 @@ pub struct SessionReport {
     pub orders: Vec<OrderResult>,
     pub fills: Vec<Fill>,
     pub rejections: Vec<Rejection>,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::session_date;
+
+    #[test]
+    fn session_dates_respect_shanghai_midnight_at_nanosecond_precision() {
+        // 2025-01-01 16:00:00 UTC is midnight in Shanghai.
+        let midnight = 1_735_747_200_000_000_000;
+        assert_eq!(session_date(midnight - 1, "CNY").unwrap(), "2025-01-01");
+        assert_eq!(session_date(midnight, "CNY").unwrap(), "2025-01-02");
+        assert_eq!(session_date(midnight, "USD").unwrap(), "2025-01-01");
+    }
+
+    #[test]
+    fn other_currencies_use_utc_midnight() {
+        let midnight = 1_735_776_000_000_000_000;
+        assert_eq!(session_date(midnight - 1, "USD").unwrap(), "2025-01-01");
+        assert_eq!(session_date(midnight, "USD").unwrap(), "2025-01-02");
+    }
 }

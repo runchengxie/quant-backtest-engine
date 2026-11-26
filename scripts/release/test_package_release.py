@@ -1,5 +1,6 @@
 """Fast regressions for release source assembly; no compiler/network required."""
 
+import re
 import tempfile
 from pathlib import Path
 from unittest import TestCase, main
@@ -21,13 +22,18 @@ class PackageTests(TestCase):
         toolchain = package_release.TOOLCHAIN
         for name in ("ci.yml", "release.yml"):
             workflow = (package_release.ROOT / ".github/workflows" / name).read_text()
-            versions = [
-                line.split("dtolnay/rust-toolchain@", 1)[1].strip()
-                for line in workflow.splitlines()
-                if "dtolnay/rust-toolchain@" in line
-            ]
-            self.assertTrue(versions)
+            # Action implementation revisions are independent of Rust versions.
+            actions = re.findall(r"dtolnay/rust-toolchain@([^\n]+)", workflow)
+            versions = re.findall(
+                r"dtolnay/rust-toolchain@[^\n]+\n"
+                r"        with:\n          toolchain: ([^\n]+)",
+                workflow,
+            )
+            self.assertTrue(actions)
+            self.assertEqual(len(versions), len(actions))
             self.assertEqual(set(versions), {toolchain})
+            for action in actions:
+                self.assertRegex(action, r"^[0-9a-f]{40}(?: #.*)?$")
         for name in ("releases.md", "releases.zh-CN.md"):
             instructions = (package_release.ROOT / "docs" / name).read_text()
             self.assertIn(f"Rust {toolchain}", instructions)
