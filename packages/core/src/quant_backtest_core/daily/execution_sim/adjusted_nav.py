@@ -16,7 +16,12 @@ from quant_backtest_core._minute.corporate_actions import (
 from ..dated_fees import DatedTradeFeeModel
 from ..execution import DetailedTradeFeeModel, SlippageModel
 from ..types import CostBreakdown
-from .capacity import _positions_value, _refresh_last_prices
+from .attribution import (
+    DAILY_ATTRIBUTION_COLUMNS,
+    SYMBOL_ATTRIBUTION_COLUMNS,
+    endpoint_attribution,
+)
+from .capacity import _position_values_by_symbol, _positions_value, _refresh_last_prices
 from .config import ExecutionSimConfig, _validate_valuation_selectors
 from .corporate_actions import RECEIVABLE_COLUMNS, _action_conventions, _CorporateActionLedger
 from .models import (
@@ -347,10 +352,16 @@ def _run_adjusted_nav_ledger(
     trade_fee_model: TradeFeeModel | None,
     corporate_actions: _CorporateActionLedger | None = None,
     valuation_rows: list[dict[str, Any]] | None = None,
+    symbol_attribution_rows: list[dict[str, Any]] | None = None,
+    daily_attribution_rows: list[dict[str, Any]] | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     ledger = _initial_adjusted_nav_ledger(config)
     ledger.corporate_actions = corporate_actions
+    opening_values: dict[str, float] = {}
+    opening_complete = True
     for trade_idx in range(plan.start_idx, len(plan.tables.trade_dates)):
+        opening_equity = ledger.previous_nav
+        first_fill = len(ledger.fill_rows)
         _process_adjusted_nav_trade_day(
             ledger,
             plan=plan,
@@ -379,6 +390,30 @@ def _run_adjusted_nav_ledger(
                     stock_receivable_value=row.get("stock_receivable_value", 0.0),
                 )
             )
+
+        if symbol_attribution_rows is not None and daily_attribution_rows is not None:
+            assert valuation_rows is not None
+            closing_values = _position_values_by_symbol(
+                ledger.shares,
+                plan.tables.trade_dates[trade_idx],
+                plan.tables.price_table,
+                ledger.last_prices,
+            )
+            marks = valuation_rows[-1]
+            symbols, daily_component = endpoint_attribution(
+                opening_values=opening_values,
+                closing_values=closing_values,
+                fills=ledger.fill_rows[first_fill:],
+                opening_equity=opening_equity,
+                closing_equity=ledger.previous_nav,
+                opening_complete=opening_complete,
+                marks=marks,
+                corporate_actions=corporate_actions is not None,
+            )
+            symbol_attribution_rows.extend(symbols)
+            daily_attribution_rows.append(daily_component)
+            opening_values = closing_values
+            opening_complete = marks["endpoint_complete"]
 
     if ledger.open_orders:
         final_date = plan.tables.trade_dates[-1]
@@ -495,12 +530,16 @@ def simulate_execution_adjusted_nav(
         else None
     )
     valuation_rows: list[dict[str, Any]] = []
+    symbol_attribution_rows: list[dict[str, Any]] = []
+    daily_attribution_rows: list[dict[str, Any]] = []
     daily, orders, fills = _run_adjusted_nav_ledger(
         plan=plan,
         config=config,
         trade_fee_model=trade_fee_model,
         corporate_actions=action_ledger,
         valuation_rows=valuation_rows,
+        symbol_attribution_rows=symbol_attribution_rows,
+        daily_attribution_rows=daily_attribution_rows,
     )
     summary = _summarize_adjusted_nav(
         config,
@@ -523,6 +562,10 @@ def simulate_execution_adjusted_nav(
         actions=action_frame,
         holdings=holdings,
         valuation_marks=pd.DataFrame(valuation_rows, columns=VALUATION_MARK_COLUMNS),
+        symbol_attribution=pd.DataFrame(
+            symbol_attribution_rows, columns=SYMBOL_ATTRIBUTION_COLUMNS
+        ),
+        daily_attribution=pd.DataFrame(daily_attribution_rows, columns=DAILY_ATTRIBUTION_COLUMNS),
     )
 
 

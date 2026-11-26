@@ -221,3 +221,49 @@ ledger is added by the SDK.
 ## Minute input profile
 
 `minute-input.v1` is validated by the SDK without pandas. See [recovery and complete field semantics](recovery.md) for exact decimal/string-clock transport, explicit tapes and the fixed policy registry.
+
+## Daily symbol attribution
+
+Adjusted and sequenced daily execution append optional `symbol_attribution` and
+`daily_attribution` DataFrames to `ExecutionAdjustedNavResult`. Existing constructor
+arguments and financial tables retain their meaning. Ideal/capacity paths and
+empty early-return results do not provide these tables (`None`). The daily backend
+also exports both tables in its owner artifacts.
+
+The owner captures endpoint position values from its live quantities and effective
+valuation prices, then reads that session's existing fills. It never reconstructs
+positions or maintains a separate cash ledger. Values use the supplied price and
+quantity units; adjusted total-return units are synthetic units, not raw shares.
+Do not add dividend cash again to a total-return price series.
+
+`symbol_attribution` contains `trade_date`, `symbol`, `opening_value`,
+`closing_value`, `buy_principal`, `sell_principal`, `fees`, `net_pnl`,
+`policy_valued`, and `status`. The identity is:
+
+```text
+net_pnl = closing_value - opening_value - buy_principal + sell_principal - fees
+```
+
+Opening value is the preceding endpoint value (initially zero), not the current
+session's opening quote. Principal is unsigned filled notional by side; fees are
+actual modeled transaction costs, including separately debited spread/impact
+components. Exited symbols, same-session trades and fee-only fill symbols remain
+included. `policy_valued` identifies a closing mark certified by the configured
+valuation policy. Zero-value historical symbols may remain present.
+
+`daily_attribution` contains `trade_date`, `opening_equity`, `closing_equity`,
+`symbol_net_pnl`, `cash_pnl`, `receivable_pnl`, `residual`, and `status`.
+The supported profile starts in cash and has no external flows, cash interest or
+corporate actions: cash and receivable PnL are explicitly zero, and the sum of
+symbol PnL reconciles to the existing equity change. `residual` is that equity
+change minus the symbol sum, never a balancing allocation. Reconciliation permits
+absolute error `1e-8 + 1e-10 * max(abs(opening_equity), abs(closing_equity), 1)`.
+
+Status is `complete`, `incomplete_valuation` (either endpoint lacks certified
+marks), `unsupported_corporate_actions`, or `unreconciled`. Non-complete rows
+withhold `net_pnl` and aggregate PnL as NaN. Unsupported/incomplete intervals also
+withhold residual; unreconciled intervals retain the observed residual. Endpoint
+values and principal remain owner observations, not certified returns. A recovered
+quote does not repair the previous incomplete interval. Require complete coverage
+before aggregating contributions; do not silently skip NaNs. No symbol receives
+unexplained cash, receivables or reconciliation differences.
