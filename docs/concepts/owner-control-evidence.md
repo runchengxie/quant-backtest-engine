@@ -174,7 +174,7 @@ failures and 20 observe feedback waits; these flags overlap and are descriptive,
 not causal percentages. Two reserve/jump cases reproduce exactly at all 116
 checkpoint boundaries, including owner state, impact and delivered reports.
 
-Costs are decomposed into realized price drift from the initial reference10,
+Costs are decomposed into realized price drift from the initial reference 10,
 execution deviation from the contemporaneous raw fill bar, actual exit fees and
 remaining shares marked at the terminal raw price. Their sum is full-target
 marked shortfall; residual marking is not an executable terminal sale. Daily
@@ -194,16 +194,16 @@ Normal Q400/.1, no delay/outage, complete paths:
 | Late down jump | 25.4443 | 18.5710 | 13.7831 |
 
 Negative shortfall on the up path is favorable benchmark-relative price drift,
-not strategy profit. Share-minute exposures are respectively 6000, 4832 and4408
+not strategy profit. Share-minute exposures are respectively 6000, 4832 and 4408
 on these paths. Earlier sale gives up upside and limits downside in these fixed
 scenarios; the study does not estimate which future path is likely.
 
 Reserve also worsens some feedback outcomes. With outage and one-minute execution
-delay but immediate reports, completion falls from62.5% to37.5%; with 300-second
-reports, normal liquidity and no execution delay it falls from79% to62.5%.
+delay but immediate reports, completion falls from 62.5% to 37.5%; with 300-second
+reports, normal liquidity and no execution delay it falls from 79% to 62.5%.
 Immediate reports/no execution delay/outage still complete for both rolling
 variants. Waiting for reports and planning failures are retained, never replaced
-by forced fills. For immediate submission, waits after slot0 are not counted as
+by forced fills. For immediate submission, waits after slot 0 are not counted as
 missed fixed submission slots: that strategy only submits once.
 
 A proposed concurrent reservation policy cannot bypass MinuteSession's hard
@@ -215,5 +215,5 @@ Reproduce with `scripts/verify/export_control_followthrough.py`, using the same
 external `--output`, `--code-root` and `--data-root` arguments above. Frozen
 calculation revision: `3c789fcc3cf8deeca3521485d96d4c326b363316`; report SHA256:
 `5a59c316490c5b175601f624aafcdfad4a42ffb61c635a222134d9560bcdfee6`.
-The manifest covers263 payloads; unavailable cases are zero. Paths are deterministic
+The manifest covers 263 payloads; unavailable cases are zero. Paths are deterministic
 synthetic fixtures, not new independent market observations or calibrated impact.
